@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "dat.gui": "^0.7.3",
+    "orbit-controls-es6": "^2.0.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-scripts": "2.1.0"
+    "react-scripts": "2.1.0",
+    "three": "0.97.0",
+    "three-instanced-mesh": "^85.3.3"
   },
   "scripts": {
     "start": "react-scripts start",

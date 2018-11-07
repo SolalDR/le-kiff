@@ -3,7 +3,7 @@ import BufferGeometryUtils from "../helpers/3d/BufferGeometryUtils.js";
 import Event from  "../helpers/Event.js";
 import * as THREE from "three";
 import * as exportInstancedMesh from "three-instanced-mesh";
-import "../helpers/gui/ThreeGui";
+import "three-dat.gui";
 
 var InstancedMesh = exportInstancedMesh(THREE);
 
@@ -39,15 +39,8 @@ class Molecule extends Event {
 
     generateAtomModel(){
                 
-        var material = new THREE.MeshStandardMaterial({
-            color: 0xFFFFFF,
-            emissive: 0x000000,
-            bumpScale: 0.005,
-            envMap: this.envMap,
-            metalness: 1,
-            roughness: 0
-        });
-        
+        var material = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, emissive: 0x000000, bumpScale: 0.005, envMap: this.envMap, metalness: 1, roughness: 0 });
+
         this.atomMesh = new InstancedMesh( 
             this.atomGeometry,
             material,   
@@ -68,7 +61,7 @@ class Molecule extends Event {
         })
 
         var a = this.gui.addMaterial(this.name, this.atomMesh.material);
-        var a = this.gui.addObject3d(this.name + "mesh", this.atomMesh);
+        var a = this.gui.addObject3D(this.name + "mesh", this.atomMesh);
 
 
         var _v3 = new THREE.Vector3();

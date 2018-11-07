@@ -9,6 +9,7 @@
     "react-dom": "^16.6.0",
     "react-scripts": "2.1.0",
     "three": "0.97.0",
+    "three-dat.gui": "^1.0.0",
     "three-instanced-mesh": "^85.3.3"
   },
   "scripts": {

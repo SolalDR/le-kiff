@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import MicroScale from "./MicroScale";
 import HumanScale from "./HumanScale";
 import MacroScale from "./MacroScale";
 
 import * as THREE from "three";
-import Molecule from "../scripts/components/chemistry/Molecule.js";
+import * as dat from "dat.gui";
+import Molecule from "../../scripts/components/chemistry/Molecule";
 import OrbitControls from 'orbit-controls-es6';
-import * as dat from 'dat.gui';
 
 
 export default class Scene extends React.Component {
+
     constructor(props){
         super(props);
         this.state = {};

@@ -9,7 +9,7 @@ import Molecule from "../../scripts/components/chemistry/Molecule";
 import OrbitControls from 'orbit-controls-es6';
 
 
-export default class Scene extends React.Component {
+export default class Scene extends React.PureComponent {
 
     constructor(props){
         super(props);
@@ -42,9 +42,20 @@ export default class Scene extends React.Component {
             kerosen: new Molecule({name: "kerosene", envMap: this.env, gui: this.gui})
         }
 
-        this.molecules.cocaine.on("load", () => this.scene.add(this.molecules.cocaine.object3D));
-        this.molecules.kerosen.on("load", () => this.scene.add(this.molecules.kerosen.object3D));
-        this.renderer.setAnimationLoop(this.loop.bind(this));
+        this.molecules.cocaine.on("load", () => {
+            this.scene.add(this.molecules.cocaine.object3D)
+        });
+        this.molecules.kerosen.on("load", () => {
+            this.scene.add(this.molecules.kerosen.object3D)
+        });
+
+        this.scene.add(new THREE.Mesh(
+            new THREE.BoxGeometry(1, 1, 1),
+            new THREE.MeshBasicMaterial({color: 0x000})
+        ))
+
+        this.loop();
+        
     }
 
     render(){
@@ -59,6 +70,7 @@ export default class Scene extends React.Component {
 
     loop(){
         this.renderer.render( this.scene, this.camera );
+        requestAnimationFrame(this.loop.bind(this));
     }
     
     handleChange(e){

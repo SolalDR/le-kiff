@@ -1,10 +1,8 @@
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import React, { Component } from 'react';
-import Scene from './components/scene/Scene';
-import Chapter1 from "./components/chapters/Chapter1";
-import Chapter2 from "./components/chapters/Chapter2";
-import Chapter3 from "./components/chapters/Chapter3";
-import Chapter4 from "./components/chapters/Chapter4";
+import Chapter1 from "./components/chapter1/Chapter";
+import Intro from "./components/Intro";
+import Outro from "./components/Outro";
 
 import './App.css';
 
@@ -12,12 +10,10 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
-          <Scene></Scene>
-          <Route path="/chapitre/1" component={Chapter1} />
-          <Route path="/chapitre/2" component={Chapter2} />
-          <Route path="/chapitre/3" component={Chapter3} />
-          <Route path="/chapitre/4" component={Chapter4} />
+        <div className="App">   
+          <Route path="/intro" component={Intro} />
+          <Route path="/chapter-1" component={Chapter1} />
+          <Route path="/outro" component={Outro} />
         </div>
       </Router>
     );

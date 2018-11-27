@@ -60,8 +60,10 @@ class Molecule extends Event {
             this.atomMesh.material.needsUpdate = true; 
         })
 
-        var a = this.gui.addMaterial(this.name, this.atomMesh.material);
-        var a = this.gui.addObject3D(this.name + "mesh", this.atomMesh);
+        if( this.gui ){
+            this.gui.addMaterial(this.name, this.atomMesh.material);
+            this.gui.addObject3D(this.name + "mesh", this.atomMesh);    
+        }
 
 
         var _v3 = new THREE.Vector3();

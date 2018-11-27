@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class HumanScale extends Component {
+export default class HumanScale extends React.Component {
     constructor(props){
         super(props);
         this.state = {};
@@ -13,6 +13,5 @@ export default class HumanScale extends Component {
     render(){ return true; }
 
     loop(){
-        this.renderer.render( this.scene, this.camera );
     }
 }

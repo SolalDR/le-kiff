@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class MicroScale extends Component {
+export default class MicroScale extends React.Component {
     constructor(props){
         super(props);
         this.state = {};
@@ -13,6 +13,5 @@ export default class MicroScale extends Component {
     render(){ return true; }
 
     loop(){
-        this.renderer.render( this.scene, this.camera );
     }
 }

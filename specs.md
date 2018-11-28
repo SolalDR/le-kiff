@@ -55,10 +55,49 @@ Nous avons choisi d'utiliser la librairie ThreeJS pour la 3D, qui nous permettra
 
 <br><br>
 
-## Réflexion d'architecture 
+## Réflexion d'architecture (UML)
 [![](https://drive.google.com/thumbnail?id=1xQk6T3v2vEBAYC2bnpS929hUsa5QCrQK&sz=w1200)](https://drive.google.com/open?id=1xQk6T3v2vEBAYC2bnpS929hUsa5QCrQK)
 
 <br><br>
+
+## Architecture Temporaire
+
+``` yaml
+/src
+
+  # Global components (can be reused in all the app)
+  /components          
+    /Scene 
+      /components      
+        HumanScale
+        MicroScale
+        MacroScale
+      Scene
+
+  # Single components (used in router)
+  /pages               
+    /Chapter1 
+      /pages
+        Step1
+        Step2
+    /Chapter2
+    /Chapter3
+    /Chapter4
+    /Intro
+    /Outro
+    /Source
+    /About
+
+  # Services to manage storage, asynchronous loading, call to the wordpress api
+  /services
+    api
+    loader
+    store
+
+  /utils
+    /molecules
+    /maths
+```
 
 ## Scope fonctionnel
 [![](https://drive.google.com/thumbnail?id=1sD8sBs_0xL48vq25iV5bmCT3nieNS1vD&sz=w1200)](https://drive.google.com/open?id=1sD8sBs_0xL48vq25iV5bmCT3nieNS1vD)

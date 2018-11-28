@@ -109,3 +109,19 @@ Nous avons choisi d'utiliser la librairie ThreeJS pour la 3D, qui nous permettra
 <br><br>
 
 ## Performances
+
+### Compression
+Etant donné que l'essentiel de l'application est basé sur un rendu WebGL, la question des performances est primordiale et cette question influe l'ensemble de la production des assets. 
+Afin d'optimiser les chargements des assets nous utilisons DRACO et les formats GLB pour permettre de compresser et limiter au maximum les ressources demandées au chargement de la page. 
+
+### Context
+Pour limiter le nombre de draw call au contexte webgl nous séparons les différentes échelles en groupe. Nous utilisons donc un seul context WebGL pour rendre nos trois échelles. 
+
+### Géometries d'Instances 
+Certains éléments 3D sont identiques dans leurs logique, c'est le cas de toute la partie moléculaire et macro. L'utilisation des instances nous permettent de rendre un ensemble d'éléments avec le même draw call (ex: tous les atomes de toutes les molécules peuvent être rendu en une seule géométrie)
+
+### Animation
+Tout les calculs de rendu et les animations seront calculé sur C4D et Blender afin de limiter le nombre de calculs côté JS. 
+
+### Postprocessing 
+Le Composer habituel de THREE est très peu performant, afin d'améliorer le rendu de nos scènes nous passons par du postprocessing en utilisant un principe de ping-pong afin de manipuler au maximum deux FBO (frame buffer object).

@@ -16,7 +16,7 @@ Tout au long de son expérience, l’utilisateur va être amené s’il le souha
 
 
 ## Arborescence
-Le projet est découpé en 2 parties, d'un côté l'expérience, de l'autre les pages complémentaires. Chaque arrivée d'utilisateur sur le site l'emmène vers un écran d'introduction puis de chargement. Il arrive ensuite sur un chapitre et une étape (selon l'url qu'il a entré). Il est ensuite libre de naviguer entre les différentes échelles lorsqu'il en a la possibilité. Aux côtés de l'expérience, vont exister des pages statiques qui seront accessibles depuis le menu et permettra de sourcer les propos de l'expérience ou d'en savoir plus sur le sujet.
+Le projet est découpé en 2 parties, d'un côté l'expérience, de l'autre les pages complémentaires. Chaque arrivée d'utilisateur sur le site l'emmène vers un écran d'introduction puis de chargement. Il arrive ensuite sur un chapitre à la première étape (selon l'url qu'il a entré). Il est ensuite libre de naviguer entre les différentes échelles lorsqu'il en a la possibilité. Aux côtés de l'expérience, vont exister des pages statiques qui seront accessibles depuis le menu et permettra de sourcer les propos de l'expérience ou d'en savoir plus sur le sujet.
 
 [![](https://drive.google.com/thumbnail?id=1DPwD9jKKsSq8glnal_ESc8RsGGCtmbTU&sz=w1200)](https://drive.google.com/open?id=1DPwD9jKKsSq8glnal_ESc8RsGGCtmbTU)
 
@@ -105,12 +105,6 @@ Nous avons choisi d'utiliser la librairie ThreeJS pour la 3D, qui nous permettra
 <br><br>
 
 ## Workflow designer / Développeurs
-
-<br><br>
-
-## SEO
-Un utilisateur pourra s'il le souhaite arriver sur n'importe quel chapitre et étape grâce à une url qui génerera le contenu en fonction de. Des liens de partage seront d'ailleurs à sa disposition tout au long de l'expérience. 
-Pour les crawlers SEO, il faudra également mettre un système qui ne retourne uniquement du contenu texte brut afin que l'expérience soit référencée, malgré que tout soit généré en 3D et donc non parsable.
 
 <br><br>
 

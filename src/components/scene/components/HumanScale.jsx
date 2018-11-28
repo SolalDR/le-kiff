@@ -1,5 +1,5 @@
 import React from 'react';
-import hocScale from "./Scale";
+import hocScale from "./HocScale";
 
 class HumanScale extends React.Component {
     constructor(props){
@@ -14,7 +14,7 @@ class HumanScale extends React.Component {
     render(){ return true; }
 
     loop(){
-        
+
     }
 }
 

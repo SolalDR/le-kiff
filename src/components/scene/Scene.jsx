@@ -5,7 +5,6 @@ import MacroScale from "./components/MacroScale";
 
 import * as THREE from "three";
 import * as dat from "dat.gui";
-import Molecule from "../../scripts/components/chemistry/Molecule";
 import OrbitControls from 'orbit-controls-es6';
 
 
@@ -15,20 +14,18 @@ export default class Scene extends React.PureComponent {
         super(props);
         this.state = {};
         this.sceneElement = React.createRef();
-    }
-
-    componentDidMount(){
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
         this.renderer = new THREE.WebGLRenderer({ antialias: false });
-        this.controls = new OrbitControls(this.camera)
+        this.controls = new OrbitControls(this.camera);
         this.scene.background = new THREE.Color(0xFFFFFF);
         window.scene = this.scene;
         this.camera.position.z = 5;
+    }
 
+    componentDidMount(){
         this.sceneElement.current.appendChild(this.renderer.domElement);
         this.renderer.setSize( window.innerWidth, window.innerHeight );
-        this.env = new THREE.CubeTextureLoader().setPath( '/images/cube/' ).load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] );
 
         var light = new THREE.PointLight();
         light.position.y = 10;
@@ -36,20 +33,7 @@ export default class Scene extends React.PureComponent {
 
         this.gui = new dat.GUI();
 
-        this.molecules = {
-            cocaine: new Molecule({name: "cocaine", envMap: this.env, gui: this.gui}),
-            kerosen: new Molecule({name: "kerosene", envMap: this.env, gui: this.gui})
-        }
-
-        this.molecules.cocaine.on("load", () => {
-            this.scene.add(this.molecules.cocaine.object3D)
-        });
-        this.molecules.kerosen.on("load", () => {
-            this.scene.add(this.molecules.kerosen.object3D)
-        });
-
         this.loop();
-        
     }
 
     render(){

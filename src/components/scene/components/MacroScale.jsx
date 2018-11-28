@@ -1,5 +1,5 @@
 import React from 'react';
-import hocScale from "./Scale";
+import hocScale from "./HocScale";
 
 class MacroScale extends React.Component {
     constructor(props){

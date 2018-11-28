@@ -8,7 +8,7 @@ export default function higherOrderComponent(ScaleComponent){
         }
 
         render(){
-            return ( <ScaleComponent/> )
+            return ( <ScaleComponent scene={this.props.scene}/> )
         }
     }
 }

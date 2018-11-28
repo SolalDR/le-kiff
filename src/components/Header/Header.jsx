@@ -1,0 +1,31 @@
+import React from "react";
+import Menu from "../Menu/Menu";
+import "./header.sass";
+
+class Header extends React.Component {
+
+    constructor (props) {
+        super(props);
+        this.state = {
+            menuOpen: false 
+        }
+    }
+
+    handleToggleMenu = (e)=>{
+        this.setState({menuOpen: !this.state.menuOpen});
+    }
+    
+    render () {
+        return (
+            <div className="header">
+                <button className="header__menu-open" onClick={this.handleToggleMenu}>
+                    <i className="material-icons">menu</i>
+                </button>
+                <Menu open={this.state.menuOpen} closeCallback={this.handleToggleMenu} />
+            </div>
+        );
+    }
+
+}
+
+export default Header;

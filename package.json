@@ -5,6 +5,7 @@
   "dependencies": {
     "dat.gui": "^0.7.3",
     "mm-packer": "^4.0.5",
+    "node-sass": "^4.10.0",
     "orbit-controls-es6": "^2.0.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",

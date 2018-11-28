@@ -1,0 +1,76 @@
+@import "./../../styles/core.scss"
+
+.menu 
+  position: fixed
+  top: 0
+  left: 0
+
+  &--visible 
+    pointer-events: all
+
+  &--hidden 
+    pointer-events: none
+
+  &__container 
+    display: flex
+    position: relative
+    width: 100vw
+    height: 100vh
+
+  &__item 
+    height: 100vh
+    flex: 1
+    box-shadow: 0px -5px 35px rgba(0, 0, 0, 0.49)
+    transition: 
+      duration: $t-duration
+      property: transform
+      timing-function: $t-timing-function
+    
+    @for $i from 0 to 5
+      &:nth-child(#{$i})
+        background-color: darken($color-dark, $i*5%)
+        transition-delay: #{$i*0.05s}
+
+
+  &__close
+    position: fixed
+    right: $space-m
+    top: $space-m
+    width: $space-m
+    height: $space-m
+    background-color: transparent
+    z-index: 1
+    border: none
+    box-shadow: none
+    color: white
+    transition:
+      duration: $t-duration
+      property: transform, opacity
+      timing-function: $t-timing-function
+
+  &--visible .menu
+
+    &__item
+      transform: translateY(0)
+
+    &__close
+      transition-delay: $t-duration
+      transform: translateX(0)
+      opacity: 1
+
+  &--hidden .menu
+
+    &__item
+      transform: translateY(-100%)
+
+    &__close
+      transition-delay: 0s
+      transform: translateX($space-xl)
+      opacity: 0
+
+
+
+
+  
+  
+

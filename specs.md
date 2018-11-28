@@ -53,21 +53,26 @@ Nous utiliserons un store pour l'application afin d'avoir accès aux données (n
 ### ThreeJS
 Nous avons choisi d'utiliser la librairie ThreeJS pour la 3D, qui nous permettra de gagner du temps grace aux nombreuses abstractions. Cependant, il faudra aussi être vigileant au niveau des performances du projet. Nous souhaitons avoir au coeur de chaque écran un objet principal, et y ajouter des effets de profondeur afin d'avoir un leger parallax au hover de la souris.   
 
+<br><br>
 
-
-## Architecture 
+## Réflexion d'architecture 
 [![](https://drive.google.com/thumbnail?id=1xQk6T3v2vEBAYC2bnpS929hUsa5QCrQK&sz=w1200)](https://drive.google.com/open?id=1xQk6T3v2vEBAYC2bnpS929hUsa5QCrQK)
 
-
+<br><br>
 
 ## Scope fonctionnel
 [![](https://drive.google.com/thumbnail?id=1sD8sBs_0xL48vq25iV5bmCT3nieNS1vD&sz=w1200)](https://drive.google.com/open?id=1sD8sBs_0xL48vq25iV5bmCT3nieNS1vD)
 
+<br><br>
 
 ## Workflow designer / Développeurs
+
+<br><br>
 
 ## SEO
 Un utilisateur pourra s'il le souhaite arriver sur n'importe quel chapitre et étape grâce à une url qui génerera le contenu en fonction de. Des liens de partage seront d'ailleurs à sa disposition tout au long de l'expérience. 
 Pour les crawlers SEO, il faudra également mettre un système qui ne retourne uniquement du contenu texte brut afin que l'expérience soit référencée, malgré que tout soit généré en 3D et donc non parsable.
+
+<br><br>
 
 ## Performances

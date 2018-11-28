@@ -1,5 +1,5 @@
 import React from 'react';
-import hocScale from "./HocScale";
+import hocScale from "./withScale";
 
 class MacroScale extends React.Component {
     constructor(props){
@@ -14,6 +14,7 @@ class MacroScale extends React.Component {
     render(){ return true; }
 
     loop(){
+        
     }
 }
 

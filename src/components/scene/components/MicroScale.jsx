@@ -1,16 +1,15 @@
 import React from 'react';
-import hocScale from "./HocScale";
+import hocScale from "./withScale";
 import Molecule from "./../../../scripts/components/chemistry/Molecule";
 import * as THREE from "three";
 
 class MicroScale extends React.Component {
-    constructor(props){
+    constructor(props, ref){
         super(props);
         this.state = {};
     }
 
     componentWillMount(){
-
         this.env = new THREE.CubeTextureLoader().setPath( '/images/cube/' ).load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] );
 
         this.molecules = {
@@ -28,8 +27,8 @@ class MicroScale extends React.Component {
 
     render(){ return true; }
 
-    loop(){
-
+    loop() {
+        
     }
 }
 

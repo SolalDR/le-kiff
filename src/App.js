@@ -4,6 +4,7 @@ import Chapter1 from "./pages/Chapter1/Chapter";
 import Intro from "./pages/Intro/Intro";
 import Outro from "./pages/Outro/Outro";
 import Header from "./components/Header/Header";
+import "./styles/app.sass";
 
 class App extends Component {
   render() {

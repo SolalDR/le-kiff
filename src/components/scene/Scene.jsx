@@ -2,6 +2,7 @@ import React from 'react';
 import MicroScale from "./components/MicroScale";
 import HumanScale from "./components/HumanScale";
 import MacroScale from "./components/MacroScale";
+import ScaleMenu from "./components/ScaleMenu/ScaleMenu";
 
 import * as THREE from "three";
 import * as dat from "dat.gui";
@@ -12,7 +13,17 @@ export default class Scene extends React.PureComponent {
 
     constructor(props){
         super(props);
-        this.state = {};
+
+        this.state = {
+            currentScale: "micro",
+            targetScale: null,
+            microVisibility: 1,
+            macroVisibility: 0,
+            humanVisibility: 0
+        };
+        this.microRef = React.createRef();
+        this.humanRef = React.createRef();
+        this.macroRef = React.createRef();
         this.sceneElement = React.createRef();
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
@@ -25,6 +36,8 @@ export default class Scene extends React.PureComponent {
 
     componentDidMount(){
         this.sceneElement.current.appendChild(this.renderer.domElement);
+        console.log(this.sceneElement.current);
+        console.log(this.microRef.current);
         this.renderer.setSize( window.innerWidth, window.innerHeight );
 
         var light = new THREE.PointLight();
@@ -36,17 +49,46 @@ export default class Scene extends React.PureComponent {
         this.loop();
     }
 
+    /**
+     * @param {string} name Name of scale
+     */
+    selectScale = (name) => {
+        if( name !== this.state.currentScale ){
+            this.setState(()=>{
+                return {
+                    [this.state.currentScale + "Visibility"]: 0,
+                    [name + "Visibility"]: 1, 
+                    currentScale: name
+                }
+            });
+        }
+    }
+
     render(){
         return (
             <div ref={(this.sceneElement)} className="scene">
-                <MicroScale scene={this.scene}></MicroScale>
-                <HumanScale scene={this.scene}></HumanScale>
-                <MacroScale scene={this.scene}></MacroScale>
+                <ScaleMenu scale={this.state.currentScale} onSelectCallback={this.selectScale} />
+                <MicroScale 
+                    ref={this.microRef} 
+                    visibility={this.state.microVisibility} 
+                    scene={this.scene} />
+                <HumanScale 
+                    ref={this.humanRef} 
+                    visibility={this.state.humanVisibility} 
+                    scene={this.scene} />
+                <MacroScale 
+                    ref={this.macroRef} 
+                    visibility={this.state.macroVisibility} 
+                    scene={this.scene} />
             </div> 
         );
     }
 
-    loop(){
+    loop = () => {
+        this.microRef.current.loop();
+        this.macroRef.current.loop();
+        this.humanRef.current.loop();
+
         this.renderer.render( this.scene, this.camera );
         requestAnimationFrame(this.loop.bind(this));
     }

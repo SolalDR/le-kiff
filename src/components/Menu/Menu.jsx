@@ -1,12 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./menu.sass";
+import "./styles.sass";
 
 class Menu extends React.PureComponent {
-
-    constructor(props){
-        super(props);
-    }
 
     handleCloseClick = (e) => {
         this.props.closeCallback(e);

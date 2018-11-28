@@ -1,7 +1,7 @@
 import React from "react";
-import Scene from "../scene/Scene";
+import Scene from "../../components/Scene/Scene";
 
-class Chapter extends React.Component {
+class Outro extends React.Component {
     
     constructor(){
         super();
@@ -10,7 +10,7 @@ class Chapter extends React.Component {
 
     render(){
         return (
-            <div className="chapter chapter-1">
+            <div className="outro">
                 <Scene/>
             </div>
         );
@@ -18,4 +18,4 @@ class Chapter extends React.Component {
 
 }
 
-export default Chapter;
+export default Outro;

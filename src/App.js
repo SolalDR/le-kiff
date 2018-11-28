@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import React, { Component } from 'react';
-import Chapter1 from "./components/chapter1/Chapter";
-import Intro from "./components/Intro";
-import Outro from "./components/Outro";
+import Chapter1 from "./pages/Chapter1/Chapter";
+import Intro from "./pages/Intro/Intro";
+import Outro from "./pages/Outro/Outro";
 
 import './App.css';
 

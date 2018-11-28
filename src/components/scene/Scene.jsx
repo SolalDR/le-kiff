@@ -1,7 +1,7 @@
 import React from 'react';
-import MicroScale from "./MicroScale";
-import HumanScale from "./HumanScale";
-import MacroScale from "./MacroScale";
+import MicroScale from "./components/MicroScale";
+import HumanScale from "./components/HumanScale";
+import MacroScale from "./components/MacroScale";
 
 import * as THREE from "three";
 import * as dat from "dat.gui";
@@ -15,7 +15,9 @@ export default class Scene extends React.PureComponent {
         super(props);
         this.state = {};
         this.sceneElement = React.createRef();
+    }
 
+    componentDidMount(){
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
         this.renderer = new THREE.WebGLRenderer({ antialias: false });
@@ -23,9 +25,6 @@ export default class Scene extends React.PureComponent {
         this.scene.background = new THREE.Color(0xFFFFFF);
         window.scene = this.scene;
         this.camera.position.z = 5;
-    }
-
-    componentDidMount(){
 
         this.sceneElement.current.appendChild(this.renderer.domElement);
         this.renderer.setSize( window.innerWidth, window.innerHeight );
@@ -49,22 +48,17 @@ export default class Scene extends React.PureComponent {
             this.scene.add(this.molecules.kerosen.object3D)
         });
 
-        this.scene.add(new THREE.Mesh(
-            new THREE.BoxGeometry(1, 1, 1),
-            new THREE.MeshBasicMaterial({color: 0x000})
-        ))
-
         this.loop();
         
     }
 
     render(){
         return (
-            <div ref={this.sceneElement} className="scene">
+            <div ref={(this.sceneElement)} className="scene">
                 <MicroScale scene={this.scene}></MicroScale>
                 <HumanScale scene={this.scene}></HumanScale>
                 <MacroScale scene={this.scene}></MacroScale>
-            </div>
+            </div> 
         );
     }
 

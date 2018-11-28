@@ -1,13 +1,14 @@
 import React from 'react';
+import hocScale from "./Scale";
 
-export default class HumanScale extends React.Component {
+class MicroScale extends React.Component {
     constructor(props){
         super(props);
         this.state = {};
     }
 
     componentDidMount(){
-        
+
     }
 
     render(){ return true; }
@@ -15,3 +16,5 @@ export default class HumanScale extends React.Component {
     loop(){
     }
 }
+
+export default hocScale(MicroScale);

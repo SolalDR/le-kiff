@@ -49,7 +49,7 @@ Récupération des informations d’une étapes
 React est utilisé pour la structure de l'application et notamment avec son système de components. On a alors un component Scène, Échelle, Échelle Humaine, Échelle Micro, Échelle Macro. On a également un component par chapitre qui est géré par le retour et qui a donc une fonction de page. 
     
 ### Store custom / Redux ????
-Nous utilisons un store pour l'application afin d'avoir accès aux données (notamment celles retournées par l'API) depuis n'importe quel composant et pour les mettre à jour. Nous réflechissons à utiliser Redux pour sa rigourisité ou de créer un store custom.
+Nous utilisons un store Redux pour l'application afin d'avoir accès aux données (notamment celles retournées par l'API) depuis n'importe quel composant et pour les mettre à jour. Nous avons décidé de couper notre store en 2 : d'un côté les données retournées par l'API, de l'autre le state consacré uniquement à l'UI. Pour cela nous avons donc crée 2 reducers, un Entities Reducer et un autre UI Reducer. L'entities reducer prend en state une liste de chapitres, une listes d'infos et une liste d'étapes. L'UI Reducer va pouvoir prendre en state l'étape et le chapitre courant.
 
 ### ThreeJS
 Nous avons choisi d'utiliser la librairie ThreeJS pour la 3D, qui nous permet de gagner du temps grace aux nombreuses abstractions. Cependant, il faut aussi être vigileant au niveau des performances du projet. Nous souhaitons avoir au coeur de chaque écran un objet principal, et y ajouter des effets de profondeur afin d'avoir un leger parallax au hover sur l'objet.   

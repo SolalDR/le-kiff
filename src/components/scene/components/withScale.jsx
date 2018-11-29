@@ -23,6 +23,7 @@ export default function higherOrderComponent(ScaleComponent){
                 this.scaleRef.current.loop();
             }
         }
+        
 
         render(){
             return ( 

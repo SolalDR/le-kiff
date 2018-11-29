@@ -11,7 +11,7 @@ class MacroScale extends React.Component {
 
     }
 
-    render(){ return true; }
+    render(){ return null; }
 
     loop(){
         

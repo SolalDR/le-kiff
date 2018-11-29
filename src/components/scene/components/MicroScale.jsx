@@ -12,6 +12,9 @@ class MicroScale extends React.Component {
     componentWillMount(){
         this.env = new THREE.CubeTextureLoader().setPath( '/images/cube/' ).load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] );
 
+        this.group = new THREE.Group();
+        this.props.scene.add(this.group);
+
         this.molecules = {
             cocaine: new Molecule({name: "cocaine", envMap: this.env, gui: this.gui}),
             kerosen: new Molecule({name: "kerosene", envMap: this.env, gui: this.gui}),
@@ -19,15 +22,22 @@ class MicroScale extends React.Component {
         }
 
         this.molecules.cocaine.on("load", () => {
-            this.props.scene.add(this.molecules.cocaine.object3D)
-            this.props.scene.add(this.molecules.test2.object3D)
+            this.group.add(this.molecules.cocaine.object3D)
+            this.group.add(this.molecules.test2.object3D)
         });
         this.molecules.kerosen.on("load", () => {
-            this.props.scene.add(this.molecules.kerosen.object3D)
+            this.group.add(this.molecules.kerosen.object3D)
         });
     }
 
-    render(){ return true; }
+
+
+    render(){ 
+      //<Clock>{this.loop}</Clock>
+      return (
+        null
+      )
+    }
 
     loop = () => {
       this.molecules.kerosen.object3D.rotation.y += (0.01 * this.props.visibility) 
@@ -36,7 +46,9 @@ class MicroScale extends React.Component {
       this.molecules.cocaine.object3D.rotation.z -= (0.01 * this.props.visibility) 
 
       this.molecules.test2.object3D.rotation.y += (0.01 * this.props.visibility) 
-      this.molecules.test2.object3D.rotation.x -= (0.009 * this.props.visibility) 
+      this.molecules.test2.object3D.rotation.x -= (0.009 * this.props.visibility)
+
+      return null;
     }
 }
 

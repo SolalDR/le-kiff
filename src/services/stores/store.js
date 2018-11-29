@@ -70,12 +70,5 @@ var store = {
       content: "Solal content"
     }
   ]
-
-
-
-  chapter: {
-    api_response: null || Object,
-  }
-
 }
 

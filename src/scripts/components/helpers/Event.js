@@ -3,87 +3,87 @@
  * @abstract
  * @author SolalDR - solal.dussout-revel@hotmail.fr
  */
-class Event {
+ class Event {
 
-    constructor() {
-      this.events = {};
-      this.eventsList = [];
-    }
-  
-    /**
-     * Test if an event is listen
-     * @param {string} event 
-     * @return boolean
-     */
-    hasEvent(event) {
-      return this.eventsList.indexOf(event) >= 0 ? true : false;
-    }
-  
-    /**
-     * Test if a function is registered in the event stack
-     * @param {string} event 
-     * @param {function} callback 
-     * @return boolean
-     */
-    eventExist(event, callback){
-      var exist = false;
-      if( this.events[event] ) {
-        for(var i=0; i<this.events[event].length; i++){
-          if( this.events[event] === callback ){
-            exist = true;
-          }
+  constructor() {
+    this.events = {};
+    this.eventsList = [];
+  }
+
+  /**
+   * Test if an event is listen
+   * @param {string} event 
+   * @return boolean
+   */
+   hasEvent(event) {
+    return this.eventsList.indexOf(event) >= 0 ? true : false;
+  }
+    
+  /**
+   * Test if a function is registered in the event stack
+   * @param {string} event 
+   * @param {function} callback 
+   * @return boolean
+   */
+   eventExist(event, callback){
+    var exist = false;
+    if( this.events[event] ) {
+      for(var i=0; i<this.events[event].length; i++){
+        if( this.events[event] === callback ){
+          exist = true;
         }
       }
-      return exist;
     }
-  
-    /**
-     * Trigger all the callbacks registered in an event
-     * @param {string} e The event name 
-     * @param {Object} args An object with params passed in argument of the callback
-     */
-    dispatch(e, args = {}){
-      var list = e instanceof Array ? e : [e];
-      for(var j=0; j<list.length; j++){
-        if( this.events[list[j]] && this.events[list[j]].length ){
-          for(var i=0; i<this.events[list[j]].length; i++ ){
+    return exist;
+  }
+    
+  /**
+   * Trigger all the callbacks registered in an event
+   * @param {string} e The event name 
+   * @param {Object} args An object with params passed in argument of the callback
+   */
+   dispatch(e, args = {}){
+    var list = e instanceof Array ? e : [e];
+    for(var j=0; j<list.length; j++){
+      if( this.events[list[j]] && this.events[list[j]].length ){
+        for(var i=0; i<this.events[list[j]].length; i++ ){
           var callback = this.events[list[j]][i];
-            callback.call(this, args);
-          }
+          callback.call(this, args);
         }
       }
     }
-  
-    /**
-     * Register a new callback for an event
-     * @param {string} event 
-     * @param {function} callback 
-     */
-    on(event, callback){
-      if( typeof this.events[event] === "undefined" )
-          if (parseInt(this.eventsList.indexOf(event)) >= 0)
-              this.events[ event ] = [];
-          else
-              console.warn(`The event "${event}" doesn't exist`)
+  }
+    
+  /**
+   * Register a new callback for an event
+   * @param {string} event 
+   * @param {function} callback 
+   */
+   on(event, callback){
+    if( typeof this.events[event] === "undefined" )
+      if (parseInt(this.eventsList.indexOf(event)) >= 0)
+        this.events[ event ] = [];
+      else
+        console.warn(`The event "${event}" doesn't exist`)
       
       if( this.events[event] && !this.eventExist(event, callback) ) {
         this.events[event].push(callback);
       }
     }
-  
-    /**
-     * Unregister a callback from an event
-     * @param {*} event 
-     * @param {*} callback 
-     */
-    off(event, callback){
-      if(this.events[event]){
-        var i = this.events[event].indexOf(callback);
-        if( i >= 0){
-          this.events[event].splice(i, 1);
-        }
+      
+  /**
+   * Unregister a callback from an event
+   * @param {*} event 
+   * @param {*} callback 
+   */
+   off(event, callback){
+    if(this.events[event]){
+      var i = this.events[event].indexOf(callback);
+      if( i >= 0){
+        this.events[event].splice(i, 1);
       }
     }
   }
-  
-  export default Event;
+}
+
+export default Event;

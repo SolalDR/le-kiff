@@ -36,8 +36,6 @@ export default class Scene extends React.PureComponent {
 
   componentDidMount(){
     this.sceneElement.current.appendChild(this.renderer.domElement);
-    console.log(this.sceneElement.current);
-    console.log(this.microRef.current);
     this.renderer.setSize( window.innerWidth, window.innerHeight );
 
     var light = new THREE.PointLight();

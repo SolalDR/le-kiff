@@ -5,17 +5,17 @@ export default function higherOrderComponent(ScaleComponent){
         constructor(props){
             super(props);
             this.state = {
-                visibilityIntensity: props.visibility
+              visibility: props.visibility
             };
             this.scaleRef = React.createRef();
         }
 
         loop(){
             if( this.state.visibility !== this.props.visibility ){
-                let next = this.state.visibility + (this.props.visibility - this.state.visibility)*0.1;
+                let next = this.state.visibility + (this.props.visibility - this.state.visibility)*0.05;
                 if( Math.abs(next) < 0.01 ) next = 0;
                 this.setState({
-                    visibilityIntensity: next
+                  visibility: next
                 });
             }
 
@@ -28,7 +28,7 @@ export default function higherOrderComponent(ScaleComponent){
             return ( 
                 <ScaleComponent 
                 ref={this.scaleRef} 
-                visibilityIntensity={this.state.visibilityIntensity} 
+                visibility={this.state.visibility} 
                 scene={this.props.scene}/> 
             )
         }

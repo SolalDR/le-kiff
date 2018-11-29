@@ -9,9 +9,7 @@ class Menu extends React.PureComponent {
     }
 
     render(){
-
         var className = this.props.open ? "menu menu--visible" : "menu menu--hidden";
-
         return (
             <div className={className}>
                 <button className="menu__close" onClick={this.handleCloseClick}>
@@ -24,7 +22,7 @@ class Menu extends React.PureComponent {
                     <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item"></Link>
                 </div>
             </div>
-        )
+        );
     }
 
 }

@@ -16,7 +16,8 @@
     "redux": "^4.0.1",
     "three": "0.97.0",
     "three-dat.gui": "^1.0.0",
-    "three-instanced-mesh": "^0.96.1"
+    "three-instanced-mesh": "^0.96.1",
+    "three-matcap-material": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

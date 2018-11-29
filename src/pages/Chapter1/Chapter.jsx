@@ -6,7 +6,6 @@ import Timeline from "./../../components/Timeline/Timeline";
 class Chapter extends React.Component {
     
     constructor(){
-        API.call("http://le-kiff.bastiencornier.com/wp-json/v1/chapters")
         super();
         this.state = {};
     }

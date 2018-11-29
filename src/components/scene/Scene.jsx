@@ -7,7 +7,7 @@ import ScaleMenu from "./components/ScaleMenu/ScaleMenu";
 import * as THREE from "three";
 import * as dat from "dat.gui";
 import OrbitControls from 'orbit-controls-es6';
-
+import Raf from "./../Raf/Raf";
 
 export default class Scene extends React.PureComponent {
 
@@ -64,31 +64,29 @@ export default class Scene extends React.PureComponent {
 
   render(){
     return (
-      <div ref={(this.sceneElement)} className="scene">
-      <ScaleMenu scale={this.state.currentScale} onSelectCallback={this.selectScale} />
-      <MicroScale 
-        ref={this.microRef} 
-        visibility={this.state.microVisibility} 
-        scene={this.scene} />
-      <HumanScale 
-        ref={this.humanRef} 
-        visibility={this.state.humanVisibility} 
-        scene={this.scene} />
-      <MacroScale 
-        ref={this.macroRef} 
-        visibility={this.state.macroVisibility} 
-        scene={this.scene} />
-      </div> 
+        <>
+            <div ref={(this.sceneElement)} className="scene">
+                <ScaleMenu scale={this.state.currentScale} onSelectCallback={this.selectScale} />
+            </div>
+            <MicroScale 
+                ref={this.microRef} 
+                visibility={this.state.microVisibility} 
+                scene={this.scene} />
+            <HumanScale 
+                ref={this.humanRef} 
+                visibility={this.state.humanVisibility} 
+                scene={this.scene} />
+            <MacroScale 
+                ref={this.macroRef} 
+                visibility={this.state.macroVisibility} 
+                scene={this.scene} />
+            <Raf>{[3, this.loop]}</Raf>
+        </>
     );
   }
 
   loop = () => {
-    this.microRef.current.loop();
-    this.macroRef.current.loop();
-    this.humanRef.current.loop();
-
     this.renderer.render( this.scene, this.camera );
-    requestAnimationFrame(this.loop.bind(this));
   }
   
   handleChange(e){

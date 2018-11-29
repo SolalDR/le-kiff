@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "dat.gui": "^0.7.3",
     "mm-packer": "^4.0.5",
     "node-sass": "^4.10.0",

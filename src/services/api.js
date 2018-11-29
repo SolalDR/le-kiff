@@ -1,12 +1,27 @@
 class API {
-    
-    static call(url){
 
-        // Promise.all waits until all jobs are resolved
-        // Promise.all(requests)
-        //   .then(responses => responses.forEach(
-        //     response => alert(`${response.url}: ${response.status}`)
-        //   ));
-    }
+  static call(url){
+    fetch(url)
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoaded: true,
+          items: result.items
+        });
+      },
+      // Note: it's important to handle errors here
+      // instead of a catch() block so that we don't swallow
+      // exceptions from actual bugs in components.
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      }
+    )
+  }
 
 }
+
+export default API;

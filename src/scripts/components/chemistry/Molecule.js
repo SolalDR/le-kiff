@@ -33,31 +33,40 @@ class Molecule extends Event {
         this.atomGeometry = atomGeometry;
         this.envMap = envMap;
         this.gui = gui;
-
+      
         this.load(name);
         this.on("load", this.generateModel.bind(this));
     }
 
   generateAtomModel(){
-        
+    
+    this.env = new THREE.CubeTextureLoader().setPath( 'images/molecule/' ).load( [ 'px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png' ] ); 
+    // this.env = this.loader.load("images/molecule_matcap.jpg");
+    console.log(this.env);
 
     this.atomMesh = new InstancedMesh( 
         this.atomGeometry,
-        new THREE.MeshStandardMaterial(),   
+        new THREE.MeshStandardMaterial({
+          envMap: this.env,
+          metalness: 1,
+          roughness: 0.4,
+          envMapIntensity: 1.05,
+          // color: 0xFFFFFF,
+          bumpScale: 0
+        }),   
         this.atoms.length,  //instance count
         false,              //is it dynamic
         false,              //does it have color
         true                //uniform scale, if you know that the placement function will not do a non-uniform scale, this will optimize the shader
     );
 
+    
+
+    // this.gui.addMaterial(this.atomMesh.material);
 
     this.loader.load("images/perlinnoise.png", (texture)=>{
       this.atomMesh.material.bumpMap = texture;
       this.atomMesh.material.needsUpdate = true;    
-    })
-        
-    this.loader.load("images/lightmap.png", (texture)=>{
-      this.atomMesh.material.needsUpdate = true; 
     })
 
     if( this.gui ){
@@ -78,7 +87,12 @@ class Molecule extends Event {
 
   generateBondModel(){
     var material = new THREE.MeshStandardMaterial({
-        envMap: this.envMap
+      envMap: this.env,
+      metalness: 1,
+      roughness: 0.5,
+      envMapIntensity: 1,
+      color: 0xFFFFFF,
+      bump: 0.01
     });
 
     var from = new THREE.Vector3();
@@ -93,7 +107,7 @@ class Molecule extends Event {
         new THREE.TubeBufferGeometry(
           curve,
           1,
-          0.05,
+          0.02,
           8
         )
       )

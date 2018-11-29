@@ -33,13 +33,13 @@ class MicroScale extends React.Component {
   return ( 
     <Raf>{
     () => {
-      this.molecules.kerosen.object3D.rotation.y += (0.01 * this.props.visibility) 
-      this.molecules.kerosen.object3D.rotation.x -= (0.01 * this.props.visibility) 
-      this.molecules.cocaine.object3D.rotation.x += (0.01 * this.props.visibility) 
-      this.molecules.cocaine.object3D.rotation.z -= (0.01 * this.props.visibility) 
+      // this.molecules.kerosen.object3D.rotation.y += (0.01 * this.props.visibility) 
+      // this.molecules.kerosen.object3D.rotation.x -= (0.01 * this.props.visibility) 
+      // this.molecules.cocaine.object3D.rotation.x += (0.01 * this.props.visibility) 
+      // this.molecules.cocaine.object3D.rotation.z -= (0.01 * this.props.visibility) 
       
-      this.molecules.test2.object3D.rotation.y += (0.01 * this.props.visibility) 
-      this.molecules.test2.object3D.rotation.x -= (0.009 * this.props.visibility)
+      // this.molecules.test2.object3D.rotation.y += (0.01 * this.props.visibility) 
+      // this.molecules.test2.object3D.rotation.x -= (0.009 * this.props.visibility)
       
       return null;
     }

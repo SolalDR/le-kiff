@@ -14,6 +14,9 @@ export default function higherOrderComponent(ScaleComponent){
       this.group.scale.x = props.visibility;
       this.group.scale.y = props.visibility;
       this.group.scale.z = props.visibility;
+      if( props.visibility === 0 ) {
+        this.group.visible = false;
+      }
       this.props.scene.add(this.group);
     }
 
@@ -24,6 +27,14 @@ export default function higherOrderComponent(ScaleComponent){
         this.setState({
           visibility: next
         });
+
+        if( !this.group.visible && this.state.visibility > 0 ){
+          this.group.visible = true;
+        }
+
+        if( this.group.visible && this.state.visibility === 0 ){
+          this.group.visible = false;
+        }
 
         this.group.scale.x = next;
         this.group.scale.y = next;

@@ -27,9 +27,9 @@ export default class Scene extends React.PureComponent {
     this.sceneElement = React.createRef();
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-    this.renderer = new THREE.WebGLRenderer({ antialias: false });
+    this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.controls = new OrbitControls(this.camera);
-    this.scene.background = new THREE.Color(0xFFFFFF);
+    this.scene.background = new THREE.Color(0xf2f3ee);
     window.scene = this.scene;
     this.camera.position.z = 5;
   }
@@ -41,8 +41,6 @@ export default class Scene extends React.PureComponent {
     var light = new THREE.PointLight();
     light.position.y = 10;
     this.scene.add(light);
-
-    this.gui = new dat.GUI();
 
     this.loop();
   }

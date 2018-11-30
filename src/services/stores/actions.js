@@ -1,22 +1,22 @@
-import { ADD_CHAPTERS, ADD_INFOS, ADD_STEPS } from './actionTypes';  
+import { FETCH_CHAPTERS, FETCH_INFOS, FETCH_STEPS } from './actionTypes';  
 
-export const addChapters = (chapters) => {
+export const fetchChapters = (chapters) => {
   return {
-    type: ADD_CHAPTERS,
+    type: FETCH_CHAPTERS,
     chapters
   }
 };
 
-export const addInfos = (infos) => {
+export const fetchInfos = (infos) => {
   return {
-    type: ADD_INFOS,
+    type: FETCH_INFOS,
     infos
   }
 };
 
-export const addSteps = (steps) => {
+export const fetchSteps = (steps) => {
   return {
-    type: ADD_STEPS,
+    type: FETCH_STEPS,
     steps
   }
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { addChapters, addInfos, addSteps } from '../../services/stores/actions';
+import { fetchChapters, fetchInfos, fetchSteps } from '../../services/stores/actions';
 
 class StoreTest extends React.Component {
     
@@ -86,13 +86,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     _addChapters: chapters => {
-      dispatch(addChapters(chapters));
+      dispatch(fetchChapters(chapters));
     },
     _addInfos: infos => {
-      dispatch(addInfos(infos));
+      dispatch(fetchInfos(infos));
     },
     _addSteps: steps => {
-      dispatch(addSteps(steps));
+      dispatch(fetchSteps(steps));
     }
   }
 }

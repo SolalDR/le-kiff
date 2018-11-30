@@ -1,4 +1,4 @@
-import { ADD_CHAPTERS, ADD_INFOS, ADD_STEPS } from '../actionTypes';
+import { FETCH_CHAPTERS, FETCH_INFOS, FETCH_STEPS } from '../actionTypes';
 
 const initialState = {
   chapters: [],
@@ -9,19 +9,19 @@ const initialState = {
 const entities = (state = initialState, action) => {
   switch (action.type) {
       
-    case ADD_CHAPTERS:
+    case FETCH_CHAPTERS:
       return {
         ...state,
         chapters: action.chapters
       }
 
-    case ADD_INFOS:
+    case FETCH_INFOS:
       return {
         ...state,
         infos: action.infos
       }
 
-    case ADD_STEPS:
+    case FETCH_STEPS:
       return {
         ...state,
         steps: action.steps

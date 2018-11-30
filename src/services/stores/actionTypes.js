@@ -1,3 +1,3 @@
-export const ADD_CHAPTERS = 'ADD_CHAPTERS';
-export const ADD_INFOS = 'ADD_INFOS';
-export const ADD_STEPS = 'ADD_STEPS';
+export const FETCH_CHAPTERS = 'FETCH_CHAPTERS';
+export const FETCH_INFOS = 'FETCH_INFOS';
+export const FETCH_STEPS = 'FETCH_STEPS';

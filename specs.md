@@ -93,7 +93,12 @@ Nous avons choisi d'utiliser la librairie ThreeJS pour la 3D, qui nous permet de
   /services
     api
     loader
-    store
+    /stores
+      /reducers
+         UI
+         Entities
+     actionTypes
+     actions
 
   /utils
     /molecules

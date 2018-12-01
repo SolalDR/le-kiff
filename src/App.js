@@ -1,10 +1,7 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import React, { Component } from 'react';
-<<<<<<< HEAD
 import API from "./services/api"
-=======
 import { Provider } from 'react-redux';
->>>>>>> feature/store
 import Chapter1 from "./pages/Chapter1/Chapter";
 import Intro from "./pages/Intro/Intro";
 import Outro from "./pages/Outro/Outro";

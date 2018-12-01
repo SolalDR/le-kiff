@@ -3,8 +3,10 @@ import BufferGeometryUtils from "../helpers/3d/BufferGeometryUtils.js";
 import Event from  "../helpers/Event.js";
 import * as THREE from "three";
 import * as exportInstancedMesh from "three-instanced-mesh";
-import "three-dat.gui";
-import MatCapMaterial from "./../materials/MatCapMaterial";
+import HDRCubeTextureLoader from "./../helpers/3d/HDRCubeTextureLoader";
+import PMREMCubeUVPacker from "./../helpers/3d/PMREMCubeUVPacker";
+import PMREMGenerator from "./../helpers/3d/PMREMGenerator";
+import gui from "./../../../services/gui";
 
 var InstancedMesh = exportInstancedMesh(THREE);
 
@@ -22,9 +24,10 @@ class Molecule extends Event {
         name = null,
         atomGeometry = new THREE.SphereBufferGeometry(0.2, 20, 20),
         envMap = null,
-        gui = null
+        renderer = null
     } = {}){
         super();
+        this.renderer = renderer;
         this.id = Math.floor(Math.random()*10000);
         this.loader = new THREE.TextureLoader();
         this.name = name;
@@ -32,40 +35,63 @@ class Molecule extends Event {
         this.object3D = new THREE.Group();
         this.atomGeometry = atomGeometry;
         this.envMap = envMap;
-        this.gui = gui;
       
         this.load(name);
         this.on("load", this.generateModel.bind(this));
     }
 
   generateAtomModel(){
-    
-    this.env = new THREE.CubeTextureLoader().setPath( 'images/molecule/' ).load( [ 'px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png' ] ); 
-    // this.env = this.loader.load("images/molecule_matcap.jpg");
-    console.log(this.env);
+    var hdrCubeRenderTarget = null;
+    this.env = new THREE.CubeTextureLoader().setPath( 'images/molecule/ldr/' ).load( [ 'px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png' ] ); 
+
+    var material = new THREE.MeshStandardMaterial({
+      envMap: this.env,
+      metalness: 1,
+      roughness: 1,
+      envMapIntensity: 1,
+      emissive: new THREE.Color("rgb(44, 44, 44)")
+    });
 
     this.atomMesh = new InstancedMesh( 
         this.atomGeometry,
-        new THREE.MeshStandardMaterial({
-          envMap: this.env,
-          metalness: 1,
-          roughness: 0.4,
-          envMapIntensity: 1.05,
-          // color: 0xFFFFFF,
-          bumpScale: 0
-        }),   
+        material,
         this.atoms.length,  //instance count
         false,              //is it dynamic
         false,              //does it have color
         true                //uniform scale, if you know that the placement function will not do a non-uniform scale, this will optimize the shader
     );
 
-    
+    gui.addMaterial("Atom" + this.id, this.atomMesh.material);
 
-    // this.gui.addMaterial(this.atomMesh.material);
+    new HDRCubeTextureLoader().setPath( 'images/molecule/hdr/' ).load(
+      THREE.UnsignedByteType, 
+      [ 'images/molecule/hdr/px.hdr', 'images/molecule/hdr/nx.hdr', 'images/molecule/hdr/py.hdr', 'images/molecule/hdr/ny.hdr', 'images/molecule/hdr/pz.hdr', 'images/molecule/hdr/nz.hdr' ], 
+      ( hdrCubeMap ) => {
 
-    this.loader.load("images/perlinnoise.png", (texture)=>{
-      this.atomMesh.material.bumpMap = texture;
+        var pmremGenerator = new PMREMGenerator( hdrCubeMap );
+        pmremGenerator.update( this.renderer );
+        var pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
+        pmremCubeUVPacker.update( this.renderer );
+        hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
+
+        this.renderer.toneMappingExposure = 1.2;
+        this.atomMesh.material.envMap = hdrCubeRenderTarget.texture;
+
+        // console.log(this.atomMesh.material.envMap);
+        this.atomMesh.material.needsUpdate = true; 
+        hdrCubeMap.dispose();
+        pmremGenerator.dispose();
+        pmremCubeUVPacker.dispose();
+      }
+    );
+
+    this.loader.load("images/molecule/normal.jpg", (texture)=>{
+      this.atomMesh.material.normalMap = texture;
+      this.atomMesh.material.needsUpdate = true;    
+    })
+
+    this.loader.load("images/molecule/roughness.jpg", (texture)=>{
+      this.atomMesh.material.roughnessMap = texture;
       this.atomMesh.material.needsUpdate = true;    
     })
 
@@ -91,8 +117,7 @@ class Molecule extends Event {
       metalness: 1,
       roughness: 0.5,
       envMapIntensity: 1,
-      color: 0xFFFFFF,
-      bump: 0.01
+      color: 0xFFFFFF
     });
 
     var from = new THREE.Vector3();

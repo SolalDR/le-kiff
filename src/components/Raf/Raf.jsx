@@ -6,7 +6,7 @@ var raf = () => {
   if( Raf.running ){
     requestAnimationFrame(raf);
   }
-}; 
+};
 
 class Raf extends React.Component {
 

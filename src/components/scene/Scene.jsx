@@ -5,7 +5,6 @@ import MacroScale from "./components/MacroScale";
 import ScaleMenu from "./components/ScaleMenu/ScaleMenu";
 
 import * as THREE from "three";
-import * as dat from "dat.gui";
 import OrbitControls from 'orbit-controls-es6';
 import Raf from "./../Raf/Raf";
 
@@ -67,7 +66,8 @@ export default class Scene extends React.PureComponent {
                 <ScaleMenu scale={this.state.currentScale} onSelectCallback={this.selectScale} />
             </div>
             <MicroScale 
-                ref={this.microRef} 
+                ref={this.microRef}
+                renderer={this.renderer} 
                 visibility={this.state.microVisibility} 
                 scene={this.scene} />
             <HumanScale 

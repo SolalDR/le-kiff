@@ -48,6 +48,7 @@ export default function higherOrderComponent(ScaleComponent){
       <Raf>{[2, this.loop]}</Raf>
       <ScaleComponent 
         ref={this.scaleRef} 
+        renderer={this.props.renderer}
         visibility={this.state.visibility}
         scale={this.state.scale} 
         group={this.group}/> 

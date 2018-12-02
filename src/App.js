@@ -1,16 +1,22 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import React, { Component } from 'react';
-import API from "./services/api"
 import { Provider } from 'react-redux';
 import Chapter1 from "./pages/Chapter1/Chapter";
 import Intro from "./pages/Intro/Intro";
 import Outro from "./pages/Outro/Outro";
 import StoreTest from "./pages/StoreTest/StoreTest";
 import Header from "./components/Header/Header";
+import AppManager from "./services/AppManager.js"
 import { store } from './services/stores/store';
 import "./styles/app.sass";
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    this.manager = AppManager;
+  }
+
   render() {
     return (
       <Provider store={store}>

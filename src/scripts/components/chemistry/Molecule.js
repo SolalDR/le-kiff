@@ -15,37 +15,37 @@ var InstancedMesh = exportInstancedMesh(THREE);
  */
 class Molecule extends Event {
 
-    /**
-     * @constructor
-     * @param {string} name The name of the molecule, used to create url 
-     * @param {THREE.Geometry} atomGeometry The atom instantiate geometry 
-     */
-    constructor({
-        name = null,
-        atomGeometry = new THREE.SphereBufferGeometry(0.2, 20, 20),
-        envMap = null,
-        renderer = null
-    } = {}){
-        super();
-        this.renderer = renderer;
-        this.id = Math.floor(Math.random()*10000);
-        this.loader = new THREE.TextureLoader();
-        this.name = name;
-        this.eventsList = ["load"];
-        this.object3D = new THREE.Group();
-        this.atomGeometry = atomGeometry;
-        this.envMap = envMap;
-      
-        this.load(name);
-        this.on("load", this.generateModel.bind(this));
-    }
+  /**
+   * @constructor
+   * @param {string} name The name of the molecule, used to create url 
+   * @param {THREE.Geometry} atomGeometry The atom instantiate geometry 
+   */
+  constructor({
+    name = null,
+    atomGeometry = new THREE.SphereBufferGeometry(0.2, 20, 20),
+    envMap = null,
+    renderer = null
+  } = {}){
+    super();
+    this.renderer = renderer;
+    this.id = Math.floor(Math.random()*10000);
+    this.loader = new THREE.TextureLoader();
+    this.name = name;
+    this.eventsList = ["load"];
+    this.object3D = new THREE.Group();
+    this.atomGeometry = atomGeometry;
+    this.envMap = envMap;
+  
+    this.load(name);
+    this.on("load", this.generateModel.bind(this));
+  }
 
   generateAtomModel(){
     var hdrCubeRenderTarget = null;
-    this.env = new THREE.CubeTextureLoader().setPath( 'images/molecule/ldr/' ).load( [ 'px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png' ] ); 
+    // this.env = new THREE.CubeTextureLoader().setPath( 'images/molecule/ldr/' ).load( [ 'px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png' ] ); 
 
     var material = new THREE.MeshStandardMaterial({
-      envMap: this.env,
+      envMap: null,
       metalness: 1,
       roughness: 1,
       envMapIntensity: 1,
@@ -74,10 +74,7 @@ class Molecule extends Event {
         pmremCubeUVPacker.update( this.renderer );
         hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
 
-        this.renderer.toneMappingExposure = 1.2;
         this.atomMesh.material.envMap = hdrCubeRenderTarget.texture;
-
-        // console.log(this.atomMesh.material.envMap);
         this.atomMesh.material.needsUpdate = true; 
         hdrCubeMap.dispose();
         pmremGenerator.dispose();
@@ -103,9 +100,9 @@ class Molecule extends Event {
     var _v3 = new THREE.Vector3();
     var _q = new THREE.Quaternion();
     for ( var i = 0 ; i < this.atoms.length ; i ++ ) {
-        this.atomMesh.setQuaternionAt(i , _q);
-        this.atomMesh.setPositionAt(i , _v3.set( this.atoms[i].x , this.atoms[i].y, this.atoms[i].z ));
-        this.atomMesh.setScaleAt(i , _v3.set(1,1,1));
+      this.atomMesh.setQuaternionAt(i , _q);
+      this.atomMesh.setPositionAt(i , _v3.set( this.atoms[i].x , this.atoms[i].y, this.atoms[i].z ));
+      this.atomMesh.setScaleAt(i , _v3.set(1,1,1));
     }
 
     return this.atomMesh;

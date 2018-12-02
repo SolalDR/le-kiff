@@ -38,8 +38,14 @@ export default class Scene extends React.PureComponent {
     this.renderer.setSize( window.innerWidth, window.innerHeight );
 
     var light = new THREE.PointLight();
-    light.position.y = 10;
+    light.position.z = 5;
+    light.position.y = 5;
     this.scene.add(light);
+
+    var light2 = new THREE.PointLight();
+    light2.position.x = 5;
+    light2.position.y = 5;
+    this.scene.add(light2);
 
     this.loop();
   }

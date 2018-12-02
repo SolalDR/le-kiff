@@ -28,7 +28,7 @@ class App extends Component {
               <Route path="/chapter-1" component={Chapter1} />
               <Route path="/outro" component={Outro} />
               <Route path="/store-test" component={StoreTest} />
-            </div> 
+            </div>
           </div>
         </Router>
       </Provider>

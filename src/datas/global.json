@@ -25,6 +25,28 @@
           "files": [ "px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png" ]
         }
       ]
+    }, 
+    {
+      "name": "earth", 
+      "base": "/images/earth/",
+      "files": [
+        {
+          "name": "specular",
+          "path": "earth_specular.jpg"
+        },
+        {
+          "name": "normal",
+          "path": "earth_normal.jpg"
+        },
+        {
+          "name": "diffuse",
+          "path": "earth_diffuse.jpg"
+        },
+        {
+          "name": "cloud",
+          "path": "earth_cloud.jpg"
+        }
+      ]
     }
   ]
 }

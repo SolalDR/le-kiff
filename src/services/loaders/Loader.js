@@ -45,10 +45,10 @@ class Loader extends Event {
    * @param {string|null} group 
    */
   getFiles( group = null ) {
-    var results = [];
+    var results = {};
     this.loadedFiles.forEach(file => {
       if( (group === null || file.groups.indexOf(group) >= 0) ){
-        results.push(file);
+        results[file.name] = file;
       }
     })
     return results;
@@ -183,7 +183,7 @@ class Loader extends Event {
     this.rules.some(rule => {
       if(file.path.match(rule.test)){
         loader = rule.loader
-        return null;
+        return true;
       }
     })
 

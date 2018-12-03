@@ -18,11 +18,17 @@ const entities = (state = initialState, action) => {
       } 
 
     case FETCH_STEPS:
+      const newSteps = filterArrays(state.steps, action.steps);
       return  {
         ...state,
         steps: [
           ...state.steps,
-          ...filterArrays(state.steps, action.steps)
+          ...newSteps.map((item, index) => {
+            return {
+              ...item,
+              chapter_id: action.chapter_id
+            }
+          })
         ]
       } 
     default:

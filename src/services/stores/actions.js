@@ -8,10 +8,11 @@ export const fetchChapters = (chapters) => {
 };
 
 
-export const fetchSteps = (steps) => {
+export const fetchSteps = (steps, chapter_id) => {
   return {
     type: FETCH_STEPS,
-    steps
+    steps,
+    chapter_id
   }
 };
 

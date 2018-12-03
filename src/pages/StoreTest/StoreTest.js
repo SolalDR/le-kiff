@@ -60,7 +60,7 @@ class StoreTest extends React.Component {
 const mapStateToProps = state => {
   return {
     chapters: state.entities.chapters,
-    steps: state.entities.steps
+    steps: state.entities.steps,
   }
 }
 

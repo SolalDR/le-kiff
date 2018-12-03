@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getChapter } from "../../services/stores/reducers/selectors";
 import Scene from "../../components/Scene/Scene";
 import Timeline from "./../../components/Timeline/Timeline";
 
@@ -13,7 +14,17 @@ class Chapter extends React.Component {
       title: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired
+      content: PropTypes.string.isRequired,
+
+      steps: PropTypes.arrayOf(PropTypes.shape({
+          api_id: PropTypes.number.isRequired,
+          id: PropTypes.number.isRequired,
+          title: PropTypes.string.isRequired,
+          slug: PropTypes.string.isRequired,
+          type: PropTypes.string.isRequired,
+          content: PropTypes.string.isRequired,
+          infos: PropTypes.array
+        }))
       })).isRequired,
     }
 
@@ -35,7 +46,7 @@ class Chapter extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    chapters: state.entities.chapters
+    chapter: getChapter(state, 1),
   }
 }
 

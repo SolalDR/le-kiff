@@ -25,7 +25,7 @@ class AppManager {
 
   getChapterSteps(id) {
     this.api.get(`chapters/${id}/steps`).then(response => {
-      store.dispatch(fetchSteps(response.data));
+      store.dispatch(fetchSteps(response.data, id));
     })
   }
 }

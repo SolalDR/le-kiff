@@ -1,5 +1,5 @@
 import React from "react";
-import Scene from "./../../components/Scene/Scene"
+import Scene from "../../components/Scene/Scene"
 
 class Outro extends React.Component {
     

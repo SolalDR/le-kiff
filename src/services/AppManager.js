@@ -1,7 +1,6 @@
-import API from "./api"
 import assetsManager from "./loaders/AssetsManager";
 import globalDatas from "./../datas/global.json";
-
+import Api from "../../services/Api";
 
 class AppManager {
   constructor(){

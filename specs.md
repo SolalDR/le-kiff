@@ -25,8 +25,8 @@ Le projet est découpé en 2 parties, d'un côté l'expérience, de l'autre les 
 
 ## Environnement technique
 
-### API Wordpress
-Wordpress est utilisé en tant que headless CMS. L’interface admin est donc la même que Wordpress et permet de modifier facilement les contenus (textes principaux, points d’intérêts, point de question). Wordpress permet de créer une API REST facilement. Nous créons donc nos propres routes pour faciliter l’utilisation côté client. 
+### Api Wordpress
+Wordpress est utilisé en tant que headless CMS. L’interface admin est donc la même que Wordpress et permet de modifier facilement les contenus (textes principaux, points d’intérêts, point de question). Wordpress permet de créer une Api REST facilement. Nous créons donc nos propres routes pour faciliter l’utilisation côté client.
 Uniquement une requête sera en POST, pour pouvoir mettre à jour les statistiques utilisateurs des réponses aux points de question. 
 Nous utilisons ACF qui permet de réaliser facilement des liaisons entre les modèles afin de reproduire les relations d’une base de données classique.
 
@@ -49,7 +49,7 @@ Récupération des informations d’une étapes
 React est utilisé pour la structure de l'application et notamment avec son système de components. On a alors un component Scène, Échelle, Échelle Humaine, Échelle Micro, Échelle Macro. On a également un component par chapitre qui est géré par le retour et qui a donc une fonction de page. 
     
 ### Store Redux
-Nous utilisons un store Redux pour l'application afin d'avoir accès aux données (notamment celles retournées par l'API) depuis n'importe quel composant et pour les mettre à jour. Nous avons décidé de couper notre store en 2 : d'un côté les données retournées par l'API, de l'autre le state consacré uniquement à l'UI. Pour cela nous avons donc crée 2 reducers, un Entities Reducer et un autre UI Reducer. L'entities reducer prend en state une liste de chapitres, une listes d'infos et une liste d'étapes. L'UI Reducer va pouvoir prendre en state l'étape et le chapitre courant.
+Nous utilisons un store Redux pour l'application afin d'avoir accès aux données (notamment celles retournées par l'Api) depuis n'importe quel composant et pour les mettre à jour. Nous avons décidé de couper notre store en 2 : d'un côté les données retournées par l'Api, de l'autre le state consacré uniquement à l'UI. Pour cela nous avons donc crée 2 reducers, un Entities Reducer et un autre UI Reducer. L'entities reducer prend en state une liste de chapitres, une listes d'infos et une liste d'étapes. L'UI Reducer va pouvoir prendre en state l'étape et le chapitre courant.
 
 ### ThreeJS
 Nous avons choisi d'utiliser la librairie ThreeJS pour la 3D, qui nous permet de gagner du temps grace aux nombreuses abstractions. Cependant, il faut aussi être vigileant au niveau des performances du projet. Nous souhaitons avoir au coeur de chaque écran un objet principal, et y ajouter des effets de profondeur afin d'avoir un leger parallax au hover sur l'objet.   

@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Scene from "../../components/Scene/Scene";
-import API from "./../../services/api";
 import Timeline from "./../../components/Timeline/Timeline";
 
 class Chapter extends React.Component {

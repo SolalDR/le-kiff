@@ -43,8 +43,8 @@ export default class Scene extends React.PureComponent {
     this.scene.add(light);
 
     var light2 = new THREE.PointLight();
-    light2.position.x = 5;
-    light2.position.y = 5;
+    light2.position.x = 10;
+    light2.position.z = 10;
     this.scene.add(light2);
 
     this.loop();
@@ -55,6 +55,11 @@ export default class Scene extends React.PureComponent {
    */
    selectScale = (name) => {
     if( name !== this.state.currentScale ){
+
+      if( name === "macro" ){
+        this.scene.background = new THREE.Color(0x111111);
+      }
+
       this.setState(()=>{
         return {
           [this.state.currentScale + "Visibility"]: 0,

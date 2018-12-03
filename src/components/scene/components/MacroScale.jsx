@@ -11,26 +11,26 @@ class MacroScale extends React.Component {
     this.state = {};
   }
 
-  componentDidMount(){
-    this.loader = new THREE.TextureLoader().load("images/molecule_matcap.jpg", (texture)=>{
- 
-      AssetManager.loader.on("load:earth", (event)=>{
-        console.log(event);
-        var mesh = new THREE.Mesh(
-          new THREE.SphereGeometry(1, 32, 32),
-          new THREE.MeshStandardMaterial({ 
-            map: event.diffuse.result, 
-            normalMap: event.normal.result,
-            emissiveMap: event.specular.result
-          })
-        );
-
-        gui.addMaterial("earth", mesh.material);
-        
-        this.props.group.add(mesh);
+  initEarth(earth){
+    this.earth = new THREE.Mesh(
+      new THREE.SphereGeometry(2, 32, 32),
+      new THREE.MeshStandardMaterial({ 
+        map: earth.diffuse.result, 
+        normalMap: earth.normal.result,
+        emissiveMap: earth.specular.result
       })
-    });
+    );
 
+    gui.addMaterial("earth", this.earth.material);
+    
+    this.props.group.add(this.earth);
+  }
+
+  componentDidMount(){
+    if( AssetManager.loader.isLoaded("earth") ) {
+      this.initEarth(AssetManager.loader.getFiles("earth"));
+    }
+    AssetManager.loader.on("load:earth", (event)=> this.initEarth( event ))
   }
 
   render(){ 

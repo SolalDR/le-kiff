@@ -5,22 +5,22 @@ import PropTypes from 'prop-types';
 
 class StoreTest extends React.Component {
     
-  static propTypes = {
-    chapters: PropTypes.arrayOf(PropTypes.shape({
-      api_id: PropTypes.number.isRequired,
-      test: PropTypes.string
-    })).isRequired,
+  // static propTypes = {
+  //   chapters: PropTypes.arrayOf(PropTypes.shape({
+  //     api_id: PropTypes.number.isRequired,
+  //     test: PropTypes.string
+  //   })).isRequired,
 
-    infos: PropTypes.arrayOf(PropTypes.shape({
-      api_id: PropTypes.number.isRequired,
-      test: PropTypes.string
-    })).isRequired,
+  //   infos: PropTypes.arrayOf(PropTypes.shape({
+  //     api_id: PropTypes.number.isRequired,
+  //     test: PropTypes.string
+  //   })).isRequired,
 
-    steps: PropTypes.arrayOf(PropTypes.shape({
-      api_id: PropTypes.number.isRequired,
-      test: PropTypes.string
-    })).isRequired,
-  }
+  //   steps: PropTypes.arrayOf(PropTypes.shape({
+  //     api_id: PropTypes.number.isRequired,
+  //     test: PropTypes.string
+  //   })).isRequired,
+  // }
 
   constructor() {
     super();

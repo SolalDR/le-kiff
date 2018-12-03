@@ -8,7 +8,6 @@ class AppManager {
     assetsManager.loader.addGroup(globalDatas);
     assetsManager.loader.loadGroup("global");
   }
-  
 }
 
 

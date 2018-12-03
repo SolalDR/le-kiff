@@ -31,11 +31,11 @@ class StoreTest extends React.Component {
   handleClickChapters () {
     this.props._addChapters([
       {
-        api_id: 500,
+        id: 500,
         test: 'chapter 1 '
       },
       {
-        api_id: 750,
+        id: 750,
         test: 'chapter 2'
       }
     ]);
@@ -44,11 +44,11 @@ class StoreTest extends React.Component {
   handleClickInfos () {
     this.props._addInfos([
       {
-        api_id: 850,
+        id: 850,
         test: 'La feuille est cultivée depuis 5000 ans.'
       },
       {
-        api_id: 750,
+        id: 750,
         test: 'Le crack arrive à Stalingrad.'
       }
     ]);
@@ -57,11 +57,11 @@ class StoreTest extends React.Component {
   handleClickSteps () {
     this.props._addSteps([
       {
-        api_id: 250,
+        id: 250,
         test: 'Etape 1.'
       },
       {
-        api_id: 565,
+        id: 565,
         test: 'Etape 2'
       }
     ]);

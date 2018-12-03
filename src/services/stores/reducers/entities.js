@@ -14,13 +14,7 @@ const entities = (state = initialState, action) => {
         ...state,
         chapters: [
           ...state.chapters,
-          ...action.chapters.map((chapter, index) => {
-            return {
-              ...chapter,
-              api_id: chapter.id,
-              id: index++
-            }
-          })
+          ...filterArrays(state.chapters, action.chapters)
         ]
       } 
 
@@ -29,13 +23,7 @@ const entities = (state = initialState, action) => {
         ...state,
         infos: [
           ...state.infos,
-          ...action.infos.map((info, index) => {
-            return {
-              ...info,
-              api_id: info.id,
-              id: index++
-            }
-          })
+          ...filterArrays(state.infos, action.infos)
         ]
       } 
 
@@ -44,20 +32,48 @@ const entities = (state = initialState, action) => {
         ...state,
         steps: [
           ...state.steps,
-          ...action.steps.map((step, index) => {
-            return {
-              ...step,
-              api_id: step.id,
-              id: index++
-            }
-          })
+          ...filterArrays(state.steps, action.steps)
         ]
       } 
-
-
     default:
       return state;
   }
 }
 
 export default entities;
+
+const getIds = (array) => {
+  return array.map(item => {
+    return item.api_id
+  });
+}
+
+const getLastId = (array) => {
+  let max = 0;
+
+  array.forEach(item => {
+    if (max < item.id) {
+      max = item.id;
+    }
+  });
+
+  return max;
+}
+
+const filterArrays = (currentList, newList) => {
+  const idsList = getIds(currentList);
+  let lastId = getLastId(currentList);
+  
+  const list = [];
+  newList.forEach((item, index) => {
+    if ( idsList.indexOf(item.id) == -1) {
+      list.push({
+        ...item,
+        api_id: item.id,
+        id: lastId++
+      });
+    }
+  });
+
+  return list
+}

@@ -1,9 +1,27 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { fetchChapters, fetchInfos, fetchSteps } from '../../services/stores/actions';
+import PropTypes from 'prop-types';
 
 class StoreTest extends React.Component {
     
+  static propTypes = {
+    chapters: PropTypes.arrayOf(PropTypes.shape({
+      api_id: PropTypes.number.isRequired,
+      test: PropTypes.string
+    })).isRequired,
+
+    infos: PropTypes.arrayOf(PropTypes.shape({
+      api_id: PropTypes.number.isRequired,
+      test: PropTypes.string
+    })).isRequired,
+
+    steps: PropTypes.arrayOf(PropTypes.shape({
+      api_id: PropTypes.number.isRequired,
+      test: PropTypes.string
+    })).isRequired,
+  }
+
   constructor() {
     super();
     this.state = {};
@@ -13,11 +31,11 @@ class StoreTest extends React.Component {
   handleClickChapters () {
     this.props._addChapters([
       {
-        api_id: '500',
+        api_id: 500,
         test: 'chapter 1 '
       },
       {
-        api_id: '750',
+        api_id: 750,
         test: 'chapter 2'
       }
     ]);
@@ -26,11 +44,11 @@ class StoreTest extends React.Component {
   handleClickInfos () {
     this.props._addInfos([
       {
-        api_id: '850',
+        api_id: 850,
         test: 'La feuille est cultivée depuis 5000 ans.'
       },
       {
-        api_id: '750',
+        api_id: 750,
         test: 'Le crack arrive à Stalingrad.'
       }
     ]);
@@ -39,11 +57,11 @@ class StoreTest extends React.Component {
   handleClickSteps () {
     this.props._addSteps([
       {
-        api_id: '250',
+        api_id: 250,
         test: 'Etape 1.'
       },
       {
-        api_id: '565',
+        api_id: 565,
         test: 'Etape 2'
       }
     ]);

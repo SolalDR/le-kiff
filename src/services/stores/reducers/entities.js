@@ -10,10 +10,13 @@ const entities = (state = initialState, action) => {
   switch (action.type) {
       
     case FETCH_CHAPTERS:
-      return {
-        ...state,
-        chapters: action.chapters
-      }
+      return action.chapters.map((chapter, index) => {
+        return {
+          ...chapter,
+          api_id: chapter.id,
+          id: index++
+        }
+      })
 
     case FETCH_INFOS:
       return {

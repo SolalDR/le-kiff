@@ -2,35 +2,40 @@ import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getChapter } from "../../services/stores/reducers/selectors";
+import { setCurrentChapterData, setScale, setCurrentStep, setCurrentInfos } from "../../services/stores/actions";
 import Scene from "../../components/Scene/Scene";
 import Timeline from "./../../components/Timeline/Timeline";
 
 class Chapter extends React.Component {
     
   static propTypes = {
-    chapters: PropTypes.arrayOf(PropTypes.shape({
+    chapter: PropTypes.shape({
       api_id: PropTypes.number.isRequired,
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
-
-      steps: PropTypes.arrayOf(PropTypes.shape({
-          api_id: PropTypes.number.isRequired,
-          id: PropTypes.number.isRequired,
-          title: PropTypes.string.isRequired,
-          slug: PropTypes.string.isRequired,
-          type: PropTypes.string.isRequired,
-          content: PropTypes.string.isRequired,
-          infos: PropTypes.array
-        }))
-      })).isRequired,
+      steps: PropTypes.array
+      }),
     }
 
-    constructor(){
-        super();
+    constructor(props) {
+        super(props);
         this.state = {};
+    }
+
+    componentDidUpdate() {
+      if (this.props.chapter) {
+        const steps = this.props.chapter.steps;
+
+        this.props._setCurrentChapterData({
+          chapter: this.props.chapter,
+          step: steps && steps.length ? steps[0] : [],
+          infos: steps && steps.length ? steps[0].infos : [],
+          scale: "humain"
+        });
+      }
     }
 
     render(){
@@ -45,10 +50,30 @@ class Chapter extends React.Component {
 }
 
 const mapStateToProps = state => {
+  console.log('STATE in Chapter1', state);
+
   return {
-    chapter: getChapter(state, 1),
+    chapter: getChapter(state, 1)
   }
 }
 
-export default connect(mapStateToProps)(Chapter);
+const mapDispatchToProps = dispatch => {
+  return { 
+    _setCurrentChapterData: chapterData => {
+      dispatch(setCurrentChapterData(chapterData));
+    }, 
+    _setScale: scale => {
+      dispatch(setScale(scale));
+    }, 
+    _setCurrentStep: step => {
+      dispatch(setCurrentStep(step));
+    }, 
+    _setCurrentInfos: infos => {
+      dispatch(setCurrentInfos(infos));
+    } };
+};
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chapter);
 

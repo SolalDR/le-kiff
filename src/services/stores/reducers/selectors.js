@@ -1,19 +1,21 @@
 export const getChapter = (state, id) => {
   let chapter = {};
-  state.entities.chapter.forEach( (item, index) => {
-    if (item.id == id) {
-      chapter = item;
-    }
-  });
+  if (state.entities.chapters && state.entities.chapters.length) {
 
-  const steps = state.entities.filter( (item) => {
-    if (item.chapter_id == item.api_id) {
-      return item;
-    }
-  });
+    state.entities.chapters.forEach( (item, index) => {
+      if (item.id == id) {
+        chapter = item;
+      }
+    });
+    const steps = state.entities.steps.filter((item) => {
+      if (item.chapter_id == chapter.api_id) {
+        return item;
+      }
+    });
 
-  return {
-    ...chapter,
-    steps: steps
-  };
+    return {
+      ...chapter,
+      steps: steps
+    };
+  }
 }

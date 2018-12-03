@@ -19,8 +19,7 @@ class AppManager {
       store.dispatch(fetchChapters(response.data));
     })
 
-    // this.getChapterSteps(13);
-   
+    this.getChapterSteps(13);
   }
 
   getChapterSteps(id) {

@@ -19,11 +19,9 @@ class MacroScale extends React.Component {
       new THREE.MeshStandardMaterial({ 
         map: earth.diffuse.result, 
         normalMap: earth.normal.result,
-        emissiveMap: earth.specular.result
+        emissiveMap: earth.specular.result,
       })
     );
-
-    console.log(cloudVert, cloudFrag);
 
     this.clouds = new THREE.Mesh(
       new THREE.SphereGeometry(2.02, 32, 32),
@@ -32,8 +30,11 @@ class MacroScale extends React.Component {
         fragmentShader: cloudFrag,
         uniforms: {
           u_time: { value: 0, type: "f" },
-          u_map: { value: earth.cloud.result, type: "t" }
-        }
+          u_map: { value: earth.cloud.result, type: "t" }, 
+          u_noise: { value: earth.noise.result, type: "t" }, 
+          u_alpha:  {type: "f", value: 0.5}
+        },
+        transparent: true
       })
     );
 
@@ -45,10 +46,10 @@ class MacroScale extends React.Component {
   }
   
   componentDidMount(){
-    if( AssetManager.loader.isLoaded("earth") ) {
-      this.initEarth(AssetManager.loader.getFiles("earth"));
+    if( AssetManager.loader.isLoaded("global") ) {
+      this.initEarth(AssetManager.loader.getFiles("global"));
     }
-    AssetManager.loader.on("load:earth", (event)=> this.initEarth( event ))
+    AssetManager.loader.on("load:global", (event)=> this.initEarth( event ))
   }
 
   render(){ 
@@ -56,7 +57,8 @@ class MacroScale extends React.Component {
     <Raf>{
       ()=>{
           if(this.clouds) {
-            this.clouds.rotation.y += 0.0005
+            this.clouds.material.uniforms.u_time.value += 0.0001;
+            this.clouds.material.needsUpdate = true;
           }
       }
     }</Raf>

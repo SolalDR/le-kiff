@@ -1,5 +1,11 @@
 {
   "name": "global",
+  "files": [
+    {
+      "name": "noise",
+      "path": "/images/perlinnoise.png"
+    }
+  ],
   "groups": [
     {
       "name": "micro",

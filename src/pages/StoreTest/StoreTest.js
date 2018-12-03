@@ -73,7 +73,7 @@ class StoreTest extends React.Component {
       <div className="store-test">
         <div>
           <h1>Chapters </h1>
-          <button onClick={this.handleClickChapters.bind(this)}> Ajouter Chapitres au store </button>
+          {/* <button onClick={this.handleClickChapters.bind(this)}> Ajouter Chapitres au store </button> */}
           <p>Store : <code>{JSON.stringify(this.props.chapters)}</code></p>
         </div>
         <hr></hr>

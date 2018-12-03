@@ -1,4 +1,4 @@
-import { FETCH_CHAPTERS, FETCH_INFOS, FETCH_STEPS } from './actionTypes';  
+import { FETCH_CHAPTERS, FETCH_STEPS } from './actionTypes';  
 
 export const fetchChapters = (chapters) => {
   return {
@@ -7,12 +7,6 @@ export const fetchChapters = (chapters) => {
   }
 };
 
-export const fetchInfos = (infos) => {
-  return {
-    type: FETCH_INFOS,
-    infos
-  }
-};
 
 export const fetchSteps = (steps) => {
   return {

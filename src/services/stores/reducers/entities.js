@@ -2,7 +2,6 @@ import { FETCH_CHAPTERS, FETCH_INFOS, FETCH_STEPS } from '../actionTypes';
 
 const initialState = {
   chapters: [],
-  infos: [],
   steps: []
 };
 
@@ -15,15 +14,6 @@ const entities = (state = initialState, action) => {
         chapters: [
           ...state.chapters,
           ...filterArrays(state.chapters, action.chapters)
-        ]
-      } 
-
-    case FETCH_INFOS:
-      return  {
-        ...state,
-        infos: [
-          ...state.infos,
-          ...filterArrays(state.infos, action.infos)
         ]
       } 
 

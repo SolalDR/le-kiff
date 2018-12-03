@@ -19,7 +19,12 @@ class AppManager {
       store.dispatch(fetchChapters(response.data));
     })
 
-    this.api.get('steps').then(response => {
+    // this.getChapterSteps(13);
+   
+  }
+
+  getChapterSteps(id) {
+    this.api.get(`chapters/${id}/steps`).then(response => {
       store.dispatch(fetchSteps(response.data));
     })
   }

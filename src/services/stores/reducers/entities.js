@@ -15,7 +15,7 @@ const entities = (state = initialState, action) => {
           ...state.chapters,
           ...filterArrays(state.chapters, action.chapters)
         ]
-      } 
+      }
 
     case FETCH_STEPS:
       const newSteps = filterArrays(state.steps, action.steps);

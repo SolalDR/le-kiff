@@ -1,5 +1,5 @@
 import PDBLoader from  "../helpers/3d/PDBLoader.js";
-import BufferGeometryUtils from "../helpers/3d/BufferGeometryUtils.js";
+import BufferGeometryUtils from "../helpers/3d/BufferGeometryUtilsOld.js";
 import Event from  "../helpers/Event.js";
 import * as THREE from "three";
 import * as exportInstancedMesh from "three-instanced-mesh";

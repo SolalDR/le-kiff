@@ -24,6 +24,7 @@ export default function higherOrderComponent(ScaleComponent){
       if( this.state.visibility !== this.props.visibility ){
         let next = this.state.visibility + (this.props.visibility - this.state.visibility)*0.05;
         if( Math.abs(next) < 0.01 ) next = 0;
+        if( Math.abs(next) > 0.99 ) next = 1;
         this.setState({
           visibility: next
         });
@@ -35,10 +36,6 @@ export default function higherOrderComponent(ScaleComponent){
         if( this.group.visible && this.state.visibility === 0 ){
           this.group.visible = false;
         }
-
-        this.group.scale.x = next;
-        this.group.scale.y = next;
-        this.group.scale.z = next;
       }
     }
     
@@ -47,10 +44,10 @@ export default function higherOrderComponent(ScaleComponent){
       <>
       <Raf>{[2, this.loop]}</Raf>
       <ScaleComponent 
-        ref={this.scaleRef} 
         renderer={this.props.renderer}
         visibility={this.state.visibility}
-        scale={this.state.scale} 
+        currentScale={this.props.currentScale}
+        previousScale={this.props.previousScale}
         group={this.group}/> 
       </>
       )

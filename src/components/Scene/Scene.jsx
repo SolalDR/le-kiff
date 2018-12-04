@@ -8,21 +8,21 @@ import * as THREE from "three";
 import OrbitControls from 'orbit-controls-es6';
 import Raf from "./../Raf/Raf";
 
+window.THREE = THREE;
+
 export default class Scene extends React.PureComponent {
 
   constructor(props){
     super(props);
 
     this.state = {
-      currentScale: "micro",
+      currentScale: "human",
+      previousScale: "human",
       targetScale: null,
-      microVisibility: 1,
+      microVisibility: 0,
       macroVisibility: 0,
-      humanVisibility: 0
+      humanVisibility: 1
     };
-    this.microRef = React.createRef();
-    this.humanRef = React.createRef();
-    this.macroRef = React.createRef();
     this.sceneElement = React.createRef();
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
@@ -31,6 +31,13 @@ export default class Scene extends React.PureComponent {
     this.scene.background = new THREE.Color(0xf2f3ee);
     window.scene = this.scene;
     this.camera.position.z = 5;
+
+    window.addEventListener("resize", ()=>{
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+
+      this.renderer.setSize( window.innerWidth, window.innerHeight );
+    })
   }
 
   componentDidMount(){
@@ -64,7 +71,8 @@ export default class Scene extends React.PureComponent {
         return {
           [this.state.currentScale + "Visibility"]: 0,
           [name + "Visibility"]: 1, 
-          currentScale: name
+          currentScale: name,
+          previousScale: this.state.currentScale
         }
       });
     }
@@ -76,18 +84,21 @@ export default class Scene extends React.PureComponent {
             <div ref={(this.sceneElement)} className="scene">
                 <ScaleMenu scale={this.state.currentScale} onSelectCallback={this.selectScale} />
             </div>
-            <MicroScale 
-                ref={this.microRef}
+            <MicroScale
                 renderer={this.renderer} 
-                visibility={this.state.microVisibility} 
+                visibility={this.state.microVisibility}
+                currentScale={this.state.currentScale}
+                previousScale={this.state.previousScale}
                 scene={this.scene} />
             <HumanScale 
-                ref={this.humanRef} 
-                visibility={this.state.humanVisibility} 
+                visibility={this.state.humanVisibility}
+                currentScale={this.state.currentScale}
+                previousScale={this.state.previousScale}
                 scene={this.scene} />
             <MacroScale 
-                ref={this.macroRef} 
-                visibility={this.state.macroVisibility} 
+                visibility={this.state.macroVisibility}
+                currentScale={this.state.currentScale}
+                previousScale={this.state.previousScale}
                 scene={this.scene} />
             <Raf>{[3, this.loop]}</Raf>
         </>

@@ -24,11 +24,18 @@ class MicroScale extends React.Component {
       this.props.group.add(this.molecules.kerosen.object3D)
     });
   }
+
+  componentWillReceiveProps(e){
+    this.props.group.scale.x = this.props.visibility;
+    this.props.group.scale.y = this.props.visibility;
+    this.props.group.scale.z = this.props.visibility;
+  }
   
   render(){ 
   return ( 
     <Raf>{
     () => {
+      
       return null;
     }
     }</Raf>

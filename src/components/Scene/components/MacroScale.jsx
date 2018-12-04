@@ -52,6 +52,12 @@ class MacroScale extends React.Component {
     AssetManager.loader.on("load:global", (event)=> this.initEarth( event ))
   }
 
+  componentWillReceiveProps(){
+    this.props.group.scale.x = 1 + (2 - this.props.visibility*2);
+    this.props.group.scale.y = 1 + (2 - this.props.visibility*2);
+    this.props.group.scale.z = 1 + (2 - this.props.visibility*2);
+  }
+
   render(){ 
     return (
     <Raf>{

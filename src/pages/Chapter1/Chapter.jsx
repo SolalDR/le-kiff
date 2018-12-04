@@ -47,7 +47,6 @@ class Chapter extends React.Component {
             </div>
         );
     }
-
 }
 
 const mapStateToProps = state => {

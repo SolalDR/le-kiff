@@ -21,6 +21,26 @@ class HumanScale extends React.Component {
     });
   }
 
+  componentWillReceiveProps(){
+
+    if( (this.props.currentScale === "human" && this.props.previousScale === "micro") ||
+         this.props.currentScale === "micro"  ){
+      this.props.group.scale.x = 1 + (2 - this.props.visibility*2);
+      this.props.group.scale.y = 1 + (2 - this.props.visibility*2);
+      this.props.group.scale.z = 1 + (2 - this.props.visibility*2);
+      return; 
+    }
+   
+    if( this.props.currentScale === "human" || 
+        this.props.currentScale === "macro" ){
+      this.props.group.scale.x = this.props.visibility;
+      this.props.group.scale.y = this.props.visibility;
+      this.props.group.scale.z = this.props.visibility;
+      return;
+    }
+
+  }
+
   render(){ return (
     <Raf>{
         ()=>{

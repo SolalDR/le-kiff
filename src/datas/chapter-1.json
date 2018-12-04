@@ -1,0 +1,10 @@
+{
+  "name": "chapter-1",
+  "base": "/chapter-1/",
+  "files": [
+    {
+      "name": "step_1_human_leaf",
+      "path": "step_1_human_leaf.glb"
+    }
+  ]
+}

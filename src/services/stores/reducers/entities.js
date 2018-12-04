@@ -62,7 +62,7 @@ const filterArrays = (currentList, newList) => {
   
   const list = [];
   newList.forEach((item, index) => {
-    if ( idsList.indexOf(item.id) == -1) {
+    if ( idsList.indexOf(item.id) < 0) {
       list.push({
         ...item,
         api_id: item.id,

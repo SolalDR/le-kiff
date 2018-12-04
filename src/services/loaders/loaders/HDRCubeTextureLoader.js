@@ -7,11 +7,8 @@ import * as THREE from "three";
 import RGBELoader from "./RGBELoader";
 
 var HDRCubeTextureLoader = function ( manager ) {
-
 	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
-	// override in sub classes
 	this.hdrLoader = new RGBELoader();
-
 };
 
 HDRCubeTextureLoader.prototype.load = function ( type, urls, onLoad, onProgress, onError ) {

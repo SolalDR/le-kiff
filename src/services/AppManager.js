@@ -1,17 +1,20 @@
 import assetsManager from "./loaders/AssetsManager";
-import globalDatas from "./../datas/global.json";
 import { store } from './stores/store'
 import { fetchChapters, fetchSteps } from './stores/actions'
 import Api from "./Api";
+import globalDatas from "./../datas/global.json";
+import chapter1Datas from "./../datas/chapter-1.json";
+
 
 class AppManager {
   constructor(){
     this.api = new Api({ url:'http://le-kiff.bastiencornier.com/wp-json/v1' });
 
-    assetsManager.loader.addGroup(globalDatas);
-    assetsManager.loader.loadGroup("global");
-
     this.initApi();
+    this.initAssets();
+
+    assetsManager.loader.loadGroup("global");
+    assetsManager.loader.loadGroup("chapter-1");
   }
 
   initApi() {
@@ -20,6 +23,11 @@ class AppManager {
     })
 
     this.getChapterSteps(13);
+  }
+
+  initAssets(){
+    assetsManager.loader.addGroup(globalDatas);
+    assetsManager.loader.addGroup(chapter1Datas);
   }
 
   getChapterSteps(id) {

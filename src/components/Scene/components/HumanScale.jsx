@@ -3,6 +3,7 @@ import hocScale from "./withScale";
 import * as THREE from "three";
 import Raf from "./../../Raf/Raf"
 import MatCapMaterial from "./../../../scripts/components/materials/MatCapMaterial";
+import AssetManager from "./../../../services/loaders/AssetsManager";
 
 class HumanScale extends React.Component {
   constructor(props){
@@ -19,6 +20,18 @@ class HumanScale extends React.Component {
   
       this.props.group.add(mesh);
     });
+  }
+
+  initScene(e){
+    console.log(e.step_1_human_leaf.result);
+    this.props.group.add(e.step_1_human_leaf.result.scene);
+  }
+
+  componentDidMount(){
+    if( AssetManager.loader.isLoaded("chapter-1") ) {
+      this.initScene(AssetManager.loader.getFiles("chapter-1"));
+    }
+    AssetManager.loader.on("load:chapter-1", (event)=> this.initScene( event ))
   }
 
   componentWillReceiveProps(){

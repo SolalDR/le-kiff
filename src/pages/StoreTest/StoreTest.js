@@ -41,15 +41,17 @@ class StoreTest extends React.Component {
   render() {
     return (
       <div className="store-test">
+        <br></br>
+        <br></br>
+        <br></br>
+        <h1>Ceci est un écran de chargement, les petites requests vers l'API vont se faire tout gentiment</h1><br></br>
         <div>
           <h1>Chapters </h1>
-          {/* <button onClick={this.handleClickChapters.bind(this)}> Ajouter Chapitres au store </button> */}
           <p>Store : <code>{JSON.stringify(this.props.chapters)}</code></p>
         </div>
         <hr></hr>
         <div>
           <h1>Steps </h1>
-          <button onClick={this.handleClickSteps.bind(this)}> Ajouter Steps au store </button>
           <p>Store : <code>{JSON.stringify(this.props.steps)}</code></p>
         </div>
       </div>

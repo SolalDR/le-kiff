@@ -24,7 +24,7 @@ export const setCurrentChapter = (chapter) => {
 
 export const setCurrentChapterData = (chapterData) => {
   return {
-    type: SET_CURRENT_CHAPTER,
+    type: SET_CURRENT_CHAPTER_DATA,
     chapterData
   }
 };

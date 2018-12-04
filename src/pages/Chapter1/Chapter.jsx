@@ -25,8 +25,9 @@ class Chapter extends React.Component {
         this.state = {};
     }
 
-    componentDidUpdate() {
-      if (this.props.chapter) {
+    componentDidUpdate(prevProps) {
+      const currentId = this.props.chapter.id
+      if (currentId && prevProps.chapter && prevProps.chapter.id !== currentId) {
         const steps = this.props.chapter.steps;
 
         this.props._setCurrentChapterData({
@@ -51,7 +52,6 @@ class Chapter extends React.Component {
 
 const mapStateToProps = state => {
   console.log('STATE in Chapter1', state);
-
   return {
     chapter: getChapter(state, 1)
   }

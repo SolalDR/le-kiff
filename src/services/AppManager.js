@@ -1,6 +1,7 @@
 import assetsManager from "./loaders/AssetsManager";
 import { store } from './stores/store'
 import { fetchChapters, fetchSteps } from './stores/actions'
+import { getChapter } from './stores/reducers/selectors'
 import Api from "./Api";
 import globalDatas from "./../datas/global.json";
 import chapter1Datas from "./../datas/chapter-1.json";
@@ -22,7 +23,7 @@ class AppManager {
       store.dispatch(fetchChapters(response.data));
     })
 
-    this.getChapterSteps(13);
+    
   }
 
   initAssets(){
@@ -34,6 +35,16 @@ class AppManager {
     this.api.get(`chapters/${id}/steps`).then(response => {
       store.dispatch(fetchSteps(response.data, id));
     })
+  }
+
+  loadFromPath(path) {
+    if (path.indexOf('chapter') > 0) {
+      const localId = path.match(/\d+/g).map(Number)[0];
+      // const chapter = getChapter(store.getState(), localId);
+      const chapterId = 13;
+
+      this.getChapterSteps(chapterId);
+    }
   }
 }
 

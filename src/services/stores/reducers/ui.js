@@ -24,7 +24,8 @@ const ui = (state = initialState, action) => {
         chapter: action.chapterData.chapter,
         infos: action.chapterData.infos,
         scale: action.chapterData.scale,
-        step: action.chapterData.step
+        step: action.chapterData.step,
+        steps: action.chapterData.steps
       }
 
     case SET_CURRENT_STEP:

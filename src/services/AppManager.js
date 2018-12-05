@@ -49,7 +49,6 @@ class AppManager {
       const localId = path.match(/\d+/g).map(Number)[0];
       const apiRequest = (localId) => {
         const chapterId = getChapterApiId(store.getState(), localId);
-        console.log(chapterId);
         this.getChapterSteps(chapterId);
       };
 

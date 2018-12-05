@@ -37,8 +37,9 @@ class Chapter extends React.Component {
 
         this.props._setCurrentChapterData({
           chapter: nextChapter,
-          step: nextChapter.steps,
-          infos: nextChapter.steps.infos,
+          step: nextChapter.steps[0],
+          steps: nextChapter.steps,
+          infos: nextChapter.steps[0].infos,
           scale: "humain"
         });
       }

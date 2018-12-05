@@ -1,26 +1,47 @@
-import React from 'react';
-import hocScale from "./withScale";
 import * as THREE from "three";
-import Raf from '../../Raf/Raf';
 import gui from "./../../../services/gui";
+import Scale from "./Scale";
 import AssetManager from "./../../../services/loaders/AssetsManager";
 import cloudVert from "./../../../webgl/glsl/cloud.vert"
 import cloudFrag from "./../../../webgl/glsl/cloud.frag"
 
-class MacroScale extends React.Component {
+class MacroScale extends Scale {
   
-  constructor(props){
-    super(props);
-    this.state = {};
+  /**
+   * @constructor
+   * @param {THREE.Scene} args.scene
+   */
+  constructor(args){
+    super({...args, name: "macro"});
+    this.state = {
+      ...this.state
+    }
+
+    this.init();
   }
 
-  initEarth(earth){
+  /**
+   * @override
+   * Init scale
+   */
+  init(){
+    super.init();
+    if( AssetManager.loader.isLoaded("global") ) {
+      this.initScene(AssetManager.loader.getFiles("global"));
+    }
+    AssetManager.loader.on("load:global", (event)=> this.initScene( event ))
+  }
+
+  /**
+   * Init THREE.js part
+   */
+  initScene( assets ){
     this.earth = new THREE.Mesh(
       new THREE.SphereGeometry(2, 32, 32),
       new THREE.MeshStandardMaterial({ 
-        map: earth.diffuse.result, 
-        normalMap: earth.normal.result,
-        emissiveMap: earth.specular.result,
+        map: assets.diffuse.result, 
+        normalMap: assets.normal.result,
+        emissiveMap: assets.specular.result,
       })
     );
 
@@ -31,8 +52,8 @@ class MacroScale extends React.Component {
         fragmentShader: cloudFrag,
         uniforms: {
           u_time: { value: 0, type: "f" },
-          u_map: { value: earth.cloud.result, type: "t" }, 
-          u_noise: { value: earth.noise.result, type: "t" }, 
+          u_map: { value: assets.cloud.result, type: "t" }, 
+          u_noise: { value: assets.noise.result, type: "t" }, 
           u_alpha:  {type: "f", value: 0.5}
         },
         transparent: true
@@ -42,39 +63,27 @@ class MacroScale extends React.Component {
     gui.addMaterial("earth", this.earth.material);
     gui.addMaterial("clouds", this.clouds.material);
     
-    this.props.group.add(this.earth);
-    this.props.group.add(this.clouds);
+    this.group.add(this.earth);
+    this.group.add(this.clouds);
   }
   
-  componentDidMount(){
-    if( AssetManager.loader.isLoaded("global") ) {
-      this.initEarth(AssetManager.loader.getFiles("global"));
-    }
-    AssetManager.loader.on("load:global", (event)=> this.initEarth( event ))
-  }
-
-  componentWillReceiveProps(){
-    this.props.group.scale.x = 1 + (2 - this.props.visibility*2);
-    this.props.group.scale.y = 1 + (2 - this.props.visibility*2);
-    this.props.group.scale.z = 1 + (2 - this.props.visibility*2);
-  }
-
-  render(){ 
-    return (
-    <Raf>{
-      ()=>{
-          if(this.clouds) {
-            this.clouds.material.uniforms.u_time.value += 0.0001;
-            this.clouds.material.needsUpdate = true;
-          }
-      }
-    }</Raf>
-    ); 
-  }
-
+  /**
+   * @override
+   * Raf
+   */
   loop(){
-      
+    super.loop();
+    if( this.state.currentVisibility != this.state.targetVisibility ){
+      this.group.scale.x = 1 + (2 - this.state.currentVisibility*2);
+      this.group.scale.y = 1 + (2 - this.state.currentVisibility*2);
+      this.group.scale.z = 1 + (2 - this.state.currentVisibility*2);  
+    }
+
+    if(this.clouds) {
+      this.clouds.material.uniforms.u_time.value += 0.0001;
+      this.clouds.material.needsUpdate = true;
+    }
   }
 }
 
-export default hocScale(MacroScale);
+export default MacroScale;

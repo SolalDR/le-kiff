@@ -16,6 +16,16 @@ class Scene {
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.controls = new OrbitControls(this.camera);
+    this.microScale = new MicroScale({ scene: this.scene, visibility: 0 });
+    this.macroScale = new MacroScale({ scene: this.scene, visibility: 0 });
+    this.humanScale = new HumanScale({ scene: this.scene, visibility: 1 });
+    this.state = {};
+
+    this.init();
+  }
+
+  init(){
+    this.element.appendChild(this.renderer.domElement);
 
     this.state = {
       currentScale: "human",
@@ -26,8 +36,14 @@ class Scene {
       humanVisibility: 1
     };
 
-    this.init();
+    this.scene.background = new THREE.Color(0xf2f3ee);
+    this.camera.position.z = 5;
+    this.renderer.setSize( window.innerWidth, window.innerHeight );
+    
     this.initEvents();
+
+    this.render();
+    this.loop();
   }
 
   /**
@@ -35,29 +51,15 @@ class Scene {
    */
    selectScale = (name) => {
     if( name !== this.state.currentScale ){
-
       if( name === "macro" ) this.scene.background = new THREE.Color(0x111111);
-      
-      this.state[this.state.currentScale + "Visibility"] = 0;
-      this.state[name + "Visibility"] = 1;
-      this.state.currentScale = name;
+      this[this.state.currentScale + "Scale"].updateScale(name, this.state.currentScale);
+      this[name + "Scale"].updateScale(name, this.state.currentScale);
+
       this.state.previousScale = this.state.currentScale;
+      this.state.currentScale = name;
     }
   }
 
-  init(){
-    this.scene.background = new THREE.Color(0xf2f3ee);
-    this.camera.position.z = 5;
-
-    this.microScale = new MicroScale();
-    this.macroScale = new MacroScale();
-    this.humanScale = new HumanScale();
-
-    this.element.current.appendChild(this.renderer.domElement);
-    this.renderer.setSize( window.innerWidth, window.innerHeight );
-
-    this.loop();
-  }
 
   render(){
     var light = new THREE.PointLight();
@@ -71,11 +73,12 @@ class Scene {
     this.scene.add(light2);
   }
 
-  loop() {
+  loop = () => {
     this.microScale.loop();
     this.macroScale.loop();
     this.humanScale.loop();
     this.renderer.render( this.scene, this.camera );
+    requestAnimationFrame(this.loop);
   }
 
   initEvents(){

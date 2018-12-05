@@ -2,60 +2,78 @@ import * as THREE from "three";
 
 class Scale {
 
+  /**
+   * 
+   * @param {float} visibility The initial visibility
+   * @param {THREE.Scene} scene 
+   * @param {string} name micro|macro|human
+   * @property {THREE.Group} group 
+   */
   constructor({
-    visibility = 1
+    visibility = 1,
+    scene = null,
+    name = ""
   }){
+    this.scene = scene; 
+    this.group = new THREE.Group();
+    this.group.name = name;
+    this.name = name;
     this.state = {
-      visibility: visibility,
+      targetVisibility: visibility,
+      currentVisibility: visibility, 
+      previousScale: "human",
+      currentScale: "human",
     };
 
-    this.group = new THREE.Group();
-    this.group.scale.x = visibility;
-    this.group.scale.y = visibility;
-    this.group.scale.z = visibility;
-
-    if( visibility === 0 ) {
-      this.group.visible = false;
-    }
-    
-    this.props.scene.add(this.group);
-  }
-
-  loop = () => {
-    if( this.state.visibility !== this.props.visibility ){
-      let next = this.state.visibility + (this.props.visibility - this.state.visibility)*0.05;
-      if( Math.abs(next) < 0.01 ) next = 0;
-      if( Math.abs(next) > 0.99 ) next = 1;
-      this.setState({
-        visibility: next
-      });
-
-      if( !this.group.visible && this.state.visibility > 0 ){
-        this.group.visible = true;
-      }
-
-      if( this.group.visible && this.state.visibility === 0 ){
-        this.group.visible = false;
-      }
-    }
+    if( visibility === 0 ) this.group.visible = false;
   }
   
-  render(){
-    if( this.state.visibility !== this.props.visibility ){
-      let next = this.state.visibility + (this.props.visibility - this.state.visibility)*0.05;
-      if( Math.abs(next) < 0.01 ) next = 0;
-      if( Math.abs(next) > 0.99 ) next = 1;
-      this.setState({
-        visibility: next
-      });
+  /**
+   * Init three.js part
+   * @abstract
+   */
+  init(){
+    this.group.scale.x = this.state.currentVisibility;
+    this.group.scale.y = this.state.currentVisibility;
+    this.group.scale.z = this.state.currentVisibility;
+    
+    this.scene.add(this.group);
+  }
 
-      if( !this.group.visible && this.state.visibility > 0 ){
+  /**
+   * Trigger by Scene.js when changing a scale 
+   * @param {string} newScale 
+   * @param {string} previousScale 
+   */
+  updateScale(newScale, previousScale){
+    this.state.targetVisibility = (this.name === newScale) ? 1 : 0;
+    this.state.previousScale = previousScale; 
+    this.state.currentScale = newScale;
+  }
+
+  /**
+   * Raf method to calculate the intensity visibility
+   * @abstract
+   */
+  loop() {
+    if( this.state.currentVisibility !== this.state.targetVisibility ){
+      this.state.currentVisibility = THREE.Math.clamp(
+        this.state.currentVisibility + (this.state.targetVisibility - this.state.currentVisibility)*0.05,
+        0, 
+        1
+      );
+
+      if( !this.group.visible && this.state.currentVisibility > 0 ){
         this.group.visible = true;
       }
 
-      if( this.group.visible && this.state.visibility === 0 ){
+      if( this.group.visible && this.state.currentVisibility === 0 ){
         this.group.visible = false;
       }
     }
+
+    return this.group.visible;
   }
 }
+
+export default Scale;

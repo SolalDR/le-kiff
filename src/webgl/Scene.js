@@ -1,6 +1,6 @@
-import MicroScale from "./components/Scale/MicroScale";
-import HumanScale from "./components/Scale/HumanScale";
-import MacroScale from "./components/Scale/MacroScale";
+import MicroScale from "./components/Scale/Micro/MicroScale";
+import HumanScale from "./components/Scale/Human/HumanScale";
+import MacroScale from "./components/Scale/Macro/MacroScale";
 
 import * as THREE from "three";
 import OrbitControls from 'orbit-controls-es6';
@@ -16,7 +16,7 @@ class Scene {
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.controls = new OrbitControls(this.camera);
-    this.microScale = new MicroScale({ scene: this.scene, visibility: 0 });
+    this.microScale = new MicroScale({ scene: this.scene, visibility: 0, renderer: this.renderer  });
     this.macroScale = new MacroScale({ scene: this.scene, visibility: 0 });
     this.humanScale = new HumanScale({ scene: this.scene, visibility: 1 });
     this.state = {};

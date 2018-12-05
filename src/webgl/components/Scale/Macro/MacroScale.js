@@ -1,9 +1,9 @@
 import * as THREE from "three";
-import gui from "./../../../services/gui";
-import Scale from "./Scale";
-import AssetManager from "./../../../services/loaders/AssetsManager";
-import cloudVert from "./../../../webgl/glsl/cloud.vert"
-import cloudFrag from "./../../../webgl/glsl/cloud.frag"
+import gui from "../../../../services/gui";
+import Scale from "../Scale";
+import AssetManager from "../../../../services/loaders/AssetsManager";
+import cloudVert from "./../../../glsl/cloud.vert"
+import cloudFrag from "./../../../glsl/cloud.frag"
 
 class MacroScale extends Scale {
   
@@ -73,7 +73,7 @@ class MacroScale extends Scale {
    */
   loop(){
     super.loop();
-    if( this.state.currentVisibility != this.state.targetVisibility ){
+    if( this.state.currentVisibility !== this.state.targetVisibility ){
       this.group.scale.x = 1 + (2 - this.state.currentVisibility*2);
       this.group.scale.y = 1 + (2 - this.state.currentVisibility*2);
       this.group.scale.z = 1 + (2 - this.state.currentVisibility*2);  

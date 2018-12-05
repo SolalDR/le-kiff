@@ -1,8 +1,6 @@
 import React from 'react';
 import ScaleMenu from "./components/ScaleMenu/ScaleMenu";
-import * as THREE from "three";
 import ThreeScene from "./../../webgl/Scene";
-window.THREE = THREE;
 
 class Scene extends React.Component {
 
@@ -12,10 +10,6 @@ class Scene extends React.Component {
     this.state = {
       currentScale: "human",
       previousScale: "human",
-      targetScale: null,
-      microVisibility: 0,
-      macroVisibility: 0,
-      humanVisibility: 1
     };
 
     this.sceneElement = React.createRef();
@@ -32,6 +26,10 @@ class Scene extends React.Component {
    */
   selectScale = (name) => {
     this.threeScene.selectScale(name); 
+    this.setState({
+      previousScale: this.state.currentScale,
+      currentScale: name
+    })
   }
 
   render(){

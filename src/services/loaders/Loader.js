@@ -1,4 +1,4 @@
-import Event from "./../../scripts/components/helpers/Event"
+import Event from "./../../helpers/Event"
 
 class Loader extends Event {
 

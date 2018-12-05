@@ -1,6 +1,5 @@
-import React from 'react';
-import Scale from "./Scale";
-import AssetManager from "./../../../services/loaders/AssetsManager";
+import Scale from "../Scale";
+import AssetManager from "../../../../services/loaders/AssetsManager";
 
 class HumanScale extends Scale {
  

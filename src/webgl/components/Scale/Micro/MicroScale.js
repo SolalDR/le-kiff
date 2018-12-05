@@ -1,6 +1,6 @@
-import Molecule from "../../../scripts/components/chemistry/Molecule";
-import AssetManager from "./../../../services/loaders/AssetsManager";
-import Scale from "./Scale";
+import Molecule from "./components/Molecule";
+import AssetManager from "../../../../services/loaders/AssetsManager";
+import Scale from "../Scale";
 
 class MicroScale extends Scale {
 

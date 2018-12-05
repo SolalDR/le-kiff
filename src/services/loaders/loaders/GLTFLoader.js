@@ -9,7 +9,7 @@
 import * as THREE from "three";
 import DRACOLoader from "./DRACOLoader";
 import DDSLoader from "./DDSLoader";
-import BufferGeometryUtils from "./../../../scripts/components/helpers/3d/BufferGeometryUtils";
+import BufferGeometryUtils from "../../../webgl/helpers/BufferGeometryUtils";
 
 var GLTFLoader = ( function () {
 

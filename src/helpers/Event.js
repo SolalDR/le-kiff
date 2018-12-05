@@ -44,6 +44,19 @@
       }
     }
   }
+
+  /**
+   * 
+   * @param {*} event 
+   * @param {*} callback 
+   */
+  once( event, callback ){
+    var onceCallback = (e)=>{
+      callback.call(this, e);
+      this.off(event, onceCallback);
+    }
+    this.on(event, onceCallback);
+  }
     
   /**
    * Register a new callback for an event

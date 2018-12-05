@@ -1,4 +1,4 @@
-import assetsManager from "./loaders/AssetsManager";
+import AssetsManager from "./assetsManager/AssetsManager";
 import { store } from './stores/store'
 import { fetchChapters, fetchSteps, setLoadedStep } from './stores/actions'
 import { getChapterApiId, getChapter } from './stores/reducers/selectors'
@@ -15,8 +15,8 @@ class AppManager {
     this.initAssets();
     this.waitingRequests = [];
 
-    assetsManager.loader.loadGroup("global");
-    assetsManager.loader.loadGroup("chapter-1");
+    AssetsManager.loader.loadGroup("global");
+    AssetsManager.loader.loadGroup("chapter-1");
 
     this.unsubscribe = store.subscribe( () => {
       this.executeWaitingRequests();
@@ -31,8 +31,8 @@ class AppManager {
   }
 
   initAssets(){
-    assetsManager.loader.addGroup(globalDatas);
-    assetsManager.loader.addGroup(chapter1Datas);
+    AssetsManager.loader.addGroup(globalDatas);
+    AssetsManager.loader.addGroup(chapter1Datas);
   }
 
   getChapterSteps(id) {

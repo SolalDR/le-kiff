@@ -9,7 +9,7 @@
 import * as THREE from "three";
 import DRACOLoader from "./DRACOLoader";
 import DDSLoader from "./DDSLoader";
-import BufferGeometryUtils from "./../../../scripts/components/helpers/3d/BufferGeometryUtils";
+import BufferGeometryUtils from "../../../webgl/helpers/BufferGeometryUtils";
 
 var GLTFLoader = ( function () {
 
@@ -1328,7 +1328,7 @@ var GLTFLoader = ( function () {
 
 			if ( hasMorphPosition ) {
 
-				// TODO: Error-prone use of a callback inside a loop.
+				// |TODO: Error-prone use of a callback inside a loop.
 				var accessor = target.POSITION !== undefined
 					? parser.getDependency( 'accessor', target.POSITION )
 						.then( function ( accessor ) {
@@ -1343,7 +1343,7 @@ var GLTFLoader = ( function () {
 
 			if ( hasMorphNormal ) {
 
-				// TODO: Error-prone use of a callback inside a loop.
+				// |TODO: Error-prone use of a callback inside a loop.
 				var accessor = target.NORMAL !== undefined
 					? parser.getDependency( 'accessor', target.NORMAL )
 						.then( function ( accessor ) {
@@ -1882,7 +1882,7 @@ var GLTFLoader = ( function () {
 			var type = types[ i ];
 			var value = this.getDependencies( type );
 
-			// TODO: Error-prone use of a callback inside a loop.
+			// |TODO: Error-prone use of a callback inside a loop.
 			value = value.then( function ( key, value ) {
 
 				results[ key ] = value;
@@ -2949,7 +2949,7 @@ var GLTFLoader = ( function () {
 			var channel = animationDef.channels[ i ];
 			var sampler = animationDef.samplers[ channel.sampler ];
 			var target = channel.target;
-			var name = target.node !== undefined ? target.node : target.id; // NOTE: target.id is deprecated.
+			var name = target.node !== undefined ? target.node : target.id; // | NOTE: target.id is deprecated.
 			var input = animationDef.parameters !== undefined ? animationDef.parameters[ sampler.input ] : sampler.input;
 			var output = animationDef.parameters !== undefined ? animationDef.parameters[ sampler.output ] : sampler.output;
 

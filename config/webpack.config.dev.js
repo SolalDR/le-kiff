@@ -89,7 +89,7 @@ module.exports = {
     // When you save a file, the client will either apply hot updates (in case
     // of CSS changes), or refresh the page (in case of JS changes). When you
     // make a syntax error, this client will display a syntax error overlay.
-    // Note: instead of the default WebpackDevServer client, we use a custom one
+    // |Note: instead of the default WebpackDevServer client, we use a custom one
     // to bring better experience for Create React App users. You can replace
     // the line below with these two lines if you prefer the stock client:
     // require.resolve('webpack-dev-server/client') + '?/',
@@ -129,6 +129,7 @@ module.exports = {
     runtimeChunk: true,
   },
   resolve: {
+    
     // This allows you to set a fallback for where Webpack should look for modules.
     // We placed these paths second because we want `node_modules` to "win"
     // if there are any conflicts. This matches Node resolution mechanism.
@@ -176,6 +177,7 @@ module.exports = {
       // Disable require.ensure as it's not a standard language feature.
       { parser: { requireEnsure: false } },
 
+      // TODO: Add this in webpac.config.prod.js
       {
         test: /\.(glsl|frag|vert)$/,
         use: [
@@ -331,6 +333,7 @@ module.exports = {
             // its runtime that would otherwise be processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
+            // TODO: Add this in webpac.config.prod.js
             exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/, /\.(?:frag|vert|glsl)/],
             loader: require.resolve('file-loader'),
             options: {

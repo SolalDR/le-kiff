@@ -41,7 +41,7 @@ var BufferGeometryUtils = {
 
 		var tan1 = [], tan2 = [];
 
-		for ( var i = 0; i < nVertices; i ++ ) {
+		for ( let i = 0; i < nVertices; i ++ ) {
 
 			tan1[ i ] = new THREE.Vector3();
 			tan2[ i ] = new THREE.Vector3();
@@ -119,14 +119,14 @@ var BufferGeometryUtils = {
 
 		}
 
-		for ( var i = 0, il = groups.length; i < il; ++ i ) {
+		for ( let i = 0, il = groups.length; i < il; ++ i ) {
 
 			var group = groups[ i ];
 
 			var start = group.start;
 			var count = group.count;
 
-			for ( var j = start, jl = start + count; j < jl; j += 3 ) {
+			for ( let j = start, jl = start + count; j < jl; j += 3 ) {
 
 				handleTriangle(
 					indices[ j + 0 ],
@@ -167,14 +167,14 @@ var BufferGeometryUtils = {
 
 		}
 
-		for ( var i = 0, il = groups.length; i < il; ++ i ) {
+		for ( let i = 0, il = groups.length; i < il; ++ i ) {
 
 			var group = groups[ i ];
 
 			var start = group.start;
 			var count = group.count;
 
-			for ( var j = start, jl = start + count; j < jl; j += 3 ) {
+			for ( let j = start, jl = start + count; j < jl; j += 3 ) {
 
 				handleVertex( indices[ j + 0 ] );
 				handleVertex( indices[ j + 1 ] );
@@ -205,7 +205,7 @@ var BufferGeometryUtils = {
 
 		var offset = 0;
 
-		for ( var i = 0; i < geometries.length; ++ i ) {
+		for ( let i = 0; i < geometries.length; ++ i ) {
 
 			var geometry = geometries[ i ];
 
@@ -215,7 +215,7 @@ var BufferGeometryUtils = {
 
 			// gather attributes, exit early if they're different
 
-			for ( var name in geometry.attributes ) {
+			for ( let name in geometry.attributes ) {
 
 				if ( ! attributesUsed.has( name ) ) return null;
 
@@ -227,7 +227,7 @@ var BufferGeometryUtils = {
 
 			// gather morph attributes, exit early if they're different
 
-			for ( var name in geometry.morphAttributes ) {
+			for ( let name in geometry.morphAttributes ) {
 
 				if ( ! morphAttributesUsed.has( name ) ) return null;
 
@@ -275,11 +275,11 @@ var BufferGeometryUtils = {
 			var indexOffset = 0;
 			var mergedIndex = [];
 
-			for ( var i = 0; i < geometries.length; ++ i ) {
+			for ( let i = 0; i < geometries.length; ++ i ) {
 
 				var index = geometries[ i ].index;
 
-				for ( var j = 0; j < index.count; ++ j ) {
+				for ( let j = 0; j < index.count; ++ j ) {
 
 					mergedIndex.push( index.getX( j ) + indexOffset );
 
@@ -295,7 +295,7 @@ var BufferGeometryUtils = {
 
 		// merge attributes
 
-		for ( var name in attributes ) {
+		for ( let name in attributes ) {
 
 			var mergedAttribute = this.mergeBufferAttributes( attributes[ name ] );
 
@@ -307,7 +307,7 @@ var BufferGeometryUtils = {
 
 		// merge morph attributes
 
-		for ( var name in morphAttributes ) {
+		for ( let name in morphAttributes ) {
 
 			var numMorphTargets = morphAttributes[ name ][ 0 ].length;
 
@@ -316,11 +316,11 @@ var BufferGeometryUtils = {
 			mergedGeometry.morphAttributes = mergedGeometry.morphAttributes || {};
 			mergedGeometry.morphAttributes[ name ] = [];
 
-			for ( var i = 0; i < numMorphTargets; ++ i ) {
+			for ( let i = 0; i < numMorphTargets; ++ i ) {
 
 				var morphAttributesToMerge = [];
 
-				for ( var j = 0; j < morphAttributes[ name ].length; ++ j ) {
+				for ( let j = 0; j < morphAttributes[ name ].length; ++ j ) {
 
 					morphAttributesToMerge.push( morphAttributes[ name ][ j ][ i ] );
 
@@ -351,7 +351,7 @@ var BufferGeometryUtils = {
 		var normalized;
 		var arrayLength = 0;
 
-		for ( var i = 0; i < attributes.length; ++ i ) {
+		for ( let i = 0; i < attributes.length; ++ i ) {
 
 			var attribute = attributes[ i ];
 
@@ -373,7 +373,7 @@ var BufferGeometryUtils = {
 		var array = new TypedArray( arrayLength );
 		var offset = 0;
 
-		for ( var i = 0; i < attributes.length; ++ i ) {
+		for ( let i = 0; i < attributes.length; ++ i ) {
 
 			array.set( attributes[ i ].array, offset );
 

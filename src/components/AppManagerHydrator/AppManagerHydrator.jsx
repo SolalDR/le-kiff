@@ -6,6 +6,7 @@ class AppManagerHydrator extends React.Component {
 
   constructor (props) {
     super(props);
+    this.state = {};
   }
 
   static propTypes = {

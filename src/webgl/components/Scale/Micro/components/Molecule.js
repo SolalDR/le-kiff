@@ -1,12 +1,11 @@
-import PDBLoader from  "../helpers/3d/PDBLoader.js";
-import BufferGeometryUtils from "../helpers/3d/BufferGeometryUtilsOld.js";
-import Event from  "../helpers/Event.js";
+import BufferGeometryUtils from "../../../../helpers/BufferGeometryUtilsOld";
+import Event from  "../../../../../helpers/Event";
 import * as THREE from "three";
 import * as exportInstancedMesh from "three-instanced-mesh";
-import HDRCubeTextureLoader from "./../helpers/3d/HDRCubeTextureLoader";
-import PMREMCubeUVPacker from "./../helpers/3d/PMREMCubeUVPacker";
-import PMREMGenerator from "./../helpers/3d/PMREMGenerator";
-import gui from "./../../../services/gui";
+import HDRCubeTextureLoader from "../../../../../services/assetsManager/loaders/HDRCubeTextureLoader";
+import PMREMCubeUVPacker from "../../../../helpers/PMREMCubeUVPacker";
+import PMREMGenerator from "../../../../helpers/PMREMGenerator";
+import gui from "../../../../../services/gui";
 
 var InstancedMesh = exportInstancedMesh(THREE);
 
@@ -46,18 +45,18 @@ class Molecule extends Event {
     var material = new THREE.MeshStandardMaterial({
       envMap: null,
       metalness: 1,
-      roughness: 1,
+      roughness: 0.5,
       envMapIntensity: 1,
       emissive: new THREE.Color("rgb(44, 44, 44)")
     });
 
     this.atomMesh = new InstancedMesh( 
-        this.atomGeometry,
-        material,
-        this.atoms.length,  //instance count
-        false,              //is it dynamic
-        false,              //does it have color
-        true                //uniform scale, if you know that the placement function will not do a non-uniform scale, this will optimize the shader
+      this.atomGeometry,
+      material,
+      this.atoms.length,  //instance count
+      false,              //is it dynamic
+      false,              //does it have color
+      true                //uniform scale, if you know that the placement function will not do a non-uniform scale, this will optimize the shader
     );
 
     gui.addMaterial("Atom" + this.id, this.atomMesh.material);
@@ -73,6 +72,7 @@ class Molecule extends Event {
     //     pmremCubeUVPacker.update( this.renderer );
     //     hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
 
+    //     console.log(hdrCubeRenderTarget.texture)
     //     this.atomMesh.material.envMap = hdrCubeRenderTarget.texture;
     //     this.atomMesh.material.needsUpdate = true; 
     //     hdrCubeMap.dispose();
@@ -141,7 +141,6 @@ class Molecule extends Event {
   }
 
   parse(pdb){
-    console.log(pdb);
     var json = pdb.json;
     this.atoms = [];
     json.atoms.forEach(element => this.atoms.push(new THREE.Vector3(element[0], element[1], element[2])));

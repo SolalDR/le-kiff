@@ -56,6 +56,8 @@
       this.off(event, onceCallback);
     }
     this.on(event, onceCallback);
+
+    return this;
   }
     
   /**
@@ -71,6 +73,8 @@
     if( this.events[ event ] && !this.eventExist( event, callback ) ) {
       this.events[ event ].push( callback );
     }
+    
+    return this;
   }
       
   /**
@@ -85,6 +89,8 @@
         this.events[ event ].splice( i, 1 );
       }
     }
+
+    return this;
   }
 }
 

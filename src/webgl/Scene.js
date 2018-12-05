@@ -1,18 +1,19 @@
 import MicroScale from "./components/Scale/Micro/MicroScale";
 import HumanScale from "./components/Scale/Human/HumanScale";
 import MacroScale from "./components/Scale/Macro/MacroScale";
-
+import AnimationManager from "./AnimationManager";
 import * as THREE from "three";
 import OrbitControls from 'orbit-controls-es6';
+import Clock from "./helpers/Clock";
 
 class Scene {
 
   constructor({
     element = null
   } = {}){
-
     this.element = element;
     this.scene = new THREE.Scene();
+    this.clock = new Clock();
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.controls = new OrbitControls(this.camera);
@@ -46,6 +47,14 @@ class Scene {
     this.loop();
   }
 
+  initEvents(){
+    window.addEventListener("resize", ()=>{
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize( window.innerWidth, window.innerHeight );
+    })
+  }
+
   /**
    * @param {string} name Name of scale
    */
@@ -60,7 +69,6 @@ class Scene {
     }
   }
 
-
   render(){
     var light = new THREE.PointLight();
     light.position.z = 5;
@@ -74,20 +82,18 @@ class Scene {
   }
 
   loop = () => {
+    this.clock.update();
+
     this.microScale.loop();
     this.macroScale.loop();
     this.humanScale.loop();
+    
+    AnimationManager.renderAnimations(this.clock.delta);
+
     this.renderer.render( this.scene, this.camera );
     requestAnimationFrame(this.loop);
   }
 
-  initEvents(){
-    window.addEventListener("resize", ()=>{
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize( window.innerWidth, window.innerHeight );
-    })
-  }
 }
 
 export default Scene;

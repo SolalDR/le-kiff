@@ -16,6 +16,10 @@ class App extends Component {
   constructor(props){
     super(props);
     this.manager = AppManager;
+
+    this.state = {
+      chapterLoaded: false,
+    }
   }
 
   handleRouteChange (path) {

@@ -1,9 +1,10 @@
-import { FETCH_CHAPTERS, FETCH_STEPS, SET_CURRENT_CHAPTER, SET_CURRENT_CHAPTER_DATA, SET_CURRENT_INFOS, SET_CURRENT_STEP, SET_STEPS, SET_SCALE } from './actionTypes';  
+import { FETCH_CHAPTERS, FETCH_STEPS, SET_CURRENT_CHAPTER, SET_CURRENT_CHAPTER_DATA, SET_CURRENT_INFOS, SET_CURRENT_STEP, SET_STEPS, SET_SCALE, SET_LOADED_STEP } from './actionTypes';  
 
-export const fetchChapters = (chapters) => {
+export const fetchChapters = (chapters, payload) => {
   return {
     type: FETCH_CHAPTERS,
-    chapters
+    chapters,
+    payload
   }
 };
 
@@ -14,6 +15,13 @@ export const fetchSteps = (steps, chapter_id) => {
     chapter_id
   }
 };
+
+export const setLoadedStep = (chapter_id) => {
+  return {
+    type: SET_LOADED_STEP,
+    chapter_id
+  }
+}
 
 export const setCurrentChapter = (chapter) => {
   return {

@@ -6,3 +6,4 @@ export const SET_CURRENT_STEP = 'SET_CURRENT_STEP';
 export const SET_CURRENT_INFOS = 'SET_CURRENT_INFO';
 export const SET_STEPS = 'SET_STEPS';
 export const SET_SCALE = 'SET_SCALE';
+export const SET_LOADED_STEP = 'SET_LOADED_STEP';

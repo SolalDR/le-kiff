@@ -1,6 +1,8 @@
-import { FETCH_CHAPTERS, FETCH_INFOS, FETCH_STEPS } from '../actionTypes';
+import { FETCH_CHAPTERS, FETCH_STEPS, SET_LOADED_STEP } from '../actionTypes';
 
 const initialState = {
+  chaptersLoaded: false,
+  stepsLoadedChapterIds: [],
   chapters: [],
   steps: []
 };
@@ -11,6 +13,7 @@ const entities = (state = initialState, action) => {
     case FETCH_CHAPTERS:
       return  {
         ...state,
+        chaptersLoaded: action.payload,
         chapters: [
           ...state.chapters,
           ...filterArrays(state.chapters, action.chapters)
@@ -31,6 +34,17 @@ const entities = (state = initialState, action) => {
           })
         ]
       } 
+
+    case SET_LOADED_STEP:
+      const newChapterIds = getNewLoadedSteps(state.stepsLoadedChapterIds, action.chapter_id);
+      return {
+        ...state,
+        stepsLoadedChapterIds: [
+          ...state.stepsLoadedChapterIds,
+          ...[ newChapterIds ]
+        ]
+      }
+
     default:
       return state;
   }
@@ -71,5 +85,13 @@ const filterArrays = (currentList, newList) => {
     }
   });
 
-  return list
+  return list;
+}
+
+const getNewLoadedSteps = (chapterIds, id) => {
+  if (chapterIds.indexOf(id) < 0) {
+    return id;
+  }
+
+  return [];
 }

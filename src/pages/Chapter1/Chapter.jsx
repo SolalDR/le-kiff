@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getWholeChapter } from "../../services/stores/reducers/selectors";
+import { getWholeChapter, getStepsLoaded, getIsLoadedChapters } from "../../services/stores/reducers/selectors";
 import { setCurrentChapterData, setScale, setCurrentStep, setCurrentInfos } from "../../services/stores/actions";
 import Scene from "../../components/Scene/Scene";
 import Timeline from "./../../components/Timeline/Timeline";
@@ -10,12 +10,12 @@ class Chapter extends React.Component {
     
   static propTypes = {
     chapter: PropTypes.shape({
-      api_id: PropTypes.number.isRequired,
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      slug: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired,
+      api_id: PropTypes.number,
+      id: PropTypes.number,
+      title: PropTypes.string,
+      slug: PropTypes.string,
+      type: PropTypes.string,
+      content: PropTypes.string,
       steps: PropTypes.array
       }),
     }
@@ -26,35 +26,40 @@ class Chapter extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      const nextChapter = nextProps.chapter;
 
-      // if (nextChapter && nextChapter.id && nextChapter.steps.length > 0) {
-      //   const steps = nextChapter.steps;
+      if (!this.state.isReady && nextProps.isStepsLoaded && nextProps.isChapterLoaded) {
+        this.setState({
+          isReady: true
+        })
+        const nextChapter = nextProps.chapter;
 
-      //   console.log('next chapter', nextChapter);
-
-      //   this.props._setCurrentChapterData({
-      //     chapter: nextChapter,
-      //     step: steps && steps.length ? steps[0] : [],
-      //     infos: steps && steps.length ? steps[0].infos : [],
-      //     scale: "humain"
-      //   });
-      // }
+        this.props._setCurrentChapterData({
+          chapter: nextChapter,
+          step: nextChapter.steps,
+          infos: nextChapter.steps.infos,
+          scale: "humain"
+        });
+      }
     }
 
     render(){
+      if (this.state.isReady) {
         return (
             <div className="chapter chapter-1">
                 <Timeline />
                 <Scene />
             </div>
         );
+      }
+      return <h1>Je fais office de chargement pour le moment</h1>
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   return {
-    chapter: getWholeChapter(state, 1)
+    chapter: getWholeChapter(state, 1),
+    isStepsLoaded: getStepsLoaded(state, 1),
+    isChapterLoaded: getIsLoadedChapters(state) ,
   }
 }
 

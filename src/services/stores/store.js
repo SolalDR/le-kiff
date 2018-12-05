@@ -7,7 +7,9 @@ const stores = combineReducers({
   ui
 });
 
-export const store = createStore(stores);
+export const store = createStore(
+  stores
+);
 
 // var myFuckingStore = createStore( () => {
 //   return {

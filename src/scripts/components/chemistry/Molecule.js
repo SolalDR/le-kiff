@@ -24,7 +24,8 @@ class Molecule extends Event {
     name = null,
     atomGeometry = new THREE.SphereBufferGeometry(0.2, 20, 20),
     envMap = null,
-    renderer = null
+    renderer = null, 
+    pdb = null
   } = {}){
     super();
     this.renderer = renderer;
@@ -35,14 +36,12 @@ class Molecule extends Event {
     this.object3D = new THREE.Group();
     this.atomGeometry = atomGeometry;
     this.envMap = envMap;
-  
-    this.load(name);
-    this.on("load", this.generateModel.bind(this));
+
+    this.parse(pdb);
   }
 
   generateAtomModel(){
     var hdrCubeRenderTarget = null;
-    // this.env = new THREE.CubeTextureLoader().setPath( 'images/molecule/ldr/' ).load( [ 'px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png' ] ); 
 
     var material = new THREE.MeshStandardMaterial({
       envMap: null,
@@ -63,24 +62,24 @@ class Molecule extends Event {
 
     gui.addMaterial("Atom" + this.id, this.atomMesh.material);
 
-    new HDRCubeTextureLoader().setPath( 'images/molecule/hdr/' ).load(
-      THREE.UnsignedByteType, 
-      [ 'images/molecule/hdr/px.hdr', 'images/molecule/hdr/nx.hdr', 'images/molecule/hdr/py.hdr', 'images/molecule/hdr/ny.hdr', 'images/molecule/hdr/pz.hdr', 'images/molecule/hdr/nz.hdr' ], 
-      ( hdrCubeMap ) => {
+    // new HDRCubeTextureLoader().setPath( 'images/molecule/hdr/' ).load(
+    //   THREE.UnsignedByteType, 
+    //   [ 'images/molecule/hdr/px.hdr', 'images/molecule/hdr/nx.hdr', 'images/molecule/hdr/py.hdr', 'images/molecule/hdr/ny.hdr', 'images/molecule/hdr/pz.hdr', 'images/molecule/hdr/nz.hdr' ], 
+    //   ( hdrCubeMap ) => {
 
-        var pmremGenerator = new PMREMGenerator( hdrCubeMap );
-        pmremGenerator.update( this.renderer );
-        var pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
-        pmremCubeUVPacker.update( this.renderer );
-        hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
+    //     var pmremGenerator = new PMREMGenerator( hdrCubeMap );
+    //     pmremGenerator.update( this.renderer );
+    //     var pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
+    //     pmremCubeUVPacker.update( this.renderer );
+    //     hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
 
-        this.atomMesh.material.envMap = hdrCubeRenderTarget.texture;
-        this.atomMesh.material.needsUpdate = true; 
-        hdrCubeMap.dispose();
-        pmremGenerator.dispose();
-        pmremCubeUVPacker.dispose();
-      }
-    );
+    //     this.atomMesh.material.envMap = hdrCubeRenderTarget.texture;
+    //     this.atomMesh.material.needsUpdate = true; 
+    //     hdrCubeMap.dispose();
+    //     pmremGenerator.dispose();
+    //     pmremCubeUVPacker.dispose();
+    //   }
+    // );
 
     this.loader.load("images/molecule/normal.jpg", (texture)=>{
       this.atomMesh.material.normalMap = texture;
@@ -91,11 +90,6 @@ class Molecule extends Event {
       this.atomMesh.material.roughnessMap = texture;
       this.atomMesh.material.needsUpdate = true;    
     })
-
-    if( this.gui ){
-      this.gui.addMaterial(this.name, this.atomMesh.material);
-      this.gui.addObject3D(this.name + "mesh", this.atomMesh);    
-    }
 
     var _v3 = new THREE.Vector3();
     var _q = new THREE.Quaternion();
@@ -146,18 +140,14 @@ class Molecule extends Event {
     this.object3D.add(this.generateBondModel());
   }
 
-  load(name){
-    var loader = new PDBLoader();
-    loader.load(
-      'molecules/' + name + '.pdb',
-      ( pdb ) => {
-        var json = pdb.json;
-        this.atoms = [];
-        json.atoms.forEach(element => this.atoms.push(new THREE.Vector3(element[0], element[1], element[2])));
-        this.bonds = json.bonds;
-        this.dispatch("load");
-      }
-    );
+  parse(pdb){
+    console.log(pdb);
+    var json = pdb.json;
+    this.atoms = [];
+    json.atoms.forEach(element => this.atoms.push(new THREE.Vector3(element[0], element[1], element[2])));
+    this.bonds = json.bonds;
+    this.generateModel();
+    this.dispatch("load");
   }
 }
 

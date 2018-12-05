@@ -34,11 +34,10 @@ class App extends Component {
           <div className="app">
             <Header />
             <div className="app__content">
-              <AppManagerHydrator onRouteChange={this.handleRouteChange.bind(this)} />
-              <Route path="/intro" component={Intro} />
-              <Route path="/chapter-1" component={Chapter1} />
-              <Route path="/outro" component={Outro} />
-              <Route path="/store-test" component={StoreTest} />
+              <Route exact path="/intro" component={Intro} />
+              <Route exact path="/chapter-1" component={Chapter1} />
+              <Route exact path="/outro" component={Outro} />
+              <Route exact path="/" component={StoreTest} />
             </div>
           </div>
         </Router>

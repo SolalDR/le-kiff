@@ -55,7 +55,7 @@ class Chapter extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state) => {
   return {
     chapter: getWholeChapter(state, 1),
     isStepsLoaded: getStepsLoaded(state, 1),

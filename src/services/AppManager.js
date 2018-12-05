@@ -1,7 +1,7 @@
 import assetsManager from "./loaders/AssetsManager";
 import { store } from './stores/store'
 import { fetchChapters, fetchSteps, setLoadedStep } from './stores/actions'
-import { getChapter } from './stores/reducers/selectors'
+import { getChapterApiId, getChapter } from './stores/reducers/selectors'
 import Api from "./Api";
 import globalDatas from "./../datas/global.json";
 import chapter1Datas from "./../datas/chapter-1.json";
@@ -13,9 +13,14 @@ class AppManager {
 
     this.initApi();
     this.initAssets();
+    this.waitingRequests = [];
 
     assetsManager.loader.loadGroup("global");
     assetsManager.loader.loadGroup("chapter-1");
+
+    this.unsubscribe = store.subscribe( () => {
+      this.executeWaitingRequests();
+    })
   }
 
   initApi() {
@@ -42,10 +47,30 @@ class AppManager {
   loadFromPath(path) {
     if (path.indexOf('chapter') > 0) {
       const localId = path.match(/\d+/g).map(Number)[0];
-      // const chapter = getChapter(store.getState(), localId);
-      const chapterId = 13;
+      const apiRequest = (localId) => {
+        const chapterId = getChapterApiId(store.getState(), localId);
+        console.log(chapterId);
+        this.getChapterSteps(chapterId);
+      };
 
-      this.getChapterSteps(chapterId);
+      if (store.getState().chaptersLoaded) {
+        apiRequest(localId);
+      } else {
+        this.waitingRequests.push({
+          request: apiRequest, 
+          params: localId
+        });
+      }
+    }
+  }
+
+  executeWaitingRequests() {
+    const state = store.getState();
+    if (state.entities.chaptersLoaded && this.waitingRequests.length) {
+      this.waitingRequests.forEach(request => {
+        request.request(request.params);
+      });
+      this.unsubscribe();
     }
   }
 }

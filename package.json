@@ -127,5 +127,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-root-import": "^6.1.0"
   }
 }

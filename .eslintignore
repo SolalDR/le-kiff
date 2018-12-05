@@ -1,1 +1,5 @@
 /src/services/assetsManager/loaders/*
+/src/webgl/helpers/PMREMGenerator.js
+/src/webgl/helpers/PMREMCubeUVPacker.js
+/src/webgl/helpers/BufferGeometryUtils.js
+

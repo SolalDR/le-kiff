@@ -141,7 +141,6 @@ class Molecule extends Event {
   }
 
   parse(pdb){
-    console.log(pdb);
     var json = pdb.json;
     this.atoms = [];
     json.atoms.forEach(element => this.atoms.push(new THREE.Vector3(element[0], element[1], element[2])));

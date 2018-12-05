@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import gui from "../../../../services/gui";
 import Scale from "../Scale";
-import AssetManager from "../../../../services/loaders/AssetsManager";
+import AssetsManager from "../../../../services/assetsManager/AssetsManager";
 import cloudVert from "./../../../glsl/cloud.vert"
 import cloudFrag from "./../../../glsl/cloud.frag"
 
@@ -26,10 +26,10 @@ class MacroScale extends Scale {
    */
   init(){
     super.init();
-    if( AssetManager.loader.isLoaded("global") ) {
-      this.initScene(AssetManager.loader.getFiles("global"));
+    if( AssetsManager.loader.isLoaded("global") ) {
+      this.initScene(AssetsManager.loader.getFiles("global"));
     }
-    AssetManager.loader.on("load:global", (event)=> this.initScene( event ))
+    AssetsManager.loader.on("load:global", (event)=> this.initScene( event ))
   }
 
   /**

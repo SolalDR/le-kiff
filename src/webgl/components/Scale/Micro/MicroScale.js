@@ -1,5 +1,5 @@
 import Molecule from "./components/Molecule";
-import AssetManager from "../../../../services/loaders/AssetsManager";
+import AssetsManager from "../../../../services/assetsManager/AssetsManager";
 import Scale from "../Scale";
 
 class MicroScale extends Scale {
@@ -24,10 +24,10 @@ class MicroScale extends Scale {
    */
   init(){
     super.init();
-    if( AssetManager.loader.isLoaded("micro") ) {
-      this.initScene(AssetManager.loader.getFiles("micro"));
+    if( AssetsManager.loader.isLoaded("micro") ) {
+      this.initScene(AssetsManager.loader.getFiles("micro"));
     }
-    AssetManager.loader.on("load:micro", (event)=> this.initScene( event ));
+    AssetsManager.loader.on("load:micro", (event)=> this.initScene( event ));
   }
   
   /**

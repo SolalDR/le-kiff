@@ -1,5 +1,5 @@
 import Scale from "../Scale";
-import AssetManager from "../../../../services/loaders/AssetsManager";
+import AssetsManager from "../../../../services/assetsManager/AssetsManager";
 
 class HumanScale extends Scale {
  
@@ -22,10 +22,10 @@ class HumanScale extends Scale {
 
   init(){
     super.init();
-    if( AssetManager.loader.isLoaded("chapter-1") ) {
-      this.initScene(AssetManager.loader.getFiles("chapter-1"));
+    if( AssetsManager.loader.isLoaded("chapter-1") ) {
+      this.initScene(AssetsManager.loader.getFiles("chapter-1"));
     }
-    AssetManager.loader.once("load:chapter-1", (event) => this.initScene( event ))
+    AssetsManager.loader.once("load:chapter-1", (event) => this.initScene( event ))
   }
 
   /**

@@ -2,7 +2,7 @@ import BufferGeometryUtils from "../../../../helpers/BufferGeometryUtilsOld";
 import Event from  "../../../../../helpers/Event";
 import * as THREE from "three";
 import * as exportInstancedMesh from "three-instanced-mesh";
-import HDRCubeTextureLoader from "../../../../helpers/HDRCubeTextureLoader";
+import HDRCubeTextureLoader from "../../../../../services/assetsManager/loaders/HDRCubeTextureLoader";
 import PMREMCubeUVPacker from "../../../../helpers/PMREMCubeUVPacker";
 import PMREMGenerator from "../../../../helpers/PMREMGenerator";
 import gui from "../../../../../services/gui";

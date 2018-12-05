@@ -4,10 +4,11 @@ import * as THREE from "three";
 import Raf from '../../Raf/Raf';
 import gui from "./../../../services/gui";
 import AssetManager from "./../../../services/loaders/AssetsManager";
-import cloudVert from "./../../../glsl/cloud.vert";
-import cloudFrag from "./../../../glsl/cloud.frag";
+import cloudVert from "./../../../webgl/glsl/cloud.vert"
+import cloudFrag from "./../../../webgl/glsl/cloud.frag"
 
 class MacroScale extends React.Component {
+  
   constructor(props){
     super(props);
     this.state = {};

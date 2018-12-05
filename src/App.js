@@ -19,10 +19,10 @@ class App extends Component {
 
     this.state = {
       chapterLoaded: false,
-    }
+    } 
   }
 
-  handleRouteChange (path) {
+  handleRouteChange = (path) => {
     this.manager.loadFromPath(path);
   }
 
@@ -32,6 +32,7 @@ class App extends Component {
         <Router>
    
           <div className="app">
+            <AppManagerHydrator onRouteChange={this.handleRouteChange} />
             <Header />
             <div className="app__content">
               <Route exact path="/intro" component={Intro} />

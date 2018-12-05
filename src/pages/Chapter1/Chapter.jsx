@@ -22,15 +22,18 @@ class Chapter extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+          isReady: false
+        };
     }
 
     componentWillReceiveProps(nextProps) {
-
+      console.log(nextProps.isStepsLoaded);
       if (!this.state.isReady && nextProps.isStepsLoaded && nextProps.isChapterLoaded) {
-        this.setState({
-          isReady: true
-        })
+        this.setState({ 
+          isReady: true 
+        });
+
         const nextChapter = nextProps.chapter;
 
         this.props._setCurrentChapterData({

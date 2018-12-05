@@ -1,9 +1,8 @@
 import * as THREE from "three";
-import gui from "../../../../services/gui";
 import Scale from "../Scale";
 import AssetsManager from "../../../../services/assetsManager/AssetsManager";
-import cloudVert from "./../../../glsl/cloud.vert"
-import cloudFrag from "./../../../glsl/cloud.frag"
+import Earth from "./components/Earth";
+import Flux from "./components/Flux";
 
 class MacroScale extends Scale {
   
@@ -36,35 +35,29 @@ class MacroScale extends Scale {
    * Init THREE.js part
    */
   initScene( assets ){
-    this.earth = new THREE.Mesh(
-      new THREE.SphereGeometry(2, 32, 32),
-      new THREE.MeshStandardMaterial({ 
-        map: assets.diffuse.result, 
-        normalMap: assets.normal.result,
-        emissiveMap: assets.specular.result,
-      })
-    );
+    this.earth = new Earth(assets, {
+      radius: 2
+    });
 
-    this.clouds = new THREE.Mesh(
-      new THREE.SphereGeometry(2.02, 32, 32),
-      new THREE.ShaderMaterial({
-        vertexShader: cloudVert,
-        fragmentShader: cloudFrag,
-        uniforms: {
-          u_time: { value: 0, type: "f" },
-          u_map: { value: assets.cloud.result, type: "t" }, 
-          u_noise: { value: assets.noise.result, type: "t" }, 
-          u_alpha:  {type: "f", value: 0.5}
-        },
-        transparent: true
-      })
-    );
+    for( var i=0; i<100; i++ ){
+      let flux = new Flux(
+        { lat: 4.757908, lon: -72.147105 },
+        { lat: Math.random()*180 - 90, lon: Math.random()*360 - 180 },
+        2, Math.random()
+      );
+      this.group.add(flux.fluxObject);
+    }
 
-    gui.addMaterial("earth", this.earth.material);
-    gui.addMaterial("clouds", this.clouds.material);
-    
-    this.group.add(this.earth);
-    this.group.add(this.clouds);
+    for( var i=0; i<100; i++ ){
+      let flux = new Flux(
+        { lat: 48.862790, lon: 2.356302 },
+        { lat: Math.random()*180 - 90, lon: Math.random()*360 - 180 },
+        2, Math.random()
+      );
+      this.group.add(flux.fluxObject);
+    }
+
+    this.group.add(this.earth.group);
   }
   
   /**
@@ -79,9 +72,9 @@ class MacroScale extends Scale {
       this.group.scale.z = 1 + (2 - this.state.currentVisibility*2);  
     }
 
-    if(this.clouds) {
-      this.clouds.material.uniforms.u_time.value += 0.0001;
-      this.clouds.material.needsUpdate = true;
+    if(this.earth.clouds) {
+      this.earth.clouds.material.uniforms.u_time.value += 0.0001;
+      this.earth.clouds.material.needsUpdate = true;
     }
   }
 }

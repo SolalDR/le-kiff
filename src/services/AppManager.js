@@ -1,7 +1,7 @@
 import AssetsManager from "./assetsManager/AssetsManager";
 import { store } from './stores/store'
 import { fetchChapters, fetchSteps, setLoadedStep } from './stores/actions'
-import { getChapterApiId, getChapter } from './stores/reducers/selectors'
+import { getChapterApiId, getIsLoadedChapters } from './stores/reducers/selectors'
 import Api from "./Api";
 import globalDatas from "./../datas/global.json";
 import chapter1Datas from "./../datas/chapter-1.json";
@@ -52,7 +52,7 @@ class AppManager {
         this.getChapterSteps(chapterId);
       };
 
-      if (store.getState().chaptersLoaded) {
+      if (getIsLoadedChapters(store.getState())) {
         apiRequest(localId);
       } else {
         this.waitingRequests.push({

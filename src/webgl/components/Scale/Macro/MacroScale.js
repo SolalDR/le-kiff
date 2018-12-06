@@ -72,7 +72,7 @@ class MacroScale extends Scale {
       this.group.scale.z = 1 + (2 - this.state.currentVisibility*2);  
     }
 
-    if(this.earth.clouds) {
+    if(this.earth && this.earth.clouds) {
       this.earth.clouds.material.uniforms.u_time.value += 0.0001;
       this.earth.clouds.material.needsUpdate = true;
     }

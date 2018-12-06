@@ -5,6 +5,7 @@ export const getChapter = (state, id) => state.entities.chapters.find((chapter) 
 export const getStepsForChapter = (state, id) => state.entities.steps.filter((step) => id === step.id);
 export const getChapterApiId = (state, id) => getChapter(state, id) ? getChapter(state, id).api_id : null;
 export const getCurrentScale = ( state) => state.ui.scale;
+export const getCurrentInfos = (state) => state.ui.step.infos;
 
 export const getWholeChapter = createSelector(
   [getChapter, getStepsForChapter], (chapter, steps) => {

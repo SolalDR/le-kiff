@@ -4,6 +4,7 @@ import { setCurrentScale } from '../../services/stores/actions';
 import ScaleMenu from "./components/ScaleMenu/ScaleMenu";
 import ThreeScene from "./../../webgl/Scene";
 import { getCurrentScale } from '../../services/stores/reducers/selectors';
+import Info from "../Info/Info";
 
 class Scene extends React.Component {
 
@@ -40,6 +41,7 @@ class Scene extends React.Component {
       <>
         <div ref={(this.sceneElement)} className="scene">
             <ScaleMenu scale={this.state.currentScale} onSelectCallback={this.selectScale} />
+            <Info />
         </div>
       </>
     );

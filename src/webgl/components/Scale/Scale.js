@@ -57,11 +57,10 @@ class Scale {
    */
   loop() {
     if( this.state.currentVisibility !== this.state.targetVisibility ){
-      this.state.currentVisibility = THREE.Math.clamp(
-        this.state.currentVisibility + (this.state.targetVisibility - this.state.currentVisibility)*0.05,
-        0, 
-        1
-      );
+      this.state.currentVisibility += (this.state.targetVisibility - this.state.currentVisibility)*0.05
+      if( this.state.currentVisibility > 0.99 ) this.state.currentVisibility = 1;
+      if( this.state.currentVisibility < 0.01 ) this.state.currentVisibility = 0;
+
 
       if( !this.group.visible && this.state.currentVisibility > 0 ){
         this.group.visible = true;

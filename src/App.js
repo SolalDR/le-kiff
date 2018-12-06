@@ -7,6 +7,7 @@ import Intro from "./pages/Intro/Intro";
 import Outro from "./pages/Outro/Outro";
 import StoreTest from "./pages/StoreTest/StoreTest";
 import Header from "./components/Header/Header";
+import Loading from "./components/Loading/Loading";
 import AppManager from "./services/AppManager.js"
 import { store } from './services/stores/store';
 import "./styles/app.sass";
@@ -38,7 +39,8 @@ class App extends Component {
               <Route exact path="/intro" component={Intro} />
               <Route exact path="/chapter-1" component={Chapter1} />
               <Route exact path="/outro" component={Outro} />
-              <Route exact path="/" component={StoreTest} />
+              <Route exact path="/store-test" component={StoreTest} />
+              <Route exact path="/loading" component={Loading} />
             </div>
           </div>
         </Router>

@@ -4,7 +4,7 @@ class GeoCoord {
   
   constructor(lat, lon){
     this.lat = lat;
-    this.lon = lon;
+    this.lon = -lon;
     this.radLat = THREE.Math.degToRad(this.lat);
     this.radLon = THREE.Math.degToRad(this.lon);
   }
@@ -15,12 +15,14 @@ class GeoCoord {
    */
   getCartesianCoord(radius){
     return new THREE.Vector3(
-      radius * Math.cos(this.radLon) * Math.cos(this.radLat),
-			radius * Math.cos(this.radLon) * Math.sin(this.radLat),
-      -radius * Math.sin(this.radLon)
+      radius * Math.cos(this.radLat) * Math.cos(this.radLon),
+      radius * Math.sin(this.radLat),
+			radius * Math.cos(this.radLat) * Math.sin(this.radLon)
     );
   }
 
 }
+
+window.GeoCoord = GeoCoord;
 
 export default GeoCoord;

@@ -40,7 +40,7 @@ class Scene extends React.Component {
     return (
       <>
         <div ref={(this.sceneElement)} className="scene">
-            <ScaleMenu scale={this.state.currentScale} onSelectCallback={this.selectScale} />
+            <ScaleMenu scale={this.props.currentScale} onSelectCallback={this.selectScale} />
             <Info />
         </div>
       </>
@@ -49,13 +49,11 @@ class Scene extends React.Component {
 
 }
 
-
 const mapStateToProps = (state) => {
   return {
     currentScale: getCurrentScale(state)
   }
 }
-
 
 const mapDispatchToProps = dispatch => {
   return { 

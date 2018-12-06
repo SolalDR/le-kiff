@@ -24,6 +24,12 @@
     position: relative
     display: flex
 
+    &--active .timeline
+      &__button 
+        background-color: black
+        transform: translateY(-50%) translateX(-50%) scale(1.5)
+    
+
   &__button
     height: 15px
     width: 15px
@@ -34,6 +40,7 @@
     left: 50%
     position: absolute
     z-index: 2
+    cursor: pointer
     transform: translateY(-50%) translateX(-50%) scale(1)
     transition: 
       duration: $t-duration
@@ -43,12 +50,7 @@
 
     &--visited
       background-color: black
-
-    
-
-    &--active
-      background-color: black
-      transform: translateY(-50%) translateX(-50%) scale(1.5)
+      
     
     &:hover
       transform: translateY(-50%) translateX(-50%) scale(1.5)

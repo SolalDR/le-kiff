@@ -16,10 +16,18 @@ class Menu extends React.PureComponent {
             <i className="material-icons">close</i>
           </button>
           <div className="menu__container">
-            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item"></Link>
-            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item"></Link>
-            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item"></Link>
-            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item"></Link>
+            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item">
+              <h1 className="heading-1">Chapitre 1</h1>
+            </Link>
+            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item">
+              <h1 className="heading-1">Chapitre 2</h1>
+            </Link>
+            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item">
+              <h1 className="heading-1">Chapitre 3</h1>
+            </Link>
+            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item">
+              <h1 className="heading-1">Chapitre 4</h1>
+            </Link>
           </div>
       </div>
     );

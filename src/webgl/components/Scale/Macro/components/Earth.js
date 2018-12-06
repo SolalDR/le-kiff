@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import cloudVert from "./../../../../glsl/cloud.vert"
-import cloudFrag from "./../../../../glsl/cloud.frag"
+import cloudVert from "~/webgl/glsl/cloud.vert"
+import cloudFrag from "~/webgl/glsl/cloud.frag"
 import gui from "~/services/gui";
 
 class Earth {

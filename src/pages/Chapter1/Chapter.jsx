@@ -52,7 +52,7 @@ class Chapter extends React.Component {
         return (
             <div className="chapter chapter-1">
               <div className="chapter__text">
-                <h1 className="chapter__title heading-3">2. La naissance - Vendredi 7 Décembre 2018 </h1>
+                <h1 className="chapter__title heading-3">{this.props.steps[0].title}</h1>
                 <h2 className="chapter__step__text teasing-2">{this.props.steps[0].content}</h2>
               </div>
               <Timeline />

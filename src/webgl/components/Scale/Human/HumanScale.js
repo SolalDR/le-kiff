@@ -19,18 +19,20 @@ class HumanScale extends Scale {
   }
 
   initScene(e){
-    this.group.add(e.step_1_human_leaf.result.scene);
+    this.main = e.step_1_human_leaf.result.scene;
+    
+    this.group.add(this.main);
     var background = new FitPlane({
       background: e.step_1_background.result, 
       size: 450,
       distance: 100
     });
 
-    e.step_1_human_leaf.result.scene.scale.y = 1.5;
-    e.step_1_human_leaf.result.scene.rotation.z = -0.6;
-    e.step_1_human_leaf.result.scene.position.x = -7;
-    e.step_1_human_leaf.result.scene.position.y = -4;
-    gui.addObject3D("Leaf", e.step_1_human_leaf.result.scene, false);
+    this.main.scale.y = 1.5;
+    this.main.rotation.z = -0.6;
+    this.main.position.x = -7;
+    this.main.position.y = -4;
+    gui.addObject3D("Leaf",  this.main, false);
 
 
     this.group.add(background.object3D);
@@ -59,7 +61,7 @@ class HumanScale extends Scale {
     }
     
     if( this.state.currentScale === "human" || 
-        this.state.currentScale === "macro" ){
+      this.state.currentScale === "macro" ){
       this.group.scale.x = this.state.currentVisibility;
       this.group.scale.y = this.state.currentVisibility;
       this.group.scale.z = this.state.currentVisibility;

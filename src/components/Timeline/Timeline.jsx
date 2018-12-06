@@ -12,7 +12,6 @@ class Timeline extends React.Component {
     }
 
     onSelect = (rank) => {
-      console.log("Click rank", rank)
       this.setState({
         isActive: rank
       });

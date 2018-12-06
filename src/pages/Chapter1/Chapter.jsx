@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getWholeChapter, getStepsLoaded, getIsLoadedChapters } from "../../services/stores/reducers/selectors";
-import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos } from "../../services/stores/actions";
-import Scene from "../../components/Scene/Scene";
-import Timeline from "./../../components/Timeline/Timeline";
+import { getWholeChapter, getStepsLoaded, getIsLoadedChapters } from "~/services/stores/reducers/selectors";
+import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos } from "~/services/stores/actions";
+import Scene from "~/components/Scene/Scene";
+import Timeline from "~/components/Timeline/Timeline";
+import Loading from "~/components/Loading/Loading";
 
 class Chapter extends React.Component {
     
@@ -54,7 +55,7 @@ class Chapter extends React.Component {
             </div>
         );
       }
-      return <h1>Je fais office de chargement pour le moment</h1>
+      return <Loading />
     }
 }
 

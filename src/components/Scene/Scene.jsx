@@ -47,13 +47,11 @@ class Scene extends React.Component {
 
 }
 
-
 const mapStateToProps = (state) => {
   return {
     currentScale: getCurrentScale(state)
   }
 }
-
 
 const mapDispatchToProps = dispatch => {
   return { 

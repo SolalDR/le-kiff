@@ -4,6 +4,8 @@ import AssetsManager from "../../../../services/assetsManager/AssetsManager";
 import Earth from "./components/Earth";
 import Flux from "./components/Flux";
 import Zoning from "./components/Zoning";
+import AnimationManager from "./../../../AnimationManager";
+import Animation from "~/helpers/Animation";
 
 class MacroScale extends Scale {
   
@@ -18,6 +20,51 @@ class MacroScale extends Scale {
     }
 
     this.init();
+  }
+
+  updateScale(newScale, previousScale){
+    super.updateScale(newScale, previousScale);
+
+    if( newScale === this.name ){
+      this.zonings.forEach(zoning => {
+        console.log(zoning);
+        AnimationManager.addAnimation(new Animation({
+          from: 3, 
+          to: 1.01, 
+          duration: 500,
+          delay: 2000 + Math.random() * 1000,
+          timingFunction: "easeOutQuad"
+        }).on("start",  ()=>{
+          console.log(AnimationManager.animations.length);
+        }).on("progress", (event)=>{
+          zoning.object.scale.x = event.value;
+          zoning.object.scale.y = event.value;
+          zoning.object.scale.z = event.value;
+          zoning.object.material.opacity = event.advancement/2;
+        }).on("end", ()=>{
+          console.log(AnimationManager.animations.length);
+        }))
+      })
+    } else {
+      this.zonings.forEach(zoning => {
+        AnimationManager.addAnimation(new Animation({
+          from: 1, 
+          to: 0,
+          duration: 1000, 
+          timingFunction: "easeOutQuad"
+        }).on("progress", (event)=>{
+          zoning.object.material.opacity = event.value;
+        }).on("end", (event)=>{
+          zoning.object.scale.x = 1;
+          zoning.object.scale.y = 1;
+          zoning.object.scale.z = 1;
+          zoning.object.material.opacity = 0;
+        }))
+      })
+
+
+    }
+
   }
 
   /**
@@ -55,17 +102,12 @@ class MacroScale extends Scale {
     this.group.add(flux.fluxObject);
     this.group.add(flux2.fluxObject);
 
-    let bolivie = new Zoning("bolivie");
-    this.group.add(bolivie.object);
-
-    let argentine = new Zoning("argentine");
-    this.group.add(argentine.object);
-
-    let france = new Zoning("france");
-    this.group.add(france.object);
-
-    let guyane = new Zoning("guyane");
-    this.group.add(guyane.object);
+    this.zonings = [];
+    ["bolivie", "argentine", "guyane", "france", "perou"].forEach(country => {
+      var zoning = new Zoning(country); 
+      this.group.add(zoning.object);
+      this.zonings.push(zoning);
+    });
 
     this.group.add(this.earth.group);
   }

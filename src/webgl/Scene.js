@@ -5,6 +5,7 @@ import AnimationManager from "./AnimationManager";
 import * as THREE from "three";
 import OrbitControls from 'orbit-controls-es6';
 import Clock from "./helpers/Clock";
+import gui from "~/services/gui";
 
 class Scene {
 
@@ -15,7 +16,7 @@ class Scene {
     this.scene = new THREE.Scene();
     this.clock = new Clock();
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, gammaOutput: true });
     this.controls = new OrbitControls(this.camera);
     this.microScale = new MicroScale({ scene: this.scene, visibility: 0, renderer: this.renderer  });
     this.macroScale = new MacroScale({ scene: this.scene, visibility: 0 });
@@ -37,7 +38,7 @@ class Scene {
       humanVisibility: 1
     };
 
-    this.scene.background = new THREE.Color(0xf2f3ee);
+    this.scene.background = new THREE.Color(0x111111);
     this.camera.position.z = 5;
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     
@@ -60,7 +61,6 @@ class Scene {
    */
    selectScale = (name) => {
     if( name !== this.state.currentScale ){
-      if( name === "macro" ) this.scene.background = new THREE.Color(0x111111);
       this[this.state.currentScale + "Scale"].updateScale(name, this.state.currentScale);
       this[name + "Scale"].updateScale(name, this.state.currentScale);
 
@@ -70,15 +70,20 @@ class Scene {
   }
 
   render(){
-    var light = new THREE.PointLight();
+    var light = new THREE.PointLight(0xffffff, 3.5);
+    light.position.x = 5;
     light.position.z = 5;
     light.position.y = 5;
     this.scene.add(light);
 
-    var light2 = new THREE.PointLight();
-    light2.position.x = 10;
-    light2.position.z = 10;
+    var light2 = new THREE.PointLight(0xffffff, 3.5);
+    light2.position.x = -5;
+    light2.position.y = 5;
+    light2.position.z = -5;
     this.scene.add(light2);
+
+    gui.addLight("Light 1", light);
+    gui.addLight("Light 2", light2);
   }
 
   loop = () => {

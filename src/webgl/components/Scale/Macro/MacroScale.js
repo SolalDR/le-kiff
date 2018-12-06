@@ -27,10 +27,9 @@ class MacroScale extends Scale {
 
     if( newScale === this.name ){
       this.zonings.forEach(zoning => {
-        console.log(zoning);
         AnimationManager.addAnimation(new Animation({
           from: 1.2, 
-          to: 1.01, 
+          to: 1.001, 
           duration: 500,
           delay: 2000 + Math.random() * 1000,
           timingFunction: "easeOutQuad"
@@ -84,7 +83,7 @@ class MacroScale extends Scale {
     let flux = new Flux(
       { lat: 4.757908, lon: -72.147105 },
       { lat: 48.862790, lon: 2.356302 },
-      2, 0.1 + 0.1 * Math.random()
+      2, 0.3 + 0.1 * Math.random()
     );
       
     this.group.add(flux.fluxObject);
@@ -113,6 +112,7 @@ class MacroScale extends Scale {
 
     if(this.earth && this.earth.clouds) {
       this.earth.clouds.material.uniforms.u_time.value += 0.0001;
+      this.earth.clouds.rotation.y += 0.0001;
       this.earth.clouds.material.needsUpdate = true;
     }
   }

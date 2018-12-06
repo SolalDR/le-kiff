@@ -1,5 +1,7 @@
 import Scale from "../Scale";
 import AssetsManager from "~/services/assetsManager/AssetsManager";
+import FitPlane from "./components/FitPlane";
+import gui from "~/services/gui";
 
 class HumanScale extends Scale {
  
@@ -18,6 +20,20 @@ class HumanScale extends Scale {
 
   initScene(e){
     this.group.add(e.step_1_human_leaf.result.scene);
+    var background = new FitPlane({
+      background: e.step_1_background.result, 
+      size: 450,
+      distance: 100
+    });
+
+    e.step_1_human_leaf.result.scene.scale.y = 1.5;
+    e.step_1_human_leaf.result.scene.rotation.z = -0.6;
+    e.step_1_human_leaf.result.scene.position.x = -7;
+    e.step_1_human_leaf.result.scene.position.y = -4;
+    gui.addObject3D("Leaf", e.step_1_human_leaf.result.scene, false);
+
+
+    this.group.add(background.object3D);
   }
 
   init(){

@@ -1,5 +1,5 @@
 import Scale from "../Scale";
-import AssetsManager from "../../../../services/assetsManager/AssetsManager";
+import AssetsManager from "~/services/assetsManager/AssetsManager";
 
 class HumanScale extends Scale {
  

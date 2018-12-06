@@ -9,12 +9,10 @@ class Info extends React.Component {
   }
 
   render(){
-    console.log('Class: Info, Function: render, Line 12 this.props.infos(): '
-    , this.props.infos);
     return (
       <>
         {this.props.infos.map(info => (
-          <div className="InfoPoint">
+          <div key={info.id} className="InfoPoint">
           <h3 className="InfoPoint__title">{info.title}</h3>
           <div className="InfoPoint__text">{info.content}</div>
           </div>

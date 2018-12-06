@@ -3,6 +3,7 @@ import Scale from "../Scale";
 import AssetsManager from "../../../../services/assetsManager/AssetsManager";
 import Earth from "./components/Earth";
 import Flux from "./components/Flux";
+import Zoning from "./components/Zoning";
 
 class MacroScale extends Scale {
   
@@ -39,23 +40,32 @@ class MacroScale extends Scale {
       radius: 2
     });
 
-    for( var i=0; i<5; i++ ){
-      let flux = new Flux(
-        { lat: 4.757908, lon: -72.147105 },
-        { lat: Math.random()*180 - 90, lon: Math.random()*360 - 180 },
-        2, Math.random()*0.4
-      );
-      this.group.add(flux.fluxObject);
-    }
+    let flux = new Flux(
+      { lat: 4.757908, lon: -72.147105 },
+      { lat: 48.862790, lon: 2.356302 },
+      2, 0.1 + 0.1 * Math.random()
+    );
 
-    for( var i=0; i<5; i++ ){
-      let flux = new Flux(
-        { lat: 48.862790, lon: 2.356302 },
-        { lat: Math.random()*180 - 90, lon: Math.random()*360 - 180 },
-        2, Math.random()*0.4
-      );
-      this.group.add(flux.fluxObject);
-    }
+    let flux2 = new Flux(
+      { lat: -23, lon: 131 },
+      { lat: 48.862790, lon: 2.356302 },
+      2, 0.1 + 0.1 * Math.random()
+    );
+      
+    this.group.add(flux.fluxObject);
+    this.group.add(flux2.fluxObject);
+
+    let bolivie = new Zoning("bolivie");
+    this.group.add(bolivie.object);
+
+    let argentine = new Zoning("argentine");
+    this.group.add(argentine.object);
+
+    let france = new Zoning("france");
+    this.group.add(france.object);
+
+    let guyane = new Zoning("guyane");
+    this.group.add(guyane.object);
 
     this.group.add(this.earth.group);
   }

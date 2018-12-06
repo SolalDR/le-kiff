@@ -8,14 +8,17 @@ export default class Animation extends Event {
     to = 0,
     speed = 0.01,
     duration = 1000,
-    timingFunction = "linear"
+    delay = 0,
+    timingFunction = "linear",
+    auto = true
   } = {}){
     super();
-    this.start = false;
+    this.started = false;
     this.ended = false;
     this.current = 0;
     this.from = from;
     this.to = to;
+    this.delay = delay;
     this.speed = speed;
     this.duration = duration;
     this.timingFunction = easing[timingFunction];
@@ -23,15 +26,26 @@ export default class Animation extends Event {
     if( arguments[0] && (arguments[0]).speed ){
       this.duration = (Math.abs(this.to - this.from) / speed) * 16;
     }
-    
+
+    if( auto ){
+      this.start();
+    }
+  }
+
+  start(){
+    if( this.delay > 0 ){
+      setTimeout(()=>{
+        this.started = true;
+        this.dispatch("start");
+      }, this.delay)
+      return; 
+    }
+    this.started = true;
+    this.dispatch("start");
   }
 
   render(delta){
-    if( this.ended ) return;
-    if( !this.isStart ){
-      this.isStart = true;
-      this.dispatch("start");
-    }
+    if( this.ended || !this.started ) return;
 
     this.current += delta;
     this.advancement = this.timingFunction(Math.min(1., this.current/this.duration));

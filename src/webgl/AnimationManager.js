@@ -5,7 +5,7 @@ class AnimationManager extends Event {
     
   constructor(){
     super();
-    this.animations = [];
+    this.animations = new Map();
   }
 
   /** 
@@ -54,10 +54,10 @@ class AnimationManager extends Event {
     }
     
     animation.once("end", ()=>{
-      this.removeAnimation(animation);
+      this.removeAnimation(animationData.id);
     });
 
-    this.animations.push( animationData )
+    this.animations.set(animationData.id, animationData );
     return animationData;
   }
 
@@ -65,14 +65,8 @@ class AnimationManager extends Event {
    * Remove an animation by is name or by id
    * @param {Animation} search 
    */
-  removeAnimation(animation){
-    var index = this.animations.find( (animationData) => {
-      if( animationData.animation === animation ){
-        return true;
-      }
-    })
-
-    if( index ) this.animations.splice(index, 1);
+  removeAnimation(id){
+    this.animations.delete( id );
   }
 
   /**

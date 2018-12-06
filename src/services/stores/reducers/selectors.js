@@ -16,5 +16,7 @@ export const getWholeChapter = createSelector(
 );
 
 export const getStepsLoaded = createSelector(
-  [getStepsForChapter], (steps) => steps.length > 0
+  [getStepsForChapter], (steps) => {
+    return steps.length > 0;
+  }
 )

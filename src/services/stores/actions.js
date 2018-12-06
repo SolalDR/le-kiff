@@ -1,4 +1,4 @@
-import { FETCH_CHAPTERS, FETCH_STEPS, SET_CURRENT_CHAPTER, SET_CURRENT_CHAPTER_DATA, SET_CURRENT_INFOS, SET_CURRENT_STEP, SET_STEPS, SET_SCALE, SET_LOADED_STEP } from './actionTypes';  
+import { FETCH_CHAPTERS, FETCH_STEPS, SET_CURRENT_CHAPTER, SET_CURRENT_CHAPTER_DATA, SET_CURRENT_INFOS, SET_CURRENT_STEP, SET_STEPS, SET_CURRENT_SCALE, SET_LOADED_STEP } from './actionTypes';  
 
 export const fetchChapters = (chapters, payload) => {
   return {
@@ -58,9 +58,9 @@ export const setSteps = (steps) => {
   }
 }
 
-export const setScale = (scale) => {
+export const setCurrentScale = (scale) => {
   return {
-    type: SET_SCALE,
+    type: SET_CURRENT_SCALE,
     scale
   }
 }

@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { setCurrentScale } from '../../services/stores/actions';
 import ScaleMenu from "./components/ScaleMenu/ScaleMenu";
 import ThreeScene from "./../../webgl/Scene";
+import { getCurrentScale } from '../../services/stores/reducers/selectors';
 
 class Scene extends React.Component {
 
@@ -8,8 +11,7 @@ class Scene extends React.Component {
     super(props);
 
     this.state = {
-      currentScale: "human",
-      previousScale: "human",
+      previousScale: this.props.currentScale
     };
 
     this.sceneElement = React.createRef();
@@ -27,9 +29,10 @@ class Scene extends React.Component {
   selectScale = (name) => {
     this.threeScene.selectScale(name); 
     this.setState({
-      previousScale: this.state.currentScale,
-      currentScale: name
-    })
+      previousScale: this.props.currentScale
+    });
+
+    this.props._setCurrentScale(name);
   }
 
   render(){
@@ -45,4 +48,21 @@ class Scene extends React.Component {
 }
 
 
-export default Scene;
+const mapStateToProps = (state) => {
+  return {
+    currentScale: getCurrentScale(state)
+  }
+}
+
+
+const mapDispatchToProps = dispatch => {
+  return { 
+    _setCurrentScale: scale => {
+      dispatch(setCurrentScale(scale));
+    }
+  }
+};
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Scene);

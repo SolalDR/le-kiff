@@ -1,4 +1,4 @@
-import { SET_CURRENT_CHAPTER_DATA, SET_CURRENT_INFOS, SET_CURRENT_STEP, SET_SCALE } from '../actionTypes';
+import { SET_CURRENT_CHAPTER_DATA, SET_CURRENT_INFOS, SET_CURRENT_STEP, SET_CURRENT_SCALE } from '../actionTypes';
 
 const initialState = {
   //Current chapter
@@ -12,7 +12,7 @@ const initialState = {
 
   //Current infos
   infos: [],
-  scale: {}
+  scale: 'human'
 };
 
 const ui = (state = initialState, action) => {
@@ -40,7 +40,7 @@ const ui = (state = initialState, action) => {
         infos: action.infos
       }
 
-    case SET_SCALE:
+    case SET_CURRENT_SCALE:
       return {
         ...state,
         scale: action.scale

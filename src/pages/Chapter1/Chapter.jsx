@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getWholeChapter, getStepsLoaded, getIsLoadedChapters } from "../../services/stores/reducers/selectors";
-import { setCurrentChapterData, setScale, setCurrentStep, setCurrentInfos } from "../../services/stores/actions";
+import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos } from "../../services/stores/actions";
 import Scene from "../../components/Scene/Scene";
 import Timeline from "./../../components/Timeline/Timeline";
 
@@ -40,7 +40,7 @@ class Chapter extends React.Component {
           step: nextChapter.steps[0],
           steps: nextChapter.steps,
           infos: nextChapter.steps[0].infos,
-          scale: "humain"
+          scale: "human"
         });
       }
     }
@@ -71,8 +71,8 @@ const mapDispatchToProps = dispatch => {
     _setCurrentChapterData: chapterData => {
       dispatch(setCurrentChapterData(chapterData));
     }, 
-    _setScale: scale => {
-      dispatch(setScale(scale));
+    _setCurrentScale: scale => {
+      dispatch(setCurrentScale(scale));
     }, 
     _setCurrentStep: step => {
       dispatch(setCurrentStep(step));

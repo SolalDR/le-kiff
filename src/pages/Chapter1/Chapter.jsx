@@ -6,6 +6,7 @@ import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos
 import Scene from "~/components/Scene/Scene";
 import Timeline from "~/components/Timeline/Timeline";
 import Loading from "~/components/Loading/Loading";
+import "./styles.sass";
 
 class Chapter extends React.Component {
     
@@ -50,8 +51,12 @@ class Chapter extends React.Component {
       if (this.state.isReady) {
         return (
             <div className="chapter chapter-1">
-                <Timeline />
-                <Scene />
+              <div className="chapter__text">
+                <h1 className="chapter__title heading-3">2. La naissance - Vendredi 7 Décembre 2018 </h1>
+                <h2 className="chapter__step__text teasing-2">{this.props.steps[0].content}</h2>
+              </div>
+              <Timeline />
+              <Scene />
             </div>
         );
       }
@@ -61,7 +66,7 @@ class Chapter extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    step: getStepsForChapter(state, 1),
+    steps: getStepsForChapter(state, 1),
     chapter: getWholeChapter(state, 1),
     isStepsLoaded: getStepsLoaded(state, 1),
     isChapterLoaded: getIsLoadedChapters(state) ,

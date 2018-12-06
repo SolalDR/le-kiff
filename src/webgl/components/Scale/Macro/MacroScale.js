@@ -29,20 +29,16 @@ class MacroScale extends Scale {
       this.zonings.forEach(zoning => {
         console.log(zoning);
         AnimationManager.addAnimation(new Animation({
-          from: 3, 
+          from: 1.2, 
           to: 1.01, 
           duration: 500,
           delay: 2000 + Math.random() * 1000,
           timingFunction: "easeOutQuad"
-        }).on("start",  ()=>{
-          console.log(AnimationManager.animations.length);
         }).on("progress", (event)=>{
           zoning.object.scale.x = event.value;
           zoning.object.scale.y = event.value;
           zoning.object.scale.z = event.value;
           zoning.object.material.opacity = event.advancement/2;
-        }).on("end", ()=>{
-          console.log(AnimationManager.animations.length);
         }))
       })
     } else {
@@ -62,9 +58,7 @@ class MacroScale extends Scale {
         }))
       })
 
-
     }
-
   }
 
   /**
@@ -92,18 +86,11 @@ class MacroScale extends Scale {
       { lat: 48.862790, lon: 2.356302 },
       2, 0.1 + 0.1 * Math.random()
     );
-
-    let flux2 = new Flux(
-      { lat: -23, lon: 131 },
-      { lat: 48.862790, lon: 2.356302 },
-      2, 0.1 + 0.1 * Math.random()
-    );
       
     this.group.add(flux.fluxObject);
-    this.group.add(flux2.fluxObject);
 
     this.zonings = [];
-    ["bolivie", "argentine", "guyane", "france", "perou"].forEach(country => {
+    ["bolivie", "guyane", "france", "perou"].forEach(country => {
       var zoning = new Zoning(country); 
       this.group.add(zoning.object);
       this.zonings.push(zoning);

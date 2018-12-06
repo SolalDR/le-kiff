@@ -8,13 +8,12 @@ import gui from "~/services/gui.js";
  */
 class Flux {
 
-  static Material1 = new THREE.MeshStandardMaterial( {
-    color: new THREE.Color(`rgb(${Math.floor(Math.random()*255)}, 0, 0})`),
+  static Material1 = new THREE.MeshBasicMaterial( {
+    color: 0xFFFFFF,
     metalness: 0.2,
     roughness: 0,
-    transparent: true,
-    opacity: 0.5
-  }); 
+    opacity: 1
+  });
 
   /**
    * @constructor

@@ -39,20 +39,20 @@ class MacroScale extends Scale {
       radius: 2
     });
 
-    for( var i=0; i<100; i++ ){
+    for( var i=0; i<5; i++ ){
       let flux = new Flux(
         { lat: 4.757908, lon: -72.147105 },
         { lat: Math.random()*180 - 90, lon: Math.random()*360 - 180 },
-        2, Math.random()
+        2, Math.random()*0.4
       );
       this.group.add(flux.fluxObject);
     }
 
-    for( var i=0; i<100; i++ ){
+    for( var i=0; i<5; i++ ){
       let flux = new Flux(
         { lat: 48.862790, lon: 2.356302 },
         { lat: Math.random()*180 - 90, lon: Math.random()*360 - 180 },
-        2, Math.random()
+        2, Math.random()*0.4
       );
       this.group.add(flux.fluxObject);
     }

@@ -27,7 +27,7 @@ class Timeline extends React.Component {
 
       return (
         <div className="timeline">
-          <h2 className="timeline__chapter heading-4">1. La naissance</h2>
+          {/* <h2 className="timeline__chapter heading-4">1. La naissance</h2> */}
           <div className="timeline__inner">
             {results}
           </div>

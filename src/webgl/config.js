@@ -14,7 +14,7 @@ const config = {
   },
 
   human: {
-    background: new Color(0xf2f3ee),
+    background: new Color(0x737373),
     camera: {
       position: new Vector3(0, 0, 5),
       lookAt: new Vector3()

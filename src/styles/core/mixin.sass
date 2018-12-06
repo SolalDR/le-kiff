@@ -1,0 +1,17 @@
+
+//  POSITION CENTER
+//  div {
+//      @include centerer('vertical');
+//  }
+@mixin centerer($position: '')
+  position: absolute
+  top: 50%
+  @if $position=='vertical'
+    transform: translate(0, -50%)
+  @elseif $position=='horizontal'
+         top: inherit
+         left: 50%
+         transform: translate(-50%, 0)
+  @else
+  left: 50%
+  transform: translate(-50%, -50%)

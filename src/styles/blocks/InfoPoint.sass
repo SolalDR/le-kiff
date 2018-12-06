@@ -1,2 +1,52 @@
 .InfoPoint
+  $self: &
+  position: fixed
+  top: 200px
+  left: 200px
+  color: #ffffff
+  &__title
+    font-family: 'Montserrat', sans-serif
+    font-size: 20px
+    font-weight: 900
+    text-transform: uppercase
+    margin-bottom: 30px
+  &__content
+    visibility: hidden
+    opacity: 0
+    position: absolute
+    left: 70px
+    top: -120px
+    font-size: 16px
+    width: 260px
+  &__pointer
+    position: absolute
+    top: -20px
+    left: -20px
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 40px
+    height: 40px
+    border: 1px solid currentColor
+    border-radius: 100%
+    &:before,
+    &:after
+      content: ""
+      position: absolute
+      width: 20px
+      height: 1px
+      background: currentColor
+      transform-origin: center
+    &:before
+      transform: rotate(90deg)
 
+  &--open
+    #{$self}__content
+      visibility: visible
+      opacity: 1
+    #{$self}__pointer
+      background: currentColor
+      transform: rotate(45deg)
+      &:before,
+      &:after
+        background: #CCCCCC

@@ -59,7 +59,7 @@ const getIds = (array) => {
 }
 
 const getLastId = (array) => {
-  let max = 0;
+  let max = 1;
 
   array.forEach(item => {
     if (max < item.id) {

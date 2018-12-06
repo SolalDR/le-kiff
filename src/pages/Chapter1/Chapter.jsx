@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getWholeChapter, getStepsLoaded, getIsLoadedChapters } from "~/services/stores/reducers/selectors";
+import { getStepsForChapter, getWholeChapter, getStepsLoaded, getIsLoadedChapters } from "~/services/stores/reducers/selectors";
 import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos } from "~/services/stores/actions";
 import Scene from "~/components/Scene/Scene";
 import Timeline from "~/components/Timeline/Timeline";
@@ -61,6 +61,7 @@ class Chapter extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    step: getStepsForChapter(state, 1),
     chapter: getWholeChapter(state, 1),
     isStepsLoaded: getStepsLoaded(state, 1),
     isChapterLoaded: getIsLoadedChapters(state) ,

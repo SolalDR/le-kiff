@@ -14,7 +14,7 @@ class Flux {
    * @param {float} radius 
    * @param {float} amplitude 
    */
-  constructor(from, to, radius, amplitude, precision = 50){
+  constructor(from, to, radius, amplitude, precision = 100){
     this.from = from.constructor.name === "GeoCoord" ? from : new GeoCoord(from.lat, from.lon); 
     this.to = to.constructor.name === "GeoCoord" ? from : new GeoCoord(to.lat, to.lon); 
     this.radius = radius;
@@ -35,8 +35,10 @@ class Flux {
       var altitude = this.amplitude*easing["easeOutQuad"]((a < 0.5 ? a*2 : (0.5 - (a % 0.5))*2));
 
       var direction = cartFrom.clone().add(
-        diff.clone().multiplyScalar(i/precision)
+        diff.clone().multiplyScalar(a)
       ).normalize();
+
+      
       
       var vertex = direction.clone().multiplyScalar(this.radius + altitude); 
       segments.push(vertex);
@@ -44,15 +46,14 @@ class Flux {
     
     this.curve = new THREE.SplineCurve3( segments );
 
-    var geometry = new THREE.TubeGeometry( this.curve, 25, 0.01, 2, false );
+    var geometry = new THREE.TubeGeometry( this.curve, 25, 0.02, 8, false );
     this.fluxObject = new THREE.Mesh(geometry, 
       new THREE.MeshStandardMaterial( {
-        color: 0xffffff,
-        // linewidth: 10,
-        // linecap: 'round',
-        // linejoin:  'round',
+        color: new THREE.Color(`rgb(${Math.floor(Math.random()*255)}, 0, 0})`),
+        metalness: 0.2,
+        roughness: 0,
         transparent: true,
-        opacity: 0.9
+        opacity: 0.5
       })
     );
   }

@@ -36,7 +36,7 @@ class App extends Component {
             <AppManagerHydrator onRouteChange={this.handleRouteChange} />
             <Header />
             <div className="app__content">
-              <Route exact path="/intro" component={Intro} />
+              <Route exact path="/" component={Intro} />
               <Route exact path="/chapter-1" component={Chapter1} />
               <Route exact path="/outro" component={Outro} />
               <Route exact path="/store-test" component={StoreTest} />

@@ -29,13 +29,19 @@ class ScaleMenu extends React.Component {
       <div className="scale-menu">
         <button 
           className={this.computeClassName("micro")}
-          onClick={this.handleClick.bind(this, "micro")} >Molécules</button>
+          onClick={this.handleClick.bind(this, "micro")}>
+          <span className="scale-menu__text">Molécules</span>
+        </button>
         <button 
           className={this.computeClassName("human")}
-          onClick={this.handleClick.bind(this, "human")} >Humain</button>
+          onClick={this.handleClick.bind(this, "human")} >
+          <span className="scale-menu__text">Humain</span>
+        </button>
         <button 
           className={this.computeClassName("macro")}
-          onClick={this.handleClick.bind(this, "macro")} >Mondiale</button>
+          onClick={this.handleClick.bind(this, "macro")} >
+          <span className="scale-menu__text">Mondiale</span>
+        </button>
       </div>
     )
   }

@@ -13,7 +13,7 @@
     text-align: left
     text-align: left
     padding: 10px 0 10px $space-m
-    font-size: 1em
+    font-size: 0.75em
     text-transform: uppercase
     position: relative
     color: white
@@ -53,5 +53,14 @@
       &::before
         background-color: white
 
+      .scale-menu__text
+        opacity: 1
+
+  &__text
+    transition:
+      property: opacity
+      duration: $t-duration
+      timing-funciton: ease-out
+    opacity: 0
 
       

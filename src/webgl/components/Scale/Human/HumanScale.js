@@ -28,10 +28,10 @@ class HumanScale extends Scale {
       distance: 100
     });
 
-    this.main.scale.y = 1.5;
-    this.main.rotation.z = -0.6;
-    this.main.position.x = -7;
-    this.main.position.y = -4;
+    this.main.scale.y = 1;
+    this.main.position.x = -1;
+    this.main.position.y = -4.5;
+    this.main.rotation.z = 0.2;
     gui.addObject3D("Leaf",  this.main, false);
 
 

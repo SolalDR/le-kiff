@@ -16,7 +16,7 @@ class Scene {
     this.element = element;
     this.scene = new THREE.Scene();
     this.clock = new Clock();
-    this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+    this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth/window.innerHeight, 0.1, 1000 );
     this.renderer = new THREE.WebGLRenderer({ antialias: true, gammaOutput: true });
     this.controls = new OrbitControls(this.camera);
     this.microScale = new MicroScale({ scene: this.scene, visibility: 0, renderer: this.renderer  });
@@ -41,7 +41,7 @@ class Scene {
     };
 
     this.scene.background = new THREE.Color(0x111111);
-    this.camera.position.z = 5;
+    this.camera.position.z = 8;
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     
     this.initEvents();

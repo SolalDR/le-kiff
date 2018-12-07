@@ -7,6 +7,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     margin: 0;
     padding: 0;
     border: 0;
+    font-family: $font-primary;
     font-size: 100%;
     font: inherit;
     vertical-align: baseline; }
@@ -42,4 +43,5 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   button {
     border: none;
     background-color: transparent;
+    font-family: $font-primary;
   }

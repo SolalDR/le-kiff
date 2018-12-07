@@ -1,17 +1,66 @@
 @import "./../../../../styles/core.scss"
 
 .scale-menu
-    position: fixed
-    bottom: $space-m
-    left: $space-m
-    display: flex
-    flex-direction: column
-    z-index: 1
+  position: fixed
+  top: 50%
+  left: $space-m
+  display: flex
+  flex-direction: column
+  z-index: 1
+  transform: translateY(-50%)
 
-    &__link
-        text-align: left
+  &__link
+    text-align: left
+    text-align: left
+    padding: 10px 0 10px $space-m
+    font-size: 0.75em
+    text-transform: uppercase
+    position: relative
+    color: white
 
-        &--active
-            font-weight: bold
-        
-        
+    &::before
+      content: ""
+      display: block
+      position: absolute
+      top: 50%
+      left: 0
+      border: 1px solid white
+      transform: translateY(-50%)
+      border-radius: 100%
+      background-color: transparent
+      transition:
+        property: background
+        duration: .4s
+        timing-function: ease-out
+
+    &:nth-child(1)::before
+      left: 5px
+      width: 10px
+      height: 10px 
+    
+    &:nth-child(2)::before
+      left: 2.5px
+      width: 15px
+      height: 15px 
+
+    &:nth-child(3)::before
+      width: 20px
+      height: 20px 
+
+
+    &--active
+      font-weight: bold
+      &::before
+        background-color: white
+
+      .scale-menu__text
+        opacity: 1
+
+  &__text
+    transition:
+      property: opacity
+      duration: $t-duration
+      timing-function: ease-out
+    opacity: 0
+
+      

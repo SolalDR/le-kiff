@@ -5,19 +5,37 @@
   bottom: $space-s*3
   left: 50%
   transform: translateX(-50%)
-  width: 60vw
-  min-width: 500px
-  max-width: 1100px
-  border-bottom: 1px solid #CCC
   display: flex
+  align-items: center
+  justify-content: center
 
-  &::after
-    content: ""
-    display: block
-    position: absolute
-    background-color: #000
-    width: --width
-    height: 100%
+  &__inner
+    position: relative
+    width: 60vw
+    min-width: 500px
+    max-width: 1100px
+    margin-left: $space-m
+    margin-right: $space-m
+    display: flex
+
+    &:before
+      content: ''
+      position: absolute
+      width: 100%
+      border-bottom: 1px dashed $color-secondary
+      opacity: .5
+
+    &::after
+      content: ""
+      display: block
+      position: absolute
+      background-color: #000
+      width: --width
+      height: 100%
+
+  &__chapter
+    color: $color-secondary
+    white-space: nowrap
 
   &__item
     flex: 1
@@ -26,20 +44,21 @@
 
     &--active .timeline
       &__button 
-        background-color: black
-        transform: translateY(-50%) translateX(-50%) scale(1.5)
+        background: $color-secondary
+        transform: translateY(-50%) translateX(-50%) scale(1.4)
     
 
   &__button
-    height: 15px
-    width: 15px
-    background-color: #CCC
     display: block
-    border-radius: 10px
+    padding: 0
+    height: 8px
+    width: 8px
+    border-radius: 20px
     top: 0
     left: 50%
     position: absolute
     z-index: 2
+    border: 1px solid $color-secondary
     cursor: pointer
     transform: translateY(-50%) translateX(-50%) scale(1)
     transition: 

@@ -1,11 +1,11 @@
 import BufferGeometryUtils from "../../../../helpers/BufferGeometryUtilsOld";
-import Event from  "../../../../../helpers/Event";
+import Event from  "~/helpers/Event";
 import * as THREE from "three";
 import * as exportInstancedMesh from "three-instanced-mesh";
 import HDRCubeTextureLoader from "../../../../../services/assetsManager/loaders/HDRCubeTextureLoader";
 import PMREMCubeUVPacker from "../../../../helpers/PMREMCubeUVPacker";
 import PMREMGenerator from "../../../../helpers/PMREMGenerator";
-import gui from "../../../../../services/gui";
+import gui from "~/services/gui";
 
 var InstancedMesh = exportInstancedMesh(THREE);
 
@@ -24,10 +24,12 @@ class Molecule extends Event {
     atomGeometry = new THREE.SphereBufferGeometry(0.2, 20, 20),
     envMap = null,
     renderer = null, 
-    pdb = null
+    pdb = null,
+    material = null
   } = {}){
     super();
     this.renderer = renderer;
+    this.material = material;
     this.id = Math.floor(Math.random()*10000);
     this.loader = new THREE.TextureLoader();
     this.name = name;
@@ -40,19 +42,10 @@ class Molecule extends Event {
   }
 
   generateAtomModel(){
-    var hdrCubeRenderTarget = null;
-
-    var material = new THREE.MeshStandardMaterial({
-      envMap: null,
-      metalness: 1,
-      roughness: 0.5,
-      envMapIntensity: 1,
-      emissive: new THREE.Color("rgb(44, 44, 44)")
-    });
 
     this.atomMesh = new InstancedMesh( 
       this.atomGeometry,
-      material,
+      this.material,
       this.atoms.length,  //instance count
       false,              //is it dynamic
       false,              //does it have color
@@ -71,10 +64,8 @@ class Molecule extends Event {
     //     var pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
     //     pmremCubeUVPacker.update( this.renderer );
     //     hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
-
-    //     console.log(hdrCubeRenderTarget.texture)
-    //     this.atomMesh.material.envMap = hdrCubeRenderTarget.texture;
-    //     this.atomMesh.material.needsUpdate = true; 
+    //     this.material.envMap = hdrCubeRenderTarget.texture;
+    //     this.material.needsUpdate = true; 
     //     hdrCubeMap.dispose();
     //     pmremGenerator.dispose();
     //     pmremCubeUVPacker.dispose();
@@ -103,14 +94,6 @@ class Molecule extends Event {
   }
 
   generateBondModel(){
-    var material = new THREE.MeshStandardMaterial({
-      envMap: this.env,
-      metalness: 1,
-      roughness: 0.5,
-      envMapIntensity: 1,
-      color: 0xFFFFFF
-    });
-
     var from = new THREE.Vector3();
     var to = new THREE.Vector3();
     var geometries = [];
@@ -130,7 +113,7 @@ class Molecule extends Event {
     }
     
     var geometry = BufferGeometryUtils.merge(geometries);
-    var mesh = new THREE.Mesh(geometry, material);
+    var mesh = new THREE.Mesh(geometry, this.material);
 
     return mesh;
   }

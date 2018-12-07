@@ -1,10 +1,14 @@
 {
   "name": "chapter-1",
-  "base": "/chapter-1/",
+  "base": "",
   "files": [
     {
       "name": "step_1_human_leaf",
-      "path": "step_1_human_leaf.glb"
+      "path": "/chapter-1/step_1_human_leaf.glb"
+    },
+    {
+      "name": "step_1_background",
+      "path": "/images/intro_background.png"
     }
   ]
 }

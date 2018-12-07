@@ -36,6 +36,8 @@ class HumanScale extends Scale {
 
 
     this.group.add(background.object3D);
+
+    this.dispatch('initScene', this);
   }
 
   init(){

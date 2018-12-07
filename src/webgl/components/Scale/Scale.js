@@ -1,6 +1,7 @@
 import * as THREE from "three";
+import Event from "../../../helpers/Event";
 
-class Scale {
+class Scale extends Event {
 
   /**
    * 
@@ -14,6 +15,7 @@ class Scale {
     scene = null,
     name = ""
   }){
+    super();
     this.scene = scene; 
     this.group = new THREE.Group();
     this.group.name = name;

@@ -6,6 +6,7 @@ import * as THREE from "three";
 import OrbitControls from 'orbit-controls-es6';
 import Clock from "./helpers/Clock";
 import gui from "~/services/gui";
+import Point from "./components/Point/Point";
 
 class Scene {
 
@@ -21,6 +22,7 @@ class Scene {
     this.microScale = new MicroScale({ scene: this.scene, visibility: 0, renderer: this.renderer  });
     this.macroScale = new MacroScale({ scene: this.scene, visibility: 0 });
     this.humanScale = new HumanScale({ scene: this.scene, visibility: 1 });
+    this.points = []; // TODO: add to pointsManager
     this.state = {};
 
     this.init();
@@ -69,6 +71,12 @@ class Scene {
     }
   }
 
+  getNewPoint() {
+     const newPoint = new Point({ threeScene: this });
+    this.points.push(newPoint);
+    return newPoint;
+  }
+
   render(){
     var light = new THREE.PointLight(0xffffff, 3.5);
     light.position.x = 5;
@@ -92,7 +100,13 @@ class Scene {
     this.microScale.loop();
     this.macroScale.loop();
     this.humanScale.loop();
-    
+
+    if(this.points.length > 0) {
+      for (let i = 0; i < this.points.length; i++) {
+        this.points[i].loop();
+      }
+    }
+
     AnimationManager.renderAnimations(this.clock.delta);
 
     this.renderer.render( this.scene, this.camera );

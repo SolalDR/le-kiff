@@ -1,12 +1,14 @@
 import MicroScale from "./components/Scale/Micro/MicroScale";
 import HumanScale from "./components/Scale/Human/HumanScale";
 import MacroScale from "./components/Scale/Macro/MacroScale";
+import Animation from "~/helpers/Animation";
 import AnimationManager from "./AnimationManager";
 import * as THREE from "three";
 import OrbitControls from 'orbit-controls-es6';
 import Clock from "./helpers/Clock";
 import gui from "~/services/gui";
 import Point from "./components/Point/Point";
+import PostProcess from "./postprocess/Postprocessing";
 
 class Scene {
 
@@ -17,7 +19,17 @@ class Scene {
     this.scene = new THREE.Scene();
     this.clock = new Clock();
     this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth/window.innerHeight, 0.1, 1000 );
+    
     this.renderer = new THREE.WebGLRenderer({ antialias: true, gammaOutput: true });
+    
+    this.effect = new PostProcess({
+      scene: this.scene, 
+      camera: this.camera, 
+      renderer: this.renderer
+    });
+    
+    this.composer = this.effect.composer;
+
     this.controls = new OrbitControls(this.camera);
     this.microScale = new MicroScale({ scene: this.scene, visibility: 0, renderer: this.renderer  });
     this.macroScale = new MacroScale({ scene: this.scene, visibility: 0 });
@@ -63,6 +75,16 @@ class Scene {
    */
    selectScale = (name) => {
     if( name !== this.state.currentScale ){
+
+      AnimationManager.addAnimation(new Animation({ duration: 1000 }).on("progress", (e)=>{
+        this.effect.intensity(e.advancement * 5);
+      }, "scale").on("end", () => {
+        AnimationManager.addAnimation(new Animation( {duration: 1000 }).on("progress", (e)=>{
+          this.effect.intensity(5 - e.advancement * 9.5);
+          console.log(this.effect.bloomPass.strength);
+        }) )
+      }) )
+
       this[this.state.currentScale + "Scale"].updateScale(name, this.state.currentScale);
       this[name + "Scale"].updateScale(name, this.state.currentScale);
 
@@ -109,7 +131,7 @@ class Scene {
 
     AnimationManager.renderAnimations(this.clock.delta);
 
-    this.renderer.render( this.scene, this.camera );
+    this.composer.render( );
     requestAnimationFrame(this.loop);
   }
 

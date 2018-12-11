@@ -39,7 +39,6 @@ class AppManager {
     this.api.get(`chapters/${id}/steps`).then(response => {
       const isLoaded = response.status === 200;
       store.dispatch(fetchSteps(response.data, id));
-      
       if (isLoaded) store.dispatch(setLoadedStep(id));
     })
   }

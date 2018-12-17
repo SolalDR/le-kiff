@@ -41,6 +41,10 @@
       "base": "/images/earth/",
       "files": [
         {
+          "name": "sky", 
+          "path": "earth_starmap_8k_opti.jpg"
+        },
+        {
           "name": "specular",
           "path": "earth_specular.jpg"
         },
@@ -50,7 +54,11 @@
         },
         {
           "name": "diffuse",
-          "path": "earth_diffuse.jpg"
+          "path": "earth_diffuse_color.jpg"
+        },
+        {
+          "name": "diffuse_night", 
+          "path": "earth_nightmap.jpg"
         },
         {
           "name": "cloud",

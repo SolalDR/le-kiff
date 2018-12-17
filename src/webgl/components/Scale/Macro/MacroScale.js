@@ -86,16 +86,27 @@ class MacroScale extends Scale {
       2, 0.3 + 0.1 * Math.random()
     );
       
-    this.group.add(flux.fluxObject);
+    this.earth.group.add(flux.fluxObject);
 
     this.zonings = [];
     ["bolivie", "guyane", "france", "perou"].forEach(country => {
       var zoning = new Zoning(country); 
-      this.group.add(zoning.object);
+      this.earth.group.add(zoning.object);
       this.zonings.push(zoning);
     });
 
     this.group.add(this.earth.group);
+
+    var sky = new THREE.Mesh(
+      new THREE.SphereBufferGeometry(100, 8, 8),
+      new THREE.MeshBasicMaterial({
+        map: assets.sky.result, 
+        side: THREE.BackSide
+      })
+    );
+    
+    sky.name = "sky";
+    this.group.add(sky);
   }
   
   /**
@@ -110,10 +121,10 @@ class MacroScale extends Scale {
       this.group.scale.z = 1 + (2 - this.state.currentVisibility*2);  
     }
 
+    this.earth.group.rotation.y += 0.0005;
+
     if(this.earth && this.earth.clouds) {
-      this.earth.clouds.material.uniforms.u_time.value += 0.0001;
-      this.earth.clouds.rotation.y += 0.0001;
-      this.earth.clouds.material.needsUpdate = true;
+      this.earth.clouds.rotation.y += 0.001;
     }
   }
 }

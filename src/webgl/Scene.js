@@ -106,14 +106,14 @@ class Scene {
     light.position.y = 5;
     this.scene.add(light);
 
-    var light2 = new THREE.PointLight(0xffffff, 3.5);
-    light2.position.x = -5;
-    light2.position.y = 5;
-    light2.position.z = -5;
-    this.scene.add(light2);
+    // var light2 = new THREE.PointLight(0xffffff, 3.5);
+    // light2.position.x = -5;
+    // light2.position.y = 5;
+    // light2.position.z = -5;
+    // this.scene.add(light2);
 
     gui.addLight("Light 1", light);
-    gui.addLight("Light 2", light2);
+    // gui.addLight("Light 2", light2);
   }
 
   loop = () => {

@@ -9,7 +9,7 @@ import chapter1Datas from "./../datas/chapter-1.json";
 
 class AppManager {
   constructor(){
-    this.api = new Api({ url:'http://le-kiff.bastiencornier.com/wp-json/v1' });
+    this.api = new Api({ url:'https://le-kiff.bastiencornier.com/wp-json/v1' });
 
     this.initApi();
     this.initAssets();

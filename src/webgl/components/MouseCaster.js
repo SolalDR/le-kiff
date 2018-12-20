@@ -1,17 +1,16 @@
-import "~/helpers/Event";
+import Event from "~/helpers/Event";
 import * as THREE from "three";
 
 class MouseCaster extends Event {
   constructor({
     root = null,
-    camera = null,
-    raycaster = null
+    camera = null
   } = {}){
     super();
 
     this.root = root; 
     this.camera = camera; 
-    this.raycaster = raycaster;
+    this.raycaster = new THREE.Raycaster();
     
     this.state = {
       position: new THREE.Vector2(),
@@ -24,10 +23,18 @@ class MouseCaster extends Event {
     this.initEvents();
   }
 
+  /**
+   * Get normalized coords
+   * @returns {THREE.Vector2}
+   */
+  get coords(){
+    return this.state.position;
+  }
+
   initEvents(){
-    window.addEventListener("mousemove", this.onMouseMove());
-    window.addEventListener("mousedown", this.onMouseDown());
-    window.addEventListener("mouseup", this.onMouseUp());
+    window.addEventListener("mousemove", this.onMouseMove.bind(this));
+    window.addEventListener("mousedown", this.onMouseDown.bind(this));
+    window.addEventListener("mouseup", this.onMouseUp.bind(this));
   }
 
   intersect(){
@@ -43,15 +50,16 @@ class MouseCaster extends Event {
    * @param {{clientX: number}, {clientY: number}} event 
    */
   onMouseMove(event){
-    this.position.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    this.position.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    this.state.position.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    this.state.position.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     if( this.mouseDown ) this.mouseDrag = true;
-    this.needIntersect = true; 
+    this.dispatch("move", this.state.position);
+    this.needIntersect = true;
   }
 
   onMouseDown(event){
     this.mouseDown = true;
-    this.needIntersect = true; 
+    this.needIntersect = true;
   }
 
   onMouseUp(event){

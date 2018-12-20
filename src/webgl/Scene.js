@@ -4,11 +4,12 @@ import MacroScale from "./components/Scale/Macro/MacroScale";
 import Animation from "~/helpers/Animation";
 import AnimationManager from "./AnimationManager";
 import * as THREE from "three";
-import OrbitControls from 'orbit-controls-es6';
+import ControllerManager from './camera/ControllerManager';
 import Clock from "./helpers/Clock";
 import gui from "~/services/gui";
 import Point from "./components/Point/Point";
 import PostProcess from "./postprocess/Postprocessing";
+import MouseCaster from "./components/MouseCaster";
 
 class Scene {
 
@@ -19,7 +20,8 @@ class Scene {
     this.scene = new THREE.Scene();
     this.clock = new Clock();
     this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth/window.innerHeight, 0.1, 1000 );
-    
+    this.camera.position.copy(new THREE.Vector3(0, 0, 8));
+
     this.renderer = new THREE.WebGLRenderer({ antialias: true, gammaOutput: true });
     
     this.effect = new PostProcess({
@@ -29,8 +31,14 @@ class Scene {
     });
     
     this.composer = this.effect.composer;
-
-    this.controls = new OrbitControls(this.camera);
+    this.mouseCaster = new MouseCaster({
+      root: this.scene
+    });
+    this.controls = new ControllerManager({
+      camera: this.camera, 
+      controller: "radial",
+      mouseCaster: this.mouseCaster
+    });
     this.microScale = new MicroScale({ scene: this.scene, visibility: 0, renderer: this.renderer  });
     this.macroScale = new MacroScale({ scene: this.scene, visibility: 0 });
     this.humanScale = new HumanScale({ scene: this.scene, visibility: 1 });
@@ -53,7 +61,6 @@ class Scene {
     };
 
     this.scene.background = new THREE.Color(0x111111);
-    this.camera.position.z = 8;
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     
     this.initEvents();
@@ -81,7 +88,6 @@ class Scene {
       }, "scale").on("end", () => {
         AnimationManager.addAnimation(new Animation( {duration: 1000 }).on("progress", (e)=>{
           this.effect.intensity(5 - e.advancement * 9.5);
-          console.log(this.effect.bloomPass.strength);
         }) )
       }) )
 
@@ -121,6 +127,9 @@ class Scene {
         this.points[i].loop();
       }
     }
+
+    this.mouseCaster.render();
+    this.controls.update();
 
     AnimationManager.renderAnimations(this.clock.delta);
 

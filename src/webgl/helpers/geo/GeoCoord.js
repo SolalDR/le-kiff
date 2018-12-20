@@ -1,28 +1,14 @@
 import * as THREE from "three";
+import SphericalCoord from "./SphericalCoord";
 
-class GeoCoord {
+class GeoCoord extends SphericalCoord {
   
   constructor(lat, lon){
+    super(THREE.Math.degToRad(lat), THREE.Math.degToRad(-lon), new THREE.Vector3());
     this.lat = lat;
     this.lon = -lon;
-    this.radLat = THREE.Math.degToRad(this.lat);
-    this.radLon = THREE.Math.degToRad(this.lon);
-  }
-  
-  /**
-   * Convert the geocoords in a cartesian repear
-   * @param {float} radius 
-   */
-  getCartesianCoord(radius){
-    return new THREE.Vector3(
-      radius * Math.cos(this.radLat) * Math.cos(this.radLon),
-      radius * Math.sin(this.radLat),
-			radius * Math.cos(this.radLat) * Math.sin(this.radLon)
-    );
   }
 
 }
-
-window.GeoCoord = GeoCoord;
 
 export default GeoCoord;

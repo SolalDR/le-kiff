@@ -114,6 +114,7 @@ class MacroScale extends Scale {
    * Raf
    */
   loop(){
+    if( !this.earth ) return;
     super.loop();
     if( this.state.currentVisibility !== this.state.targetVisibility ){
       this.group.scale.x = 1 + (2 - this.state.currentVisibility*2);

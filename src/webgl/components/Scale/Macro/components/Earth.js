@@ -1,7 +1,6 @@
 import * as THREE from "three";
-import cloudVert from "~/webgl/glsl/cloud.vert"
-import cloudFrag from "~/webgl/glsl/cloud.frag"
 import gui from "~/services/gui";
+import { macroConfig } from "~/webgl/config";
 
 class Earth {
 
@@ -62,12 +61,12 @@ class Earth {
     }
 
     this.globe = new THREE.Mesh(
-      new THREE.SphereGeometry(2, 32, 32),
+      new THREE.SphereGeometry(macroConfig.earth.globeRadius, 32, 32),
       globeMaterial
     );
 
     this.clouds = new THREE.Mesh(
-      new THREE.SphereGeometry(2.02, 32, 32),
+      new THREE.SphereGeometry(macroConfig.earth.cloudRadius, 32, 32),
       new THREE.MeshPhongMaterial({
         map: assets.cloud.result,
         alphaMap: assets.cloud.result,

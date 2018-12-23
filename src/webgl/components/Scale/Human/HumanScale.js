@@ -2,6 +2,10 @@ import Scale from "../Scale";
 import AssetsManager from "~/services/assetsManager/AssetsManager";
 import FitPlane from "./components/FitPlane";
 import gui from "~/services/gui";
+import AnimationManager from "./../../../AnimationManager";
+import Animation from "~/helpers/Animation";
+import { humanConfig } from "~/webgl/config";
+import * as THREE from "three";
 
 class HumanScale extends Scale {
  
@@ -40,6 +44,15 @@ class HumanScale extends Scale {
     this.dispatch('initScene', this);
   }
 
+  display(){
+    super.display( humanConfig );
+  }
+
+  hide(){
+    super.hide( humanConfig );
+  }
+
+
   init(){
     super.init();
     if( AssetsManager.loader.isLoaded("chapter-1") ) {
@@ -54,21 +67,6 @@ class HumanScale extends Scale {
    */
   loop(){
     super.loop();
-    if( (this.state.currentScale === "human" && this.state.previousScale === "micro") ||
-      this.state.currentScale === "micro"  ){
-      this.group.scale.x = 1 + (2 - this.state.currentVisibility*2);
-      this.group.scale.y = 1 + (2 - this.state.currentVisibility*2);
-      this.group.scale.z = 1 + (2 - this.state.currentVisibility*2);
-      return;
-    }
-    
-    if( this.state.currentScale === "human" || 
-      this.state.currentScale === "macro" ){
-      this.group.scale.x = this.state.currentVisibility;
-      this.group.scale.y = this.state.currentVisibility;
-      this.group.scale.z = this.state.currentVisibility;
-      return;
-    }
   }
 }
 

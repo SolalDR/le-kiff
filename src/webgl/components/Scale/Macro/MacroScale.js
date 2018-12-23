@@ -6,12 +6,13 @@ import Flux from "./components/Flux";
 import Zoning from "./components/Zoning";
 import AnimationManager from "./../../../AnimationManager";
 import Animation from "~/helpers/Animation";
+import { macroConfig } from "~/webgl/config";
 
 class MacroScale extends Scale {
   
   /**
    * @constructor
-   * @param {THREE.Scene} args.scene
+   * @param {Scene} args.scene
    */
   constructor(args){
     super({...args, name: "macro"});
@@ -21,6 +22,15 @@ class MacroScale extends Scale {
 
     this.init();
   }
+
+  display(previous, next){
+    super.display( macroConfig );
+  }
+
+  hide(previous, next){
+    super.hide( macroConfig );
+  }
+
 
   updateScale(newScale, previousScale){
     super.updateScale(newScale, previousScale);
@@ -116,11 +126,6 @@ class MacroScale extends Scale {
   loop(){
     if( !this.earth ) return;
     super.loop();
-    if( this.state.currentVisibility !== this.state.targetVisibility ){
-      this.group.scale.x = 1 + (2 - this.state.currentVisibility*2);
-      this.group.scale.y = 1 + (2 - this.state.currentVisibility*2);
-      this.group.scale.z = 1 + (2 - this.state.currentVisibility*2);  
-    }
 
     this.earth.group.rotation.y += 0.0005;
 

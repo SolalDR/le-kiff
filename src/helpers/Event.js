@@ -18,11 +18,11 @@
    eventExist( event, callback ){
     var exist = false;
     if( this.events[ event ] ) {
-      for( var i=0; i < this.events[ event ].length; i++ ){
+      this.events[ event ].forEach(callback => {
         if( this.events[ event ] === callback ){
           exist = true;
         }
-      }
+      })
     }
     return exist;
   }
@@ -35,14 +35,13 @@
    dispatch( event, args = {} ){
     var list = event instanceof Array ? event : [ event ];
     
-    for( var j=0; j<list.length; j++ ){
-      if( this.events[ list[ j ] ] && this.events[ list[ j ] ].length ){
-        for( var i=0; i<this.events[ list[ j ] ].length; i++ ){
-          var callback = this.events[ list[ j ] ][ i ];
+    list.forEach(eventName => {
+      if( this.events[ eventName ] ) {
+        this.events[eventName].forEach(callback => {
           callback.call( this, args );
-        }
+        });
       }
-    }
+    })
   }
 
   /**
@@ -66,14 +65,18 @@
    * @param {function} callback 
    */
    on( event, callback ){
-    if( typeof this.events[ event ] === "undefined" ){
-      this.events[ event ] = [];
-    }
+    var list = event instanceof Array ? event : [ event ];
+    list.forEach( event => {
       
-    if( this.events[ event ] && !this.eventExist( event, callback ) ) {
-      this.events[ event ].push( callback );
-    }
-    
+      if( !this.events[ event ] ){
+        this.events[ event ] = new Map();
+      }
+        
+      if( this.events[ event ] && !this.eventExist( event, callback ) ) {
+        this.events[ event ].set( Symbol(), callback );
+      }
+    })
+
     return this;
   }
       
@@ -84,10 +87,11 @@
    */
    off( event, callback ){
     if( this.events[ event ] ){
-      var i = this.events[ event ].indexOf( callback );
-      if( i >= 0){
-        this.events[ event ].splice( i, 1 );
-      }
+      this.events[ event ].forEach( (tmpCallback, i) => {
+        if( tmpCallback === callback ){
+          this.events[ event ].delete(i);
+        }
+      } )
     }
 
     return this;

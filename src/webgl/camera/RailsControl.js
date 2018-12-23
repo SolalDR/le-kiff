@@ -104,7 +104,7 @@ class RailsControl extends Event {
     var diff = to.clone().sub(from);
 
     // Test if it's a useless anim
-    if( from.clone.normalized().equals(to.clone.normalized()) ) return;
+    if( from.clone().normalize().equals(to.clone().normalize()) ) return;
 
     // Register animation globally
     this.state.lookData = AnimationManager.addAnimation(new Animation({ duration, timingFunction })

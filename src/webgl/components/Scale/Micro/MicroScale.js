@@ -2,6 +2,7 @@ import Molecule from "./components/Molecule";
 import AssetsManager from "../../../../services/assetsManager/AssetsManager";
 import Scale from "../Scale";
 import * as THREE from "three";
+import { microConfig } from "~/webgl/config";
 
 class MicroScale extends Scale {
 
@@ -31,6 +32,14 @@ class MicroScale extends Scale {
     AssetsManager.loader.on("load:micro", (event)=> this.initScene( event ));
   }
   
+  display(previous, next){
+    super.display( microConfig );
+  }
+
+  hide(previous, next){
+    super.hide( microConfig );
+  }
+
   /**
    * Init THREE.js part
    */

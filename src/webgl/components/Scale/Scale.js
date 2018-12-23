@@ -1,5 +1,7 @@
 import * as THREE from "three";
-import Event from "../../../helpers/Event";
+import Event from "~/helpers/Event";
+import AnimationManager from "./../../AnimationManager";
+import Animation from "~/helpers/Animation";
 
 class Scale extends Event {
 
@@ -20,12 +22,6 @@ class Scale extends Event {
     this.group = new THREE.Group();
     this.group.name = name;
     this.name = name;
-    this.state = {
-      targetVisibility: visibility,
-      currentVisibility: visibility, 
-      previousScale: "human",
-      currentScale: "human",
-    };
 
     if( visibility === 0 ) this.group.visible = false;
   }
@@ -35,45 +31,83 @@ class Scale extends Event {
    * @abstract
    */
   init(){
-    this.group.scale.x = this.state.currentVisibility;
-    this.group.scale.y = this.state.currentVisibility;
-    this.group.scale.z = this.state.currentVisibility;
-    
-    this.scene.add(this.group);
+    this.scene.threeScene.add(this.group);
   }
 
   /**
-   * Trigger by Scene.js when changing a scale 
-   * @param {string} newScale 
-   * @param {string} previousScale 
+   * This abstract method wrap scale transition logic.
+   * It decompose animation in two parts : 
+   *  - Camera moving
+   *  - Postprocessing
+   * @param {See /webgl/config.js} config 
+   * @returns {cameraAnim: Animation, postprocessAnim: Animation} Return the two anim you can modify in the extended scales
    */
-  updateScale(newScale, previousScale){
-    this.state.targetVisibility = (this.name === newScale) ? 1 : 0;
-    this.state.previousScale = previousScale; 
-    this.state.currentScale = newScale;
+  display( config ){
+    this.group.visible = true;
+    this.scene.postprocess.intensity(10);
+
+
+    this.scene.camera.position.copy(config.display.startPosition);
+    this.scene.camera.lookAt(config.display.startTarget);
+    
+    var cameraAnim = this.scene.controllerManager.controls.rails.moveTo(config.display.endPosition, {
+      duration: config.display.duration
+    });
+
+    this.scene.controllerManager.controls.rails.lookTo(config.display.endTarget, {
+      duration: config.display.duration
+    });
+
+    var postprocessAnimData = AnimationManager.addAnimation(new Animation({
+      duration: config.display.durationPostprocess 
+    }).on("progress", ( event ) => {
+      this.scene.postprocess.intensity( config.postprocess.bloom.max - event.advancement * config.postprocess.bloom.diff );
+    }));
+
+    return {
+      cameraAnim, 
+      postprocessAnim: postprocessAnimData.animation
+    }
   }
+
+  hide( config ){
+    var cameraAnim = this.scene.controllerManager.controls.rails.moveTo(config.display.startPosition, {
+      duration: config.display.duration
+    })
+
+    this.scene.controllerManager.controls.rails.lookTo(config.display.startTarget, {
+      duration: config.display.duration
+    });
+
+    this.scene.postprocess.intensity(config.postprocess.bloom.min);
+    var postprocessAnimData = AnimationManager.addAnimation(new Animation({
+        duration: config.display.durationPostprocess, 
+        delay: config.display.duration - config.display.durationPostprocess
+      }).on("progress", ( event ) => {
+        this.scene.postprocess.intensity( 
+          config.postprocess.bloom.min + event.advancement * config.postprocess.bloom.diff
+        );
+      })
+    );
+
+    cameraAnim.on("end", ()=>{
+      this.dispatch("hide");
+      this.group.visible = false;
+    });
+    
+    return {
+      cameraAnim,
+      postprocessAnim: postprocessAnimData.animation
+    }
+  }
+  
 
   /**
    * Raf method to calculate the intensity visibility
    * @abstract
    */
   loop() {
-    if( this.state.currentVisibility !== this.state.targetVisibility ){
-      this.state.currentVisibility += (this.state.targetVisibility - this.state.currentVisibility)*0.05
-      if( this.state.currentVisibility > 0.99 ) this.state.currentVisibility = 1;
-      if( this.state.currentVisibility < 0.01 ) this.state.currentVisibility = 0;
-
-
-      if( !this.group.visible && this.state.currentVisibility > 0 ){
-        this.group.visible = true;
-      }
-
-      if( this.group.visible && this.state.currentVisibility === 0 ){
-        this.group.visible = false;
-      }
-    }
-
-    return this.group.visible;
+    //  ... So lonely
   }
 }
 

@@ -5,13 +5,12 @@ import RailsControl from "./RailsControl";
 class ControllerManager {
   constructor({
     camera = null,
-    controller = "rails",
+    controller = "radial",
     mouseCaster = null
   } = {}){
     this.camera = camera;
     this.mouseCaster = mouseCaster;
     this.controls = {
-      // orbit: new OrbitControls(camera),
       radial: new RadialControl({
         camera: camera,
         mouseCaster: mouseCaster
@@ -25,7 +24,6 @@ class ControllerManager {
       controller: this.controls[controller]
     }
 
-    window.controller = this;
     this.initEvents();
   }
 
@@ -37,7 +35,9 @@ class ControllerManager {
   }
 
   initEvents(){
+    this.controls.rails.on(["start:move", "start:look"], ()=>{
 
+    })
   }
 
   update(){

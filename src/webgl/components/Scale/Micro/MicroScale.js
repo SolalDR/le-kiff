@@ -61,9 +61,6 @@ class MicroScale extends Scale {
    */
   loop(){
     super.loop();
-    this.group.scale.x = this.state.currentVisibility;
-    this.group.scale.y = this.state.currentVisibility;
-    this.group.scale.z = this.state.currentVisibility;
   }
 
 }

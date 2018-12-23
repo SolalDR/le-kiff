@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import SphericalCoord from "./../helpers/geo/SphericalCoord";
+
 /**
  * @class
  * Radial control can rotate arround a point based on radial coord. 

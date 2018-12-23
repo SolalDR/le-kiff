@@ -36,7 +36,6 @@ class Scene {
     });
     this.controls = new ControllerManager({
       camera: this.camera, 
-      controller: "radial",
       mouseCaster: this.mouseCaster
     });
     this.microScale = new MicroScale({ scene: this.scene, visibility: 0, renderer: this.renderer  });
@@ -83,8 +82,8 @@ class Scene {
    selectScale = (name) => {
     if( name !== this.state.currentScale ){
 
-      AnimationManager.addAnimation(new Animation({ duration: 1000 }).on("progress", (e)=>{
-        this.effect.intensity(e.advancement * 5);
+      AnimationManager.addAnimation(new Animation({ duration: 2000 }).on("progress", (e)=>{
+        this.effect.intensity(e.advancement * 10);
       }, "scale").on("end", () => {
         AnimationManager.addAnimation(new Animation( {duration: 1000 }).on("progress", (e)=>{
           this.effect.intensity(5 - e.advancement * 9.5);

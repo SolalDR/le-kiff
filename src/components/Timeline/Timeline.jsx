@@ -50,7 +50,7 @@ class Timeline extends React.Component {
         {/* Conditional rendering for previous chapter */}
         {this.props.previousChapter && this.props.previousChapter.title && (
           <h2 className="timeline__chapter heading-4">
-            {this.props.previousChapter.number}.{" "}
+            {this.props.previousChapter.rank}.{" "}
             {this.props.previousChapter.title}
           </h2>
         )}
@@ -60,7 +60,7 @@ class Timeline extends React.Component {
         {/* Conditional rendering for next chapter */}
         {this.props.nextChapter && this.props.nextChapter.title && (
           <h2 className="timeline__chapter heading-4">
-            {this.props.nextChapter.number}. {this.props.nextChapter.title}
+            {this.props.nextChapter.rank}. {this.props.nextChapter.title}
           </h2>
         )}
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getStepsForChapter, getWholeChapter, getStepsLoaded, getIsLoadedChapters } from "~/services/stores/reducers/selectors";
+import { getStepsForChapter, getWholeChapter, getStepsLoaded, getIsLoadedChapters, getChapter } from "~/services/stores/reducers/selectors";
 import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos, setCurrentStepRank } from "~/services/stores/actions";
 import Scene from "~/components/Scene/Scene";
 import Timeline from "~/components/Timeline/Timeline";
@@ -66,7 +66,7 @@ class Chapter extends React.Component {
                 <h1 className="chapter__title heading-3">{this.props.steps[0].title}</h1>
                 <h2 className="chapter__step__text teasing-2">{this.props.steps[0].content}</h2>
               </div>
-            <Timeline length={this.props.steps.length} current={0} steps={this.props.steps} chapter={this.props.chapter.rank} onStepChangeCallBack={this.onStepChange} />
+            <Timeline length={this.props.steps.length} previousChapter={this.props.previousChapter} nextChapter={this.props.nextChapter} current={0} steps={this.props.steps} chapter={this.props.chapter.rank} onStepChangeCallBack={this.onStepChange} />
               <Scene />
             </div>
         );
@@ -79,6 +79,8 @@ const mapStateToProps = (state) => {
   return {
     steps: getStepsForChapter(state, 1),
     chapter: getWholeChapter(state, 1),
+    previousChapter: getChapter(state, 0),
+    nextChapter: getChapter(state, 2),
     isStepsLoaded: getStepsLoaded(state, 1),
     isChapterLoaded: getIsLoadedChapters(state) ,
   }

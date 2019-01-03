@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getStepsForChapter, getWholeChapter, getStepsLoaded, getIsLoadedChapters } from "~/services/stores/reducers/selectors";
-import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos } from "~/services/stores/actions";
+import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos, setCurrentStepRank } from "~/services/stores/actions";
 import Scene from "~/components/Scene/Scene";
 import Timeline from "~/components/Timeline/Timeline";
 import Loading from "~/components/Loading/Loading";
@@ -14,6 +14,7 @@ class Chapter extends React.Component {
     chapter: PropTypes.shape({
       api_id: PropTypes.number,
       id: PropTypes.number,
+      rank: PropTypes.number,
       title: PropTypes.string,
       slug: PropTypes.string,
       type: PropTypes.string,
@@ -47,6 +48,16 @@ class Chapter extends React.Component {
       }
     }
 
+    onStepChange = rank => {
+      //@todo : once there is real content
+      this.props._setCurrentStepRank(rank);
+    }
+
+    onChapterChange = chapterRank => {
+      //Call router to navigate 
+      console.log("chapter has changed", chapterRank);
+    }
+
     render(){
       if (this.state.isReady) {
         return (
@@ -55,7 +66,7 @@ class Chapter extends React.Component {
                 <h1 className="chapter__title heading-3">{this.props.steps[0].title}</h1>
                 <h2 className="chapter__step__text teasing-2">{this.props.steps[0].content}</h2>
               </div>
-              <Timeline />
+            <Timeline length={this.props.steps.length} current={0} steps={this.props.steps} chapter={this.props.chapter.rank} onStepChangeCallBack={this.onStepChange} />
               <Scene />
             </div>
         );
@@ -86,7 +97,10 @@ const mapDispatchToProps = dispatch => {
     }, 
     _setCurrentInfos: infos => {
       dispatch(setCurrentInfos(infos));
-    } };
+    },
+    _setCurrentStepRank: rank => {
+      dispatch(setCurrentStepRank(rank));
+    }};
 };
 
 

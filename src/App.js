@@ -5,6 +5,7 @@ import AppManagerHydrator from './components/AppManagerHydrator/AppManagerHydrat
 import Chapter1 from "./pages/Chapter1/Chapter";
 import Intro from "./pages/Intro/Intro";
 import Outro from "./pages/Outro/Outro";
+import About from "./pages/About/About"
 import StoreTest from "./pages/StoreTest/StoreTest";
 import Header from "./components/Header/Header";
 import Loading from "./components/Loading/Loading";
@@ -41,6 +42,7 @@ class App extends Component {
               <Route exact path="/outro" component={Outro} />
               <Route exact path="/store-test" component={StoreTest} />
               <Route exact path="/loading" component={Loading} />
+              <Route exact path="/about" component={About} />
             </div>
           </div>
         </Router>

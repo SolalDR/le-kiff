@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
 
 export const getIsLoadedChapters = (state) => state.entities.chaptersLoaded;
-export const getChapter = (state, id) => state.entities.chapters.find((chapter) => id === chapter.id);
-export const getStepsForChapter = (state, id) => state.entities.steps.filter((step) => id === step.id);
-export const getChapterApiId = (state, id) => getChapter(state, id) ? getChapter(state, id).api_id : null;
+export const getChapter = (state, rank) => state.entities.chapters.find((chapter) => rank === chapter.rank);
+export const getStepsForChapter = (state, rank) => state.entities.steps.filter((step) => rank === step.rank);
+export const getChapterApiId = (state, rank) => getChapter(state, rank) ? getChapter(state, rank).api_id : null;
 export const getCurrentScale = ( state) => state.ui.scale;
 export const getCurrentInfos = (state) => state.ui.step.infos;
 

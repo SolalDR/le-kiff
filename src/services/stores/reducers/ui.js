@@ -1,4 +1,10 @@
-import { SET_CURRENT_CHAPTER_DATA, SET_CURRENT_INFOS, SET_CURRENT_STEP, SET_CURRENT_SCALE } from '../actionTypes';
+import {
+  SET_CURRENT_CHAPTER_DATA,
+  SET_CURRENT_INFOS,
+  SET_CURRENT_STEP,
+  SET_CURRENT_SCALE,
+  SET_CURRENT_STEP_RANK
+} from '../actionTypes';
 
 const initialState = {
   //Current chapter
@@ -46,9 +52,35 @@ const ui = (state = initialState, action) => {
         scale: action.scale
       }
 
+    case SET_CURRENT_STEP_RANK:
+      const currentStepRank = action.rank;
+      const step = getItem(state.steps, currentStepRank);
+
+      if (step && step.rank) {
+        return {
+          ...state,
+          step: step
+        }
+      } else {
+        return state;
+      } 
+      
+
     default:
       return state;
   }
 }
+
+const getItem = (list, rank) => {
+  let obj = {};
+  list.forEach(item => {
+    if (item.rank === rank) {
+      obj = item;
+    }
+  })
+
+  return obj;
+}
+
 
 export default ui;

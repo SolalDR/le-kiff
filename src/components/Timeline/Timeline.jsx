@@ -12,7 +12,7 @@ class Timeline extends React.Component {
   }
 
   static propTypes = {
-    current: PropTypes.number.isRequired,
+    current: PropTypes.number,
     length: PropTypes.number.isRequired,
     chapter: PropTypes.number.isRequired,
     steps: PropTypes.array,
@@ -40,7 +40,7 @@ class Timeline extends React.Component {
             title={this.props.steps[rank - 1].title}
             rank={rank}
             onSelectCallback={this.onSelect}
-            active={this.state.current === rank}
+            active={this.props.current === rank}
           />
         ))(i);
     }

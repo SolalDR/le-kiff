@@ -17,7 +17,7 @@ class TimelineItem extends React.Component {
 
   render() {
     var className = this.props.active
-      ? "timeline__item timeline__item--active"
+      ? "timeline__item is-active"
       : "timeline__item";
     return (
       <div className={className}>

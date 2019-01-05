@@ -41,39 +41,55 @@
     flex: 1
     position: relative
     display: flex
+    pointer-events: none
 
-    &--active .timeline
-      &__button 
+    &.is-active .timeline
+      &__item__button 
         background: $color-secondary
         transform: translateY(-50%) translateX(-50%) scale(1.4)
-    
 
-  &__button
-    display: block
-    padding: 0
-    height: 8px
-    width: 8px
-    border-radius: 20px
-    top: 0
-    left: 50%
-    position: absolute
-    z-index: 2
-    border: 1px solid $color-secondary
-    cursor: pointer
-    transform: translateY(-50%) translateX(-50%) scale(1)
-    transition: 
-      duration: $t-duration
-      property: transform, background-color
-      timing-function: $t-timing-function
-
-
-    &--visited
-      background-color: black
-      
-    
     &:hover
-      transform: translateY(-50%) translateX(-50%) scale(1.5)
+      .timeline__item__title
+        opacity: 1
+
+    &__title
+      position: absolute
+      top: 15px
+      left: 50%
+      transform: translateX(-50%)
+      font-size: 1.2rem
+      color: $color-secondary
+      white-space: nowrap
+      opacity: 0
+      transition: opacity $t-duration
+
+    &__button
+      display: block
+      padding: 0
+      height: 8px
+      width: 8px
+      border-radius: 20px
+      top: 0
+      left: 50%
+      position: absolute
+      z-index: 2
+      border: 1px solid $color-secondary
+      cursor: pointer
+      pointer-events: all
+      transform: translateY(-50%) translateX(-50%) scale(1)
+      transition: 
+        duration: $t-duration
+        property: transform, background-color
+        timing-function: $t-timing-function
+
+
+      &--visited
+        background-color: black
+        
       
+      &:hover
+        transform: translateY(-50%) translateX(-50%) scale(1.5)
+        
 
     
 

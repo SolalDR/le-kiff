@@ -58,8 +58,13 @@ class Scene {
     // TODO Replace with datas.rank
     // TODO Replace chapters[0] with rank
     // get correct step contructor
-    var Step = Chapters[0][step.id - 1];
+    var Step = Chapters[0][step.rank - 1];
     
+    if( !Step ) {
+      console.error(`Scene.js: There is no Step for ${step}`);
+      return;
+    }
+
     if( this.step ){
 
       // Check if the next steps is directly after the current one
@@ -86,7 +91,6 @@ class Scene {
       datas: step
     });
 
-    console.log("new step", this.step);
     this.step.display();
   }
 

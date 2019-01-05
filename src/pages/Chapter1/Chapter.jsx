@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getStepsForChapter, getWholeChapter, getStepsLoaded, getIsLoadedChapters } from "~/services/stores/reducers/selectors";
-import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos } from "~/services/stores/actions";
+import { getStepsForChapter, getWholeChapter, getStepsLoaded, getIsLoadedChapters, getChapter, getStep } from "~/services/stores/reducers/selectors";
+import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos, setCurrentStepRank } from "~/services/stores/actions";
 import Scene from "~/components/Scene/Scene";
 import Timeline from "~/components/Timeline/Timeline";
 import Loading from "~/components/Loading/Loading";
@@ -14,6 +14,7 @@ class Chapter extends React.Component {
     chapter: PropTypes.shape({
       api_id: PropTypes.number,
       id: PropTypes.number,
+      rank: PropTypes.number,
       title: PropTypes.string,
       slug: PropTypes.string,
       type: PropTypes.string,
@@ -41,7 +42,7 @@ class Chapter extends React.Component {
         });
 
         const chapter = nextProps.chapter;
-
+        
         // Update store by UI reducer
         this.props._setCurrentChapterData({
           chapter: chapter,
@@ -53,19 +54,36 @@ class Chapter extends React.Component {
       }
     }
 
+    onStepChange = rank => {
+      //@todo : once there is real content
+      this.props._setCurrentStepRank(rank);
+    }
+
+    onChapterChange = chapterRank => {
+      //Call router to navigate 
+      console.log("chapter has changed", chapterRank);
+    }
+
     render () {
-      var step = this.props.steps[this.state.stepId];
-      if( !step ) step = this.props.steps[0];
+      if( !this.props.step.rank ) return false;
 
       if (this.state.isReady) {
         return (
             <div className="chapter chapter-1">
               <div className="chapter__text">
-                <h1 className="chapter__title heading-3">{step.title}</h1>
-                <h2 className="chapter__step__text teasing-2">{step.content}</h2>
+                <h1 className="chapter__title heading-3">{this.props.step.title}</h1>
+                <h2 className="chapter__step__text teasing-2">{this.props.step.content}</h2>
               </div>
-              <Timeline />
-              <Scene step={step} />
+              <Timeline 
+                length={this.props.chapter.steps.length} 
+                previousChapter={this.props.previousChapter} 
+                nextChapter={this.props.nextChapter} 
+                current={this.props.step.rank}
+                steps={this.props.chapter.steps} 
+                chapter={this.props.chapter.rank} 
+                onStepChangeCallBack={this.onStepChange} />
+
+              <Scene step={this.props.step} />
             </div>
         );
       }
@@ -75,10 +93,12 @@ class Chapter extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    steps: getStepsForChapter(state, 1),
     chapter: getWholeChapter(state, 1),
+    previousChapter: getChapter(state, 0),
+    nextChapter: getChapter(state, 2),
     isStepsLoaded: getStepsLoaded(state, 1),
     isChapterLoaded: getIsLoadedChapters(state) ,
+    step: getStep(state)
   }
 }
 
@@ -95,7 +115,10 @@ const mapDispatchToProps = dispatch => {
     }, 
     _setCurrentInfos: infos => {
       dispatch(setCurrentInfos(infos));
-    } };
+    },
+    _setCurrentStepRank: rank => {
+      dispatch(setCurrentStepRank(rank));
+    }};
 };
 
 

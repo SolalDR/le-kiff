@@ -14,7 +14,7 @@ class Loader extends Event {
     this.pendingFiles = [];
     this.loadedFiles = [];
     this.groups = [];
-
+    this.verbose = false;
     this.rules = rules;
   }
 
@@ -189,7 +189,7 @@ class Loader extends Event {
     })
 
     if( this.loader === null ) {
-      console.warn(`Loader: The type "${file.type}" is not supported`);
+      if( this.verbose ) console.warn(`Loader: The type "${file.type}" is not supported`);
       return null;
     }
 
@@ -204,7 +204,7 @@ class Loader extends Event {
         this.onProgress(file);
       },
       (e) => {
-        console.log("Loader:", e);
+        if( this.verbose ) console.log("Loader:", e);
       }
     )
   }

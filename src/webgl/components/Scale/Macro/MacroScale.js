@@ -112,7 +112,7 @@ class MacroScale extends Scale {
    * @param {[Step]} step
    */
   updateFromStep(step){
-    console.log("Init macro scale step", step);
+    // console.log("Init macro scale step", step);
     let flux = new Flux(
       { lat: 4.757908, lon: -72.147105 },
       { lat: 48.862790, lon: 2.356302 },

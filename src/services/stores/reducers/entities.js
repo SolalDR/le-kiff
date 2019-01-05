@@ -58,12 +58,12 @@ const getIds = (array) => {
   });
 }
 
-const getLastId = (array) => {
+const getLastRank = (array) => {
   let max = 1;
 
   array.forEach(item => {
-    if (max < item.id) {
-      max = item.id;
+    if (max < item.rank) {
+      max = item.rank;
     }
   });
 
@@ -72,19 +72,20 @@ const getLastId = (array) => {
 
 const filterArrays = (currentList, newList) => {
   const idsList = getIds(currentList);
-  let lastId = getLastId(currentList);
+  let lastRank = getLastRank(currentList);
   
   const list = [];
-  newList.forEach((item, index) => {
+  newList.forEach(item => {
+    const newRank = lastRank++
     if ( idsList.indexOf(item.id) < 0) {
       list.push({
         ...item,
         api_id: item.id,
-        id: lastId++
+        id: newRank,
+        rank: newRank
       });
     }
   });
-
   return list;
 }
 

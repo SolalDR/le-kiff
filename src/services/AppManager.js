@@ -55,18 +55,18 @@ class AppManager {
   loadFromPath(path) {
     // If it's a chapter path
     if (path.indexOf('chapter') > 0) {
-      const localId = path.match(/\d+/g).map(Number)[0];
-      const apiRequest = (localId) => {
-        const chapterId = getChapterApiId(store.getState(), localId);
+      const rank = path.match(/\d+/g).map(Number)[0];
+      const apiRequest = (rank) => {
+        const chapterId = getChapterApiId(store.getState(), rank);
         this.getChapterSteps(chapterId);
       };
 
       if (getIsLoadedChapters(store.getState())) {
-        apiRequest(localId);
+        apiRequest(rank);
       } else {
         this.waitingRequests.push({
           request: apiRequest, 
-          params: localId
+          params: rank
         });
       }
     }

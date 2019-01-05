@@ -81,4 +81,5 @@ class AnimationManager extends Event {
 
 }
 
+export { Animation }
 export default new AnimationManager();

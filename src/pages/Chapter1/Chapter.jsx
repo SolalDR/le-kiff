@@ -22,10 +22,15 @@ class Chapter extends React.Component {
       }),
     }
 
+    /**
+     * @constructor
+     * @param {boolean} isReady True if the steps are loaded
+     */
     constructor(props) {
         super(props);
         this.state = {
-          isReady: false
+          isReady: false,
+          stepId: 1
         };
     }
 
@@ -35,28 +40,32 @@ class Chapter extends React.Component {
           isReady: true 
         });
 
-        const nextChapter = nextProps.chapter;
+        const chapter = nextProps.chapter;
 
+        // Update store by UI reducer
         this.props._setCurrentChapterData({
-          chapter: nextChapter,
-          step: nextChapter.steps[0],
-          steps: nextChapter.steps,
-          infos: nextChapter.steps[0].infos,
+          chapter: chapter,
+          step: chapter.steps[this.state.stepId - 1],
+          steps: chapter.steps,
+          infos: chapter.steps[this.state.stepId - 1].infos,
           scale: "human"
         });
       }
     }
 
-    render(){
+    render () {
+      var step = this.props.steps[this.state.stepId];
+      if( !step ) step = this.props.steps[0];
+
       if (this.state.isReady) {
         return (
             <div className="chapter chapter-1">
               <div className="chapter__text">
-                <h1 className="chapter__title heading-3">{this.props.steps[0].title}</h1>
-                <h2 className="chapter__step__text teasing-2">{this.props.steps[0].content}</h2>
+                <h1 className="chapter__title heading-3">{step.title}</h1>
+                <h2 className="chapter__step__text teasing-2">{step.content}</h2>
               </div>
               <Timeline />
-              <Scene />
+              <Scene step={step} />
             </div>
         );
       }

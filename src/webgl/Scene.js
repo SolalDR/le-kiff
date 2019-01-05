@@ -1,80 +1,93 @@
 import MicroScale from "./components/Scale/Micro/MicroScale";
 import HumanScale from "./components/Scale/Human/HumanScale";
 import MacroScale from "./components/Scale/Macro/MacroScale";
-import Animation from "~/helpers/Animation";
 import AnimationManager from "./AnimationManager";
 import * as THREE from "three";
 import ControllerManager from './camera/ControllerManager';
 import Clock from "./helpers/Clock";
 import gui from "~/services/gui";
 import Point from "./components/Point/Point";
-import PostProcess from "./postprocess/Postprocessing";
+import renderer from "./rendering/Renderer";
 import MouseCaster from "./components/MouseCaster";
+import Chapters from "./steps";
 
 class Scene {
 
   constructor({
     element = null
   } = {}){
-    this.element = element;
     this.threeScene = new THREE.Scene();
+    this.threeScene.background = new THREE.Color(0x111111);
     this.clock = new Clock();
     this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth/window.innerHeight, 0.1, 1000 );
     this.camera.position.copy(new THREE.Vector3(0, 0, 8));
+    this.renderer = renderer;
+    this.renderer.init({ scene: this.threeScene,  camera: this.camera, element: element });
 
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, gammaOutput: true });
-    
-    this.postprocess = new PostProcess({
-      scene: this.threeScene, 
-      camera: this.camera, 
-      renderer: this.renderer
-    });
-    
-    this.composer = this.postprocess.composer;
+
     this.mouseCaster = new MouseCaster({
       root: this.threeScene
     });
+
     this.controllerManager = new ControllerManager({
       camera: this.camera, 
       mouseCaster: this.mouseCaster
     });
-    this.microScale = new MicroScale({ scene: this, visibility: 0, renderer: this.renderer  });
-    this.macroScale = new MacroScale({ scene: this, visibility: 0 });
-    this.humanScale = new HumanScale({ scene: this, visibility: 1 });
+
+    this.microScale = new MicroScale({ scene: this });
+    this.macroScale = new MacroScale({ scene: this });
+    this.humanScale = new HumanScale({ scene: this });
+    this.humanScale.display( "micro" );
+    
     this.points = []; // TODO: add to pointsManager
-    this.state = {};
-
-    this.init();
-    window.scene = this;
-  }
-
-  init(){
-    this.element.appendChild(this.renderer.domElement);
-
     this.state = {
       currentScale: "human",
-      previousScale: "human",
-      targetScale: null,
-      microVisibility: 0,
-      macroVisibility: 0,
-      humanVisibility: 1
+      previousScale: "human"
     };
-
-    this.threeScene.background = new THREE.Color(0x111111);
-    this.renderer.setSize( window.innerWidth, window.innerHeight );
-    
-    this.initEvents();
 
     this.render();
     this.loop();
+    window.scene = this;
   }
 
-  initEvents(){
-    window.addEventListener("resize", ()=>{
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize( window.innerWidth, window.innerHeight );
-    })
+  /**
+   * Select and display a step
+   * @param { { id, chapter_id, datas }} step 
+   */
+  selectStep(step) {
+    // TODO Replace with datas.rank
+    // TODO Replace chapters[0] with rank
+    // get correct step contructor
+    var Step = Chapters[0][step.id - 1];
+    
+    if( this.step ){
+
+      // Check if the next steps is directly after the current one
+      const isNextStep = (
+        this.step.chapter_id === step.chapter_id &&
+        step.id === this.step.id + 1
+      )
+
+      // Asynchronous hide with display callback
+      this.step.once( 'hide', () => {
+        this.step = new Step({
+          scene: this,
+          datas: step
+        });
+        this.step.display( isNextStep );
+      })
+      this.step.hide( isNextStep );
+      return; 
+    }
+
+    // First step displayed
+    this.step = new Step({
+      scene: this,
+      datas: step
+    });
+
+    console.log("new step", this.step);
+    this.step.display();
   }
 
   /**
@@ -84,7 +97,6 @@ class Scene {
     if( name !== this.state.currentScale ){
 
       var currentScale = this.state.currentScale;
-
       this[currentScale + "Scale"].hide(currentScale, name);
       this[currentScale + "Scale"].once("hide", ()=>{
         this[name + "Scale"].display(currentScale, name);
@@ -129,7 +141,8 @@ class Scene {
 
     AnimationManager.renderAnimations(this.clock.delta);
 
-    this.composer.render( );
+    this.renderer.render();
+
     requestAnimationFrame(this.loop);
   }
 

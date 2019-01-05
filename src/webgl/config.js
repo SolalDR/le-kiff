@@ -11,19 +11,25 @@ export const microConfig = {
     position: new Vector3(0, 0, 5),
     lookAt: new Vector3()
   },
-  display: {
-    endPosition: new Vector3(0, 0, 8),
-    startPosition: new Vector3(0, 0, 100),
-    startTarget: new Vector3(0, 0, 0),
-    endTarget: new Vector3(0, 0, 0),
-    duration: 1000,
-    durationPostprocess: 500
-  },
-  postprocess: {
-    bloom: {
-      min: 0.3,
-      max: 2.5,
-      diff: 2.2
+
+  transitions: {
+    all: {
+      duration: 2000,
+      position: {
+        from: new Vector3(0, 0, 50),
+        to: new Vector3(0, 0, 8)
+      },
+      target: {
+        from: new Vector3(0, 0, 0),
+        to: new Vector3(0, 0, 0)
+      },
+      postprocess: {
+        duration: 1000,
+        bloom: {
+          min: 0.3,
+          max: 10
+        }
+      }
     }
   }
 }
@@ -34,29 +40,49 @@ export const humanConfig = {
     position: new Vector3(0, 0, 5),
     lookAt: new Vector3()
   },
-  display: {
-    startPosition: new Vector3(0, 10, 10),
-    endPosition: new Vector3(0, 0, 8),
-    startTarget: new Vector3(0, 10, 0),
-    endTarget: new Vector3(0, 0, 0),
-    duration: 1000,
-    durationPostprocess: 300
-  },
-  display2: {
-    startPosition: new Vector3(0, 0, 8),
-    endPosition: new Vector3(0, 0, 5),
-    startTarget: new Vector3(0, 0, 0),
-    endTarget: new Vector3(0, 0, 0),
-    duration: 1000,
-    durationPostprocess: 300
-  },
-  postprocess: {
-    bloom: {
-      min: 0.3,
-      max: 2.5,
-      diff: 2.2
+
+  transitions: {
+    micro: {
+      duration: 2000,
+      position: {
+        from: new Vector3(0, 0, 0),
+        to: new Vector3(0, 0, 8)
+      },
+      target: {
+        from: new Vector3(0, 0, 0),
+        to: new Vector3(0, 0, 0)
+      },
+      postprocess: {
+        duration: 1000,
+        bloom: {
+          min: 0.3,
+          max: 2.5,
+          diff: 2.2
+        }
+      }
+    },
+
+    macro: {
+      duration: 2000,
+      position: {
+        from: new Vector3(0, 30, 50),
+        to: new Vector3(0, 0, 8)
+      },
+      target: {
+        from: new Vector3(0, 25, 0),
+        to: new Vector3(0, 0, 0)
+      },
+      postprocess: {
+        duration: 1000,
+        bloom: {
+          min: 0.3,
+          max: 2.5,
+          diff: 2.2
+        }
+      }
     }
   }
+
 }
 
 export const macroConfig = {
@@ -69,21 +95,28 @@ export const macroConfig = {
     globeRadius: 2,
     cloudRadius: 2.02
   },
-  display: {
-    startPosition: new Vector3(0, 0, 2.1),
-    endPosition: new Vector3(0, 0, 8),
-    startTarget: new Vector3(0, 0, 0),
-    endTarget: new Vector3(0, 0, 0),
-    duration: 1000,
-    durationPostprocess: 500
-  },
-  postprocess: {
-    bloom: {
-      min: 0.3,
-      max: 6,
-      diff: 5.7
+
+  transitions: {
+    all: {
+      duration: 1000,
+      position: {
+        from: new Vector3(0, 0, 2.1),
+        to: new Vector3(0, 0, 8)
+      },
+      target: {
+        from: new Vector3(0, 0, 0),
+        to: new Vector3(0, 0, 0)
+      },
+      postprocess: {
+        duration: 500,
+        bloom: {
+          min: 0.3,
+          max: 6,
+          diff: 5.7
+        }
+      }
     }
-  }
+  } 
 }
 
 export const postprocessConfig = {

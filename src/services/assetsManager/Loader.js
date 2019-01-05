@@ -185,6 +185,7 @@ class Loader extends Event {
         loader = rule.loader
         return true;
       }
+      return false;
     })
 
     if( this.loader === null ) {

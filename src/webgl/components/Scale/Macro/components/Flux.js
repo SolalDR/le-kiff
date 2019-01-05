@@ -10,8 +10,6 @@ class Flux {
 
   static Material1 = new THREE.MeshBasicMaterial( {
     color: 0xFFFFFF,
-    metalness: 0.2,
-    roughness: 0,
     opacity: 1
   });
 

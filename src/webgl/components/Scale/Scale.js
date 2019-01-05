@@ -2,6 +2,7 @@ import * as THREE from "three";
 import Event from "~/helpers/Event";
 import AnimationManager from "./../../AnimationManager";
 import Animation from "~/helpers/Animation";
+import renderer from "~/webgl/rendering/Renderer";
 
 class Scale extends Event {
 
@@ -13,7 +14,7 @@ class Scale extends Event {
    * @property {THREE.Group} group 
    */
   constructor({
-    visibility = 1,
+    // visibility = 1,
     scene = null,
     name = ""
   }){
@@ -22,8 +23,7 @@ class Scale extends Event {
     this.group = new THREE.Group();
     this.group.name = name;
     this.name = name;
-
-    if( visibility === 0 ) this.group.visible = false;
+    this.group.visible = false;
   }
   
   /**
@@ -44,24 +44,25 @@ class Scale extends Event {
    */
   display( config ){
     this.group.visible = true;
-    this.scene.postprocess.intensity(10);
+    this.scene.renderer.intensity(10);
 
+    var diff = config.postprocess.bloom.max - config.postprocess.bloom.min;
 
-    this.scene.camera.position.copy(config.display.startPosition);
-    this.scene.camera.lookAt(config.display.startTarget);
+    this.scene.camera.position.copy(config.position.from);
+    this.scene.camera.lookAt(config.target.from);
     
-    var cameraAnim = this.scene.controllerManager.controls.rails.moveTo(config.display.endPosition, {
-      duration: config.display.duration
+    var cameraAnim = this.scene.controllerManager.controls.rails.moveTo(config.position.to, {
+      duration: config.duration
     });
 
-    this.scene.controllerManager.controls.rails.lookTo(config.display.endTarget, {
-      duration: config.display.duration
+    this.scene.controllerManager.controls.rails.lookTo(config.target.to, {
+      duration: config.duration
     });
 
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
-      duration: config.display.durationPostprocess 
+      duration: config.postprocess.duration 
     }).on("progress", ( event ) => {
-      this.scene.postprocess.intensity( config.postprocess.bloom.max - event.advancement * config.postprocess.bloom.diff );
+      renderer.intensity( config.postprocess.bloom.max - event.advancement * diff );
     }));
 
     return {
@@ -71,21 +72,24 @@ class Scale extends Event {
   }
 
   hide( config ){
-    var cameraAnim = this.scene.controllerManager.controls.rails.moveTo(config.display.startPosition, {
-      duration: config.display.duration
+
+    var diff = config.postprocess.bloom.max - config.postprocess.bloom.min;
+
+    var cameraAnim = this.scene.controllerManager.controls.rails.moveTo(config.position.from, {
+      duration: config.duration
     })
 
-    this.scene.controllerManager.controls.rails.lookTo(config.display.startTarget, {
-      duration: config.display.duration
+    this.scene.controllerManager.controls.rails.lookTo(config.target.from, {
+      duration: config.duration
     });
 
-    this.scene.postprocess.intensity(config.postprocess.bloom.min);
+    this.scene.renderer.intensity(config.postprocess.bloom.min);
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
-        duration: config.display.durationPostprocess, 
-        delay: config.display.duration - config.display.durationPostprocess
+        duration: config.postprocess.duration, 
+        delay: config.duration - config.postprocess.duration
       }).on("progress", ( event ) => {
-        this.scene.postprocess.intensity( 
-          config.postprocess.bloom.min + event.advancement * config.postprocess.bloom.diff
+        this.scene.renderer.intensity( 
+          config.postprocess.bloom.min + event.advancement*diff
         );
       })
     );

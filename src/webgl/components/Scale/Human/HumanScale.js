@@ -44,12 +44,12 @@ class HumanScale extends Scale {
     this.dispatch('initScene', this);
   }
 
-  display(){
-    super.display( humanConfig );
+  display( previous, next ){
+    super.display( humanConfig.transitions[previous] );
   }
 
-  hide(){
-    super.hide( humanConfig );
+  hide( previous, next ){
+    super.hide( humanConfig.transitions[next] );
   }
 
 

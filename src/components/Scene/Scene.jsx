@@ -3,17 +3,31 @@ import { connect } from 'react-redux';
 import { setCurrentScale } from '../../services/stores/actions';
 import ScaleMenu from "./components/ScaleMenu/ScaleMenu";
 import ThreeScene from "./../../webgl/Scene";
+import PropTypes from 'prop-types';
+
 
 import { getCurrentScale } from '../../services/stores/reducers/selectors';
 import Info from "../Info/Info";
 
 class Scene extends React.Component {
 
+  static propTypes = {
+      step: PropTypes.shape({
+        api_id: PropTypes.number,
+        chapter_id: PropTypes.number,
+        id: PropTypes.number,
+        content: PropTypes.string,
+        infos: PropTypes.array,
+        slug: PropTypes.string,
+        title: PropTypes.string,
+        type: PropTypes.string
+      })
+    }
+
   constructor(props){
     super(props);
 
     this.state = {
-      previousScale: this.props.currentScale,
       isThreeSceneMounted: false
     };
 
@@ -24,7 +38,14 @@ class Scene extends React.Component {
     this.threeScene = new ThreeScene({
       element: this.sceneElement.current
     });
+    this.threeScene.selectStep(this.props.step);
     this.setState({isThreeSceneMounted: true});
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.step.id !== nextProps.step.id) {
+      this.threeScene.selectStep(nextProps.step);
+    }
   }
 
   /**
@@ -32,10 +53,6 @@ class Scene extends React.Component {
    */
   selectScale = (name) => {
     this.threeScene.selectScale(name); 
-    this.setState({
-      previousScale: this.props.currentScale
-    });
-
     this.props._setCurrentScale(name);
   }
 

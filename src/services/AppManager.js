@@ -35,6 +35,11 @@ class AppManager {
     AssetsManager.loader.addGroup(chapter1Datas);
   }
 
+  /**
+   * Call the API with a promise to get the steps of a chapter
+   * @param {Integer} id The ID of the selected chapter
+   * @returns {void} 
+   */
   getChapterSteps(id) {
     this.api.get(`chapters/${id}/steps`).then(response => {
       const isLoaded = response.status === 200;
@@ -43,7 +48,12 @@ class AppManager {
     })
   }
 
+  /**
+   * Call from ~/App.js when a route is changed
+   * @param {string} path 
+   */
   loadFromPath(path) {
+    // If it's a chapter path
     if (path.indexOf('chapter') > 0) {
       const localId = path.match(/\d+/g).map(Number)[0];
       const apiRequest = (localId) => {

@@ -24,11 +24,14 @@ class MacroScale extends Scale {
   }
 
   display(previous, next){
-    super.display( macroConfig );
+    const { cameraAnim } = super.display( macroConfig.transitions.all );
+    cameraAnim.on("progress", ()=>{
+      this.scene.camera.lookAt(new THREE.Vector3());
+    })
   }
 
   hide(previous, next){
-    super.hide( macroConfig );
+    super.hide( macroConfig.transitions.all );
   }
 
 
@@ -90,21 +93,6 @@ class MacroScale extends Scale {
       radius: 2
     });
 
-    let flux = new Flux(
-      { lat: 4.757908, lon: -72.147105 },
-      { lat: 48.862790, lon: 2.356302 },
-      2, 0.3 + 0.1 * Math.random()
-    );
-      
-    this.earth.group.add(flux.fluxObject);
-
-    this.zonings = [];
-    ["bolivie", "guyane", "france", "perou"].forEach(country => {
-      var zoning = new Zoning(country); 
-      this.earth.group.add(zoning.object);
-      this.zonings.push(zoning);
-    });
-
     this.group.add(this.earth.group);
 
     var sky = new THREE.Mesh(
@@ -117,6 +105,28 @@ class MacroScale extends Scale {
     
     sky.name = "sky";
     this.group.add(sky);
+  }
+
+  /**
+   * trigger when a new steps arrived
+   * @param {[Step]} step
+   */
+  updateFromStep(step){
+    console.log("Init macro scale step", step);
+    let flux = new Flux(
+      { lat: 4.757908, lon: -72.147105 },
+      { lat: 48.862790, lon: 2.356302 },
+      2, 0.3 + 0.1 * Math.random()
+    );
+
+    this.earth.group.add(flux.fluxObject);
+
+    this.zonings = [];
+    ["bolivie", "guyane", "france", "perou"].forEach(country => {
+      var zoning = new Zoning(country); 
+      this.earth.group.add(zoning.object);
+      this.zonings.push(zoning);
+    });
   }
   
   /**

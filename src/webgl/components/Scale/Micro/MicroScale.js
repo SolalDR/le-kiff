@@ -3,6 +3,7 @@ import AssetsManager from "../../../../services/assetsManager/AssetsManager";
 import Scale from "../Scale";
 import * as THREE from "three";
 import { microConfig } from "~/webgl/config";
+import renderer from "~/webgl/rendering/Renderer"
 
 class MicroScale extends Scale {
 
@@ -33,11 +34,11 @@ class MicroScale extends Scale {
   }
   
   display(previous, next){
-    super.display( microConfig );
+    super.display( microConfig.transitions.all );
   }
 
   hide(previous, next){
-    super.hide( microConfig );
+    super.hide( microConfig.transitions.all );
   }
 
   /**
@@ -56,8 +57,8 @@ class MicroScale extends Scale {
     e.molecule.result.scene.children[3].material.needsUpdate = true; 
 
     this.molecules = {
-      cocaine: new Molecule({name: "cocaine", renderer: this.renderer, pdb: e.cocaine.result, material: e.molecule.result.scene.children[3].material}),
-      kerosene: new Molecule({name: "kerosene", renderer: this.renderer, pdb: e.kerosene.result, material: e.molecule.result.scene.children[3].material}),
+      cocaine: new Molecule({name: "cocaine", renderer: renderer, pdb: e.cocaine.result, material: e.molecule.result.scene.children[3].material}),
+      kerosene: new Molecule({name: "kerosene", renderer: renderer, pdb: e.kerosene.result, material: e.molecule.result.scene.children[3].material}),
     }
 
     this.group.add(this.molecules.cocaine.object3D);  

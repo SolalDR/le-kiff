@@ -6,6 +6,8 @@ class Timeline extends React.Component {
 
     constructor(props){
         super(props);
+
+        // Todo rename variable isActive in activeRank or equivalent
         this.state = {
           isActive: 0
         };

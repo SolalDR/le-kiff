@@ -12,7 +12,7 @@ export const getStep = (state) => state.ui.step;
 export const getStepsForChapter = (state, rank) => {
   const chapterApiId = getChapterApiId(state, rank);
   if (chapterApiId) {
-    return state.entities.steps.filter(step => step.chapter_id === chapterApiId)
+    return state.entities.steps.filter(step => step.chapter_api_id === chapterApiId)
   }
   return [];
 }

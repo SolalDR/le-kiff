@@ -51,17 +51,18 @@
     &:hover
       .timeline__item__title
         opacity: 1
+        transform: translateY(0) translateX(-50%)
 
     &__title
       position: absolute
       top: 15px
       left: 50%
-      transform: translateX(-50%)
+      transform: translateX(-50%) translateY(5px)
       font-size: 1.2rem
       color: $color-secondary
       white-space: nowrap
       opacity: 0
-      transition: opacity $t-duration
+      transition: opacity $t-duration, transform $t-duration
 
     &__button
       display: block
@@ -81,6 +82,9 @@
         duration: $t-duration
         property: transform, background-color
         timing-function: $t-timing-function
+
+      &:focus
+        outline: none
 
 
       &--visited

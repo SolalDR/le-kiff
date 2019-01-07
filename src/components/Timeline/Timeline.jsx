@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import TimelineItem from "./components/TimelineItem";
+import LetterReveal from '~/components/Animations/LetterReveal';
 import "./styles.sass";
 
 class Timeline extends React.Component {
@@ -61,7 +62,7 @@ class Timeline extends React.Component {
         {/* Conditional rendering for next chapter */}
         {this.props.nextChapter && this.props.nextChapter.title && (
           <h2 className="timeline__chapter heading-4">
-            {this.props.nextChapter.rank}. {this.props.nextChapter.title}
+            {/* <LetterReveal text={`${this.props.nextChapter.rank}. ${this.props.nextChapter.title}`} /> */}
           </h2>
         )}
       </div>

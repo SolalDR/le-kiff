@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getStepsForChapter, getWholeChapter, getStepsLoaded, getIsLoadedChapters, getChapter, getStep } from "~/services/stores/reducers/selectors";
-import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos, setCurrentStepRank } from "~/services/stores/actions";
+import { getWholeChapter, getStepsLoaded, getIsLoadedChapters, getChapter, getStep } from "~/services/stores/reducers/selectors";
+import { setCurrentChapterData, setCurrentStepRank } from "~/services/stores/actions";
 import Scene from "~/components/Scene/Scene";
 import Timeline from "~/components/Timeline/Timeline";
 import Loading from "~/components/Loading/Loading";
@@ -93,6 +93,7 @@ class Chapter extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     chapter: getWholeChapter(state, 1),
     previousChapter: getChapter(state, 0),
@@ -108,15 +109,6 @@ const mapDispatchToProps = dispatch => {
     _setCurrentChapterData: chapterData => {
       dispatch(setCurrentChapterData(chapterData));
     }, 
-    _setCurrentScale: scale => {
-      dispatch(setCurrentScale(scale));
-    }, 
-    _setCurrentStep: step => {
-      dispatch(setCurrentStep(step));
-    }, 
-    _setCurrentInfos: infos => {
-      dispatch(setCurrentInfos(infos));
-    },
     _setCurrentStepRank: rank => {
       dispatch(setCurrentStepRank(rank));
     }};

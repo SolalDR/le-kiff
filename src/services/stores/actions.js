@@ -8,11 +8,11 @@ export const fetchChapters = (chapters, payload) => {
   }
 };
 
-export const fetchSteps = (steps, chapter_id) => {
+export const fetchSteps = (steps, chapter_api_id) => {
   return {
     type: FETCH_STEPS,
     steps,
-    chapter_id
+    chapter_api_id
   }
 };
 

@@ -58,32 +58,36 @@ const getIds = (array) => {
   });
 }
 
-const getLastRank = (array) => {
-  let max = 1;
+const getNewId = (array) => {
+  let max = 0;
 
   array.forEach(item => {
-    if (max < item.rank) {
-      max = item.rank;
+    if (max < item.id) {
+      max = item.id;
     }
   });
+
+  if (max > 0) 
+    return max++
 
   return max;
 }
 
 const filterArrays = (currentList, newList) => {
   const idsList = getIds(currentList);
-  let lastRank = getLastRank(currentList);
+  let newId = getNewId(currentList);
   
   const list = [];
-  newList.forEach(item => {
-    const newRank = lastRank++
+  newList.forEach((item, index) => {
+    const rank = index + 1;
     if ( idsList.indexOf(item.id) < 0) {
       list.push({
         ...item,
         api_id: item.id,
-        id: newRank,
-        rank: newRank
+        id: newId,
+        rank: rank
       });
+      newId++
     }
   });
   return list;

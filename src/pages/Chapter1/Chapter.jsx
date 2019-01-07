@@ -65,7 +65,8 @@ class Chapter extends React.Component {
     }
 
     render () {
-      if( !this.props.step.rank ) return false;
+      console.log(this.props)
+      if( !this.props.step.rank ) return null;
 
       if (this.state.isReady) {
         return (
@@ -120,8 +121,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(setCurrentStepRank(rank));
     }};
 };
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chapter);
 

@@ -26,7 +26,7 @@ export const microConfig = {
       postprocess: {
         duration: 1000,
         bloom: {
-          min: 0.3,
+          min: 0.1,
           max: 10
         }
       }
@@ -55,7 +55,7 @@ export const humanConfig = {
       postprocess: {
         duration: 1000,
         bloom: {
-          min: 0.3,
+          min: 0.1,
           max: 2.5,
           diff: 2.2
         }
@@ -75,7 +75,7 @@ export const humanConfig = {
       postprocess: {
         duration: 1000,
         bloom: {
-          min: 0.3,
+          min: 0.1,
           max: 2.5,
           diff: 2.2
         }
@@ -110,7 +110,7 @@ export const macroConfig = {
       postprocess: {
         duration: 500,
         bloom: {
-          min: 0.3,
+          min: 0.1,
           max: 6,
           diff: 5.7
         }
@@ -122,7 +122,7 @@ export const macroConfig = {
 export const postprocessConfig = {
   bloom: {
     max: 6,
-    min: 0.3,
+    min: 0.1,
     diff: 5.7
   }
 }

@@ -33,22 +33,12 @@ export default class extends Step {
         color: 0xFF0000
       })
     );
+    mainObject.name = "main-step-2"
+
     var object = this.scene.humanScale.group;
     object.add(mainObject);
 
-    var background = new FitPlane({
-      background: event.step_1_background.result, 
-      size: 450,
-      distance: 100
-    });
-
     mainObject.scale.y = 1;
-    mainObject.position.x = -1;
-    mainObject.position.y = -4.5;
-    mainObject.rotation.z = 0.2;
-    gui.addObject3D("Leaf",  mainObject, false);
-    
-    object.add(background.object3D);
   }
 
   display( isNextStep = false, event ) {

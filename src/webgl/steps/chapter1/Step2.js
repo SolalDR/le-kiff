@@ -2,6 +2,7 @@ import Step from "./../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
 import gui from "~/services/gui";
+import * as THREE from "three";
 
 /**
  * @constructor
@@ -21,13 +22,22 @@ export default class extends Step {
     AssetsManager.loader.once("load:chapter-1", (event) => this.display( isNextStep, event ))
   }
 
-  initHumanScale( e ){
-    var mainObject = e.step_1_human_leaf.result.scene;
+  /**
+   * Init human scale scene 
+   * @param {*} event
+   */
+  initHumanScale( event ){
+    var mainObject = new THREE.Mesh(
+      new THREE.SphereBufferGeometry(1, 32, 32),
+      new THREE.MeshBasicMaterial({
+        color: 0xFF0000
+      })
+    );
     var object = this.scene.humanScale.group;
     object.add(mainObject);
 
     var background = new FitPlane({
-      background: e.step_1_background.result, 
+      background: event.step_1_background.result, 
       size: 450,
       distance: 100
     });
@@ -37,7 +47,7 @@ export default class extends Step {
     mainObject.position.y = -4.5;
     mainObject.rotation.z = 0.2;
     gui.addObject3D("Leaf",  mainObject, false);
-
+    
     object.add(background.object3D);
   }
 

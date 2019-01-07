@@ -30,6 +30,10 @@ class Step extends Event {
 
   }
 
+  init(){
+    this.dispatch("init");
+  }
+
   display() {
     this.dispatch("display");
   }

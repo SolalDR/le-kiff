@@ -41,6 +41,11 @@ class MicroScale extends Scale {
     super.hide( microConfig.transitions.all );
   }
 
+  // TODO Function updateFromStep
+  updateFromStep( step ){
+
+  }
+
   /**
    * Init THREE.js part
    */

@@ -79,7 +79,7 @@ class Scene {
           scene: this,
           datas: step
         });
-        this.step.display( isNextStep );
+        this.step.init(isNextStep);
       })
       this.step.hide( isNextStep );
       return; 
@@ -91,7 +91,7 @@ class Scene {
       datas: step
     });
 
-    this.step.display();
+    this.step.init();
   }
 
   /**

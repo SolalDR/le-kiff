@@ -65,7 +65,6 @@ class Chapter extends React.Component {
     }
 
     render () {
-      console.log(this.props)
       if( !this.props.step.rank ) return null;
 
       if (this.state.isReady) {

@@ -22,7 +22,7 @@ const entities = (state = initialState, action) => {
 
     case FETCH_STEPS:
       const newSteps = filterArrays(state.steps, action.steps);
-      const chapter = getChapterById(state.chapters, action.chapter_api_id);
+      const chapter = getChapterByApiId(state.chapters, action.chapter_api_id);
       return  {
         ...state,
         steps: [
@@ -32,7 +32,7 @@ const entities = (state = initialState, action) => {
               ...item,
               chapter_api_id: action.chapter_api_id,
               chapter_rank: chapter.rank,
-              chapter_id: action.chapter_id
+              chapter_id: chapter.id
             }
           })
         ]
@@ -105,4 +105,4 @@ const getNewLoadedSteps = (chapterIds, id) => {
 }
 
 
-const getChapterById = (chapterList, api_id) => chapterList.find((chapter) => api_id === chapter.api_id);
+const getChapterByApiId = (chapterList, api_id) => chapterList.find((chapter) => api_id === chapter.api_id);

@@ -50,7 +50,6 @@ class MicroScale extends Scale {
    * Init THREE.js part
    */
   initScene(e){
-
     var env = new THREE.CubeTextureLoader().setPath( '/images/molecule/ldr/' ).load( ['px.png','nx.png','py.png','ny.png','pz.png','nz.png' ] );
     e.molecule.result.scene.children[3].material.envMap = env; 
     e.molecule.result.scene.children[3].material.envMapIntensity = 2; 

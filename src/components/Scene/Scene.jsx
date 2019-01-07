@@ -28,7 +28,8 @@ class Scene extends React.Component {
     super(props);
 
     this.state = {
-      isThreeSceneMounted: false
+      isThreeSceneMounted: false,
+      currentStepRank: 1
     };
 
     this.sceneElement = React.createRef();
@@ -42,9 +43,9 @@ class Scene extends React.Component {
     this.setState({isThreeSceneMounted: true});
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.step.id !== nextProps.step.id) {
-      this.threeScene.selectStep(nextProps.step);
+  componentWillReceiveProps(props){
+    if (props.step.rank !== this.props.step.rank) {
+      this.threeScene.selectStep(props.step);
     }
   }
 
@@ -52,7 +53,7 @@ class Scene extends React.Component {
    * @param {string} name Name of scale
    */
   selectScale = (name) => {
-    this.threeScene.selectScale(name); 
+    this.threeScene.selectScale(name);
     this.props._setCurrentScale(name);
   }
 

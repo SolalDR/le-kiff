@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import gui from "~/services/gui";
 
 class FitPlane {
   
@@ -19,8 +18,6 @@ class FitPlane {
       map: this.background
     }));
     this.object3D.position.z = -distance;
-
-    gui.addMesh("Fit Plane", this.object3D);
   }
 
 }

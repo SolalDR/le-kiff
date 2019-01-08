@@ -5,11 +5,14 @@ import InfoManager from "~/webgl/components/Info/InfoManager";
 
 class InfoList extends React.Component {
 
-  componentDidMount(){
-    InfoManager.on("infos:update", this.onInfosUpdatePosition.bind(this));
+  constructor(props){
+    super(props);
+    this.infos = [];
     this.state = {
       visibleId: null
     }
+
+    InfoManager.on("infos:update", this.onInfosUpdatePosition.bind(this));
   }
 
   /**
@@ -30,7 +33,6 @@ class InfoList extends React.Component {
 
   render(){
     this.infos = this.props.infos.map(info => {
-      console.log(info)
       return <Info ref={React.createRef()} key={info.id} info={info}/>
     });
 

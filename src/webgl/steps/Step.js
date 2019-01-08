@@ -1,6 +1,7 @@
 import Event from "~/helpers/Event";
-import InfoManager from "~/webgl/components/Info/InfoManager";
+import Bus from "~/helpers/Bus";
 import gui from "~/services/gui";
+
 
 /**
  * @class
@@ -34,14 +35,17 @@ class Step extends Event {
   }
 
   init(){
+    Bus.dispatch("step:init", this);
     this.dispatch("init");
   }
 
   display() {
+    Bus.dispatch("step:display", this);
     this.dispatch("display");
   }
 
   hide(){
+    Bus.dispatch("step:hide", this);
     this.dispatch("hide");
   }
 }

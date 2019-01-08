@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { fetchChapters, fetchSteps } from '../../services/stores/actions';
-import PropTypes from 'prop-types';
 
+// TODO Delete when unused
 class StoreTest extends React.Component {
 
   constructor() {

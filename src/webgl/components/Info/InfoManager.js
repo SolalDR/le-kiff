@@ -53,6 +53,7 @@ class InfoManager extends Event {
     
 
     if(infoNeedsUpdate.size){
+      Bus.dispatch("infos:update", "");
       this.dispatch("infos:update", infoNeedsUpdate);
     }
   }

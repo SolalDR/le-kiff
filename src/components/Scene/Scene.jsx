@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { getCurrentScale } from '~/services/stores/reducers/selectors';
 import Info from "./components/Info/Info";
 import InfoManager from "~/webgl/components/Info/InfoManager";
+import Bus from "~/helpers/Bus";
 
 class Scene extends React.Component {
 
@@ -44,6 +45,10 @@ class Scene extends React.Component {
     this.threeScene.selectStep(this.props.step);
     var infos = this.props.step.infos.filter(info => info.scale === this.props.currentScale);
     this.threeScene.updateInfos(infos);
+
+    Bus.on("infos:update", ()=>{
+      console.log("Hello");
+    })
 
     InfoManager.on("infos:update", (infos)=>{
       if( this.infos ){

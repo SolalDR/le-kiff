@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import "./styles.sass";
+import { getChapters } from "../../services/stores/reducers/selectors";
 
 class Menu extends React.PureComponent {
 
@@ -8,26 +10,27 @@ class Menu extends React.PureComponent {
     this.props.closeCallback(e);
   }
 
-  render(){
+  renderMenuItems() {
+    return this.props.chapters.map((chapter, index) => {
+      return (
+        <Link onClick={this.handleCloseClick} key={index} to={`/chapter-${chapter.rank}`} className="menu__item">
+          <h1 className="heading-3">Chapitre {chapter.rank}</h1>
+          <p class="teasing-3">{chapter.content}</p>
+        </Link>
+      )
+    })
+  }
+
+  render() {
     var className = this.props.open ? "menu menu--visible" : "menu menu--hidden";
     return (
       <div className={className}>
+        {/* {this.renderMenuItems} */}
           <button className="menu__close" onClick={this.handleCloseClick}>
             <i className="material-icons">close</i>
           </button>
           <div className="menu__container">
-            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item">
-              <h1 className="heading-2">Chapitre 1</h1>
-            </Link>
-            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item">
-              <h1 className="heading-2">Chapitre 2</h1>
-            </Link>
-            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item">
-              <h1 className="heading-2">Chapitre 3</h1>
-            </Link>
-            <Link onClick={this.handleCloseClick} to="/chapter-1" className="menu__item">
-              <h1 className="heading-2">Chapitre 4</h1>
-            </Link>
+            {this.renderMenuItems()}
           </div>
       </div>
     );
@@ -35,4 +38,13 @@ class Menu extends React.PureComponent {
   
 }
 
-export default Menu;
+
+const mapStateToProps = (state) => {
+  console.log(state.entities.chapters);
+  return {
+    chapters: getChapters(state)
+  }
+}
+
+
+export default connect(mapStateToProps)(Menu);

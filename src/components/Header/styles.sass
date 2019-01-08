@@ -8,8 +8,57 @@
 
   &__menu-open 
     position: fixed
-    top: $space-m
+    top: $space-s
     right: $space-m
     border: none
-    background-color: transparent
+    outline: none
+    padding: ($space-m * .8) $space-s  $space-s
     box-shadow: none
+    cursor: pointer
+    background: pink
+
+    &:hover
+      .header__burger
+        transform: translateY(4px)
+        &:before
+          transform: translateY(-4px)
+        &:after
+          transform: translateY(4px)
+        &__line
+          transform: translateY(12px)
+
+  &__burger
+    position: relative
+    display: block
+    width: 24px
+    height: 2px
+    background: $color-secondary
+    font-size: 0
+    transition: transform $t-duration
+
+    &:before,
+    &:after
+      content: ''
+      position: absolute
+      left: 0
+      right: 0
+      height: 2px
+      background: $color-secondary
+      transition: transform $t-duration
+
+    &:before
+      top: -10px
+
+    &:after
+      bottom: -10px
+    
+    &__line
+      margin-top: 18px
+      display: block
+      width: 24px
+      height: 2px
+      background: $color-secondary
+      transition: transform $t-duration
+
+  
+

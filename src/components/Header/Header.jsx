@@ -19,7 +19,8 @@ class Header extends React.Component {
     return (
       <div className="header">
         <button className="header__menu-open" onClick={this.handleToggleMenu}>
-          <i className="material-icons">menu</i>
+          <i className="header__burger">menu</i>
+          <i className="header__burger__line"></i>
         </button>
         <Menu open={this.state.menuOpen} closeCallback={this.handleToggleMenu} />
       </div>

@@ -2,8 +2,9 @@
 
 .menu 
   position: fixed
-  top: 0
+  top: 100px
   left: 0
+  z-index: 3
 
   &--visible 
     pointer-events: all
@@ -13,27 +14,28 @@
 
   &__container 
     display: flex
+    flex-direction: column
+    align-items: flex-end
     position: relative
     width: 100vw
-    height: 100vh
 
   &__item 
-    height: 100vh
     flex: 1
-    box-shadow: 0px -5px 35px rgba(0, 0, 0, 0.49)
+    width: 17%
+    min-width: 230px
+    margin-bottom: $space-l
     color: $color-secondary
-    display: flex
-    align-items: center
-    justify-content: center
+    cursor: pointer
+    text-decoration: none
     transition: 
       duration: $t-duration
       property: transform
       timing-function: $t-timing-function
     
-    @for $i from 0 to 5
-      &:nth-child(#{$i})
-        background-color: darken($color-dark, $i*5%)
-        transition-delay: #{$i*0.05s}
+    // @for $i from 0 to 5
+    //   &:nth-child(#{$i})
+    //     background-color: darken($color-dark, $i*5%)
+    //     transition-delay: #{$i*0.05s}
 
 
   &__close
@@ -62,15 +64,15 @@
       transform: translateX(0)
       opacity: 1
 
-  &--hidden .menu
+  // &--hidden .menu
 
-    &__item
-      transform: translateY(-100%)
+  //   &__item
+  //     transform: translateY(-100%)
 
-    &__close
-      transition-delay: 0s
-      transform: translateX($space-xl)
-      opacity: 0
+  //   &__close
+  //     transition-delay: 0s
+  //     transform: translateX($space-xl)
+  //     opacity: 0
 
 
 

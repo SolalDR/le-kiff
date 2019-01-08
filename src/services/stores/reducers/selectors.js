@@ -7,6 +7,7 @@ export const getCurrentScale = ( state) => state.ui.scale;
 export const getCurrentInfos = (state) => state.ui.step.infos;
 export const getSteps = (state) => state.ui.steps;
 export const getStep = (state) => state.ui.step;
+export const getChapters = (state) => state.entities.chapters;
 
 
 export const getStepsForChapter = (state, rank) => {

@@ -20,7 +20,7 @@ $animation-duration: .2s
         transition: transform $animation-duration ease-out, opacity $animation-duration ease-out
 
       &__title
-        opacity: 1
+        opacity: .5
         transform: translateY(0)
         transition: $animation-duration transform $animation-duration ease-out, $animation-duration opacity $animation-duration ease-out
 
@@ -57,12 +57,6 @@ $animation-duration: .2s
         padding-left: 20px
         transform: translateX(100%)
 
-    &--none
-      display: block
-      height: 10px
-      width: 1px
-      background: $color-secondary
-
     &__control
       padding: 14px
 
@@ -90,6 +84,17 @@ $animation-duration: .2s
       transform: translateY(10px)
       transition: transform $animation-duration, opacity $animation-duration
 
+    //State
+    &:hover
+      .timeline__chapter
+        &__title
+          opacity: 1
+          transition: transform $animation-duration, opacity $animation-duration
+
+        &__indicator
+          opacity: .5
+          transition: transform $animation-duration, opacity $animation-duration          
+
   &__list
     position: relative
     width: 100%
@@ -107,12 +112,26 @@ $animation-duration: .2s
     &:after
       right: 0
 
+  &__progress
+    position: absolute
+    left: 0
+    right: 0
+    background: $color-secondary
+    height: 1px
+    transform-origin: left
+    transition: 
+      duration: $t-duration
+      property: transform
+      timing-function: $t-timing-function
+    z-index: 1
+
   &__item
     flex: 1
     position: relative
     display: flex
     pointer-events: none
 
+    //States
     &.is-active 
       .timeline
         &__item__button
@@ -124,14 +143,7 @@ $animation-duration: .2s
         &__item__title
           opacity: 1
           transform: translateY(0) translateX(-50%)
-
-      &:before
-        content: ''
-        position: absolute
-        left: 0
-        background: yellow
-        height: 2px
-        width: 50%
+      
 
     &:hover
       .timeline__item__title

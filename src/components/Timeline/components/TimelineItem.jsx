@@ -8,7 +8,10 @@ class TimelineItem extends React.Component {
 
   static propTypes = {
     rank: PropTypes.number.isRequired,
-    title: PropTypes.string
+    title: PropTypes.string,
+    onSelectCallback: PropTypes.func,
+    active: PropTypes.bool,
+    isPassed: PropTypes.bool
   };
 
   handleClick = () => {

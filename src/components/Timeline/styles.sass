@@ -1,13 +1,28 @@
 @import "./../../styles/core.scss"
+$animation-duration: .2s
   
 .timeline
   position: fixed
-  bottom: $space-s*3
+  bottom: 0
+  padding: $space-s*5 100px $space-s*2
   left: 50%
   transform: translateX(-50%)
   display: flex
   align-items: center
   justify-content: center
+
+  //States
+  &.is-active
+    .timeline__chapter
+      &__indicator
+        opacity: .25
+        transform: translateY(0)
+        transition: transform $animation-duration ease-out, opacity $animation-duration ease-out
+
+      &__title
+        opacity: 1
+        transform: translateY(0)
+        transition: $animation-duration transform $animation-duration ease-out, $animation-duration opacity $animation-duration ease-out
 
   &__inner
     position: relative
@@ -23,14 +38,6 @@
       border-bottom: 1px dashed $color-secondary
       opacity: .5
 
-    &::after
-      content: ""
-      display: block
-      position: absolute
-      background-color: #000
-      width: --width
-      height: 100%
-
   &__chapter
     color: $color-secondary
     white-space: nowrap
@@ -40,13 +47,13 @@
 
     &--prev
       .letter-reveal
-        left: 0
+        left: 100px
         padding-right: 10px
         transform: translateX(-100%)
 
     &--next
       .letter-reveal
-        right: 0
+        right: 100px
         padding-left: 20px
         transform: translateX(100%)
 
@@ -57,16 +64,48 @@
       background: $color-secondary
 
     &__control
+      padding: 14px
+
       &--next
-        padding: 6px
-        margin-left: -6px
+        margin-left: -10px
 
     &__control
       &--prev
         transform: rotate(-180deg)
-        padding: 6px
-        margin-right: -6px
-        margin-left: 6px
+        margin-right: -10px
+
+    &__inner
+      display: flex
+      flex-direction: column
+      text-align: center
+
+    &__indicator
+      opacity: 0
+      transform: translateY(10px)
+      transition: $animation-duration transform $animation-duration, $animation-duration opacity $animation-duration
+
+    &__title
+      margin-top: 5px
+      opacity: 0
+      transform: translateY(10px)
+      transition: transform $animation-duration, opacity $animation-duration
+
+  &__list
+    position: relative
+    width: 100%
+    display: flex
+
+    &:before,
+    &:after
+      content: ''
+      position: absolute
+      top: -5px
+      height: 10px
+      background: $color-secondary
+      width: 1px
+
+    &:after
+      right: 0
 
   &__item
     flex: 1
@@ -74,14 +113,25 @@
     display: flex
     pointer-events: none
 
-    &.is-active .timeline
-      &__item__button 
-        background: $color-secondary
-        transform: translateY(-50%) translateX(-50%) scale(1.4)
+    &.is-active 
+      .timeline
+        &__item__button
+          transform: translateY(-50%) translateX(-50%) scale(1.4)
 
-      &__item__title
-        opacity: 1
-        transform: translateY(0) translateX(-50%)
+          &:after
+            background-color: $color-secondary
+
+        &__item__title
+          opacity: 1
+          transform: translateY(0) translateX(-50%)
+
+      &:before
+        content: ''
+        position: absolute
+        left: 0
+        background: yellow
+        height: 2px
+        width: 50%
 
     &:hover
       .timeline__item__title
@@ -101,15 +151,13 @@
 
     &__button
       display: block
-      padding: 0
-      height: 8px
-      width: 8px
-      border-radius: 20px
       top: 0
       left: 50%
       position: absolute
+      display: block
+      padding: 10px
       z-index: 2
-      border: 1px solid $color-secondary
+      
       cursor: pointer
       pointer-events: all
       transform: translateY(-50%) translateX(-50%) scale(1)
@@ -117,6 +165,19 @@
         duration: $t-duration
         property: transform, background-color
         timing-function: $t-timing-function
+
+      &:after
+        content: ''
+        display: block
+        height: 8px
+        width: 8px
+        border: 1px solid $color-secondary
+        border-radius: 20px
+        transition: 
+          duration: $t-duration
+          property: background-color
+          timing-function: $t-timing-function
+        
 
       &:focus
         outline: none

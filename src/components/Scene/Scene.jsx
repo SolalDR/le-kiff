@@ -5,8 +5,6 @@ import ScaleMenu from "./components/ScaleMenu/ScaleMenu";
 import ThreeScene from "~/webgl/Scene";
 import PropTypes from 'prop-types';
 import { getCurrentScale } from '~/services/stores/reducers/selectors';
-import Info from "./components/Info/Info";
-import InfoManager from "~/webgl/components/Info/InfoManager";
 import InfoList from "./components/Info/InfoList";
 
 class Scene extends React.Component {

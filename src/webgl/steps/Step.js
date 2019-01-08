@@ -1,5 +1,6 @@
 import Event from "~/helpers/Event";
 import PointManager from "~/webgl/components/Point/PointManager";
+import gui from "~/services/gui";
 
 /**
  * @class
@@ -19,11 +20,13 @@ class Step extends Event {
   } = {}){
     super();
     this.scene= scene;
-    // TODO Replace with datas.rank 
     this.id = datas.id;
+    this.rank = datas.rank;
     this.chapter_id = datas.chapter_id;
     this.content = datas.content;
     this.infos = datas.infos;
+    
+    this.gui = gui.addFolder(`Chapter ${this.chapter_id} Step ${this.rank}`);
   }
 
   manageInfos(infos){

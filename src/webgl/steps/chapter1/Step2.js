@@ -27,18 +27,15 @@ export default class extends Step {
    * @param {*} event
    */
   initHumanScale( event ){
-    var mainObject = new THREE.Mesh(
+    this.main = new THREE.Mesh(
       new THREE.SphereBufferGeometry(1, 32, 32),
       new THREE.MeshBasicMaterial({
         color: 0xFF0000
       })
     );
-    mainObject.name = "main-step-2"
+    this.main.name = "main-step-2"
 
-    var object = this.scene.humanScale.group;
-    object.add(mainObject);
-
-    mainObject.scale.y = 1;
+    this.scene.humanScale.group.add(this.main);
   }
 
   display( isNextStep = false, event ) {
@@ -49,7 +46,7 @@ export default class extends Step {
   }
 
   hide() {
+    this.scene.humanScale.group.remove(this.main);
     super.hide();
-    gui.removeFolder("Leaf");
   }
 }

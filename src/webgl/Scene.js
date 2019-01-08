@@ -10,6 +10,7 @@ import Point from "./components/Point/Point";
 import renderer from "./rendering/Renderer";
 import MouseCaster from "./components/MouseCaster";
 import Chapters from "./steps";
+import History from "./steps/History";
 
 class Scene {
 
@@ -23,7 +24,6 @@ class Scene {
     this.camera.position.copy(new THREE.Vector3(0, 0, 8));
     this.renderer = renderer;
     this.renderer.init({ scene: this.threeScene,  camera: this.camera, element: element });
-
 
     this.mouseCaster = new MouseCaster({
       root: this.threeScene
@@ -48,6 +48,8 @@ class Scene {
     this.render();
     this.loop();
     window.scene = this;
+
+    History.on("register:step", () => console.log(History))
   }
 
   /**
@@ -67,22 +69,25 @@ class Scene {
 
     if( this.step ){
 
-      // Check if the next steps is directly after the current one
-      const isNextStep = (
-        this.step.chapter_id === step.chapter_id &&
-        step.id === this.step.id + 1
-      )
+      var previousStep = this.step;
 
-      // Asynchronous hide with display callback
-      this.step.once( 'hide', () => {
-        this.step = new Step({
+      var newStep = History.getStep(step.id);
+      if( !newStep ){
+        newStep = new Step({
           scene: this,
           datas: step
         });
-        this.step.init(isNextStep);
+        History.registerStep(newStep);
+      }
+
+      // Asynchronous hide with display callback
+      this.step.once( 'hide', () => {
+        this.step = newStep;
+        this.step.init( previousStep );
       })
-      this.step.hide( isNextStep );
-      return; 
+
+      this.step.hide( newStep );
+      return;
     }
 
     // First step displayed
@@ -92,6 +97,7 @@ class Scene {
     });
 
     this.step.init();
+    History.registerStep(this.step);
   }
 
   /**

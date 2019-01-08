@@ -8,7 +8,10 @@ class TimelineItem extends React.Component {
 
   static propTypes = {
     rank: PropTypes.number.isRequired,
-    title: PropTypes.string
+    title: PropTypes.string,
+    onSelectCallback: PropTypes.func,
+    active: PropTypes.bool,
+    isPassed: PropTypes.bool
   };
 
   handleClick = () => {
@@ -21,7 +24,7 @@ class TimelineItem extends React.Component {
       : "timeline__item";
     return (
       <div className={className}>
-        <button className="timeline__item__button" onClick={this.handleClick} />
+        <a className="timeline__item__button" onClick={this.handleClick} />
         <span className="timeline__item__title small">{this.props.title}</span>
       </div>
     );

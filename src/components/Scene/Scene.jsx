@@ -43,7 +43,7 @@ class Scene extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.step.id !== nextProps.step.id) {
+    if (this.props.step.rank !== nextProps.step.rank) {
       this.threeScene.selectStep(nextProps.step);
     }
   }

@@ -1,6 +1,7 @@
 import Step from "./../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
+import InfoManager from "~/webgl/components/Info/InfoManager"
 
 
 /**
@@ -22,18 +23,19 @@ export default class extends Step {
     });
 
     this.folder = {};
-
     if( AssetsManager.loader.isLoaded("chapter-1") ) {
       this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
     }
-    AssetsManager.loader.once("load:chapter-1", (event) => this.display( previousStep, event ))
+
+    AssetsManager.loader.once("load:chapter-1", (event) => {
+      this.display( previousStep, event )
+    })
   }
 
   initHumanScale( e ){
     this.main = e.step_1_human_leaf.result.scene;
     this.main.name = "main-step-1";
     
-
     this.scene.humanScale.group.add(this.main);
     var background = new FitPlane({
       background: e.background.result, 
@@ -51,8 +53,9 @@ export default class extends Step {
   }
 
   display( isNextStep = false, event ) {
-    this.scene.macroScale.updateFromStep(this);
-    this.scene.microScale.updateFromStep(this);
+    console.log(InfoManager.infos);
+    // this.scene.macroScale.updateFromStep(this);
+    // this.scene.microScale.updateFromStep(this);
     this.initHumanScale( event );
     super.display();
   }

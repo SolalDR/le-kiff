@@ -2,15 +2,16 @@ import * as THREE from "three";
 import EffectComposer, {RenderPass} from "@johh/three-effectcomposer"
 import UnrealBloomPass from "./UnrealBloomPass";
 import gui from "~/services/gui";
+import Viewport from "~/helpers/Viewport"
 
 class Renderer {
   constructor() {
     this.gui = gui.addFolder("Renderer");
     this.renderer = new THREE.WebGLRenderer({ antialias: true, gammaOutput: true });
     this.composer = new EffectComposer( this.renderer );
-    this.composer.setSize( window.innerWidth, window.innerHeight );
+    this.composer.setSize( Viewport.width, Viewport.height );
     this.render = this.composer.render.bind(this.composer);
-    this.renderer.setSize( window.innerWidth, window.innerHeight );    
+    this.renderer.setSize( Viewport.width, Viewport.height );    
   }
 
   init({
@@ -28,8 +29,8 @@ class Renderer {
   }
 
   initPostprocess(){
-    this.bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ));
-    this.bloomPass.setSize(window.innerWidth*2, window.innerHeight*2);
+    this.bloomPass = new UnrealBloomPass( new THREE.Vector2( Viewport.width, Viewport.height ));
+    this.bloomPass.setSize(Viewport.width*2, window.innerHeight*2);
     this.bloomPass.renderToScreen = true;
     this.bloomPass.threshold = 0;
     this.bloomPass.strength = 0.3;
@@ -46,10 +47,10 @@ class Renderer {
   }
 
   initEvents(){
-    window.addEventListener("resize", ()=>{
-      this.camera.aspect = window.innerWidth / window.innerHeight;
+    Viewport.on("resize", ()=>{
+      this.camera.aspect = Viewport.ratio;
       this.camera.updateProjectionMatrix();
-      this.renderer.setSize( window.innerWidth, window.innerHeight );
+      this.renderer.setSize( Viewport.width, Viewport.height );
     })
   }
 

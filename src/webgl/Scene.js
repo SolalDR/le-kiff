@@ -6,25 +6,28 @@ import * as THREE from "three";
 import ControllerManager from './camera/ControllerManager';
 import Clock from "./helpers/Clock";
 import gui from "~/services/gui";
-import Point from "./components/Point/Point";
+import InfoManager from "./components/Info/InfoManager";
 import renderer from "./rendering/Renderer";
 import MouseCaster from "./components/MouseCaster";
 import Chapters from "./steps";
 import History from "./steps/History";
+import Viewport from "~/helpers/Viewport";
 
 class Scene {
 
   constructor({
     element = null
   } = {}){
+    this.resolution =  new THREE.Vector2(Viewport.width, Viewport.height);
     this.threeScene = new THREE.Scene();
     this.threeScene.background = new THREE.Color(0x111111);
     this.clock = new Clock();
-    this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth/window.innerHeight, 0.1, 1000 );
+    this.camera = new THREE.PerspectiveCamera( 60, Viewport.ratio, 0.1, 1000 );
     this.camera.position.copy(new THREE.Vector3(0, 0, 8));
+    InfoManager.setCamera(this.camera);
     this.renderer = renderer;
     this.renderer.init({ scene: this.threeScene,  camera: this.camera, element: element });
-
+    
     this.mouseCaster = new MouseCaster({
       root: this.threeScene
     });
@@ -48,8 +51,6 @@ class Scene {
     this.render();
     this.loop();
     window.scene = this;
-
-    History.on("register:step", () => console.log(History))
   }
 
   /**
@@ -117,10 +118,8 @@ class Scene {
     }
   }
 
-  getNewPoint() {
-     const newPoint = new Point({ threeScene: this });
-    this.points.push(newPoint);
-    return newPoint;
+  updateInfos(infos) {
+    InfoManager.updateInfos(infos);
   }
 
   render(){
@@ -149,6 +148,7 @@ class Scene {
     this.mouseCaster.render();
     this.controllerManager.update();
 
+    InfoManager.update();
     AnimationManager.renderAnimations(this.clock.delta);
 
     this.renderer.render();

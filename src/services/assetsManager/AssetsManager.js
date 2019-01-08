@@ -44,6 +44,13 @@ class AssetsManager {
         }
       ]
     });
+    this.loader.on("load:chapter-1", (e)=>{
+      console.log("Chapter-1 loaded", e);
+    });
+    this.loader.on("load", (e)=>{
+      console.log("Load file" )
+    })
+
   }
 
 }

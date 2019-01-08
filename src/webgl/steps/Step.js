@@ -1,5 +1,5 @@
 import Event from "~/helpers/Event";
-import PointManager from "~/webgl/components/Point/PointManager";
+import InfoManager from "~/webgl/components/Info/InfoManager";
 import gui from "~/services/gui";
 
 /**
@@ -12,7 +12,7 @@ class Step extends Event {
    * @param {Scene} scene
    * @param {Object} datas 
    * @param {[string]} availableScale
-   * @param {[Point]} points A list of point See ~/webgl/components/point/Point.js
+   * @param {[Info]} points A list of point See ~/webgl/components/point/Point.js
    */
   constructor({
     scene = null,

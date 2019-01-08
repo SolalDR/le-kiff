@@ -92,7 +92,6 @@ class Chapter extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     chapter: getWholeChapter(state, 1),
     previousChapter: getChapter(state, 0),

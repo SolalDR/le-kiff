@@ -4,6 +4,7 @@ import PDBLoader from "./loaders/PDBLoader";
 // import HDRCubeTextureLoader from "./loaders/HDRCubeTextureLoader";
 import GLTFLoader from "./loaders/GLTFLoader";
 import DRACOLoader from "./loaders/DRACOLoader";
+import SoundLoader from "./loaders/SoundLoader";
 
 class AssetsManager {
   
@@ -32,7 +33,7 @@ class AssetsManager {
         }, 
         {
           test: /\.(?:mp3|wav)/,
-          loader: null
+          loader: new SoundLoader()
         },
         {
           test: /\.(?:pdb)/,

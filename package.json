@@ -33,6 +33,7 @@
     "git-flow": "^0.2.0",
     "glslify-loader": "^2.0.0",
     "gsap": "^2.0.2",
+    "howler": "^2.1.1",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "identity-obj-proxy": "3.0.0",
     "jest": "23.6.0",

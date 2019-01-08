@@ -66,7 +66,7 @@ class Chapter extends React.Component {
 
     onChapterChange = chapterRank => {
       //Call router to navigate 
-      console.log("chapter has changed", chapterRank);
+      // console.log("chapter has changed", chapterRank);
     }
 
     render () {

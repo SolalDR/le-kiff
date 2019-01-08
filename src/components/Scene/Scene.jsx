@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { getCurrentScale } from '~/services/stores/reducers/selectors';
 import Info from "./components/Info/Info";
 import InfoManager from "~/webgl/components/Info/InfoManager";
+import InfoList from "./components/Info/InfoList";
 
 class Scene extends React.Component {
 
@@ -40,11 +41,9 @@ class Scene extends React.Component {
     });
     
     this.threeScene.selectStep(this.props.step);
-    var infos = this.props.step.infos.filter(info => info.scale === this.props.currentScale);
-    this.threeScene.updateInfos(infos);
-
-    InfoManager.on("infos:update", this.onInfosUpdatePosition.bind(this));
-    this.setState({isThreeSceneMounted: true, infos});
+    this.updateInfos();
+    
+    this.setState({isThreeSceneMounted: true});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,43 +63,22 @@ class Scene extends React.Component {
     this.threeScene.selectScale(name);
     this.props._setCurrentScale(name);
   }
-  
 
   /**
-   * Callback InfoManager info-update
-   * @param {Map} infosPosition A Map with infos id as keys
+   * Fire at initialisation & rendering, notice scene to update listened point position
+   * @return {[PropTypes.infos]} Return the filtered list 
    */
-  onInfosUpdatePosition(infosPosition){
-    if( this.infos ){
-      this.infos.forEach((info)=>{
-        if( !info.ref.current ) return;
-        
-        // If position has been modified, update directly state
-        var screenPosition = infosPosition.get(info.props.info.id);
-        if( screenPosition ){
-          info.ref.current.setState({ screenPosition })
-        }
-      })
-    }
-  }
-
-  renderInfos(){
-    if(this.threeScene) {
-      var infos = this.props.step.infos.filter(info => info.scale === this.props.currentScale);
-      
-      this.infos = infos.map(info => <Info ref={React.createRef()} key={info.id} info={info}></Info>);
-      this.threeScene.updateInfos(infos);
-
-      return this.infos;
-    }
-    return null;
+  updateInfos(){
+    var infos = this.props.step.infos.filter(info => info.scale === this.props.currentScale);
+    this.threeScene.updateInfos(infos);
+    return infos;
   }
 
   render(){
     return (
       <div ref={(this.sceneElement)} className="scene">
           <ScaleMenu scale={this.props.currentScale} onSelectCallback={this.selectScale} />
-          {this.renderInfos()}
+          <InfoList infos={this.threeScene ? this.updateInfos() : []}></InfoList>
       </div>
     );
   }

@@ -120,7 +120,6 @@ class Scene {
   }
 
   updateInfos(infos) {
-    console.log("Scene: Update info")
     InfoManager.updateInfos(infos);
   }
 

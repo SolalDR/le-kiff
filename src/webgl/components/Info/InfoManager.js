@@ -14,6 +14,14 @@ class InfoManager extends Event {
   constructor(){
     super();
     this.infos = new Map();
+
+    this.state = {
+      isReady: false
+    }
+  }
+
+  get isReady() {
+    return this.state.isReady
   }
 
   /**
@@ -30,6 +38,7 @@ class InfoManager extends Event {
    */
   setScene(scene){
     this.scene = scene;
+    this.state.ready = true;
   }
 
   /**
@@ -37,7 +46,6 @@ class InfoManager extends Event {
    * @param {*} infos 
    */
   updateInfos(infos){
-    console.log("InfoManager: Update info")
     infos.forEach((info) => {
       if( !this.infos.get(info.id) ) {
         this.addInfo(info);
@@ -49,7 +57,6 @@ class InfoManager extends Event {
         this.removeInfo(info.id);
       }
     });
-    console.log("Number of info to track", this.infos.size, infos.length === this.infos.size)
 
     this.dispatch("update:infos", this.infos);
   }
@@ -59,7 +66,6 @@ class InfoManager extends Event {
    * @param {Info} info 
    */
   addInfo(info){
-    console.log("----add info", info.id)
     this.infos.set(info.id, new Info(info, this.scene.getObjectByName('main-step-1fez')));
   }
 
@@ -68,7 +74,6 @@ class InfoManager extends Event {
    * @param {Info} id 
    */
   removeInfo(id){
-    console.log("----remove info", id)
     this.infos.delete( id );
   }
 
@@ -84,8 +89,6 @@ class InfoManager extends Event {
         infoNeedsUpdate.set(info.id, infoUpdated);
       }
     })
-
-    console.log("---update", infoNeedsUpdate.size)
 
     if(infoNeedsUpdate.size){
       this.dispatch("infos:update", infoNeedsUpdate);

@@ -22,7 +22,6 @@ class MacroScale extends Scale {
 
     this.zonings = new Map();
     this.fluxs = new Map();
-
     this.init();
   }
 
@@ -139,19 +138,13 @@ class MacroScale extends Scale {
       var flux = this.fluxs.get(info.id);
       if (!flux) {
         flux = new Flux(info);
-        // this.earth.globe.add(flux.group);
+        this.earth.globe.add(flux.group);
         this.fluxs.set(info.id, flux);
       }
       flux.display();
     });
 
-    // let flux = new Flux(
-    //   { lat: 4.757908, lon: -72.147105 },
-    //   { lat: 48.862790, lon: 2.356302 },
-    //   2, 0.3 + 0.1 * Math.random()
-    // );
-
-    // this.earth.group.add(flux.fluxObject);
+    console.log(this.infos);
   }
 
   /**

@@ -1,7 +1,5 @@
-
 import * as THREE from "three";
-import FluxGeometry from "./FluxGeometry"
-
+import FluxGeometry from "./Geometry"
 
 class Flux {
 
@@ -10,17 +8,21 @@ class Flux {
     opacity: 1
   });
 
+  /**
+   * @constructor
+   * @param {Proptypes.Info} info 
+   */
   constructor(info){
-    console.log(info);
-    if (!info.attachment && !info.attachment.countries) return null;
+    if (!info.attachment && !info.attachment.flux) return null;
+    // TODO Refactoring this.id in this.info_id
+    this.id = info.id;
     this.group  = new THREE.Group();
-    this.group.name = "zoning-" + info.id;
+    this.group.name = "flux-" + info.id;
     this.group.visible = false;
-    // info.attachment.countries.forEach(element => {
-    //   if (countries[element]) {
-    //     this.group.add(new THREE.Mesh( countries[element], Zoning.Material ))
-    //   }
-    // });
+    info.attachment.flux.forEach(element => {
+      var fluxGeometry = new FluxGeometry(element);
+      this.group.add(new THREE.Mesh( fluxGeometry, Flux.Material));
+    });
   }
 
   display(){
@@ -47,7 +49,6 @@ class Flux {
       })
     })
   }
-
 }
 
 export default Flux;

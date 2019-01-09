@@ -1,6 +1,5 @@
-
 import * as THREE from "three";
-import ZoningGeometry from "./ZoningGeometry"
+import ZoningGeometry from "./Geometry"
 
 var countries = { 
   ARG: new ZoningGeometry("argentine"), 
@@ -12,6 +11,9 @@ var countries = {
 
 class Zoning {
 
+  /**
+   * @static 
+   */
   static get Material(){
     return new THREE.MeshBasicMaterial({
       color: 0xFFFFFF,
@@ -21,8 +23,14 @@ class Zoning {
     })
   }
 
+  /**
+   * @constructor
+   * @param {Proptype.Info} info 
+   */
   constructor(info){
     if (!info.attachment && !info.attachment.countries) return null;
+    // TODO Refactoring this.id in this.info_id
+    this.id = info.id;
     this.group  = new THREE.Group();
     this.group.name = "zoning-" + info.id;
     this.group.visible = false;
@@ -57,7 +65,6 @@ class Zoning {
       })
     })
   }
-
 }
 
 export default Zoning;

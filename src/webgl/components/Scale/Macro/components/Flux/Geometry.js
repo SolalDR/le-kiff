@@ -1,11 +1,11 @@
 import * as THREE from "three";
-import GeoCoord from "../../../../helpers/geo/GeoCoord";
-import easing from "../../../../../helpers/maths/Easing";
+import GeoCoord from "~/webgl/helpers/geo/GeoCoord";
+import easing from "~/helpers/maths/Easing";
 
 /**
  * Represent a geocoord arrow 
  */
-class Flux {
+class FluxGeometry {
 
   /**
    * @constructor
@@ -14,7 +14,7 @@ class Flux {
    * @param {float} radius 
    * @param {float} amplitude 
    */
-  constructor(from, to, radius, amplitude, precision = 50){
+  constructor({ from = null, to = null } = {}, radius = 3, amplitude = 0.4, precision = 50){
     this.from = from.constructor.name === "GeoCoord" ? from : new GeoCoord(from.lat, from.lon); 
     this.to = to.constructor.name === "GeoCoord" ? from : new GeoCoord(to.lat, to.lon); 
     this.radius = radius;
@@ -43,4 +43,4 @@ class Flux {
   }
 }
 
-export default Flux;
+export default FluxGeometry;

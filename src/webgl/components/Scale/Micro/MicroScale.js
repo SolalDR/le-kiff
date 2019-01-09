@@ -45,11 +45,10 @@ class MicroScale extends Scale {
 
   // TODO Function updateFromStep
   updateFromStep( step ){
-    
     var infos = step.infos.filter(info => info.scale === "micro" && info.type === "molecule");
 
     this.molecules.forEach(molecule => {
-      var info = infos.find(info => info.slug = molecule.name);
+      var info = infos.find(info => info.slug === molecule.name);
       if( info ){
         molecule.attach(info);
       } else {

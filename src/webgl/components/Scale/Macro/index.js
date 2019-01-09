@@ -1,11 +1,10 @@
 import * as THREE from "three";
 import Scale from "../Scale";
-import AssetsManager from "../../../../services/assetsManager/AssetsManager";
+import AssetsManager from "~/services/assetsManager/AssetsManager";
 import Earth from "./components/Earth";
 import Flux from "./components/Flux";
 import Zoning from "./components/Zoning";
-import AnimationManager from "./../../../AnimationManager";
-import Animation from "~/helpers/Animation";
+import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import { macroConfig } from "~/webgl/config";
 
 class MacroScale extends Scale {
@@ -20,14 +19,20 @@ class MacroScale extends Scale {
       ...this.state
     }
 
+    this.zonings = new Map();
+    this.fluxs = new Map();
     this.init();
   }
 
   display(previous, next){
     const { cameraAnim } = super.display( macroConfig.transitions.all );
-    cameraAnim.on("progress", ()=>{
-      this.scene.camera.lookAt(new THREE.Vector3());
-    })
+    cameraAnim
+      .on("progress", ()=>{
+        this.scene.camera.lookAt(new THREE.Vector3());  
+      })
+      .on("end", ()=>{
+        this.scene.light.position.copy(new THREE.Vector3(2, 0, 7));
+      })
   }
 
   hide(previous, next){
@@ -107,26 +112,59 @@ class MacroScale extends Scale {
     this.group.add(sky);
   }
 
+  updateZoningInfos(infos){
+    this.zonings.forEach((_, id) => {
+      if (!infos.find(info => info.id === id)) {
+        this.zonings.get(id).hide();
+      }
+    });
+
+    infos.forEach(info => {
+      var zoning = this.zonings.get(info.id);
+      if (!zoning) {
+        zoning = new Zoning(info);
+        this.earth.globe.add(zoning.group);
+        this.zonings.set(info.id, zoning);
+      }
+      zoning.display();
+    });
+  }
+
+  updateFluxInfos(infos){
+    this.fluxs.forEach((_, id) => {
+      if (!infos.find(info => info.id === id)) {
+        this.fluxs.get(id).hide();
+      }
+    });
+
+    infos.forEach(info => {
+      var flux = this.fluxs.get(info.id);
+      if (!flux) {
+        flux = new Flux(info);
+        this.earth.globe.add(flux.group);
+        this.fluxs.set(info.id, flux);
+      }
+      flux.display();
+    });
+  }
+
   /**
    * trigger when a new steps arrived
    * @param {[Step]} step
    */
   updateFromStep(step){
-    // console.log("Init macro scale step", step);
-    let flux = new Flux(
-      { lat: 4.757908, lon: -72.147105 },
-      { lat: 48.862790, lon: 2.356302 },
-      2, 0.3 + 0.1 * Math.random()
-    );
-
-    this.earth.group.add(flux.fluxObject);
-
-    this.zonings = [];
-    ["bolivie", "guyane", "france", "perou"].forEach(country => {
-      var zoning = new Zoning(country); 
-      this.earth.group.add(zoning.object);
-      this.zonings.push(zoning);
+    var infos = step.infos.filter(info => info.scale === "macro");
+    
+    var zoningInfos = infos.filter(info => {
+      if( info.attachment && info.attachment.type === "zoning" ) return true;
     });
+
+    var fluxInfos = infos.filter(info => {
+      if( info.attachment && info.attachment.type === "flux" ) return true;
+    });
+
+    this.updateZoningInfos(zoningInfos);
+    this.updateFluxInfos(fluxInfos);
   }
   
   /**
@@ -136,8 +174,6 @@ class MacroScale extends Scale {
   loop(){
     if( !this.earth ) return;
     super.loop();
-
-    this.earth.group.rotation.y += 0.0005;
 
     if(this.earth && this.earth.clouds) {
       this.earth.clouds.rotation.y += 0.001;

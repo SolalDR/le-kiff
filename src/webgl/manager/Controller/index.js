@@ -1,10 +1,10 @@
-import RadialControl from "./RadialControl";
-import RailsControl from "./RailsControl";
+import RadialControl from "./components/RadialControl";
+import RailsControl from "./components/RailsControl";
 
 class ControllerManager {
   constructor({
     camera = null,
-    controller = "rails",
+    controller = "radial",
     mouseCaster = null
   } = {}){
     this.camera = camera;

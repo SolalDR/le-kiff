@@ -2,10 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 class TimelineItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+  
   static propTypes = {
     rank: PropTypes.number.isRequired,
     title: PropTypes.string,
@@ -24,7 +21,7 @@ class TimelineItem extends React.Component {
       : "timeline__item";
     return (
       <div className={className}>
-        <a className="timeline__item__button" onClick={this.handleClick} />
+        <button className="timeline__item__button" onClick={this.handleClick} />
         <span className="timeline__item__title small">{this.props.title}</span>
       </div>
     );

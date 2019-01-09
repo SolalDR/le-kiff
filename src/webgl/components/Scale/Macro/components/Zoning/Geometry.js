@@ -4,9 +4,8 @@ import geoFRA from "~/datas/geojson/FRA.geo.json";
 import geoGUF from "~/datas/geojson/GUF.geo.json";
 import geoPER from "~/datas/geojson/PER.geo.json";
 import * as THREE from "three";
-import GeoCoord from "../../../../helpers/geo/GeoCoord";
-import gui from "~/services/gui.js";
-
+import GeoCoord from "~/webgl/helpers/geo/GeoCoord";
+import {macroConfig} from "~/webgl/config";
 
 var countries = { 
   argentine: geoARG, 
@@ -16,22 +15,13 @@ var countries = {
   perou: geoPER 
 };
 
+class ZoningGeometry {
 
-class Zoning {
-
-  static Material1 = new THREE.MeshBasicMaterial({
-    color: 0xFFFFFF,
-    side: THREE.DoubleSide, 
-    transparent: true, 
-    opacity: 0
-  });
-  
   constructor(name){
     this.geojson = countries[name];
     if( !this.geojson ) return null;
 
     this.group = new THREE.Group();
-    
     var coordinatesList = [];
     this.geojson.features.forEach((feature, index) => {
       feature.geometry.coordinates.forEach(coordinates => coordinatesList.push(coordinates))
@@ -49,25 +39,16 @@ class Zoning {
     var geometry2D = new THREE.ShapeGeometry( shape );
     var geometry3D = new THREE.Geometry();
     geometry2D.vertices.forEach(vertex => {
-      geometry3D.vertices.push(new GeoCoord(vertex.y, vertex.x).getCartesianCoord(2.05))
+      geometry3D.vertices.push(new GeoCoord(vertex.y, vertex.x).getCartesianCoord(macroConfig.earth.zoningRadius))
     })
 
     geometry3D.verticesNeedUpdate = true;
     geometry3D.faces = geometry2D.faces;
     geometry3D.computeFaceNormals();
     geometry3D.computeVertexNormals();
-    
-    this.object = new THREE.Mesh(geometry3D, new THREE.MeshBasicMaterial({
-      color: 0xFFFFFF,
-      side: THREE.DoubleSide, 
-      transparent: true, 
-      opacity: 0
-    }));
 
-  } 
-
+    return geometry3D
+  }
 }
 
-gui.addMaterial("zoning", Zoning.Material1);
-
-export default Zoning;
+export default ZoningGeometry;

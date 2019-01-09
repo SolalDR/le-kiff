@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 import Menu from "../Menu/Menu";
 import "./styles.sass";
 
@@ -7,24 +9,55 @@ class Header extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      menuOpen: false 
+      menuOpen: false,
+      menuPosY: 0
     }
   }
 
   handleToggleMenu = (e)=>{
     this.setState({menuOpen: !this.state.menuOpen});
   }
+
+  initPos = (el) => {
+    this.setState({
+      ...this.state,
+      menuPosY: el.getBoundingClientRect().top
+    });
+  }
   
   render () {
+    let menu = this.state.menuPosY > 0 ? <Menu open={this.state.menuOpen} menuPosY={this.state.menuPosY} closeCallback={this.handleToggleMenu} /> : null;
+    const headerClass = this.state.menuOpen ? "header is-active" : "header";
     return (
-      <div className="header">
-        <button className="header__menu-open" onClick={this.handleToggleMenu}>
-          <i className="material-icons">menu</i>
-        </button>
-        <Menu open={this.state.menuOpen} closeCallback={this.handleToggleMenu} />
+      <div className={headerClass}>
+        { this.props.isLoaded && 
+          <div>
+            <div className="header__top">
+              <div className="header__links">
+                <Link className="header__link" to={'/'}>
+                  <span className="heading-5">Crédits</span>
+                </Link>
+                <Link className="header__link" to={'/'}>
+                  <span className="heading-5">À propos</span>
+                </Link>
+              </div>
+              <button className="header__menu" onClick={this.handleToggleMenu} ref={this.initPos}>
+                <i className="header__burger">menu</i>
+                <span className="header__menu--close"></span>
+              </button> 
+            </div>
+            {menu}
+          </div>
+        }
       </div>
     );
   }
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+  return {
+    isLoaded: state.entities.chaptersLoaded
+  }
+}
+
+export default connect(mapStateToProps)(Header);

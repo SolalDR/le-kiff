@@ -1,19 +1,18 @@
-import MicroScale from "./components/Scale/Micro/MicroScale";
-import HumanScale from "./components/Scale/Human/HumanScale";
-import MacroScale from "./components/Scale/Macro/MacroScale";
-import AnimationManager from "./AnimationManager";
+import { MicroScale, HumanScale, MacroScale} from "./components/Scale/index";
+import AnimationManager from "./manager/Animation";
+import ControllerManager from './manager/Controller';
+import InfoManager from './manager/Info';
+
 import * as THREE from "three";
-import ControllerManager from './camera/ControllerManager';
 import Clock from "./helpers/Clock";
 import gui from "~/services/gui";
-import InfoManager from "./components/Info/InfoManager";
 import renderer from "./rendering/Renderer";
 import MouseCaster from "./components/MouseCaster";
 import Chapters from "./steps";
 import History from "./steps/History";
 import Viewport from "~/helpers/Viewport";
 
-class Scene {
+class WebGL {
 
   constructor({
     element = null
@@ -23,10 +22,16 @@ class Scene {
     this.threeScene.background = new THREE.Color(0x111111);
     this.clock = new Clock();
     this.camera = new THREE.PerspectiveCamera( 60, Viewport.ratio, 0.1, 1000 );
+    this.renderer = renderer;
     this.camera.position.copy(new THREE.Vector3(0, 0, 8));
     InfoManager.setCamera(this.camera);
-    this.renderer = renderer;
-    this.renderer.init({ scene: this.threeScene,  camera: this.camera, element: element });
+    InfoManager.setScene(this.threeScene);
+    
+    this.renderer.init({ 
+      scene: this.threeScene,  
+      camera: this.camera, 
+      element: element 
+    });
     
     this.mouseCaster = new MouseCaster({
       root: this.threeScene
@@ -43,6 +48,7 @@ class Scene {
     this.humanScale.display( "micro" );
     
     this.points = []; // TODO: add to pointsManager
+    
     this.state = {
       currentScale: "human",
       previousScale: "human"
@@ -123,13 +129,13 @@ class Scene {
   }
 
   render(){
-    var light = new THREE.PointLight(0xffffff, 3.5);
-    light.position.x = 5;
-    light.position.z = 5;
-    light.position.y = 5;
-    this.threeScene.add(light);
+    this.light = new THREE.PointLight(0xffffff, 1.9);
+    this.light.position.x = 5;
+    this.light.position.z = 5;
+    this.light.position.y = 5;
+    this.threeScene.add(this.light);
 
-    gui.addLight("Light 1", light);
+    gui.addLight("Light 1", this.light);
   }
 
   loop = () => {
@@ -158,4 +164,4 @@ class Scene {
 
 }
 
-export default Scene;
+export default WebGL;

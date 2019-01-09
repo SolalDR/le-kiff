@@ -2,14 +2,89 @@
 
 .header 
   position: fixed
-  top: 0
+  top: $space-s
   left: 0
+  width: 100vw
+  height: 0
   z-index: 2
 
-  &__menu-open 
-    position: fixed
-    top: $space-m
+  &__menu
+    position: absolute
     right: $space-m
     border: none
-    background-color: transparent
+    outline: none
+    padding: ($space-m * .8) $space-s ($space-m * .9)
     box-shadow: none
+    cursor: pointer
+
+    &:hover
+      .header__burger
+        transform: translateY(4px)
+        &:before
+          transform: translateY(-4px)
+        &:after
+          transform: translateY(4px)
+        &__line
+          transform: translateY(12px)
+
+    &--close
+      position: absolute
+      top: $space-s * .6
+      right: $space-s
+      height: 2px
+      width: $space-m
+      opacity: 0
+      z-index: 5
+
+      &:before,
+      &:after
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        width: $space-m
+        height: 1px
+        background: $color-secondary
+        z-index: 7
+        transition: 
+          duration: $t-duration
+          property: transform, opacity
+          timing-function: $t-timing-function
+
+  &__burger
+    opacity: 0
+
+  &__links
+    position: absolute
+    top: $space-s
+    right: $space-l + $space-m
+
+  &__link
+    display: inline-block
+    margin-right: $space-m
+    transform: translateY(200%)
+    opacity: 0
+    color: $color-secondary
+    text-decoration: none
+    pointer-events: none
+    transition: 
+      duration: $t-duration
+      property: transform, opacity
+      timing-function: $t-timing-function
+
+  &.is-active
+    .header__link 
+      transform: translateY(0)
+      opacity: 1
+
+    .header__menu--close
+      opacity: 1
+        
+      &:before
+        transform: translateY(15px) rotate(45deg)
+
+      &:after
+        transform: translateY(15px) rotate(-45deg)
+
+

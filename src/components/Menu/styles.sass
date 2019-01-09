@@ -1,40 +1,125 @@
 @import "./../../styles/core.scss"
 
 .menu 
-  position: fixed
-  top: 0
-  left: 0
-
-  &--visible 
-    pointer-events: all
-
-  &--hidden 
-    pointer-events: none
+  position: absolute
+  top: 100px
+  width: 0
+  right: 0
+  z-index: 3
+  pointer-events: none
 
   &__container 
-    display: flex
     position: relative
-    width: 100vw
-    height: 100vh
-
-  &__item 
-    height: 100vh
-    flex: 1
-    box-shadow: 0px -5px 35px rgba(0, 0, 0, 0.49)
-    color: $color-secondary
-    display: flex
-    align-items: center
-    justify-content: center
+    float: right
+    margin-right: $space-m + $space-s
     transition: 
       duration: $t-duration
       property: transform
       timing-function: $t-timing-function
-    
-    @for $i from 0 to 5
-      &:nth-child(#{$i})
-        background-color: darken($color-dark, $i*5%)
-        transition-delay: #{$i*0.05s}
 
+  &__item 
+    flex: 1
+    display: block
+    margin-bottom: $space-m
+    padding-right: $space-l
+    text-align: right
+    color: $color-secondary
+    transition: 
+      duration: $t-duration * 1.5
+      property: transform, opacity
+      timing-function: $t-timing-function
+
+    @for $i from 0 to 5
+      &:nth-of-type(#{$i})
+        .menu__item__title
+          transition-delay: #{$i*0.05s}
+
+    &__link
+      position: relative
+      display: block
+      color: $color-secondary
+      text-decoration: none
+
+    &__title
+      display: block
+      width: 100%
+      position: relative
+      margin-bottom: 10px
+      opacity: 0
+      transform: translateY(-100%)
+      transition: 
+          duration: $t-duration
+          property: opacity, transform
+          timing-function: $t-timing-function
+
+      
+
+    &__burger
+      position: absolute
+      top: 10px
+      right: -($space-m * 2) 
+      width: $space-m
+      height: 1px
+      background: $color-secondary
+      pointer-events: none
+      transition: 
+        duration: $t-duration
+        property: transform
+        timing-function: $t-timing-function
+
+    &__time
+      padding-bottom: $space-m
+      padding-right: $space-l
+
+      &__icon
+        opacity: 0
+        transition: 
+          duration: $t-duration * 1.5
+          property: opacity
+          timing-function: $t-timing-function
+
+      &__value
+        display: inline-block
+        opacity: 0
+        transform: translateX(15%)
+        transition: 
+          duration: $t-duration * 1.5
+          property: opacity, transform
+          timing-function: $t-timing-function
+
+    &__expand
+      width: 30%
+      min-width: 350px
+      margin-right: -($space-l)
+      overflow: hidden
+      transition: 
+        duration: $t-duration * 1.5
+        property: height, opacity
+        timing-function: $t-timing-function
+
+    &__content
+      opacity: 0
+      padding-right: $space-l
+      transform: skewX(10deg) translateX(10%)
+      transition: 
+        duration: $t-duration * 1.5
+        property: transform
+        timing-function: $t-timing-function
+
+    //States
+    &.is-active
+      .menu__item
+        &__content
+          opacity: 1
+          transform: skewX(0) translateX(0)
+
+        &__time
+          &__value
+            opacity: 1
+            transform: translateX(0)
+
+          &__icon
+            opacity: 1
 
   &__close
     position: fixed
@@ -52,27 +137,27 @@
       property: transform, opacity
       timing-function: $t-timing-function
 
-  &--visible .menu
 
-    &__item
-      transform: translateY(0)
+  //States
+  &.is-active
+    pointer-events: all
+      
+    .menu
+      &__item
+        opacity: 1
+        transform: translateY(0)
 
-    &__close
-      transition-delay: $t-duration
-      transform: translateX(0)
-      opacity: 1
+        &.is-active
+          .menu__item__title
+            opacity: 1
 
-  &--hidden .menu
+        &__title
+          opacity: .5
+          transform: translateY(0)
 
-    &__item
-      transform: translateY(-100%)
-
-    &__close
-      transition-delay: 0s
-      transform: translateX($space-xl)
-      opacity: 0
-
-
+      &__container
+        transform: translateY(0)
+      
 
 
   

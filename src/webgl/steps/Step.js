@@ -1,6 +1,7 @@
 import Event from "~/helpers/Event";
-import InfoManager from "~/webgl/components/Info/InfoManager";
+import Bus from "~/helpers/Bus";
 import gui from "~/services/gui";
+
 
 /**
  * @class
@@ -26,6 +27,10 @@ class Step extends Event {
     this.content = datas.content;
     this.infos = datas.infos;
     
+    this.state = {
+      initialised: false
+    }
+
     this.gui = gui.addFolder(`Chapter ${this.chapter_id} Step ${this.rank}`);
   }
 
@@ -34,14 +39,21 @@ class Step extends Event {
   }
 
   init(){
+    this.state.initialised = true;
+    Bus.dispatch("step:init", this);
     this.dispatch("init");
   }
 
   display() {
+    this.scene.microScale.updateFromStep(this);
+    this.scene.macroScale.updateFromStep(this);
+    
+    Bus.dispatch("step:display", this);
     this.dispatch("display");
   }
 
   hide(){
+    Bus.dispatch("step:hide", this);
     this.dispatch("hide");
   }
 }

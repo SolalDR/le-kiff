@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import AnimationManager from "./../AnimationManager";
-import Animation from "~/helpers/Animation";
+import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import Event from "~/helpers/Event";
+import Bus from "~/helpers/Bus";
 
 /**
  * @class
@@ -83,6 +83,7 @@ class RailsControl extends Event {
     
     // Emit events
     this.dispatch("start:move", this.state.moveData);
+    Bus.dispatch("controls:move-to", to, 2);
     return this.state.moveData.animation;
   }
 
@@ -118,6 +119,7 @@ class RailsControl extends Event {
     );
 
     this.dispatch("start:look", this.state.lookData);
+    Bus.dispatch("controls:look-to", to, 2);
     return this.state.lookData.animation;
   }
 }

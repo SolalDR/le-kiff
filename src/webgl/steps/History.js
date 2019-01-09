@@ -20,7 +20,7 @@ class History extends Event {
     if( !this.chapters.has(step.chapter_id) ) this.registerChapter(step.chapter_id);
     this.chapters.get(step.chapter_id).set(step.id, step);
     this.steps.set(step.id, step);
-    Bus.dispatch("history:register-step", step, 2);
+    Bus.dispatch("history:register-step", step, 1);
     this.dispatch("register:step", step);
   }
 

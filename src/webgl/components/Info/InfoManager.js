@@ -1,5 +1,6 @@
 import Event from "~/helpers/Event";
 import Info from "./Info";
+import Bus from "~/helpers/Bus";
 
 /**
  * Manage the positions of the Info passed 
@@ -59,6 +60,7 @@ class InfoManager extends Event {
     });
 
     this.dispatch("update:infos", this.infos);
+    Bus.verbose("infos-manager:update")
   }
 
   /**
@@ -66,7 +68,9 @@ class InfoManager extends Event {
    * @param {Info} info 
    */
   addInfo(info){
-    this.infos.set(info.id, new Info(info, this.scene.getObjectByName('main-step-1fez')));
+    var object = ( info.attachment && info.attachment.name ) ? this.scene.getObjectByName(info.attachment.name) : null;
+    this.infos.set(info.id, new Info(info, object));
+    Bus.verbose("infos-manager: add info " + info.id, 3)
   }
 
   /**
@@ -75,6 +79,18 @@ class InfoManager extends Event {
    */
   removeInfo(id){
     this.infos.delete( id );
+    Bus.verbose("infos-manager: remove info " + id, 3)
+  }
+
+  /**
+   * Attach a 3D object to an info. Use full when the object 3D is created after the infos was added
+   * @param {int} id 
+   */
+  attachObjectFromInfoId(id) {
+    var info = this.infos.get(id)
+    if (info) {
+
+    }
   }
 
   /**

@@ -12,7 +12,7 @@
  * later by drawing a single buffer and by sending the appropriate faceIndex via vertex attributes.
  * The arrangement of the faces is fixed, as assuming this arrangement, the sampling function has been written.
  */
-import * as THREE from "three";
+
 
 var PMREMCubeUVPacker = ( function () {
 

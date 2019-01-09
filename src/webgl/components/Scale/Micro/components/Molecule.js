@@ -1,6 +1,6 @@
 import BufferGeometryUtils from "../../../../helpers/BufferGeometryUtilsOld";
 import Event from  "~/helpers/Event";
-import * as THREE from "three";
+
 import * as exportInstancedMesh from "three-instanced-mesh";
 
 var InstancedMesh = exportInstancedMesh(THREE);

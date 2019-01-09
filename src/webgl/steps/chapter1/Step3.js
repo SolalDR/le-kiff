@@ -1,6 +1,6 @@
 import Step from "./../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
-import * as THREE from "three";
+
 
 /**
  * @constructor

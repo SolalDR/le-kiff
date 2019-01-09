@@ -1,4 +1,4 @@
-import * as THREE from "three";
+
 /**
  * @author bhouston / http://clara.io/
  *

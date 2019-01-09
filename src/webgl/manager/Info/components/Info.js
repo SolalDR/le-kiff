@@ -1,6 +1,6 @@
 import Event from "~/helpers/Event";
 import Viewport from "~/helpers/Viewport"
-import * as THREE from "three";
+
 
 /**
  * Represent the link with a react infos

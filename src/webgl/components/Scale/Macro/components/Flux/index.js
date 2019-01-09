@@ -1,4 +1,4 @@
-import * as THREE from "three";
+
 import FluxGeometry from "./Geometry"
 
 class Flux {

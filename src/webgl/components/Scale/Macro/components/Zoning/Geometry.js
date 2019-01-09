@@ -3,7 +3,7 @@ import geoBOL from "~/datas/geojson/BOL.geo.json";
 import geoFRA from "~/datas/geojson/FRA.geo.json";
 import geoGUF from "~/datas/geojson/GUF.geo.json";
 import geoPER from "~/datas/geojson/PER.geo.json";
-import * as THREE from "three";
+
 import GeoCoord from "~/webgl/helpers/geo/GeoCoord";
 import {macroConfig} from "~/webgl/config";
 

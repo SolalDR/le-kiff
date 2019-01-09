@@ -1,4 +1,4 @@
-import * as THREE from "three";
+
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import Event from "~/helpers/Event";
 import Bus from "~/helpers/Bus";

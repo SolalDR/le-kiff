@@ -1,4 +1,4 @@
-import * as THREE from "three";
+
 
 /**
 * @author Richard M. / https://github.com/richardmonette

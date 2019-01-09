@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import EffectComposer, {RenderPass} from "@johh/three-effectcomposer"
 import UnrealBloomPass from "./UnrealBloomPass";
 import {guiRendering} from "~/services/gui";

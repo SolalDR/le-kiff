@@ -1,10 +1,8 @@
-import {Color, Vector3} from "three";
-
 export default { 
-  background: new Color(0x111111),
+  background: new THREE.Color(0x111111),
   camera: {
-    position: new Vector3(0, 0, 5),
-    lookAt: new Vector3()
+    position: new THREE.Vector3(0, 0, 5),
+    lookAt: new THREE.Vector3()
   },
   earth: {
     globeRadius: 3,
@@ -16,12 +14,12 @@ export default {
     all: {
       duration: 500,
       position: {
-        from: new Vector3(0, 0, 3.1),
-        to: new Vector3(0, 0, 8)
+        from: new THREE.Vector3(0, 0, 3.1),
+        to: new THREE.Vector3(0, 0, 8)
       },
       target: {
-        from: new Vector3(0, 0, 0),
-        to: new Vector3(0, 0, 0)
+        from: new THREE.Vector3(0, 0, 0),
+        to: new THREE.Vector3(0, 0, 0)
       },
       postprocess: {
         duration: 400,

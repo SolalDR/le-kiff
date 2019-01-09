@@ -6,6 +6,7 @@ import WebGL from "~/webgl/WebGL";
 import PropTypes from 'prop-types';
 import { getCurrentScale } from '~/services/stores/reducers/selectors';
 import InfoList from "./components/Info/InfoList";
+import {InfoManager} from "~/webgl/manager"
 
 class Scene extends React.Component {
 
@@ -39,7 +40,7 @@ class Scene extends React.Component {
     });
     
     this.webgl.selectStep(this.props.step);
-    this.updateInfos();
+    InfoManager.updateInfos([]);
     
     this.setState({isThreeSceneMounted: true});
   }
@@ -68,7 +69,7 @@ class Scene extends React.Component {
    */
   updateInfos(){
     var infos = this.props.step.infos.filter(info => info.scale === this.props.currentScale);
-    this.webgl.updateInfos(infos);
+    InfoManager.updateInfos(infos);
     return infos;
   }
 

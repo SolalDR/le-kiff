@@ -62,7 +62,6 @@ class WebGL {
    * @param { { id, chapter_id, datas }} step 
    */
   selectStep(step) {
-    // TODO Replace with datas.rank
     // TODO Replace chapters[0] with rank
     // get correct step contructor
     var Step = Chapters[0][step.rank - 1];
@@ -120,10 +119,6 @@ class WebGL {
       this.state.previousScale = currentScale;
       this.state.currentScale = name;
     }
-  }
-
-  updateInfos(infos) {
-    InfoManager.updateInfos(infos);
   }
 
   render(){

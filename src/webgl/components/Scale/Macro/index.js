@@ -5,7 +5,7 @@ import Earth from "./components/Earth";
 import Flux from "./components/Flux";
 import Zoning from "./components/Zoning";
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
-import { macroConfig } from "~/webgl/config";
+import config from "./config";
 
 class MacroScale extends Scale {
   
@@ -25,7 +25,7 @@ class MacroScale extends Scale {
   }
 
   display(previous, next){
-    const { cameraAnim } = super.display( macroConfig.transitions.all );
+    const { cameraAnim } = super.display( config.transitions.all );
     cameraAnim
       .on("progress", ()=>{
         this.scene.camera.lookAt(new THREE.Vector3());  
@@ -36,7 +36,7 @@ class MacroScale extends Scale {
   }
 
   hide(previous, next){
-    super.hide( macroConfig.transitions.all );
+    super.hide( config.transitions.all );
   }
 
 

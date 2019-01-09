@@ -1,5 +1,3 @@
-
-
 export default {
   background: new THREE.Color(0xf2f3ee), 
   postprocess: {
@@ -9,4 +7,4 @@ export default {
       diff: 5.7
     }
   }
-};
+}

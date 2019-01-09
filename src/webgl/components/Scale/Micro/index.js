@@ -1,9 +1,9 @@
 import Molecule from "./components/Molecule";
 import AssetsManager from "~/services/assetsManager/AssetsManager";
 import Scale from "../Scale";
-
-import { microConfig } from "~/webgl/config";
+import config from "./config";
 import Bus from "~/helpers/Bus";
+import {guiMicro} from "~/services/gui"
 
 class MicroScale extends Scale {
 
@@ -36,11 +36,11 @@ class MicroScale extends Scale {
   }
   
   display(previous, next){
-    super.display( microConfig.transitions.all );
+    super.display( config.transitions.all );
   }
 
   hide(previous, next){
-    super.hide( microConfig.transitions.all );
+    super.hide( config.transitions.all );
   }
 
   // TODO Function updateFromStep
@@ -75,16 +75,25 @@ class MicroScale extends Scale {
    * Init THREE.js part
    */
   initScene(e){
-    var material = this.initMoleculeMaterial(e.molecule.result.scene.children[3])
+    var bondMaterial = this.initMoleculeMaterial(e.molecule.result.scene.children[3])
+    var atomMaterial = bondMaterial.clone();
 
+    guiMicro.addMaterial("Material liaison atom", bondMaterial);
+    guiMicro.addMaterial("Material atom", atomMaterial);
     var list = ["cocaine", "kerosene"];
 
+    var guiMolecule = guiMicro.addFolder("Molecules");
+
     list.forEach(item => {
-      this.molecules.set(item, new Molecule({
+      const molecule = new Molecule({
         name: item,
         pdb: e[item].result,
-        material
-      }));
+        bondMaterial, 
+        atomMaterial
+      });
+      guiMolecule.addObject3D(molecule.name, molecule.object3D);
+      this.molecules.set(item, molecule);
+      
       this.group.add(this.molecules.get(item).object3D);
     })
     

@@ -1,22 +1,20 @@
-import {Color, Vector3} from "three";
-
 export default {
-  background: new Color(0x737373),
+  background: new THREE.Color(0x737373),
   camera: {
-    position: new Vector3(0, 0, 5),
-    lookAt: new Vector3()
+    position: new THREE.Vector3(0, 0, 5),
+    lookAt: new THREE.Vector3()
   },
 
   transitions: {
     micro: {
       duration: 2000,
       position: {
-        from: new Vector3(0, 0, 0),
-        to: new Vector3(0, 0, 8)
+        from: new THREE.Vector3(0, 0, 0),
+        to: new THREE.Vector3(0, 0, 8)
       },
       target: {
-        from: new Vector3(0, 0, 0),
-        to: new Vector3(0, 0, 0)
+        from: new THREE.Vector3(0, 0, 0),
+        to: new THREE.Vector3(0, 0, 0)
       },
       postprocess: {
         duration: 1000,
@@ -31,12 +29,12 @@ export default {
     macro: {
       duration: 1000,
       position: {
-        from: new Vector3(0, 10, 25),
-        to: new Vector3(0, 0, 8)
+        from: new THREE.Vector3(0, 10, 25),
+        to: new THREE.Vector3(0, 0, 8)
       },
       target: {
-        from: new Vector3(0, 10, 0),
-        to: new Vector3(0, 0, 0)
+        from: new THREE.Vector3(0, 10, 0),
+        to: new THREE.Vector3(0, 0, 0)
       },
       postprocess: {
         duration: 500,

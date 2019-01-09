@@ -1,5 +1,6 @@
 import BufferGeometryUtils from "../../../../helpers/BufferGeometryUtilsOld";
 import Event from  "~/helpers/Event";
+import config from "./../config";
 
 import * as exportInstancedMesh from "three-instanced-mesh";
 
@@ -18,11 +19,13 @@ class Molecule extends Event {
   constructor({
     name = null,
     pdb = null,
-    material = null
+    bondMaterial = null,
+    atomMaterial = null
   } = {}){
     super();
     this.name = name;
-    this.material = material;
+    this.bondMaterial = bondMaterial;
+    this.atomMaterial = atomMaterial;
     this.object3D = new THREE.Group();
     this.object3D.name = "molecule_" + name;
     this.object3D.visible = false;
@@ -31,23 +34,16 @@ class Molecule extends Event {
     this.parse(pdb);
   }
 
-  generateAtomModel(){
-    this.atomMesh = new InstancedMesh( 
-      this.atomGeometry,
-      this.material,
-      this.atoms.length,  //instance count
-      false,              //is it dynamic
-      false,              //does it have color
-      true                //uniform scale, if you know that the placement function will not do a non-uniform scale, this will optimize the shader
-    );
-
-    var _v3 = new THREE.Vector3();
-    var _q = new THREE.Quaternion();
+  generateAtomModel() {
+    var geometries = [];
     for ( var i = 0 ; i < this.atoms.length ; i ++ ) {
-      this.atomMesh.setQuaternionAt(i , _q);
-      this.atomMesh.setPositionAt(i , _v3.set( this.atoms[i].x , this.atoms[i].y, this.atoms[i].z ));
-      this.atomMesh.setScaleAt(i , _v3.set(1,1,1));
+      var geometry = this.atomGeometry.clone();
+      geometry.translate(this.atoms[i].x, this.atoms[i].y, this.atoms[i].z);
+      geometries.push(geometry)
     }
+
+    var geo = BufferGeometryUtils.merge(geometries);
+    this.atomMesh = new THREE.Mesh(geo, this.atomMaterial);
 
     return this.atomMesh;
   }
@@ -67,7 +63,7 @@ class Molecule extends Event {
     }
     
     var geometry = BufferGeometryUtils.merge(geometries);
-    var mesh = new THREE.Mesh(geometry, this.material);
+    var mesh = new THREE.Mesh(geometry, this.bondMaterial);
 
     return mesh;
   }
@@ -90,7 +86,11 @@ class Molecule extends Event {
   parse(pdb){
     var json = pdb.json;
     this.atoms = [];
-    json.atoms.forEach(element => this.atoms.push(new THREE.Vector3(element[0], element[1], element[2])));
+    var localConfig = config.molecules[this.name];
+    
+    var offset = localConfig && localConfig.offset ? localConfig.offset : new THREE.Vector3()
+    console.log(offset);
+    json.atoms.forEach(element => this.atoms.push(new THREE.Vector3(element[0], element[1], element[2]).add(offset)));
     this.bonds = json.bonds;
     this.generateModel();
     this.dispatch("load");

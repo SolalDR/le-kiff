@@ -39,7 +39,6 @@ export default class extends Step {
   }
 
   display( isNextStep = false, event ) {
-    // this.scene.macroScale.updateFromStep(this);
     this.initHumanScale( event );
     super.display();
   }

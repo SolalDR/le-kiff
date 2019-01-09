@@ -63,17 +63,17 @@ export const humanConfig = {
     },
 
     macro: {
-      duration: 2000,
+      duration: 1000,
       position: {
-        from: new Vector3(0, 30, 50),
+        from: new Vector3(0, 10, 25),
         to: new Vector3(0, 0, 8)
       },
       target: {
-        from: new Vector3(0, 25, 0),
+        from: new Vector3(0, 10, 0),
         to: new Vector3(0, 0, 0)
       },
       postprocess: {
-        duration: 1000,
+        duration: 500,
         bloom: {
           min: 0.1,
           max: 2.5,
@@ -92,15 +92,16 @@ export const macroConfig = {
     lookAt: new Vector3()
   },
   earth: {
-    globeRadius: 2,
-    cloudRadius: 2.02
+    globeRadius: 3,
+    cloudRadius: 3.02,
+    zoningRadius: 3.05
   },
 
   transitions: {
     all: {
-      duration: 1000,
+      duration: 500,
       position: {
-        from: new Vector3(0, 0, 2.1),
+        from: new Vector3(0, 0, 3.1),
         to: new Vector3(0, 0, 8)
       },
       target: {
@@ -108,7 +109,7 @@ export const macroConfig = {
         to: new Vector3(0, 0, 0)
       },
       postprocess: {
-        duration: 500,
+        duration: 400,
         bloom: {
           min: 0.1,
           max: 6,

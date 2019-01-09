@@ -43,6 +43,7 @@ class App extends Component {
             <Header />
             <div className="app__content">
               <Route exact path="/" component={Intro} />
+              {/* { store.getState().entities.chaptersLoaded } */}
               <Route exact path="/chapter-1" component={Chapter1} />
               <Route exact path="/outro" component={Outro} />
               <Route exact path="/store-test" component={StoreTest} />

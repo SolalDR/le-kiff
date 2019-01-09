@@ -3,17 +3,18 @@
 .menu 
   position: absolute
   top: 100px
-  right: $space-m + $space-s
+  width: 0
+  right: 0
   z-index: 3
   pointer-events: none
 
   &__container 
-    display: flex
-    flex-direction: column
-    align-items: flex-end
     position: relative
-    width: 100vw
-    transform: translateY(-100vw)
+    width: 26%
+    min-width: 300px
+    float: right
+    margin-right: $space-m + $space-s
+    background: pink
     transition: 
       duration: $t-duration
       property: transform
@@ -21,33 +22,43 @@
 
   &__item 
     flex: 1
-    width: 17%
-    min-width: 230px
+    display: block
     margin-bottom: $space-l
-    margin-right: $space-l
-    color: $color-secondary
+    padding-right: $space-l
     cursor: pointer
-    text-decoration: none
     text-align: right
+    background: salmon
+    color: $color-secondary
     transition: 
       duration: $t-duration
       property: transform
       timing-function: $t-timing-function
 
+    &__link
+      position: relative
+      display: block
+      color: $color-secondary
+      text-decoration: none
+
     &__title
+      display: block
+      width: 100%
       position: relative
       margin-bottom: 10px
 
-      &:before
-        content: ''
-        position: absolute
-        top: 50%
-        transform: translateY(-50%)
-        right: -($space-m * 2) 
-        width: $space-m
-        height: 1px
-        background: $color-secondary
-    
+    &__burger
+      position: absolute
+      top: 10px
+      right: -($space-m * 2) 
+      width: $space-m
+      height: 1px
+      background: yellow
+      pointer-events: none
+      transition: 
+        duration: $t-duration
+        property: transform
+        timing-function: $t-timing-function
+
     &__time
       padding-bottom: $space-m 
 

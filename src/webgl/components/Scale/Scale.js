@@ -70,6 +70,8 @@ class Scale extends Event {
       Bus.verbose("scale-" + this.name + ":display", 2)
     }));
 
+    // TODO: add sound effect when display scale : SoundManager.applyEffect(this.soundEffectName) something like that
+
     return {
       cameraAnim, 
       postprocessAnim: postprocessAnimData.animation

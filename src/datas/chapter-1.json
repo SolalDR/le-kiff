@@ -15,6 +15,10 @@
       "path": "/sounds/chapter-1/background_forest.mp3"
     },
     {
+      "name": "step_1_background_music",
+      "path": "/sounds/chapter-1/bacground_music.mp3"
+    },
+    {
       "name": "step_1_main_sound",
       "path": "/sounds/chapter-1/step_1_main.mp3"
     }

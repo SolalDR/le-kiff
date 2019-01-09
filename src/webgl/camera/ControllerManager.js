@@ -4,7 +4,7 @@ import RailsControl from "./RailsControl";
 class ControllerManager {
   constructor({
     camera = null,
-    controller = "rails",
+    controller = "radial",
     mouseCaster = null
   } = {}){
     this.camera = camera;

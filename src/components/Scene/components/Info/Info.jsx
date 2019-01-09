@@ -13,6 +13,7 @@ class InfoPoint extends React.Component {
   }
 
   componentWillReceiveProps(nextProps, previousProps){
+    console.log("Info.jsx componentWillReceiveProps", nextProps, this.state)
     if( nextProps.currentScale !== previousProps.currentScale ){
       this.setState({visible: nextProps.currentScale === this.props.info.scale })
     }
@@ -26,6 +27,7 @@ class InfoPoint extends React.Component {
   }
 
   computedStyle(){
+    // console.log("Info.jsx computeStyle", this.state.screenPosition)
     return {
       transform: `translate3d(${this.state.screenPosition.x}px, ${this.state.screenPosition.y}px, 0)`
     }

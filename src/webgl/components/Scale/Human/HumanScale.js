@@ -1,11 +1,5 @@
 import Scale from "../Scale";
-import AssetsManager from "~/services/assetsManager/AssetsManager";
-import FitPlane from "./components/FitPlane";
-import gui from "~/services/gui";
-import AnimationManager from "./../../../AnimationManager";
-import Animation from "~/helpers/Animation";
 import { humanConfig } from "~/webgl/config";
-import * as THREE from "three";
 
 class HumanScale extends Scale {
  

@@ -23,10 +23,16 @@ class Scene {
     this.threeScene.background = new THREE.Color(0x111111);
     this.clock = new Clock();
     this.camera = new THREE.PerspectiveCamera( 60, Viewport.ratio, 0.1, 1000 );
+    this.renderer = renderer;
     this.camera.position.copy(new THREE.Vector3(0, 0, 8));
     InfoManager.setCamera(this.camera);
-    this.renderer = renderer;
-    this.renderer.init({ scene: this.threeScene,  camera: this.camera, element: element });
+    InfoManager.setScene(this.threeScene);
+    
+    this.renderer.init({ 
+      scene: this.threeScene,  
+      camera: this.camera, 
+      element: element 
+    });
     
     this.mouseCaster = new MouseCaster({
       root: this.threeScene
@@ -43,6 +49,7 @@ class Scene {
     this.humanScale.display( "micro" );
     
     this.points = []; // TODO: add to pointsManager
+    
     this.state = {
       currentScale: "human",
       previousScale: "human"

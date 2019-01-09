@@ -1,5 +1,5 @@
-import easing from "./maths/Easing"
-import Event from "./Event"
+import easing from "~/helpers/maths/Easing"
+import Event from "~/helpers/Event"
 
 export default class Animation extends Event {
 

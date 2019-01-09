@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import SphericalCoord from "./../helpers/geo/SphericalCoord";
+import SphericalCoord from "~/webgl/helpers/geo/SphericalCoord";
 
 /**
  * @class

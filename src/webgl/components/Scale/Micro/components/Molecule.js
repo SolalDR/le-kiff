@@ -2,10 +2,6 @@ import BufferGeometryUtils from "../../../../helpers/BufferGeometryUtilsOld";
 import Event from  "~/helpers/Event";
 import * as THREE from "three";
 import * as exportInstancedMesh from "three-instanced-mesh";
-import HDRCubeTextureLoader from "../../../../../services/assetsManager/loaders/HDRCubeTextureLoader";
-import PMREMCubeUVPacker from "../../../../helpers/PMREMCubeUVPacker";
-import PMREMGenerator from "../../../../helpers/PMREMGenerator";
-import gui from "~/services/gui";
 
 var InstancedMesh = exportInstancedMesh(THREE);
 
@@ -21,28 +17,21 @@ class Molecule extends Event {
    */
   constructor({
     name = null,
-    atomGeometry = new THREE.SphereBufferGeometry(0.2, 20, 20),
-    envMap = null,
-    renderer = null, 
     pdb = null,
     material = null
   } = {}){
     super();
-    this.renderer = renderer;
-    this.material = material;
-    this.id = Math.floor(Math.random()*10000);
-    this.loader = new THREE.TextureLoader();
     this.name = name;
-    this.eventsList = ["load"];
+    this.material = material;
     this.object3D = new THREE.Group();
-    this.atomGeometry = atomGeometry;
-    this.envMap = envMap;
+    this.object3D.name = "molecule_" + name;
+    this.object3D.visible = false;
+    this.atomGeometry = new THREE.SphereBufferGeometry(0.2, 20, 20);
 
     this.parse(pdb);
   }
 
   generateAtomModel(){
-
     this.atomMesh = new InstancedMesh( 
       this.atomGeometry,
       this.material,
@@ -51,36 +40,6 @@ class Molecule extends Event {
       false,              //does it have color
       true                //uniform scale, if you know that the placement function will not do a non-uniform scale, this will optimize the shader
     );
-
-    gui.addMaterial("Atom" + this.id, this.atomMesh.material);
-
-    // new HDRCubeTextureLoader().setPath( 'images/molecule/hdr/' ).load(
-    //   THREE.UnsignedByteType, 
-    //   [ 'images/molecule/hdr/px.hdr', 'images/molecule/hdr/nx.hdr', 'images/molecule/hdr/py.hdr', 'images/molecule/hdr/ny.hdr', 'images/molecule/hdr/pz.hdr', 'images/molecule/hdr/nz.hdr' ], 
-    //   ( hdrCubeMap ) => {
-
-    //     var pmremGenerator = new PMREMGenerator( hdrCubeMap );
-    //     pmremGenerator.update( this.renderer );
-    //     var pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
-    //     pmremCubeUVPacker.update( this.renderer );
-    //     hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
-    //     this.material.envMap = hdrCubeRenderTarget.texture;
-    //     this.material.needsUpdate = true; 
-    //     hdrCubeMap.dispose();
-    //     pmremGenerator.dispose();
-    //     pmremCubeUVPacker.dispose();
-    //   }
-    // );
-
-    this.loader.load("images/molecule/normal.jpg", (texture)=>{
-      this.atomMesh.material.normalMap = texture;
-      this.atomMesh.material.needsUpdate = true;    
-    })
-
-    this.loader.load("images/molecule/roughness.jpg", (texture)=>{
-      this.atomMesh.material.roughnessMap = texture;
-      this.atomMesh.material.needsUpdate = true;    
-    })
 
     var _v3 = new THREE.Vector3();
     var _q = new THREE.Quaternion();
@@ -103,12 +62,7 @@ class Molecule extends Event {
       to = this.atoms[this.bonds[i][1]];
       curve = new THREE.LineCurve(from.clone(), to.clone());
       geometries.push(
-        new THREE.TubeBufferGeometry(
-          curve,
-          1,
-          0.02,
-          8
-        )
+        new THREE.TubeBufferGeometry( curve, 1, 0.02, 8 )
       )
     }
     
@@ -116,6 +70,16 @@ class Molecule extends Event {
     var mesh = new THREE.Mesh(geometry, this.material);
 
     return mesh;
+  }
+
+  attach(info){
+    this.info = info;
+    this.object3D.visible = true;
+  }
+
+  detach(){
+    this.info = null;
+    this.object3D.visible = false;
   }
 
   generateModel(){
@@ -132,5 +96,6 @@ class Molecule extends Event {
     this.dispatch("load");
   }
 }
+
 
 export default Molecule;

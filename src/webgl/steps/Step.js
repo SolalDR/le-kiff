@@ -45,6 +45,9 @@ class Step extends Event {
   }
 
   display() {
+    this.scene.microScale.updateFromStep(this);
+    this.scene.macroScale.updateFromStep(this);
+    
     Bus.dispatch("step:display", this);
     this.dispatch("display");
   }

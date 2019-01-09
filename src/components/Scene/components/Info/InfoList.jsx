@@ -1,7 +1,8 @@
 import React from "react";
 import "./styles.sass";
+import InfoManager from "~/webgl/manager/Info";
 import Info from "./Info";
-import InfoManager from "~/webgl/components/Info/InfoManager";
+import Bus from "~/helpers/Bus";
 
 class InfoList extends React.Component {
 
@@ -33,6 +34,7 @@ class InfoList extends React.Component {
 
   render(){
     this.infos = this.props.infos.map(info => {
+      Bus.verbose("infos-react:update")
       return <Info ref={React.createRef()} key={info.id} info={info}/>
     });
 

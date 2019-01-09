@@ -1,8 +1,6 @@
 import Step from "./../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
-import InfoManager from "~/webgl/components/Info/InfoManager"
-
 
 /**
  * @constructor
@@ -53,8 +51,6 @@ export default class extends Step {
   }
 
   display( isNextStep = false, event ) {
-    // this.scene.macroScale.updateFromStep(this);
-    // this.scene.microScale.updateFromStep(this);
     this.initHumanScale( event );
     super.display();
   }

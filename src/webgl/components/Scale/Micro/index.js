@@ -1,5 +1,5 @@
 import Molecule from "./components/Molecule";
-import AssetsManager from "../../../../services/assetsManager/AssetsManager";
+import AssetsManager from "~/services/assetsManager/AssetsManager";
 import Scale from "../Scale";
 import * as THREE from "three";
 import { microConfig } from "~/webgl/config";

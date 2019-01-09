@@ -1,5 +1,5 @@
-import Event from "./../helpers/Event";
-import Animation from "./../helpers/Animation"
+import Event from "~/helpers/Event";
+import Animation from "./components/Animation"
 
 class AnimationManager extends Event {
     

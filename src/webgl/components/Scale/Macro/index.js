@@ -1,11 +1,10 @@
 import * as THREE from "three";
 import Scale from "../Scale";
-import AssetsManager from "../../../../services/assetsManager/AssetsManager";
+import AssetsManager from "~/services/assetsManager/AssetsManager";
 import Earth from "./components/Earth";
 import Flux from "./components/Flux";
 import Zoning from "./components/Zoning";
-import AnimationManager from "./../../../AnimationManager";
-import Animation from "~/helpers/Animation";
+import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import { macroConfig } from "~/webgl/config";
 
 class MacroScale extends Scale {
@@ -27,9 +26,13 @@ class MacroScale extends Scale {
 
   display(previous, next){
     const { cameraAnim } = super.display( macroConfig.transitions.all );
-    cameraAnim.on("progress", ()=>{
-      this.scene.camera.lookAt(new THREE.Vector3());
-    })
+    cameraAnim
+      .on("progress", ()=>{
+        this.scene.camera.lookAt(new THREE.Vector3());  
+      })
+      .on("end", ()=>{
+        this.scene.light.position.copy(new THREE.Vector3(2, 0, 7));
+      })
   }
 
   hide(previous, next){
@@ -143,8 +146,6 @@ class MacroScale extends Scale {
       }
       flux.display();
     });
-
-    console.log(this.infos);
   }
 
   /**

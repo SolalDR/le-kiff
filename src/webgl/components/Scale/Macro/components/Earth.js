@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import gui from "~/services/gui";
+import {guiMacro} from "~/services/gui";
 import { macroConfig } from "~/webgl/config";
 
 class Earth {
@@ -17,18 +17,19 @@ class Earth {
     });
 
     globeMaterial.onBeforeCompile = shader => {
-
       shader.uniforms.map_2 = { value: assets.diffuse_night.result };
+      shader.uniforms.u_light_position = { value: new THREE.Vector3(2, 0, 7) };
 
       shader.vertexShader = shader.vertexShader.replace("#include <common>", `
       #include <common>
+      uniform vec3 u_light_position;
       varying float v_sun_expo;
       `);
 
       shader.vertexShader = shader.vertexShader.replace("#include <uv_vertex>", `
       #include <uv_vertex>
       vec4 trueNormal = modelMatrix * vec4(normal, 1.);
-      v_sun_expo = dot(vec3(1.), trueNormal.xyz);
+      v_sun_expo = dot(u_light_position, trueNormal.xyz);
       `);
 
       shader.fragmentShader = shader.fragmentShader.replace("#include <common>", `
@@ -65,6 +66,8 @@ class Earth {
       globeMaterial
     );
 
+    this.globe.rotation.y = -0.5;
+
     this.clouds = new THREE.Mesh(
       new THREE.SphereGeometry(macroConfig.earth.cloudRadius, 32, 32),
       new THREE.MeshPhongMaterial({
@@ -81,8 +84,8 @@ class Earth {
     this.group.add(this.globe);
     this.group.add(this.clouds);    
 
-    gui.addMaterial("globe", this.globe.material);
-    gui.addMaterial("clouds", this.clouds.material);
+    guiMacro.addMesh("Mesh Globe", this.globe);
+    guiMacro.addMesh("Mesh Clouds", this.clouds);
     
   }
 

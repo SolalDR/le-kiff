@@ -1,5 +1,5 @@
 import Event from "~/helpers/Event";
-import Info from "./Info";
+import Info from "./components/Info";
 import Bus from "~/helpers/Bus";
 
 /**
@@ -112,4 +112,5 @@ class InfoManager extends Event {
   }
 }
 
+export { Info }
 export default new InfoManager();

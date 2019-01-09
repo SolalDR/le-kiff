@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import Event from "~/helpers/Event";
-import AnimationManager from "./../../AnimationManager";
-import Animation from "~/helpers/Animation";
+import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import renderer from "~/webgl/rendering/Renderer";
 import Bus from "~/helpers/Bus";
 

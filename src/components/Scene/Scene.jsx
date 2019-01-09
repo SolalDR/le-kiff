@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setCurrentScale } from '~/services/stores/actions';
 import ScaleMenu from "./components/ScaleMenu/ScaleMenu";
-import ThreeScene from "~/webgl/Scene";
+import WebGL from "~/webgl/WebGL";
 import PropTypes from 'prop-types';
 import { getCurrentScale } from '~/services/stores/reducers/selectors';
 import InfoList from "./components/Info/InfoList";
@@ -34,11 +34,11 @@ class Scene extends React.Component {
   }
 
   componentDidMount(){
-    this.threeScene = new ThreeScene({
+    this.webgl = new WebGL({
       element: this.sceneElement.current
     });
     
-    this.threeScene.selectStep(this.props.step);
+    this.webgl.selectStep(this.props.step);
     this.updateInfos();
     
     this.setState({isThreeSceneMounted: true});
@@ -50,7 +50,7 @@ class Scene extends React.Component {
        * Before scene component is rendered, update current step in the webgl scene
        * new Step is created and is ready to receive infos
        */
-      this.threeScene.selectStep(nextProps.step);
+      this.webgl.selectStep(nextProps.step);
     }
   }
 
@@ -58,7 +58,7 @@ class Scene extends React.Component {
    * @param {string} name Name of scale
    */
   selectScale = (name) => {
-    this.threeScene.selectScale(name);
+    this.webgl.selectScale(name);
     this.props._setCurrentScale(name);
   }
 
@@ -68,7 +68,7 @@ class Scene extends React.Component {
    */
   updateInfos(){
     var infos = this.props.step.infos.filter(info => info.scale === this.props.currentScale);
-    this.threeScene.updateInfos(infos);
+    this.webgl.updateInfos(infos);
     return infos;
   }
 
@@ -76,7 +76,7 @@ class Scene extends React.Component {
     return (
       <div ref={(this.sceneElement)} className="scene">
           <ScaleMenu scale={this.props.currentScale} onSelectCallback={this.selectScale} />
-          <InfoList infos={this.threeScene ? this.updateInfos() : []}></InfoList>
+          <InfoList infos={this.webgl ? this.updateInfos() : []}></InfoList>
       </div>
     );
   }

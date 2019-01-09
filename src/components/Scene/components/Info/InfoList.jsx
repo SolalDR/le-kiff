@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.sass";
+import InfoManager from "~/webgl/manager/Info";
 import Info from "./Info";
-import InfoManager from "~/webgl/components/Info/InfoManager";
 import Bus from "~/helpers/Bus";
 
 class InfoList extends React.Component {

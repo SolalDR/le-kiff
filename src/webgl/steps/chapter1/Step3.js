@@ -1,7 +1,5 @@
 import Step from "./../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
-import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
-import gui from "~/services/gui";
 import * as THREE from "three";
 
 /**

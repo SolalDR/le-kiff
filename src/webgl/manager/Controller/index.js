@@ -1,5 +1,5 @@
-import RadialControl from "./RadialControl";
-import RailsControl from "./RailsControl";
+import RadialControl from "./components/RadialControl";
+import RailsControl from "./components/RailsControl";
 
 class ControllerManager {
   constructor({

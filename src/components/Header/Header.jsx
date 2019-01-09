@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import Menu from "../Menu/Menu";
 import "./styles.sass";
@@ -18,7 +19,6 @@ class Header extends React.Component {
   }
 
   initPos = (el) => {
-    console.log('upate ef');
     this.setState({
       ...this.state,
       menuPosY: el.getBoundingClientRect().top
@@ -27,14 +27,25 @@ class Header extends React.Component {
   
   render () {
     let menu = this.state.menuPosY > 0 ? <Menu open={this.state.menuOpen} menuPosY={this.state.menuPosY} closeCallback={this.handleToggleMenu} /> : null;
+    const headerClass = this.state.menuOpen ? "header is-active" : "header";
     return (
-      <div className="header">
+      <div className={headerClass}>
         { this.props.isLoaded && 
           <div>
-            <button className="header__menu--open" onClick={this.handleToggleMenu} ref={this.initPos}>
-              <i className="header__burger">menu</i>
-              <i className="header__burger__line"></i>
-            </button> 
+            <div className="header__top">
+              <div className="header__links">
+                <Link className="header__link" to={'/'}>
+                  <span className="heading-5">Crédits</span>
+                </Link>
+                <Link className="header__link" to={'/'}>
+                  <span className="heading-5">À propos</span>
+                </Link>
+              </div>
+              <button className="header__menu" onClick={this.handleToggleMenu} ref={this.initPos}>
+                <i className="header__burger">menu</i>
+                <span className="header__menu--close"></span>
+              </button> 
+            </div>
             {menu}
           </div>
         }
@@ -44,7 +55,6 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('JE SUIS UN STATE', state);
   return {
     isLoaded: state.entities.chaptersLoaded
   }

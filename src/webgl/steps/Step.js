@@ -27,6 +27,10 @@ class Step extends Event {
     this.content = datas.content;
     this.infos = datas.infos;
     
+    this.state = {
+      initialised: false
+    }
+
     this.gui = gui.addFolder(`Chapter ${this.chapter_id} Step ${this.rank}`);
   }
 
@@ -35,6 +39,7 @@ class Step extends Event {
   }
 
   init(){
+    this.state.initialised = true;
     Bus.dispatch("step:init", this);
     this.dispatch("init");
   }

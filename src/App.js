@@ -13,6 +13,11 @@ import { store } from './services/stores/store';
 import Bus from "~/helpers/Bus";
 import "./styles/app.sass";
 
+Bus.registerGroup("scale", [ "color: red" ]);
+Bus.registerGroup("step", [ "color: blue" ]);
+Bus.registerGroup("history", [ "color: green" ]);
+Bus.registerGroup("controls", [ "color: purple" ]);
+
 class App extends Component {
 
   constructor(props){

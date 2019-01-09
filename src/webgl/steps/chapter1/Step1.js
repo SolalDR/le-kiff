@@ -53,7 +53,6 @@ export default class extends Step {
   }
 
   display( isNextStep = false, event ) {
-    console.log(InfoManager.infos);
     // this.scene.macroScale.updateFromStep(this);
     // this.scene.microScale.updateFromStep(this);
     this.initHumanScale( event );

@@ -23,9 +23,10 @@ class Scene {
     this.threeScene.background = new THREE.Color(0x111111);
     this.clock = new Clock();
     this.camera = new THREE.PerspectiveCamera( 60, Viewport.ratio, 0.1, 1000 );
+    this.renderer = renderer;
     this.camera.position.copy(new THREE.Vector3(0, 0, 8));
     InfoManager.setCamera(this.camera);
-    this.renderer = renderer;
+    InfoManager.setScene(this.threeScene);
     
     this.renderer.init({ 
       scene: this.threeScene,  

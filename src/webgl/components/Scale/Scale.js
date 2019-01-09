@@ -3,6 +3,8 @@ import Event from "~/helpers/Event";
 import AnimationManager from "./../../AnimationManager";
 import Animation from "~/helpers/Animation";
 import renderer from "~/webgl/rendering/Renderer";
+import Bus from "~/helpers/Bus";
+
 
 class Scale extends Event {
 
@@ -19,6 +21,7 @@ class Scale extends Event {
     name = ""
   }){
     super();
+    
     this.scene = scene; 
     this.group = new THREE.Group();
     this.group.name = name;
@@ -43,6 +46,8 @@ class Scale extends Event {
    * @returns {cameraAnim: Animation, postprocessAnim: Animation} Return the two anim you can modify in the extended scales
    */
   display( config ){
+    Bus.dispatch("scale:coming", this);
+  
     this.group.visible = true;
     this.scene.renderer.intensity(10);
 
@@ -63,6 +68,9 @@ class Scale extends Event {
       duration: config.postprocess.duration 
     }).on("progress", ( event ) => {
       renderer.intensity( config.postprocess.bloom.max - event.advancement * diff );
+    }).on("end", () => {
+      Bus.dispatch("scale:display", this, 1)
+      Bus.verbose("scale-" + this.name + ":display", 2)
     }));
 
     return {
@@ -72,7 +80,7 @@ class Scale extends Event {
   }
 
   hide( config ){
-
+    Bus.dispatch("scale:hidding", this);
     var diff = config.postprocess.bloom.max - config.postprocess.bloom.min;
 
     var cameraAnim = this.scene.controllerManager.controls.rails.moveTo(config.position.from, {
@@ -96,6 +104,8 @@ class Scale extends Event {
 
     cameraAnim.on("end", ()=>{
       this.dispatch("hide");
+      Bus.dispatch("scale:hide", this);
+      Bus.verbose("scale-" + this.name + ":hide", 2)
       this.group.visible = false;
     });
     

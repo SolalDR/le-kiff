@@ -10,13 +10,20 @@ import StoreTest from "./pages/StoreTest/StoreTest";
 import Header from "./components/Header/Header";
 import AppManager from "./services/AppManager.js"
 import { store } from './services/stores/store';
+import Bus from "~/helpers/Bus";
 import "./styles/app.sass";
+
+Bus.registerGroup("scale", [ "color: red" ]);
+Bus.registerGroup("step", [ "color: blue" ]);
+Bus.registerGroup("history", [ "color: green" ]);
+Bus.registerGroup("controls", [ "color: purple" ]);
 
 class App extends Component {
 
   constructor(props){
     super(props);
     this.manager = AppManager;
+    Bus.verboseLevel = 3;
 
     this.state = {
       chapterLoaded: false,

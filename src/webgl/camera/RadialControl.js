@@ -35,7 +35,7 @@ class RadialControl {
   }
 
   updatePosition(){
-    this.state.baseCoords = SphericalCoord.fromCartesian(this.camera, this.origin);
+    this.state.baseCoords = SphericalCoord.fromCartesian(this.camera, this.config.origin);
   }
 
   initEvents(){
@@ -67,7 +67,7 @@ class RadialControl {
   }
 
   update(){
-    this.state.radius = this.camera.position.distanceTo(this.origin);
+    this.state.radius = this.camera.position.distanceTo(this.config.origin);
     this.state.coords.phi += (this.state.targetCoords.phi - this.state.coords.phi)*0.1;
     this.state.coords.theta += (this.state.targetCoords.theta - this.state.coords.theta)*0.1;
     this.state.coords.getCartesianCoord(this.state.radius, this.camera.position);

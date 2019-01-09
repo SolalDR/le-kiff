@@ -30,14 +30,6 @@ class Api {
     return axios.delete(`${this.url}/${uri}`, config);
   }
 
-  patch(uri, toPatch, config={}) {
-    return axios.patch(`${this.url}/${uri}`, toPatch, config);
-  }
-
-  delete(uri, config={}) {
-    return axios.delete(`${this.url}/${uri}`, config);
-  }
-
 }
 
 export default Api

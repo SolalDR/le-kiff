@@ -2,18 +2,21 @@ import Event from "../../../helpers/Event";
 import * as THREE from "three";
 import Viewport from "~/helpers/Viewport"
 
+/**
+ * Represent the link with a react infos
+ */
 class Info extends Event{
 
   /**
    * @constructor
-   * @param {int} infoId
-   * @param {THREE.Vector3} position
-   * @param {THREE.Vector3} normal
+   * @param {Object} info The props info passed from Scene.jsx => Scene.js => InfoManager
+   * @param {THREE.Object3D} object3D Represent the 3D object
    */
-  constructor(info){
+  constructor(info, object3D = null){
     super();
     this.id = info.id;
-    this.position = new THREE.Vector3();
+    this.object3D = object3D;
+    this.position = new THREE.Vector3(info.attachment.position.x, info.attachment.position.y, info.attachment.position.z);
     this.normal = new THREE.Vector3();
     this.datas = info;
     this.state = {
@@ -23,14 +26,12 @@ class Info extends Event{
   }
 
   /**
-   * @param {THREE.Object3D} attachedObject
    * @param {THREE.Camera} camera
-   * @param {THREE.Vector2} resolution
    */
-  updateScreenCoordinate(attachedObject = null, camera) {
+  updateScreenCoordinate(camera) {
     const vector = new THREE.Vector3();
-    if( attachedObject ) vector.setFromMatrixPosition(attachedObject.matrixWorld)
-  
+    if( this.object3D ) vector.setFromMatrixPosition(this.object3D.matrixWorld)
+    
     vector.add(this.position);
     vector.project(camera);
 

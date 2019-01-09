@@ -1,7 +1,5 @@
 import { MicroScale, HumanScale, MacroScale} from "./components/Scale/index";
-import AnimationManager from "./manager/Animation";
-import ControllerManager from './manager/Controller';
-import InfoManager from './manager/Info';
+import {AnimationManager, ControllerManager, InfoManager} from "./manager";
 
 import * as THREE from "three";
 import Clock from "./helpers/Clock";

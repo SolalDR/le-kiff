@@ -1,12 +1,11 @@
 import * as THREE from "three";
 import EffectComposer, {RenderPass} from "@johh/three-effectcomposer"
 import UnrealBloomPass from "./UnrealBloomPass";
-import gui from "~/services/gui";
+import {guiRendering} from "~/services/gui";
 import Viewport from "~/helpers/Viewport"
 
 class Renderer {
   constructor() {
-    this.gui = gui.addFolder("Renderer");
     this.renderer = new THREE.WebGLRenderer({ antialias: true, gammaOutput: true });
     this.composer = new EffectComposer( this.renderer );
     this.composer.setSize( Viewport.width, Viewport.height );
@@ -36,7 +35,7 @@ class Renderer {
     this.bloomPass.strength = 0.3;
     this.bloomPass.radius = 0;
 
-    var bloomFolder = this.gui.addFolder("Bloom");
+    var bloomFolder = guiRendering.addFolder("Bloom");
     bloomFolder.add(this.bloomPass, "threshold").step(0.01);
     bloomFolder.add(this.bloomPass, "strength").step(0.01);
     bloomFolder.add(this.bloomPass, "radius").step(0.01);

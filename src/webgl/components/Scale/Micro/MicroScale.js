@@ -55,15 +55,6 @@ class MicroScale extends Scale {
         molecule.detach();
       }
     })
-
-    infos.forEach(info => {
-      var molecule = this.molecules.get(info.slug);
-      if (!molecule) {
-        this.molecules.set(
-          info.slug
-        )  
-      }
-    })
     
     Bus.verbose("step:micro-update", 2)
   }

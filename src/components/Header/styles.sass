@@ -2,13 +2,14 @@
 
 .header 
   position: fixed
-  top: 0
+  top: $space-s
   left: 0
+  width: 100vw
+  height: 0
   z-index: 2
 
-  &__menu-open 
-    position: fixed
-    top: $space-s
+  &__menu--open
+    position: absolute
     right: $space-m
     border: none
     outline: none
@@ -30,7 +31,7 @@
   &__burger
     position: relative
     display: block
-    width: 24px
+    width: $space-m
     height: 2px
     background: $color-secondary
     font-size: 0
@@ -55,7 +56,7 @@
     &__line
       margin-top: 18px
       display: block
-      width: 24px
+      width: $space-m
       height: 2px
       background: $color-secondary
       transition: transform $t-duration

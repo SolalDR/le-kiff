@@ -1,16 +1,11 @@
 @import "./../../styles/core.scss"
 
 .menu 
-  position: fixed
+  position: absolute
   top: 100px
-  left: 0
+  right: $space-m + $space-s
   z-index: 3
-
-  &--visible 
-    pointer-events: all
-
-  &--hidden 
-    pointer-events: none
+  pointer-events: none
 
   &__container 
     display: flex
@@ -18,25 +13,43 @@
     align-items: flex-end
     position: relative
     width: 100vw
+    transform: translateY(-100vw)
+    transition: 
+      duration: $t-duration
+      property: transform
+      timing-function: $t-timing-function
 
   &__item 
     flex: 1
     width: 17%
     min-width: 230px
     margin-bottom: $space-l
+    margin-right: $space-l
     color: $color-secondary
     cursor: pointer
     text-decoration: none
+    text-align: right
     transition: 
       duration: $t-duration
       property: transform
       timing-function: $t-timing-function
-    
-    // @for $i from 0 to 5
-    //   &:nth-child(#{$i})
-    //     background-color: darken($color-dark, $i*5%)
-    //     transition-delay: #{$i*0.05s}
 
+    &__title
+      position: relative
+      margin-bottom: 10px
+
+      &:before
+        content: ''
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+        right: -($space-m * 2) 
+        width: $space-m
+        height: 1px
+        background: $color-secondary
+    
+    &__time
+      padding-bottom: $space-m 
 
   &__close
     position: fixed
@@ -53,6 +66,14 @@
       duration: $t-duration
       property: transform, opacity
       timing-function: $t-timing-function
+
+  //States
+  &.is-active
+    pointer-events: all
+    
+    .menu
+      &__container
+        transform: translateY(0)
 
   &--visible .menu
 

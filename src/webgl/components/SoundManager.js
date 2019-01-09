@@ -1,4 +1,4 @@
-import {Howl, Howler} from 'howler'
+import {Howler} from 'howler'
 import SoundEffectManager from './SoundEffectManager'
 
 class SoundManager {
@@ -10,9 +10,10 @@ class SoundManager {
    * @property {SoundEffectManager} soundEffectManager 
    */
   constructor(){
+    this.howler = Howler;
     this.sounds = new Map();
     this._volume = 0.5;
-    this.soundEffectManager = new SoundEffectManager(Howler.ctx)
+    this.soundEffectManager = new SoundEffectManager(this.howler.ctx)
   }
 
   get volume() {
@@ -22,6 +23,46 @@ class SoundManager {
   set volume(v) {
     Howler.volume(v);
     this._volume = v
+  }
+
+  /**
+   * 
+   * @param {Howl} sound 
+   * @param {String|Number} id sprite or sound id
+   */
+  play(sound, id = null) {
+    this.sounds[sound].play(id);
+  }
+
+  playAll() {
+    this.sounds.forEach(function(sound, key) {
+      sound.play();
+    });
+  }
+
+  applyEffect(name) {
+    this.soundEffectManager.applyEffect(name);
+  }
+
+  /**
+   * Update sounds
+   * @param {*} sounds 
+   */
+  updateSounds(sounds){
+    // add sounds
+    sounds.forEach((element) => {
+      if( !this.sounds.get(element.name) ) {
+        this.addSound(element.name, element.sound, element.options);
+      }
+    });
+
+    // remove sounds 
+    this.sounds.forEach(element => {
+      if( !sounds.find(elementTmp => elementTmp.name === element.name) ) {
+        this.removeSound(element.name);
+      }
+    });
+
   }
 
   /**
@@ -36,6 +77,14 @@ class SoundManager {
   }
 
   /**
+   * Remove a sound by is name
+   * @param {string} name sound name 
+   */
+  removeSound(name){
+    this.sounds.delete( name );
+  }
+
+  /**
    * add multiple sounds to manager
    * @param {Array.{name: String, sound: Howl, options: Object}} soundArray array of objects sound datas 
    * @param {Howl} sound howler sound object
@@ -45,20 +94,6 @@ class SoundManager {
     soundArray.forEach(element => {
       this.addSound(element.name, element.sound, element.options)
     });
-  }
-
-  play(sound) {
-    this.sounds[sound].play();
-  }
-
-  playAll() {
-    this.sounds.forEach(function(sound, key) {
-      sound.play();
-    });
-  }
-
-  applyEffect(name) {
-    this.soundEffectManager.applyEffect(name);
   }
 
   assignOptions(sound, options) {

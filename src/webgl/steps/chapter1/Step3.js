@@ -28,8 +28,8 @@ export default class extends Step {
    */
   initHumanScale( event ){
     this.main = new THREE.Mesh(
-      new THREE.SphereBufferGeometry(1, 32, 32),
-      new THREE.MeshBasicMaterial({
+      new THREE.BoxGeometry(),
+      new THREE.MeshPhongMaterial({
         color: 0xFF0000
       })
     );

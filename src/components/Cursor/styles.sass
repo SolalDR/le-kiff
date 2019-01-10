@@ -2,7 +2,39 @@
   
 .cursor
   position: absolute
-  background: red
-  width: $space-m
-  height: $space-m
   z-index: 10
+  display: flex
+  align-items: center
+  flex-direction: column
+
+  &__bullet
+    display: block
+    background: $color-secondary
+    width: $space-s
+    height: $space-s
+    border-radius: $space-s
+
+  &__loading
+    color: $color-secondary
+    margin-top: $space-s
+
+  //States
+  &.is-loading
+    .cursor
+      &__loading
+        animation:
+          name: wobble
+          duration: $t-duration
+          repeat: infinite
+
+
+@keyframes wobble 
+  O {
+    opacity: 0    
+  }
+
+  75%
+    opacity: 1
+
+  100% 
+    opacity: .75

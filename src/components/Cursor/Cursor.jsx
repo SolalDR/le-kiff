@@ -1,13 +1,19 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import "./styles.sass";
 import throttle from '~/helpers/throttle';
 
 class Cursor extends React.Component {
 
+  static propTypes = {
+    isLoading: PropTypes.bool,
+    indication: PropTypes.bool
+  };
+
   constructor(props) {
     super(props);
     this.cursor = React.createRef();
-    
+
     this.target = {
       x: 0,
       y: 0
@@ -17,6 +23,10 @@ class Cursor extends React.Component {
       x: 0,
       y: 0
     };
+
+    this.state = {
+      isHolding: false,
+    }
   }
   
   componentDidMount() {
@@ -34,8 +44,8 @@ class Cursor extends React.Component {
   update = () => {
     window.requestAnimationFrame(this.update);
 
-    this.position.x += (this.target.x - this.position.x) * 0.9;
-    this.position.y += (this.target.y - this.position.y) * 0.9;
+    this.position.x += (this.target.x - this.position.x) * 0.7;
+    this.position.y += (this.target.y - this.position.y) * 0.7;
 
     if (this.cursor.current) {
       this.cursor.current.style.transform = `translate3d(${
@@ -53,7 +63,9 @@ class Cursor extends React.Component {
 
   render() {
     return (
-      <div className="cursor" ref={this.cursor}>
+      <div className="cursor is-loading" ref={this.cursor}>
+          <span className="cursor__bullet"></span>
+          <span className="cursor__loading small">Loading</span>
       </div>
     )
   }

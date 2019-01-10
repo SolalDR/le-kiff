@@ -8,7 +8,8 @@ class LetterReveal extends React.Component {
     text: PropTypes.string.isRequired,
     duration: PropTypes.number.isRequired,
     delay: PropTypes.number.isRequired,
-    reveal: PropTypes.bool.isRequired
+    reveal: PropTypes.bool.isRequired,
+    class: PropTypes.string
   };
 
   constructor(props) {
@@ -43,6 +44,9 @@ class LetterReveal extends React.Component {
         this.props.duration,
         { opacity: 1, top: 0 },
         this.props.delay);
+    }
+    if (this.props.reveal) {
+      this.reveal();
     }
   }
 
@@ -80,7 +84,7 @@ class LetterReveal extends React.Component {
           </span>
         ))(i);
     }
-    return <span className="letter-reveal">{results}</span>;
+    return <span className={`letter-reveal ${this.props.class}`}>{results}</span>;
   }
 }
 

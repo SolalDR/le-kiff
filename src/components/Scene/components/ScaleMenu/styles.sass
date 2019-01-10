@@ -12,11 +12,13 @@
   &__link
     text-align: left
     text-align: left
-    padding: 10px 0 10px $space-m
+    padding:  $space-s $space-l * 2 $space-s $space-m
+    margin-bottom: $space-s
     font-size: 0.75em
     text-transform: uppercase
     position: relative
     color: white
+    outline: none
 
     &::before
       content: ""
@@ -57,10 +59,15 @@
         opacity: 1
 
   &__text
+    top: 50%
+    transform: translateY(-50%)
+    pointer-events: none
     transition:
       property: opacity
       duration: $t-duration
       timing-function: ease-out
-    opacity: 0
+
+    .letter-reveal__item
+      top: 10px
 
       

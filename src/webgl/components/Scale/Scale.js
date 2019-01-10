@@ -72,15 +72,15 @@ class Scale extends Event {
     }));
 
     // add sound effects
+    console.log(config);
     if(config.soundEffect) {
       AnimationManager.addAnimation(new Animation({
         duration: config.soundEffect.duration,
-        delay: 500
+        delay: 200
       }).on("start", () => {
         config.soundEffect.effects.forEach(effectName => {
           SoundManager.addEffect(effectName);
         });
-        console.log(SoundManager.soundEffectManager.activeEffects);
       }).on("progress", ( event ) => {
         config.soundEffect.effects.forEach(effectName => {
           SoundManager.setEffectIntensity(effectName, event.advancement);
@@ -128,8 +128,7 @@ class Scale extends Event {
     // remove sound effects
     if(config.soundEffect) {
       AnimationManager.addAnimation(new Animation({
-        duration: config.soundEffect.duration,
-        delay: 500
+        duration: config.soundEffect.duration
       }).on("progress", ( event ) => {
         config.soundEffect.effects.forEach(effectName => {
           SoundManager.setEffectIntensity(effectName, 1 - event.advancement);
@@ -138,7 +137,6 @@ class Scale extends Event {
         config.soundEffect.effects.forEach(effectName => {
           SoundManager.removeEffects(effectName);
         });
-        console.log(SoundManager.soundEffectManager.activeEffects);
       }));
     }
     

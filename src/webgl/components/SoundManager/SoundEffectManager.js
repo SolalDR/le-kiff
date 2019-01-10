@@ -2,6 +2,7 @@ import {Howler} from 'howler'
 import Tuna from 'tunajs'
 import 'howler-plugin-effect-chain'
 import SoundEffectEntity from './SoundEffectEntity'
+import config from './config';
 
 /**
  * SoundEffectManager with tuna and linked to Howler
@@ -61,54 +62,13 @@ class SoundEffectManager {
 
   /**
    * Create sound effects
-   * list here : https://github.com/Theodeus/tuna/wiki
    * 
    */
   createEffects() {
-
-    // MoogFilter
-    this.makeEffect('MoogFilter', {
-      cutoff: 0.07,    //0 to 1
-      resonance: 3.2,   //0 to 4
-      bufferSize: 8192,  //256 to 16384,
-      intensity: {
-        value: 1,
-        paramName: 'cutoff',
-        min: 1,
-        max: 0.07
-      }
-    });
-
-    // Convolver
-    this.makeEffect('Convolver', {
-      highCut: 22050,                         //20 to 22050
-      lowCut: 40,                             //20 to 22050
-      dryLevel: 0.1,                            //0 to 1+
-      wetLevel: 1,                            //0 to 1+
-      level: 1,
-      impulse: "/sounds/impulses/spring.wav",    //the path to your impulse response,
-      intensity: {
-        value: 1,
-        paramName: 'lowCut',
-        min: 22050,
-        max: 40
-      }
-    });
-
-    // Overdrive
-    this.makeEffect('Overdrive', {
-      outputGain: 0.2,         //0 to 1+
-      drive: 0.4,              //0 to 1
-      curveAmount: 0.6,          //0 to 1
-      algorithmIndex: 2,       //0 to 5, selects one of our drive algorithms
-      intensity: {
-        value: 1,
-        paramName: 'drive',
-        min: 0,
-        max: 0.4
-      }
-    });
-
+    config.effects.forEach(effect => {
+      console.log(effect.name, effect.params);
+      this.makeEffect(effect.name, effect.params);
+    })
   }
 
 }

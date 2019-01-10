@@ -38,12 +38,12 @@ export default {
           min: 0.1,
           max: 10
         }
-      }
-    }
-  },
+      },
 
-  soundEffect: {
-    duration: 1000,
-    effects : ['moogfilter']
-  }
+      soundEffect: {
+        duration: 1000,
+        effects : ['moogfilter']
+      }
+    },
+  },
 };

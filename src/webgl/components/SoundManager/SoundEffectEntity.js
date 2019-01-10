@@ -14,14 +14,14 @@ class SoundEffectEntity {
 
   setIntensity(value) {
     this.intensity.value = value;
-    var min = this.intensity.min;
-    var max = this.intensity.max;
-    var isObject = typeof this.effect[this.intensity.paramName] === 'object';
+    var min = this.intensity.param.min;
+    var max = this.intensity.param.max;
+    var isObject = typeof this.effect[this.intensity.param.name] === 'object';
     var result = min + (max - min) * this.intensity.value;
     if(isObject) {
-      this.effect[this.intensity.paramName].value = result;
+      this.effect[this.intensity.param.name].value = result;
     } else {
-      this.effect[this.intensity.paramName] = result;
+      this.effect[this.intensity.param.name] = result;
     }
   }
 }

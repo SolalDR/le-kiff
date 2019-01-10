@@ -1,7 +1,7 @@
 import Event from "~/helpers/Event";
 import Bus from "~/helpers/Bus";
 import * as GUI from "~/services/gui";
-import SoundManager from "../components/SoundManager";
+import SoundManager from "../components/SoundManager/SoundManager";
 
 /**
  * @class

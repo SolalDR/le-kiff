@@ -50,7 +50,9 @@ class SoundManager {
 
   playAll() {
     this.sounds.forEach((sound) => {
-      this.play(sound);
+      if(!sound.playing()) {
+        this.play(sound);
+      }
     });
   }
 
@@ -77,54 +79,32 @@ class SoundManager {
   }
 
   /**
-   * 
+   *
+   * @param {Howler} sound Sound object to fade 
    * @param {Number} from Volume to fade from
    * @param {Number} to Volume to fade to
+   * @param {Number} duration Fade duration
    * @param {String|Number} id sprite or sound id  
    */
-  fadeIn(sound, duration = 1, id = null) {
-    if(id) {
-      sound.fade(0, 1, duration, id)
+  fade(sound, type, duration = 1000, id = null) {
+    console.log(sound);
+    if(type === 'in') {
+      var from = 0;
+      var to = sound.volume();
+    } else if(type === 'out') {
+      var from = sound.volume();
+      var to = 0;
     } else {
-      sound.fade(0, 1, duration)
+      console.error('define fade type "in" or "out"');
     }
-  }
 
-  /**
-   * 
-   * @param {Number} from Volume to fade from
-   * @param {Number} to Volume to fade to
-   * @param {String|Number} id sprite or sound id  
-   */
-  fadeOut(sound, duration = 1, id = null)  {
+    console.log(from, to);    
     if(id) {
-      sound.fade(1, 0, duration, id)
+      sound.fade(from, to, duration, id)
     } else {
-      sound.fade(1, 0, duration)
+      console.log(sound);
+      sound.fade(from, to, duration)
     }
-  }
-
-  /**
-   * Update sounds
-   * @param {*} sounds 
-   */
-  updateSounds(soundsData){
-    // add sounds
-    soundsData.forEach((element) => {
-      if( !this.sounds.get(element.name) ) {
-        this.addSound(element.name, element.sound, element.options);
-      }
-    });
-
-    // remove sounds 
-    this.sounds.forEach((sound, name) => {
-      if( !soundsData.find(elementTmp => elementTmp.name === name) ) {
-        this.removeSound(name);
-        console.log('l.88 SoundManager.js remove', sound, name);
-        
-      }
-    });
-
   }
 
   /**
@@ -144,7 +124,33 @@ class SoundManager {
    * @param {string} name sound name 
    */
   removeSound(name){
-    this.sounds.delete( name );
+    var sound = this.sounds.get(name);
+    console.log(sound, name);
+    this.fade(sound, 'out');
+    sound.once('fade', () => {
+      sound.stop();
+      this.sounds.delete( name );
+    });
+  }
+
+  /**
+   * Update sounds
+   * @param {*} sounds 
+   */
+  updateSounds(soundsData){
+    // add sounds
+    soundsData.forEach((element) => {
+      if( !this.sounds.get(element.name) ) {
+        this.addSound(element.name, element.sound, element.options);
+      }
+    });
+
+    // remove sounds 
+    this.sounds.forEach((sound, name) => {
+      if( !soundsData.find(elementTmp => elementTmp.name === name) ) {
+        this.removeSound(name);
+      }
+    });
   }
 
   /**
@@ -163,7 +169,7 @@ class SoundManager {
     Object.entries(options).forEach(([key, value]) => {
       // we shouldn't do that but no other way to assign options after instanciation
       sound['_' + key] = value;
-    })
+    });
     return sound;
   }
 

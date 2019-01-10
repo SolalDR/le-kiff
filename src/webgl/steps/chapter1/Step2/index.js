@@ -44,8 +44,7 @@ export default class extends Step {
         name : event.step_2_background_music.name, 
         sound : event.step_2_background_music.result,
         options : {
-          html5: true,
-          volume: 0.001
+          volume: 0.1
         }
       }
     ]);

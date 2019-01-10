@@ -1,5 +1,6 @@
 import {Howler} from 'howler'
 import SoundEffectManager from './SoundEffectManager'
+import config from './config'
 
 class SoundManager {
 
@@ -20,6 +21,7 @@ class SoundManager {
   init() {
     this.howler = Howler;
     this.soundEffectManager = new SoundEffectManager();
+    this.volume = config.globalVolume;
   }
 
   get volume() {
@@ -30,6 +32,8 @@ class SoundManager {
     Howler.volume(v);
     this._volume = v
   }
+
+  // Add mute
 
   /**
    * 
@@ -54,37 +58,21 @@ class SoundManager {
    * 
    * @param {Howl} sound 
    * @param {String|Number} id sprite or sound id
-   * @param {Boolean} fade sound stop with fade out
    */
-  stop(sound, id = null, fade = false) {
-
-    const stop = () => {
+  stop(sound, id = null) {
       if(id) {
         sound.stop(id);  
       } else {
         sound.stop();  
       }
-    }
-
-    if(fade) {
-      this.fadeOut(sound);
-      sound.on('fade', () => {
-        stop();
-      })
-    } else {
-      stop();
-    }
-
   }
 
   /**
-   * 
-   * @param {Boolean} fade sound stop with fade out
+   * stop all sounds
    */
-  stopAll(fade) {
+  stopAll() {
     this.sounds.forEach((sound) => {
-      console.log('stop sound', sound);
-      this.stop(sound, null, fade);
+      this.stop(sound);
     });
   }
 
@@ -147,6 +135,7 @@ class SoundManager {
    */
   addSound(name, sound, options){
     const soundObject = this.assignOptions(sound, options);
+    soundObject.load();
     this.sounds.set(name, soundObject);
   }
 
@@ -172,7 +161,8 @@ class SoundManager {
 
   assignOptions(sound, options) {
     Object.entries(options).forEach(([key, value]) => {
-      sound[key] = value;
+      // we shouldn't do that but no other way to assign options after instanciation
+      sound['_' + key] = value;
     })
     return sound;
   }

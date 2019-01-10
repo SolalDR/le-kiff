@@ -72,7 +72,6 @@ class Scale extends Event {
     }));
 
     // add sound effects
-    console.log(config);
     if(config.soundEffect) {
       AnimationManager.addAnimation(new Animation({
         duration: config.soundEffect.duration,

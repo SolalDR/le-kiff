@@ -44,7 +44,7 @@ class App extends Component {
           <div className="app">
             <AppManagerHydrator onRouteChange={this.handleRouteChange} />
             <Header />
-            <Cursor isLoading={true} />
+            <Cursor isLoading={false} />
             <div className="app__content">
               <Route exact path="/" component={Intro} />
               {/* { store.getState().entities.chaptersLoaded } */}

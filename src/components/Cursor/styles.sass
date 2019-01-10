@@ -1,11 +1,19 @@
 @import "./../../styles/core.scss"
-  
+$h-duration: 3s
+
 .cursor
   position: absolute
+  display: flex
+  align-items: center
+  justify-content: center
+  width: $space-l
+  height: $space-l
   z-index: 10
   display: flex
   align-items: center
   flex-direction: column
+  pointer-events: none
+  overflow: visible
 
   &__bullet
     display: block
@@ -13,10 +21,53 @@
     width: $space-s
     height: $space-s
     border-radius: $space-s
+    transition: 
+      duration: $t-duration
+      property: transform
+      delay: $h-duration - 1
+
+  &__text
+    position: absolute
+    top: $space-l + $space-s
+    color: $color-secondary
+    white-space: nowrap
+
+  &__hold
+    transition: 
+      duration: $t-duration
+      property: transform, opacity
+      delay: $t-duration 
+
 
   &__loading
-    color: $color-secondary
-    margin-top: $space-s
+    opacity: 0
+
+  &__circle
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    transition: 
+      duration: $t-duration
+      property: transform, opacity
+      delay: $h-duration * 0.5
+
+  &__stroke
+    height: $space-l
+    width: $space-l
+    stroke-dasharray:  322
+    stroke-dashoffset: 322
+    transition: 
+      duration: $h-duration
+      property: stroke-dashoffset
+    transform: rotate(-90deg)
+    stroke: $color-secondary
+
+    circle
+      r: ($space-l / 2) - 1
+      cx: $space-m
+      cy: $space-m
 
   //States
   &.is-loading
@@ -24,17 +75,49 @@
       &__loading
         animation:
           name: wobble
-          duration: $t-duration
-          repeat: infinite
+          delay: $t-duration
+          duration: $t-duration * 6
+          timing-function: $t-timing-function
+          iteration-count: infinite
 
+  &.is-hold
+    .cursor 
+      &__circle
+        transform: scale(1.2)
+        opacity: 0
 
-@keyframes wobble 
-  O {
-    opacity: 0    
-  }
+      &__stroke
+        stroke-dashoffset: 0
 
-  75%
-    opacity: 1
+      &__bullet
+        animation:
+          name: pops
+          duration: $t-duration + $h-duration * 0.8
+          timing-function: $t-timing-function
+          fill-mode: forwards
 
-  100% 
-    opacity: .75
+      &__hold
+        transform: translateY(10px)
+        opacity: 0
+
+  @keyframes wobble
+    0%
+      opacity: 1
+
+    100%
+      opacity: .25
+
+  @keyframes pops
+    10% 
+      transform: scale(0.6)
+      opacity: 1
+    55%
+      transform: scale(0.6)
+      opacity: 1
+    75%
+      transform: scale(1.2) 
+    90%
+      opacity: 1
+    100%
+      transform: scale(0.3)
+      opacity: 0

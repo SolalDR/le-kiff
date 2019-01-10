@@ -1,16 +1,14 @@
 import { MicroScale, HumanScale, MacroScale} from "./components/Scale/index";
-import AnimationManager from "./manager/Animation";
-import ControllerManager from './manager/Controller';
-import InfoManager from './manager/Info';
+import {AnimationManager, ControllerManager, InfoManager} from "./manager";
 
 import * as THREE from "three";
 import Clock from "./helpers/Clock";
-import gui from "~/services/gui";
 import renderer from "./rendering/Renderer";
 import MouseCaster from "./components/MouseCaster";
 import Chapters from "./steps";
 import History from "./steps/History";
 import Viewport from "~/helpers/Viewport";
+import {guiRendering} from "~/services/gui"
 
 class WebGL {
 
@@ -64,7 +62,6 @@ class WebGL {
    * @param { { id, chapter_id, datas }} step 
    */
   selectStep(step) {
-    // TODO Replace with datas.rank
     // TODO Replace chapters[0] with rank
     // get correct step contructor
     var Step = Chapters[0][step.rank - 1];
@@ -124,10 +121,6 @@ class WebGL {
     }
   }
 
-  updateInfos(infos) {
-    InfoManager.updateInfos(infos);
-  }
-
   render(){
     this.light = new THREE.PointLight(0xffffff, 1.9);
     this.light.position.x = 5;
@@ -135,7 +128,14 @@ class WebGL {
     this.light.position.y = 5;
     this.threeScene.add(this.light);
 
-    gui.addLight("Light 1", this.light);
+    this.light2 = new THREE.PointLight(0xffffff, 1);
+    this.light2.position.x = -5;
+    this.light2.position.z = -5;
+    this.light2.position.y = -5;
+    this.threeScene.add(this.light2);
+
+    guiRendering.addLight("Light Primary", this.light);
+    guiRendering.addLight("Light Secondary", this.light2);
   }
 
   loop = () => {

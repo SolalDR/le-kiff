@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import SphericalCoord from "~/webgl/helpers/geo/SphericalCoord";
 
 /**

@@ -1,6 +1,7 @@
-import Step from "./../Step";
+import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
+import config from "./config";
 
 /**
  * @constructor

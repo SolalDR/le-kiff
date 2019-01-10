@@ -1,5 +1,5 @@
 import Scale from "../Scale";
-import { humanConfig } from "~/webgl/config";
+import config from "./config";
 
 class HumanScale extends Scale {
  
@@ -17,11 +17,11 @@ class HumanScale extends Scale {
   }
 
   display( previous, next ){
-    super.display( humanConfig.transitions[previous] );
+    super.display( config.transitions[previous] );
   }
 
   hide( previous, next ){
-    super.hide( humanConfig.transitions[next] );
+    super.hide( config.transitions[next] );
   }
 
   

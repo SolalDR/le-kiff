@@ -1,4 +1,4 @@
-import * as THREE from "three";
+
 import {guiMacro} from "~/services/gui";
 import { macroConfig } from "~/webgl/config";
 

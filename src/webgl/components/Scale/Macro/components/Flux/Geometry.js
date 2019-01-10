@@ -1,4 +1,4 @@
-import * as THREE from "three";
+
 import GeoCoord from "~/webgl/helpers/geo/GeoCoord";
 import easing from "~/helpers/maths/Easing";
 

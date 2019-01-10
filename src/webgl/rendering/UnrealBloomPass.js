@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import {Pass, CopyShader} from "@johh/three-effectcomposer"
 import LuminosityHighPassShader from "./LuminosityHighPassShader";
 /**

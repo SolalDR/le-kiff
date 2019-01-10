@@ -9,7 +9,12 @@ export default {
 
   molecules: {
     cocaine: {
-      offset: new THREE.Vector3(-30, -8, 20)
+      offset: new THREE.Vector3(-30, -8, 20),
+      position: new THREE.Vector3(8, -1, -10)
+    },
+
+    kerosene: {
+      position: new THREE.Vector3(-2, -3, -2)
     }
   },
 
@@ -20,10 +25,12 @@ export default {
         from: new THREE.Vector3(0, 0, 50),
         to: new THREE.Vector3(0, 0, 8)
       },
+
       target: {
         from: new THREE.Vector3(0, 0, 0),
         to: new THREE.Vector3(0, 0, 0)
       },
+      
       postprocess: {
         duration: 1000,
         bloom: {

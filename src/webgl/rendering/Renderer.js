@@ -5,11 +5,18 @@ import Viewport from "~/helpers/Viewport"
 
 class Renderer {
   constructor() {
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, gammaOutput: true });
+    this.renderer = new THREE.WebGLRenderer({ 
+      antialias: true, 
+      gammaOutput: true,
+      gammaInput: true 
+    });
     this.composer = new EffectComposer( this.renderer );
     this.composer.setSize( Viewport.width, Viewport.height );
     this.render = this.composer.render.bind(this.composer);
     this.renderer.setSize( Viewport.width, Viewport.height );    
+
+    guiRendering.add(this.renderer, "toneMappingExposure").min(-3).max(3)
+    guiRendering.add(this.renderer, "toneMappingWhitePoint").min(-3).max(3)
   }
 
   init({
@@ -18,7 +25,7 @@ class Renderer {
     renderer,
     element
   } = {}){
-    this.scene = scene; 
+    this.scene = scene;
     this.camera = camera;
     element.appendChild(this.renderer.domElement);
 

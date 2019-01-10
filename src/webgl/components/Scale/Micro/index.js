@@ -93,8 +93,12 @@ class MicroScale extends Scale {
       });
       guiMolecule.addObject3D(molecule.name, molecule.object3D);
       this.molecules.set(item, molecule);
-      
-      this.group.add(this.molecules.get(item).object3D);
+            
+      if(config.molecules[molecule.name] && config.molecules[molecule.name].position ){
+        molecule.object3D.position.copy(config.molecules[molecule.name].position)
+      }
+
+      this.group.add(molecule.object3D);
     })
     
   

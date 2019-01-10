@@ -12,10 +12,12 @@ export default {
         from: new THREE.Vector3(0, 0, 0),
         to: new THREE.Vector3(0, 0, 8)
       },
+
       target: {
         from: new THREE.Vector3(0, 0, 0),
         to: new THREE.Vector3(0, 0, 0)
       },
+
       postprocess: {
         duration: 1000,
         bloom: {
@@ -32,10 +34,12 @@ export default {
         from: new THREE.Vector3(0, 10, 25),
         to: new THREE.Vector3(0, 0, 8)
       },
+
       target: {
         from: new THREE.Vector3(0, 10, 0),
         to: new THREE.Vector3(0, 0, 0)
       },
+      
       postprocess: {
         duration: 500,
         bloom: {

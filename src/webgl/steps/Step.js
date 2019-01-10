@@ -1,7 +1,6 @@
 import Event from "~/helpers/Event";
 import Bus from "~/helpers/Bus";
-import gui from "~/services/gui";
-
+import * as GUI from "~/services/gui";
 
 /**
  * @class
@@ -23,7 +22,7 @@ class Step extends Event {
     this.scene= scene;
     this.id = datas.id;
     this.rank = datas.rank;
-    this.chapter_id = datas.chapter_id;
+    this.chapter_rank = datas.chapter_rank;
     this.content = datas.content;
     this.infos = datas.infos;
     
@@ -31,7 +30,8 @@ class Step extends Event {
       initialised: false
     }
 
-    this.gui = gui.addFolder(`Chapter ${this.chapter_id} Step ${this.rank}`);
+    this.parentGUI = GUI["guiChapter"+this.chapter_rank];
+    this.gui = this.parentGUI.addFolder("Step "+this.rank);
   }
 
   manageInfos(infos){

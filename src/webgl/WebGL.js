@@ -3,12 +3,12 @@ import {AnimationManager, ControllerManager, InfoManager} from "./manager";
 
 import * as THREE from "three";
 import Clock from "./helpers/Clock";
-import gui from "~/services/gui";
 import renderer from "./rendering/Renderer";
 import MouseCaster from "./components/MouseCaster";
 import Chapters from "./steps";
 import History from "./steps/History";
 import Viewport from "~/helpers/Viewport";
+import {guiRendering} from "~/services/gui"
 
 class WebGL {
 
@@ -128,7 +128,14 @@ class WebGL {
     this.light.position.y = 5;
     this.threeScene.add(this.light);
 
-    gui.addLight("Light 1", this.light);
+    this.light2 = new THREE.PointLight(0xffffff, 1);
+    this.light2.position.x = -5;
+    this.light2.position.z = -5;
+    this.light2.position.y = -5;
+    this.threeScene.add(this.light2);
+
+    guiRendering.addLight("Light Primary", this.light);
+    guiRendering.addLight("Light Secondary", this.light2);
   }
 
   loop = () => {

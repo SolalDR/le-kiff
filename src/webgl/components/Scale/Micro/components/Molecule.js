@@ -89,7 +89,6 @@ class Molecule extends Event {
     var localConfig = config.molecules[this.name];
     
     var offset = localConfig && localConfig.offset ? localConfig.offset : new THREE.Vector3()
-    console.log(offset);
     json.atoms.forEach(element => this.atoms.push(new THREE.Vector3(element[0], element[1], element[2]).add(offset)));
     this.bonds = json.bonds;
     this.generateModel();

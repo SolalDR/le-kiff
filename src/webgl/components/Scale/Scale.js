@@ -1,7 +1,7 @@
 import Event from "~/helpers/Event";
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import renderer from "~/webgl/rendering/Renderer";
-import SoundManager from "../SoundManager"
+import SoundManager from "../SoundManager/SoundManager"
 import Bus from "~/helpers/Bus";
 
 class Scale extends Event {
@@ -71,7 +71,7 @@ class Scale extends Event {
       Bus.verbose("scale-" + this.name + ":display", 2)
     }));
 
-    // add sound effect 
+    // add sound effects
     if(config.soundEffect) {
       AnimationManager.addAnimation(new Animation({
         duration: config.soundEffect.duration,
@@ -125,7 +125,7 @@ class Scale extends Event {
     });
 
 
-    // remove soun effect
+    // remove sound effects
     if(config.soundEffect) {
       AnimationManager.addAnimation(new Animation({
         duration: config.soundEffect.duration,

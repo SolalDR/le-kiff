@@ -1,6 +1,7 @@
 import {Howler} from 'howler'
 import Tuna from 'tunajs'
 import 'howler-plugin-effect-chain'
+import SoundEffectEntity from './SoundEffectEntity'
 
 /**
  * SoundEffectManager with tuna and linked to Howler
@@ -65,7 +66,6 @@ class SoundEffectManager {
    */
   createEffects() {
 
-
     // MoogFilter
     this.makeEffect('MoogFilter', {
       cutoff: 0.07,    //0 to 1
@@ -114,32 +114,3 @@ class SoundEffectManager {
 }
 
 export default SoundEffectManager;
-
-class SoundEffectEntity {
-  constructor({
-    tuna,
-    name,
-    params
-  } = {}) {
-    this.name = name;
-    this.tuna = tuna;
-    this.effect = new this.tuna[name](params);
-    this.intensity = params.intensity;
-
-    this.setIntensity(this.intensity.value);
-  }
-
-  setIntensity(value) {
-    this.intensity.value = value;
-    var min = this.intensity.min;
-    var max = this.intensity.max;
-    var isObject = typeof this.effect[this.intensity.paramName] === 'object';
-    var result = min + (max - min) * this.intensity.value;
-    if(isObject) {
-      this.effect[this.intensity.paramName].value = result;
-    } else {
-      this.effect[this.intensity.paramName] = result;
-    }
-  }
-
-}

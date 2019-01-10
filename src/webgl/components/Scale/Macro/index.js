@@ -1,4 +1,3 @@
-
 import Scale from "../Scale";
 import AssetsManager from "~/services/assetsManager/AssetsManager";
 import Earth from "./components/Earth";

@@ -51,21 +51,89 @@ class SoundManager {
   }
 
   /**
+   * 
+   * @param {Howl} sound 
+   * @param {String|Number} id sprite or sound id
+   * @param {Boolean} fade sound stop with fade out
+   */
+  stop(sound, id = null, fade = false) {
+
+    const stop = () => {
+      if(id) {
+        sound.stop(id);  
+      } else {
+        sound.stop();  
+      }
+    }
+
+    if(fade) {
+      this.fadeOut(sound);
+      sound.on('fade', () => {
+        stop();
+      })
+    } else {
+      stop();
+    }
+
+  }
+
+  /**
+   * 
+   * @param {Boolean} fade sound stop with fade out
+   */
+  stopAll(fade) {
+    this.sounds.forEach((sound) => {
+      console.log('stop sound', sound);
+      this.stop(sound, null, fade);
+    });
+  }
+
+  /**
+   * 
+   * @param {Number} from Volume to fade from
+   * @param {Number} to Volume to fade to
+   * @param {String|Number} id sprite or sound id  
+   */
+  fadeIn(sound, duration = 1, id = null) {
+    if(id) {
+      sound.fade(0, 1, duration, id)
+    } else {
+      sound.fade(0, 1, duration)
+    }
+  }
+
+  /**
+   * 
+   * @param {Number} from Volume to fade from
+   * @param {Number} to Volume to fade to
+   * @param {String|Number} id sprite or sound id  
+   */
+  fadeOut(sound, duration = 1, id = null)  {
+    if(id) {
+      sound.fade(1, 0, duration, id)
+    } else {
+      sound.fade(1, 0, duration)
+    }
+  }
+
+  /**
    * Update sounds
    * @param {*} sounds 
    */
-  updateSounds(sounds){
+  updateSounds(soundsData){
     // add sounds
-    sounds.forEach((element) => {
+    soundsData.forEach((element) => {
       if( !this.sounds.get(element.name) ) {
         this.addSound(element.name, element.sound, element.options);
       }
     });
 
     // remove sounds 
-    this.sounds.forEach(element => {
-      if( !sounds.find(elementTmp => elementTmp.name === element.name) ) {
-        this.removeSound(element.name);
+    this.sounds.forEach((sound, name) => {
+      if( !soundsData.find(elementTmp => elementTmp.name === name) ) {
+        this.removeSound(name);
+        console.log('l.88 SoundManager.js remove', sound, name);
+        
       }
     });
 
@@ -112,16 +180,8 @@ class SoundManager {
   // Effects
   // ======================================
 
-  /**
-   * 
-   * @param {Array(String)} list 
-   */
   addEffect(name) {
     this.soundEffectManager.addEffect(name);
-  }
-
-  switchEffect(name) {
-    this.soundEffectManager.switchEffect(name);
   }
 
   removeEffects() {

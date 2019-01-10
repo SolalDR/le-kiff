@@ -3,7 +3,6 @@ import AssetsManager from "../../../../services/assetsManager/AssetsManager";
 import Scale from "../Scale";
 import * as THREE from "three";
 import { microConfig } from "~/webgl/config";
-import SoundManager from "../../SoundManager"
 import renderer from "~/webgl/rendering/Renderer"
 
 class MicroScale extends Scale {

@@ -1,6 +1,6 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
-
+import SoundManager from "~/webgl/components/SoundManager/SoundManager"
 
 /**
  * @constructor
@@ -34,7 +34,24 @@ export default class extends Step {
   }
 
   display( isNextStep = false, event ) {
+<<<<<<< HEAD
     this.displayHumanScale( event );
+=======
+    this.initHumanScale( event );
+
+    SoundManager.updateSounds([
+      {
+        name : event.step_2_background_music.name, 
+        sound : event.step_2_background_music.result,
+        options : {
+          html5: true,
+          volume: 0.001
+        }
+      }
+    ]);
+    SoundManager.playAll();
+
+>>>>>>> update sounds when changing step + refacto
     super.display();
   }
 

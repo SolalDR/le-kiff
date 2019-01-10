@@ -5,15 +5,21 @@ class SoundManager {
 
   /**
    * @constructor
+   * @property {Howler} howler
    * @property {Map} sounds
    * @property {float} volume
    * @property {SoundEffectManager} soundEffectManager 
    */
   constructor(){
-    this.howler = Howler;
     this.sounds = new Map();
     this._volume = 0.5;
-    this.soundEffectManager = new SoundEffectManager(this.howler.ctx)
+    this.howler = null;
+    this.soundEffectManager = null;
+  }
+  
+  init() {
+    this.howler = Howler;
+    this.soundEffectManager = new SoundEffectManager();
   }
 
   get volume() {
@@ -31,17 +37,17 @@ class SoundManager {
    * @param {String|Number} id sprite or sound id
    */
   play(sound, id = null) {
-    this.sounds[sound].play(id);
+    if(id) {
+      sound.play(id);  
+    } else {
+      sound.play();  
+    }
   }
 
   playAll() {
-    this.sounds.forEach(function(sound, key) {
-      sound.play();
+    this.sounds.forEach((sound) => {
+      this.play(sound);
     });
-  }
-
-  applyEffect(name) {
-    this.soundEffectManager.applyEffect(name);
   }
 
   /**
@@ -102,6 +108,30 @@ class SoundManager {
     })
     return sound;
   }
+
+  // Effects
+  // ======================================
+
+  /**
+   * 
+   * @param {Array(String)} list 
+   */
+  addEffect(name) {
+    this.soundEffectManager.addEffect(name);
+  }
+
+  switchEffect(name) {
+    this.soundEffectManager.switchEffect(name);
+  }
+
+  removeEffects() {
+    this.soundEffectManager.removeAllEffects(); 
+  }
+
+  setEffectIntensity(name, advancement) {
+    this.soundEffectManager.effects[name].setIntensity(advancement);
+  }
+
 }
 
-export default SoundManager;
+export default new SoundManager();

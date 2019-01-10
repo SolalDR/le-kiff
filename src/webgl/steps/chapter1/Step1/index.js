@@ -1,6 +1,7 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
+import SoundManager from "~/webgl/components/SoundManager"
 import config from "./config";
 
 /**
@@ -48,5 +49,5 @@ export default class extends Step {
     this.scene.humanScale.group.remove(this.main);
     this.gui.removeFolder(this.folder.leaf);
     super.hide();
-  }
+  } 
 }

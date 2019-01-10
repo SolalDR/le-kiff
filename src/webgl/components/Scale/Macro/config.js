@@ -32,6 +32,11 @@ export default {
           max: 6,
           diff: 5.7
         }
+      },
+
+      soundEffect: {
+        duration: 1000,
+        effects : ['convolver']
       }
     }
   } 

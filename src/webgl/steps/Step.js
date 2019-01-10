@@ -1,6 +1,7 @@
 import Event from "~/helpers/Event";
 import Bus from "~/helpers/Bus";
 import * as GUI from "~/services/gui";
+import SoundManager from "../components/SoundManager";
 
 /**
  * @class
@@ -41,6 +42,7 @@ class Step extends Event {
   init(){
     this.state.initialised = true;
     Bus.dispatch("step:init", this);
+    SoundManager.init();
     this.dispatch("init");
   }
 

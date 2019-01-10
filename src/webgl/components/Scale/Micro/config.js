@@ -40,5 +40,10 @@ export default {
         }
       }
     }
+  },
+
+  soundEffect: {
+    duration: 1000,
+    effects : ['moogfilter']
   }
 };

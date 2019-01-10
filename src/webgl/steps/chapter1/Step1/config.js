@@ -1,6 +1,6 @@
 import c from "~/helpers/Configuration";
-import {merge} from "lodash"
 
+import {merge, cloneDeep} from "lodash"
 var a = {
   a: {
     a: 1,
@@ -16,8 +16,6 @@ merge(a, {
     b: 3
   }
 )
-
-console.log(a);
 
 export default {
 

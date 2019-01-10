@@ -61,14 +61,15 @@ class MicroScale extends Scale {
 
   initMoleculeMaterial(mat){
     var env = new THREE.CubeTextureLoader().setPath( '/images/molecule/ldr/' ).load( ['px.png','nx.png','py.png','ny.png','pz.png','nz.png' ] );
-    mat.envMap = env;
-    mat.envMapIntensity = 2; 
-    mat.metalness = 1;
-    mat.roughness = 0.3;
-    mat.transparent = true;
-    mat.opacity = 0.85;
-    mat.needsUpdate = true;
-    return mat.material; 
+    mat.material.envMap = env;
+    mat.material.envMapIntensity = 2; 
+    mat.material.metalness = 1;
+    mat.material.roughness = 0.2;
+    mat.material.transparent = true;
+    mat.material.opacity = 1;
+    mat.material.needsUpdate = true;
+    // mat.material.color = new THREE.Color(0, 0, 0);
+    return mat.material;
   }
 
   /**
@@ -81,6 +82,20 @@ class MicroScale extends Scale {
     guiMicro.addMaterial("Material liaison atom", bondMaterial);
     guiMicro.addMaterial("Material atom", atomMaterial);
     var list = ["cocaine", "kerosene"];
+    var listFull = [
+      "cocaine",
+      "kerosene",
+      "chaux", 
+      "eau", 
+      "acide_sulfurique", 
+      "ammoniac", 
+      "permanganate de potassium", 
+      "hydroxyde d'amonium", 
+      "ether", 
+      "acetone", 
+      "acide_chloridrique",
+      "bicarbonate_de_soude"
+    ]
 
     var guiMolecule = guiMicro.addFolder("Molecules");
 
@@ -94,8 +109,13 @@ class MicroScale extends Scale {
       guiMolecule.addObject3D(molecule.name, molecule.object3D);
       this.molecules.set(item, molecule);
             
-      if(config.molecules[molecule.name] && config.molecules[molecule.name].position ){
-        molecule.object3D.position.copy(config.molecules[molecule.name].position)
+      if(config.molecules[molecule.name]){
+        if( config.molecules[molecule.name].position ){
+          molecule.object3D.position.copy(config.molecules[molecule.name].position)
+        }
+        if(config.molecules[molecule.name].rotation ){
+          molecule.object3D.rotation.copy(config.molecules[molecule.name].rotation)
+        }
       }
 
       this.group.add(molecule.object3D);

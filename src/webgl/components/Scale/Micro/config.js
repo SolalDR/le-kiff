@@ -10,7 +10,9 @@ export default {
   molecules: {
     cocaine: {
       offset: new THREE.Vector3(-30, -8, 20),
-      position: new THREE.Vector3(8, -1, -10)
+      // position: new THREE.Vector3(8, -1, -10)
+      position: new THREE.Vector3(1, 0, -3),
+      rotation: new THREE.Euler(0, -1, 0)
     },
 
     kerosene: {

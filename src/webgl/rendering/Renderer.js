@@ -1,20 +1,22 @@
 import EffectComposer, {RenderPass} from "@johh/three-effectcomposer"
-import UnrealBloomPass from "./UnrealBloomPass";
+import UnrealBloomPass from "./Pass/UnrealBloomPass";
+import BokehPass from "./Pass/BokehPass";
 import {guiRendering} from "~/services/gui";
 import Viewport from "~/helpers/Viewport"
 
 class Renderer {
   constructor() {
     this.renderer = new THREE.WebGLRenderer({ 
-      antialias: true, 
       gammaOutput: true,
       gammaInput: true 
     });
     this.composer = new EffectComposer( this.renderer );
     this.composer.setSize( Viewport.width, Viewport.height );
     this.render = this.composer.render.bind(this.composer);
-    this.renderer.setSize( Viewport.width, Viewport.height );    
+    this.renderer.setSize( Viewport.width, Viewport.height );   
+    this.renderer.setPixelRatio(2);
 
+    
     guiRendering.add(this.renderer, "toneMappingExposure").min(-3).max(3)
     guiRendering.add(this.renderer, "toneMappingWhitePoint").min(-3).max(3)
   }
@@ -34,9 +36,21 @@ class Renderer {
   }
 
   initPostprocess(){
+    this.initBloom();
+    this.initBokeh();
+  
+    var renderScene = new RenderPass( this.scene, this.camera );
+    this.composer.addPass( renderScene );
+    this.composer.addPass( this.bloomPass );
+    this.composer.addPass( this.bokehPass );
+
+    this.bokehPass.renderToScreen = true;
+  }
+
+
+  initBloom(){
     this.bloomPass = new UnrealBloomPass( new THREE.Vector2( Viewport.width, Viewport.height ));
     this.bloomPass.setSize(Viewport.width*2, window.innerHeight*2);
-    this.bloomPass.renderToScreen = true;
     this.bloomPass.threshold = 0;
     this.bloomPass.strength = 0.3;
     this.bloomPass.radius = 0;
@@ -45,10 +59,24 @@ class Renderer {
     bloomFolder.add(this.bloomPass, "threshold").step(0.01);
     bloomFolder.add(this.bloomPass, "strength").step(0.01);
     bloomFolder.add(this.bloomPass, "radius").step(0.01);
-    
-    var renderScene = new RenderPass( this.scene, this.camera );
-    this.composer.addPass( renderScene );
-    this.composer.addPass( this.bloomPass );
+  }
+
+  initBokeh(){
+    this.bokehPass = new BokehPass( this.scene, this.camera, {
+      focus: 500,
+      aperture:	0.3*0.00001,
+      maxblur:	1,
+      width: Viewport.width,
+      height: Viewport.height
+    });
+
+    var bokehFolder = guiRendering.addFolder("Bokeh");
+    bokehFolder.add(this.bokehPass.uniforms.focus, "value", 10, 3000, 10).name("Focus")
+    bokehFolder.add({aperture: 0.1}, "aperture", 0, 10, 0.01).name("Aperture").onChange((value)=>{
+      this.bokehPass.uniforms.aperture.value = value * 0.00001
+    })
+    bokehFolder.add(this.bokehPass.uniforms.maxblur, "value", 0.0, 3.0, 0.025).name("Maxblur")
+
   }
 
   initEvents(){

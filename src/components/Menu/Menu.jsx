@@ -47,7 +47,6 @@ class Menu extends React.PureComponent {
       this.setState({
         current: rank
       })
-      SoundManager.play('toggle_menu_sound');
     }
   }
 

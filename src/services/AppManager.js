@@ -55,8 +55,8 @@ class AppManager {
           }
         },
         {
-          name : event.toggle_menu_sound.name, 
-          sound : event.toggle_menu_sound.result,
+          name : event.toggle_default.name, 
+          sound : event.toggle_default.result,
           options: {
             volume: 0.2
           }

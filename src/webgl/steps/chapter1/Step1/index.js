@@ -35,7 +35,8 @@ export default class extends Step {
     this.main.position.x = -1;
     this.main.position.y = -4.5;
     this.main.rotation.z = 0.2;
-    this.folder.leaf = this.gui.addObject3D("Leaf",  this.main, false);
+    // TOFIX: error : " 'Leaf' folder already exist
+    //this.folder.leaf = this.gui.addObject3D("Leaf",  this.main, false);
 
     this.scene.humanScale.group.add(background.object3D);
   }
@@ -47,7 +48,8 @@ export default class extends Step {
 
   hide() {
     this.scene.humanScale.group.remove(this.main);
-    this.gui.removeFolder(this.folder.leaf);
+    // FIXME: error : " 'Leaf' folder already exist
+    //this.gui.removeFolder(this.folder.leaf);
     
     SoundManager.stop('step_1_main_sound', true);
 

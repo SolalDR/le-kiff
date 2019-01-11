@@ -6,9 +6,9 @@ class SoundManager {
 
   /**
    * @constructor
-   * @property {Howler} howler
    * @property {Map} sounds
    * @property {float} volume
+   * @property {Howler} howler
    * @property {SoundEffectManager} soundEffectManager 
    */
   constructor(){
@@ -39,15 +39,14 @@ class SoundManager {
     this._volume = v
   }
 
-  // TODO: Add mute
-
   /**
    * 
    * @param {String[]|String} soundNames Array or String of sound names
    */
   play(soundNames) {
     const play = (name) => {
-      const sound = this.sounds.get(name);
+      const sound = this.getSound(name);
+      if(sound.playing()) return;
       sound.volume(sound.defaultVolume);
       sound.play();
     }
@@ -76,9 +75,10 @@ class SoundManager {
    * @param {String[]|String} soundNames Array or String of sound names
    * @param {String} fade  can be 'in' or 'out'
    */
-  stop(soundNames, fade) {
+  stop(soundNames, fade) { 
     const stop = (name) => {
-      const sound = this.sounds.get(name);
+      const sound = this.getSound(name);
+      if(!sound) console.error('sound', name, 'not found');
       if(fade) {
         this.fade(sound, 'out');
         sound.once('fade', sound.stop)
@@ -131,6 +131,20 @@ class SoundManager {
   }
 
   /**
+   * Get a sound from this.sounds[] by its name
+   * @param {String} name 
+   */
+  getSound(name) {
+    const sound = this.sounds.get(name);
+    if(sound) {
+      return this.sounds.get(name);
+    } else {
+      console.error('sound', name, 'not found');
+      return null;
+    }
+  }
+
+  /**
    * Add
    * @param {Object[]|Objet} soundsData Can be Object Array or Object of sound datas 
    * @param {string} soundsData.name Sound name
@@ -139,7 +153,7 @@ class SoundManager {
    */
  add(soundsData){
    const add = (data) => {
-    const soundObject = this.assignOptions(data.sound, data.options = null);
+    const soundObject = this.assignOptions(data.sound, data.options);
     this.sounds.set(data.name, soundObject);
    }
    if( Array.isArray( soundsData )) {
@@ -158,7 +172,7 @@ class SoundManager {
    * @param {string} name sound name 
    */
   removeSound(name){
-    var sound = this.sounds.get(name);
+    var sound = this.getSound(name);
     this.fade(sound, 'out');
     sound.once('fade', () => {
       sound.stop();
@@ -188,8 +202,7 @@ class SoundManager {
    * @param {Object} options
    * @return {Howl}
    */
-  assignOptions(sound, options) {
-    if(!options) return sound;
+  assignOptions(sound, options = null) {
     Object.entries(options).forEach(([key, value]) => {
       sound['_' + key] = value;
     });

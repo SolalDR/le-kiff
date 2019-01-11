@@ -83,8 +83,8 @@
           "path": "toggle_infopoint.mp3"
         },
         {
-          "name": "toggle_menu_sound", 
-          "path": "toggle_menu.mp3"
+          "name": "toggle_default", 
+          "path": "toggle_default.mp3"
         }
       ]
     }

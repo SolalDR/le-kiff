@@ -6,6 +6,7 @@ import Api from "./Api";
 import globalDatas from "./../datas/global.json";
 import chapter1Datas from "./../datas/chapter-1.json";
 import Bus from "~/helpers/Bus";
+import SoundManager from "~/webgl/components/SoundManager/SoundManager";
 
 
 class AppManager {
@@ -22,6 +23,8 @@ class AppManager {
     AssetsManager.loader.on("load:global", ()=> Bus.verbose("loader:global"));
     AssetsManager.loader.on("load:chapter-1", ()=> Bus.verbose("loader:chapter-1"));
 
+    this.addSounds();
+
     this.unsubscribe = store.subscribe( () => {
       this.executeWaitingRequests();
     })
@@ -35,9 +38,32 @@ class AppManager {
     })
   }
 
-  initAssets(){
+  initAssets() {
     AssetsManager.loader.addGroup(globalDatas);
     AssetsManager.loader.addGroup(chapter1Datas);
+  }
+
+  addSounds() {
+    AssetsManager.loader.once("load:global", (event) => {
+      // TODO: add config for sound data 
+      const soundsData = [
+        {
+          name : event.toggle_infopoint_sound.name, 
+          sound : event.toggle_infopoint_sound.result,
+          options: {
+            volume: 0.2
+          }
+        },
+        {
+          name : event.toggle_menu_sound.name, 
+          sound : event.toggle_menu_sound.result,
+          options: {
+            volume: 0.2
+          }
+        }
+      ]
+      SoundManager.add(soundsData);
+    })
   }
 
   /**

@@ -26,7 +26,7 @@ export default {
         lowCut: 40,                             //20 to 22050
         dryLevel: 0.1,                            //0 to 1+
         wetLevel: 1,                            //0 to 1+
-        level: 1,
+        level: 0.8,
         impulse: "/sounds/impulses/spring.wav",    //the path to your impulse response,
         intensity: {
           value: 1,

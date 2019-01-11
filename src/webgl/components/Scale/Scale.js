@@ -134,7 +134,7 @@ class Scale extends Event {
         });
       }).on("end", () => {
         config.soundEffect.effects.forEach(effectName => {
-          SoundManager.removeEffects(effectName);
+          SoundManager.removeAllEffects(effectName);
         });
       }));
     }

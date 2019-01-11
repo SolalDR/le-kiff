@@ -48,7 +48,8 @@ export default class extends Step {
   hide() {
     this.scene.humanScale.group.remove(this.main);
     this.gui.removeFolder(this.folder.leaf);
-    //SoundManager.stopAll();
+    
+    SoundManager.stop('step_1_main_sound', true);
 
     super.hide();
   } 

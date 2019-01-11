@@ -13,11 +13,17 @@ class SoundManager {
    */
   constructor(){
     this.sounds = new Map();
-    this._volume = 0.5;
+    this._volume = 0;
     this.howler = null;
     this.soundEffectManager = null;
+
+    // init on dom content loaded to get audio context
+    document.addEventListener("DOMContentLoaded", this.init.bind(this));
   }
   
+  /**
+   * init sound effect
+   */
   init() {
     this.howler = Howler;
     this.soundEffectManager = new SoundEffectManager();
@@ -33,21 +39,30 @@ class SoundManager {
     this._volume = v
   }
 
-  // Add mute
+  // TODO: Add mute
 
   /**
    * 
-   * @param {Howl} sound 
-   * @param {String|Number} id sprite or sound id
+   * @param {String[]|String} soundNames Array or String of sound names
    */
-  play(sound, id = null) {
-    if(id) {
-      sound.play(id);  
+  play(soundNames) {
+    const play = (name) => {
+      const sound = this.sounds.get(name);
+      sound.volume(sound.defaultVolume);
+      sound.play();
+    }
+    if(Array.isArray( soundNames )) {
+      soundNames.forEach(name => {
+        play(name);
+      })
     } else {
-      sound.play();  
+      play(soundNames);
     }
   }
-
+  
+  /**
+   * Play all sounds from sounds[]
+   */
   playAll() {
     this.sounds.forEach((sound) => {
       if(!sound.playing()) {
@@ -58,15 +73,26 @@ class SoundManager {
 
   /**
    * 
-   * @param {Howl} sound 
-   * @param {String|Number} id sprite or sound id
+   * @param {String[]|String} soundNames Array or String of sound names
+   * @param {String} fade  can be 'in' or 'out'
    */
-  stop(sound, id = null) {
-      if(id) {
-        sound.stop(id);  
+  stop(soundNames, fade) {
+    const stop = (name) => {
+      const sound = this.sounds.get(name);
+      if(fade) {
+        this.fade(sound, 'out');
+        sound.once('fade', sound.stop)
       } else {
-        sound.stop();  
+        sound.stop();
       }
+    }
+    if( Array.isArray( soundNames )) {
+      soundNames.forEach(name => {
+        stop(name);
+      })
+    } else {
+      stop(soundNames);
+    }
   }
 
   /**
@@ -87,37 +113,45 @@ class SoundManager {
    * @param {String|Number} id sprite or sound id  
    */
   fade(sound, type, duration = 1000, id = null) {
-    console.log(sound);
+    var from,to;
     if(type === 'in') {
-      var from = 0;
-      var to = sound.volume();
+      from = 0;
+      to = sound.volume();
     } else if(type === 'out') {
-      var from = sound.volume();
-      var to = 0;
+      from = sound.volume();
+      to = 0;
     } else {
       console.error('define fade type "in" or "out"');
-    }
-
-    console.log(from, to);    
+    }    
     if(id) {
       sound.fade(from, to, duration, id)
     } else {
-      console.log(sound);
       sound.fade(from, to, duration)
     }
   }
 
   /**
-   * add single sound to manager
-   * @param {string} name sound name
-   * @param {Howl} sound howler sound object
-   * @param {Object} options sound options object
+   * Add
+   * @param {Object[]|Objet} soundsData Can be Object Array or Object of sound datas 
+   * @param {string} soundsData.name Sound name
+   * @param {Howl} soundsData.sound Howler sound entity
+   * @param {Object} soundsData.options Howler sound options
    */
-  addSound(name, sound, options){
-    const soundObject = this.assignOptions(sound, options);
-    soundObject.load();
-    this.sounds.set(name, soundObject);
-  }
+ add(soundsData){
+   const add = (data) => {
+    const soundObject = this.assignOptions(data.sound, data.options = null);
+    this.sounds.set(data.name, soundObject);
+   }
+   if( Array.isArray( soundsData )) {
+    soundsData.forEach((data) => {
+      if( !this.sounds.get(data.name) ) {
+        add(data);
+      }
+    });
+   } else {
+      add(soundsData);
+   }
+ }
 
   /**
    * Remove a sound by is name
@@ -125,7 +159,6 @@ class SoundManager {
    */
   removeSound(name){
     var sound = this.sounds.get(name);
-    console.log(sound, name);
     this.fade(sound, 'out');
     sound.once('fade', () => {
       sound.stop();
@@ -139,11 +172,7 @@ class SoundManager {
    */
   updateSounds(soundsData){
     // add sounds
-    soundsData.forEach((element) => {
-      if( !this.sounds.get(element.name) ) {
-        this.addSound(element.name, element.sound, element.options);
-      }
-    });
+    this.add(soundsData);
 
     // remove sounds 
     this.sounds.forEach((sound, name) => {
@@ -154,36 +183,46 @@ class SoundManager {
   }
 
   /**
-   * add multiple sounds to manager
-   * @param {Array.{name: String, sound: Howl, options: Object}} soundArray array of objects sound datas 
-   * @param {Howl} sound howler sound object
-   * @return {Object} options sound options object
+   * Assign options to Howl Object
+   * @param {Howl} sound Howl object
+   * @param {Object} options
+   * @return {Howl}
    */
-  addMultipleSounds(soundArray) {
-    soundArray.forEach(element => {
-      this.addSound(element.name, element.sound, element.options)
-    });
-  }
-
   assignOptions(sound, options) {
+    if(!options) return sound;
     Object.entries(options).forEach(([key, value]) => {
-      // we shouldn't do that but no other way to assign options after instanciation
       sound['_' + key] = value;
     });
+    sound.defaultVolume = options.volume || 1;
     return sound;
   }
 
   // Effects
   // ======================================
 
+  /**
+   * @param {String} name effect name
+   */
   addEffect(name) {
     this.soundEffectManager.addEffect(name);
   }
 
-  removeEffects() {
+  /**
+   * @param {String} name effect name 
+   */
+  removeEffect(name) {
+    this.soundEffectManager.removeEffect(name);
+  }
+
+  removeAllEffects() {
     this.soundEffectManager.removeAllEffects(); 
   }
 
+  /**
+   * Set effect intensity 
+   * @param {String} name effect name
+   * @param {Number} advancement value between 0 and 1
+   */
   setEffectIntensity(name, advancement) {
     this.soundEffectManager.effects[name].setIntensity(advancement);
   }

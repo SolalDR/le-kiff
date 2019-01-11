@@ -42,8 +42,8 @@ class Step extends Event {
   init(){
     this.state.initialised = true;
     Bus.dispatch("step:init", this);
-    SoundManager.init();
-    this.dispatch("init");
+    //SoundManager.init();
+    this.dispatch("init"); 
   }
 
   display() {

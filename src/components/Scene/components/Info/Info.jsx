@@ -1,5 +1,6 @@
 import React from "react";
 import "./styles.sass";
+import SoundManager from "~/webgl/components/SoundManager/SoundManager";
 
 class InfoPoint extends React.Component {
 
@@ -39,6 +40,7 @@ class InfoPoint extends React.Component {
 
   handleClick = () => {
     this.toggleClass();
+    SoundManager.play('toggle_infopoint_sound');
     if (this.props.onClick) this.props.onClick();
   };
 

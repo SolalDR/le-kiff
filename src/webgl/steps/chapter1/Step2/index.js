@@ -39,16 +39,18 @@ export default class extends Step {
 =======
     this.initHumanScale( event );
 
-    SoundManager.updateSounds([
-      {
-        name : event.step_2_background_music.name, 
-        sound : event.step_2_background_music.result,
-        options : {
-          volume: 0.1
+
+    const soundsData = [
+        {
+          name : event.step_2_background_music.name, 
+          sound : event.step_2_background_music.result,
+          options : {
+            volume: 0.2
+          }
         }
-      }
-    ]);
-    SoundManager.playAll();
+      ]
+    SoundManager.add(soundsData)
+    SoundManager.play(soundsData.map(data => data.name));
 
 >>>>>>> update sounds when changing step + refacto
     super.display();
@@ -56,6 +58,7 @@ export default class extends Step {
 
   hide() {
     this.scene.humanScale.group.remove(this.main);
+    SoundManager.stop('step_2_background_music', true);
     super.hide();
   }
 }

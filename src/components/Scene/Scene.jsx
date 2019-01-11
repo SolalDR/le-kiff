@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { getCurrentScale } from '~/services/stores/reducers/selectors';
 import InfoList from "./components/Info/InfoList";
 import {InfoManager} from "~/webgl/manager"
+import AssetsManager from '../../services/assetsManager/AssetsManager';
 
 class Scene extends React.Component {
 
@@ -35,10 +36,23 @@ class Scene extends React.Component {
   }
 
   componentDidMount(){
+    var globalIsLoad, chapterIsLoad = false;
+    var isLoad = () => globalIsLoad && chapterIsLoad ? this.iniScene(): null;
+    AssetsManager.loader.on("load:global", ()=>{
+      globalIsLoad = true;
+      isLoad();
+    })
+
+    AssetsManager.loader.on("load:chapter-1", ()=>{
+      chapterIsLoad = true;
+      isLoad();
+    })
+  }
+
+  iniScene(){
     this.webgl = new WebGL({
       element: this.sceneElement.current
     });
-    
     this.webgl.selectStep(this.props.step);
     InfoManager.updateInfos([]);
     

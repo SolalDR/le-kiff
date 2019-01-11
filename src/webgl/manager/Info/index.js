@@ -47,6 +47,7 @@ class InfoManager extends Event {
    * @param {*} infos 
    */
   updateInfos(infos){
+    Bus.verbose("infos-manager:update")
     infos.forEach((info) => {
       if( !this.infos.get(info.id) ) {
         this.addInfo(info);
@@ -60,7 +61,6 @@ class InfoManager extends Event {
     });
 
     this.dispatch("update:infos", this.infos);
-    Bus.verbose("infos-manager:update")
   }
 
   /**
@@ -68,9 +68,9 @@ class InfoManager extends Event {
    * @param {Info} info 
    */
   addInfo(info){
+    Bus.verbose("infos-manager: add info " + info.id, 3)
     var object = ( info.attachment && info.attachment.name ) ? this.scene.getObjectByName(info.attachment.name) : null;
     this.infos.set(info.id, new Info(info, object));
-    Bus.verbose("infos-manager: add info " + info.id, 3)
   }
 
   /**
@@ -78,8 +78,8 @@ class InfoManager extends Event {
    * @param {Info} id 
    */
   removeInfo(id){
-    this.infos.delete( id );
     Bus.verbose("infos-manager: remove info " + id, 3)
+    this.infos.delete( id );
   }
 
   /**

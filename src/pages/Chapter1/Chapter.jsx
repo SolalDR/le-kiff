@@ -7,6 +7,7 @@ import Scene from "~/components/Scene/Scene";
 import Timeline from "~/components/Timeline/Timeline";
 import Loading from "~/components/Loading/Loading";
 import "./styles.sass";
+import Bus from "../../helpers/Bus";
 
 class Chapter extends React.Component {
     
@@ -33,6 +34,10 @@ class Chapter extends React.Component {
           isReady: false,
           stepId: 1
         };
+    }
+
+    componentDidMount(){
+      Bus.verbose("chapter-1:mounted");
     }
 
     componentWillReceiveProps(nextProps) {

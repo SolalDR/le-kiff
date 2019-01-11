@@ -9,12 +9,15 @@ import Chapters from "./steps";
 import History from "./steps/History";
 import Viewport from "~/helpers/Viewport";
 import {guiRendering} from "~/services/gui"
+import Bus from "../helpers/Bus";
 
 class WebGL {
 
   constructor({
     element = null
   } = {}){
+    Bus.verbose("webgl:init");
+
     this.resolution =  new THREE.Vector2(Viewport.width, Viewport.height);
     this.threeScene = new THREE.Scene();
     this.threeScene.background = new THREE.Color(0x111111);
@@ -42,8 +45,7 @@ class WebGL {
 
     this.microScale = new MicroScale({ scene: this });
     this.macroScale = new MacroScale({ scene: this });
-    this.humanScale = new HumanScale({ scene: this });
-    this.humanScale.display( "micro" );
+    this.humanScale = new HumanScale({ scene: this }); 
     
     this.points = []; // TODO: add to pointsManager
     
@@ -102,6 +104,8 @@ class WebGL {
 
     this.step.init();
     History.registerStep(this.step);
+
+    this.humanScale.display( "micro" );
   }
 
   /**

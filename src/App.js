@@ -18,6 +18,7 @@ Bus.registerGroup("step", [ "color: blue" ]);
 Bus.registerGroup("history", [ "color: green" ]);
 Bus.registerGroup("controls", [ "color: purple" ]);
 Bus.registerGroup("infos", [ "color: salmon" ]);
+Bus.registerGroup("api", [ "color: purple" ]);
 
 class App extends Component {
 

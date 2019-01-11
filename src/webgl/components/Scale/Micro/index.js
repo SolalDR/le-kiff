@@ -36,10 +36,7 @@ class MicroScale extends Scale {
    */
   init(){
     super.init();
-    if( AssetsManager.loader.isLoaded("global") ) {
-      this.initScene(AssetsManager.loader.getFiles("global"));
-    }
-    AssetsManager.loader.on("load:global", (event)=> this.initScene( event ));
+    this.initScene(AssetsManager.loader.getFiles("global"));
   }
   
   display(previous, next){
@@ -53,7 +50,6 @@ class MicroScale extends Scale {
   // TODO Function updateFromStep
   updateFromStep( step ){
     var infos = step.infos.filter(info => info.scale === "micro" && info.type === "molecule");
-
     this.molecules.forEach(molecule => {
       var info = infos.find(info => info.slug === molecule.name);
       if( info ){
@@ -119,13 +115,11 @@ class MicroScale extends Scale {
     guiMicro.add(this.noise, "density", 0, 20).onChange(()=>{
       this.noise.draw();
       noise.needsUpdate = true;
-      console.log(this.noise);
     });
 
     guiMicro.add(this.noise, "exposition", 0, 1).onChange(()=>{
       this.noise.draw();
       noise.needsUpdate = true;
-      console.log(this.noise);
     });
 
     this.plane = new InteractivePlane({
@@ -136,6 +130,7 @@ class MicroScale extends Scale {
     this.plane.position.z = -100;
     guiMicro.addObject3D("Plane", this.plane)
     this.group.add(this.plane);
+    Bus.verbose("scale-micro:init", 2)
   }
 
   /**

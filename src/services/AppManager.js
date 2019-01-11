@@ -5,6 +5,7 @@ import { getChapterApiId, getIsLoadedChapters } from './stores/reducers/selector
 import Api from "./Api";
 import globalDatas from "./../datas/global.json";
 import chapter1Datas from "./../datas/chapter-1.json";
+import Bus from "~/helpers/Bus";
 
 
 class AppManager {
@@ -18,6 +19,9 @@ class AppManager {
     AssetsManager.loader.loadGroup("global");
     AssetsManager.loader.loadGroup("chapter-1");
 
+    AssetsManager.loader.on("load:global", ()=> Bus.verbose("loader:global"));
+    AssetsManager.loader.on("load:chapter-1", ()=> Bus.verbose("loader:chapter-1"));
+
     this.unsubscribe = store.subscribe( () => {
       this.executeWaitingRequests();
     })
@@ -25,6 +29,7 @@ class AppManager {
 
   initApi() {
     this.api.get('chapters').then(response => {
+      Bus.verbose("api:fetch-chapters");
       const isLoaded = response.status === 200;
       store.dispatch(fetchChapters(response.data, isLoaded));
     })
@@ -42,6 +47,7 @@ class AppManager {
    */
   getChapterSteps(id) {
     this.api.get(`chapters/${id}/steps`).then(response => {
+      Bus.verbose("api:fetch-steps-chapter-"+id);
       const isLoaded = response.status === 200;
       store.dispatch(fetchSteps(response.data, id));
       if (isLoaded) store.dispatch(setLoadedStep(id));

@@ -6,6 +6,7 @@ import Flux from "./components/Flux";
 import Zoning from "./components/Zoning";
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import config from "./config";
+import Bus from "~/helpers/Bus";
 
 class MacroScale extends Scale {
   
@@ -84,10 +85,7 @@ class MacroScale extends Scale {
    */
   init(){
     super.init();
-    if( AssetsManager.loader.isLoaded("global") ) {
-      this.initScene(AssetsManager.loader.getFiles("global"));
-    }
-    AssetsManager.loader.on("load:global", (event)=> this.initScene( event ))
+    this.initScene(AssetsManager.loader.getFiles("global"));
   }
 
   /**
@@ -110,6 +108,7 @@ class MacroScale extends Scale {
     
     sky.name = "sky";
     this.group.add(sky);
+    Bus.verbose("scale-macro:init", 2)
   }
 
   updateZoningInfos(infos){

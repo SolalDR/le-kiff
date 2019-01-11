@@ -1,4 +1,3 @@
-
 export default {
   background: new THREE.Color(0xf2f3ee),
   

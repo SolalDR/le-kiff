@@ -6,8 +6,8 @@ $h-duration: 3s
   display: flex
   align-items: center
   justify-content: center
-  width: $space-l
-  height: $space-l
+  width: $space-l * .8
+  height: $space-l * .8
   z-index: 10
   display: flex
   align-items: center
@@ -18,8 +18,8 @@ $h-duration: 3s
   &__bullet
     display: block
     background: $color-secondary
-    width: $space-s
-    height: $space-s
+    width: $space-s * .7
+    height: $space-s * .7
     border-radius: $space-s
     transition: 
       duration: $t-duration
@@ -28,7 +28,7 @@ $h-duration: 3s
 
   &__text
     position: absolute
-    top: $space-l + $space-s
+    top: $space-l
     color: $color-secondary
     white-space: nowrap
 
@@ -37,6 +37,10 @@ $h-duration: 3s
       duration: $t-duration
       property: transform, opacity
       delay: $t-duration 
+
+    .letter-reveal__item
+      top: 15px
+      min-width: 2px
 
 
   &__loading
@@ -54,8 +58,8 @@ $h-duration: 3s
       delay: $h-duration * 0.5
 
   &__stroke
-    height: $space-l
-    width: $space-l
+    height: $space-l * .8
+    width: $space-l * .8
     stroke-dasharray:  322
     stroke-dashoffset: 322
     transition: 
@@ -65,9 +69,9 @@ $h-duration: 3s
     stroke: $color-secondary
 
     circle
-      r: ($space-l / 2) - 1
-      cx: $space-m
-      cy: $space-m
+      r: ($space-l * .4) - 1
+      cx: $space-l * .4
+      cy: $space-l * .4
 
   //States
   &.is-loading

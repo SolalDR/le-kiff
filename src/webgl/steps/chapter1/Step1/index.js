@@ -46,6 +46,7 @@ export default class extends Step {
     this.main.position.x = -1;
     this.main.position.y = -4.5;
     this.main.rotation.z = 0.2;
+    console.log(this.main);
     this.folder.leaf = this.gui.addObject3D("Leaf",  this.main, false);
 
     this.scene.humanScale.group.add(background.object3D);

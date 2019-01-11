@@ -122,7 +122,7 @@ class WebGL {
   }
 
   render(){
-    this.light = new THREE.PointLight(0xffffff, 1.9);
+    this.light = new THREE.PointLight(0xffffff, 1.3);
     this.light.position.x = 5;
     this.light.position.z = 5;
     this.light.position.y = 5;

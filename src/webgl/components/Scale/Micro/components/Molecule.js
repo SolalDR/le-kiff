@@ -29,7 +29,7 @@ class Molecule extends Event {
     this.object3D = new THREE.Group();
     this.object3D.name = "molecule_" + name;
     this.object3D.visible = false;
-    this.atomGeometry = new THREE.SphereBufferGeometry(0.2, 20, 20);
+    this.atomGeometry = new THREE.SphereBufferGeometry(0.5, 16, 16);
 
     this.parse(pdb);
   }
@@ -38,6 +38,8 @@ class Molecule extends Event {
     var geometries = [];
     for ( var i = 0 ; i < this.atoms.length ; i ++ ) {
       var geometry = this.atomGeometry.clone();
+      var scaleRandom = 0.75 + Math.random()*0.5;
+      geometry.scale(scaleRandom, scaleRandom, scaleRandom)
       geometry.translate(this.atoms[i].x, this.atoms[i].y, this.atoms[i].z);
       geometries.push(geometry)
     }
@@ -58,7 +60,7 @@ class Molecule extends Event {
       to = this.atoms[this.bonds[i][1]];
       curve = new THREE.LineCurve(from.clone(), to.clone());
       geometries.push(
-        new THREE.TubeBufferGeometry( curve, 1, 0.02, 8 )
+        new THREE.TubeBufferGeometry( curve, 1, 0.15, 8 )
       )
     }
     
@@ -81,6 +83,7 @@ class Molecule extends Event {
   generateModel(){
     this.object3D.add(this.generateAtomModel());
     this.object3D.add(this.generateBondModel());
+    this.object3D.scale.copy(new THREE.Vector3(0.8, 0.8, 0.8))
   }
 
   parse(pdb){

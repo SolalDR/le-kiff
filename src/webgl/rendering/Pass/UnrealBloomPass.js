@@ -1,5 +1,5 @@
 import {Pass, CopyShader} from "@johh/three-effectcomposer"
-import LuminosityHighPassShader from "./LuminosityHighPassShader";
+import LuminosityHighPassShader from "../Shader/LuminosityHighPassShader";
 /**
  * @author spidersharma / http://eduperiment.com/
  *

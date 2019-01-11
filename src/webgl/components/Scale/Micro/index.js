@@ -4,6 +4,8 @@ import Scale from "../Scale";
 import config from "./config";
 import Bus from "~/helpers/Bus";
 import {guiMicro} from "~/services/gui"
+import InteractivePlane from "./components/InteractivePlane"
+import {Brownian} from "noisadelic";
 
 class MicroScale extends Scale {
 
@@ -15,10 +17,15 @@ class MicroScale extends Scale {
   constructor(args){
     super({...args, name: "micro"});
     this.molecules = new Map();
-
+    this.config = config;
     this.state = {
       ...this.state
     }
+    this.noise = new Brownian({
+      size: 1024,
+      rgb: true,
+      dynamic: true
+    });
     
     this.init();
   }
@@ -29,10 +36,10 @@ class MicroScale extends Scale {
    */
   init(){
     super.init();
-    if( AssetsManager.loader.isLoaded("micro") ) {
-      this.initScene(AssetsManager.loader.getFiles("micro"));
+    if( AssetsManager.loader.isLoaded("global") ) {
+      this.initScene(AssetsManager.loader.getFiles("global"));
     }
-    AssetsManager.loader.on("load:micro", (event)=> this.initScene( event ));
+    AssetsManager.loader.on("load:global", (event)=> this.initScene( event ));
   }
   
   display(previous, next){
@@ -82,20 +89,7 @@ class MicroScale extends Scale {
     guiMicro.addMaterial("Material liaison atom", bondMaterial);
     guiMicro.addMaterial("Material atom", atomMaterial);
     var list = ["cocaine", "kerosene"];
-    var listFull = [
-      "cocaine",
-      "kerosene",
-      "chaux", 
-      "eau", 
-      "acide_sulfurique", 
-      "ammoniac", 
-      "permanganate de potassium", 
-      "hydroxyde d'amonium", 
-      "ether", 
-      "acetone", 
-      "acide_chloridrique",
-      "bicarbonate_de_soude"
-    ]
+    var listFull = [ "cocaine", "kerosene", "chaux",  "eau",  "acide_sulfurique",  "ammoniac",  "permanganate de potassium",  "hydroxyde d'amonium",  "ether",  "acetone",  "acide_chloridrique", "bicarbonate_de_soude" ]
 
     var guiMolecule = guiMicro.addFolder("Molecules");
 
@@ -120,8 +114,28 @@ class MicroScale extends Scale {
 
       this.group.add(molecule.object3D);
     })
-    
-  
+
+    var noise = new THREE.CanvasTexture(this.noise.canvas);
+    guiMicro.add(this.noise, "density", 0, 20).onChange(()=>{
+      this.noise.draw();
+      noise.needsUpdate = true;
+      console.log(this.noise);
+    });
+
+    guiMicro.add(this.noise, "exposition", 0, 1).onChange(()=>{
+      this.noise.draw();
+      noise.needsUpdate = true;
+      console.log(this.noise);
+    });
+
+    this.plane = new InteractivePlane({
+      noise: noise,
+      gui: guiMicro
+    });
+
+    this.plane.position.z = -100;
+    guiMicro.addObject3D("Plane", this.plane)
+    this.group.add(this.plane);
   }
 
   /**
@@ -129,6 +143,10 @@ class MicroScale extends Scale {
    * Raf
    */
   loop(){
+    if (this.plane ) {
+      this.plane.material.uniforms.u_time.value += 0.0005;
+    }
+    
     super.loop();
   }
 

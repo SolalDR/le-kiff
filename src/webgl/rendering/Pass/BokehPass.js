@@ -1,5 +1,5 @@
 import {Pass} from "@johh/three-effectcomposer"
-import BokehShader from "./BokehShader";
+import BokehShader from "../Shader/BokehShader";
 import Viewport from "~/helpers/Viewport";
 /**
  * Depth-of-field post-process with bokeh shader

@@ -49,7 +49,7 @@ Récupération des informations d’une étapes
 React est utilisé pour la structure de l'application et notamment avec son système de components. On a alors un component Scène, Échelle, Échelle Humaine, Échelle Micro, Échelle Macro. On a également un component par chapitre qui est géré par le retour et qui a donc une fonction de page. 
     
 ### Store Redux
-Nous utilisons un store Redux pour l'application afin d'avoir accès aux données (notamment celles retournées par l'Api) depuis n'importe quel composant et pour les mettre à jour. Nous avons décidé de couper notre store en 2 : d'un côté les données retournées par l'Api, de l'autre le state consacré uniquement à l'UI. Pour cela nous avons donc crée 2 reducers, un Entities Reducer et un autre UI Reducer. L'entities reducer prend en state une liste de chapitres, une listes d'infos et une liste d'étapes. L'UI Reducer va pouvoir prendre en state l'étape et le chapitre courant.
+Nous utilisons un store Redux pour l'application afin d'avoir accès aux données (notamment celles retournées par l'Api) depuis n'importe quel composant et pour les mettre à jour. Nous avons décidé de couper notre store en 2 : d'un côté les données retournées par l'Api, de l'autre le state consacré uniquement à l'UI. Pour cela nous avons donc crée 2 reducers, un Entities Reducer et un autre UI Reducer. L'entities reducer prend en state une liste de chapitres, une listes d'infos et une liste d'étapes. L'UI Reducer va pouvoir prendre en state le chapitre, l'étape, les informations et les échelles courantes.
 
 ### ThreeJS
 Nous avons choisi d'utiliser la librairie ThreeJS pour la 3D, qui nous permet de gagner du temps grace aux nombreuses abstractions. Cependant, il faut aussi être vigileant au niveau des performances du projet. Nous souhaitons avoir au coeur de chaque écran un objet principal, et y ajouter des effets de profondeur afin d'avoir un leger parallax au hover sur l'objet.   
@@ -64,45 +64,130 @@ Nous avons choisi d'utiliser la librairie ThreeJS pour la 3D, qui nous permet de
 ## Architecture Temporaire
 
 ``` yaml
-/src
+# All scenes, services and animations handled in three.js
+|____/webgl
+| |____/glsl
 
-  # Global components (can be reused in all the app)
-  /components          
-    /Scene 
-      /components      
-        HumanScale
-        MicroScale
-        MacroScale
-      Scene
+| |____/manager
+| | |____/Animation
+| | | |____/components
+| | | | |____Animation
+| | |____/Controller
+| | | |____/components
+| | |____/Info
+| | | |____/components
 
-  # Single components (used in router)
-  /pages               
-    /Chapter1 
-      /pages
-        Step1
-        Step2
-    /Chapter2
-    /Chapter3
-    /Chapter4
-    /Intro
-    /Outro
-    /Source
-    /About
+| |____/components
+| | |____/Scale
+| | | |____/Micro
+| | | | |____MicroScale
+| | | | |____/components
+| | | | | |____Molecule
+| | | | | |____/InteractivePlane
+| | | |____/Macro
+| | | | |____/components
+| | | | | |____/Flux
+| | | | | |____/Zoning
+| | | |____Scale
+| | | |____/Human
+| | | | |____components/
 
-  # Services to manage storage, asynchronous loading, call to the wordpress api
-  /services
-    api
-    loader
-    /stores
-      /reducers
-         UI
-         Entities
-     actionTypes
-     actions
+| |____/steps
+| | |____/chapter1
+| | | |____/Step3
+| | | |____/Step2
+| | | |____/Step1
 
-  /utils
-    /molecules
-    /maths
+| |____/rendering
+| | |____Renderer
+| | |____/Pass
+| | |____/Shader
+| |____/helpers
+| | |____/geo
+
+
+|____/datas
+| |____/geojson
+
+
+|____/styles
+| |____/blocks
+| |____/core
+
+# Global components (can be reused in all the app)
+|____/components
+| |____/Loading
+| | |____Loading
+
+| |____/Raf
+| | |____Raf
+
+| |____/Menu
+| | |____Menu
+
+| |____/Scene
+| | |____Scene
+| | |____/components
+| | | |____Info
+| | | | |____InfoList
+| | | | |____Info
+| | | |____/ScaleMenu
+| | | | |____ScaleMenu
+| |____/AppManagerHydrator
+| | |____AppManagerHydrator
+| |____/Timeline
+| | |____Timeline
+| | |____/components
+| | | |____TimelineItem
+| |____/Header
+| | |____Header
+| |____/LetterReveal
+| | |____LetterReveal
+
+# Single components (used in router)
+|____/pages
+| |____/Intro
+| | |____Intro
+| |____/Chapter1
+| | |____Chapter
+| |____/About
+| | |____About
+| |____/Outro
+| | |____Outro
+|____/helpers
+| |____Event
+| |____Configuration
+| |____index
+| |____/maths
+| | |____Easing
+| |____Bus
+| |____Viewport
+|____App
+
+# Services to manage storage, asynchronous loading, call to the wordpress api and sounds
+|____/services
+| |____/stores
+| | |____/reducers
+| | | |____ui
+| | | |____selectors
+| | | |____entities
+| |____AppManager
+| |____/assetsManager
+| | |____loaders
+| | | |____RGBELoader
+| | | |____DDSLoader
+| | | |____GLTFLoader
+| | | |____DRACOLoader
+| | | |____HDRCubeTextureLoader
+| | | |____PDBLoader
+| | | |____SoundLoader
+| | |____AssetsManager
+| | |____Loader
+| |____/soundManager
+| | |____SoundManager
+| | |____SoundEffectEntity
+| | |____SoundEffectManager
+| |____Api
 ```
 
 <br><br><br>

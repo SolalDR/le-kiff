@@ -14,24 +14,12 @@ export default class extends Step {
    * @param {boolean} isNextStep If the step is arriving form the precedent
    */
   init( previousStep ) {
-    super.init({
-      assets: [
-        "background",
-        "step_1_human_leaf"
-      ]
-    });
-
+    super.init();
     this.folder = {};
-    if( AssetsManager.loader.isLoaded("chapter-1") ) {
-      this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
-    }
-
-    AssetsManager.loader.once("load:chapter-1", (event) => {
-      this.display( previousStep, event )
-    })
+    this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
   }
 
-  initHumanScale( e ){
+  displayHumanScale( e ){
     this.main = e.step_1_human_leaf.result.scene;
     this.main.name = "main-step-1";
     
@@ -52,11 +40,11 @@ export default class extends Step {
   }
 
   display( isNextStep = false, event ) {
-    this.initHumanScale( event );
+    this.displayHumanScale( event );
     super.display();
   }
 
-  hide() {  
+  hide() {
     this.scene.humanScale.group.remove(this.main);
     this.gui.removeFolder(this.folder.leaf);
     super.hide();

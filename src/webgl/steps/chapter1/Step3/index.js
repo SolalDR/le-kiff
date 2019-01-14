@@ -13,17 +13,14 @@ export default class extends Step {
    */
   init( isNextStep ) {
     super.init();
-    if( AssetsManager.loader.isLoaded("chapter-1") ) {
-      this.display(isNextStep, AssetsManager.loader.getFiles("chapter-1"));
-    }
-    AssetsManager.loader.once("load:chapter-1", (event) => this.display( isNextStep, event ))
+    this.display(isNextStep, AssetsManager.loader.getFiles("chapter-1"));
   }
 
   /**
    * Init human scale scene 
    * @param {*} event
    */
-  initHumanScale( event ){
+  displayHumanScale( event ){
     this.main = new THREE.Mesh(
       new THREE.BoxGeometry(),
       new THREE.MeshPhongMaterial({
@@ -36,7 +33,7 @@ export default class extends Step {
   }
 
   display( isNextStep = false, event ) {
-    this.initHumanScale( event );
+    this.displayHumanScale( event );
     super.display();
   }
 

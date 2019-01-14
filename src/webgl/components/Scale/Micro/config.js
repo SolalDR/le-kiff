@@ -5,6 +5,19 @@ export default baseConfig.extends({
   camera: {
     position: new THREE.Vector3(0, 0, 8),
   },
+  
+  transitions: {
+    all: {
+      position: {
+        from: new THREE.Vector3(0, 0, 50),
+        to: new THREE.Vector3(0, 0, 10)
+      },
+      soundEffect: {
+        duration: 1000,
+        effects : ['moogfilter']
+      }
+    }
+  },
 
   molecules: {
     cocaine: {

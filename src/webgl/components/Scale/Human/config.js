@@ -8,8 +8,11 @@ export default baseConfig.extends({
 
   transitions: {
     micro: {
+      position: {
+        from: new THREE.Vector3(0, 0, 0),
+        to: new THREE.Vector3(0, 0, 8)
+      },
       postprocess: {
-        duration: 1000,
         bloom: {
           strength: {
             from: 2.5,
@@ -20,14 +23,13 @@ export default baseConfig.extends({
     },
 
     macro: {
-      duration: 1000,
       position: {
         from: new THREE.Vector3(0, 10, 25),
         to: new THREE.Vector3(0, 0, 8)
       },
 
       target: {
-        from: new THREE.Vector3(0, 10, 0),
+        from: new THREE.Vector3(0, 10, 0)
       },
       
       postprocess: {

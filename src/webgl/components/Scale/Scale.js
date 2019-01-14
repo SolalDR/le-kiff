@@ -44,11 +44,9 @@ class Scale extends Event {
    */
   display( config ){
     Bus.dispatch("scale:coming", this);
-  
+    
     this.group.visible = true;
     this.scene.renderer.intensity(10);
-
-    console.log(config);
 
     var diff = config.postprocess.bloom.strength.from - config.postprocess.bloom.strength.to;
 

@@ -30,6 +30,10 @@ export default baseConfig.extends({
             to: 0.1
           }
         }
+      },
+      soundEffect: {
+        duration: 1000,
+        effects : ['convolver']
       }
     }
   } 

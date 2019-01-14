@@ -73,7 +73,7 @@ class SoundManager {
   /**
    * 
    * @param {String[]|String} soundNames Array or String of sound names
-   * @param {String} fade  can be 'in' or 'out'
+   * @param {Boolean} fade  Stop with fade
    */
   stop(soundNames, fade) { 
     const stop = (name) => {
@@ -142,6 +142,23 @@ class SoundManager {
       console.error('sound', name, 'not found');
       return null;
     }
+  }
+
+  updatePlayBack(soundsData) {
+    // add new sounds
+    this.add(soundsData);
+
+    // stop sounds not in sounds data
+    this.sounds.forEach((sound, name) => {
+      if(sound.playing()) {
+        if( !soundsData.find(soundData => soundData.name === name) ) {
+          this.stop(name, true);
+        }
+      }
+    });
+
+    // play added sounds
+    this.play(soundsData.map(data => data.name))
   }
 
   /**

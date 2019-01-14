@@ -3,7 +3,7 @@ import AssetsManager from "~/services/assetsManager/AssetsManager";
 import Scale from "../Scale";
 import Bus from "~/helpers/Bus";
 import {guiMicro} from "~/services/gui"
-import InteractivePlane from "./components/InteractivePlane"
+import InteractivePlane from "./../../../components/InteractivePlane"
 import {Brownian} from "noisadelic";
 
 class MicroScale extends Scale {
@@ -110,19 +110,7 @@ class MicroScale extends Scale {
       this.group.add(molecule.object3D);
     })
 
-    var noise = new THREE.CanvasTexture(this.noise.canvas);
-    guiMicro.add(this.noise, "density", 0, 20).onChange(()=>{
-      this.noise.draw();
-      noise.needsUpdate = true;
-    });
-
-    guiMicro.add(this.noise, "exposition", 0, 1).onChange(()=>{
-      this.noise.draw();
-      noise.needsUpdate = true;
-    });
-
     this.plane = new InteractivePlane({
-      noise: noise,
       gui: guiMicro
     });
 

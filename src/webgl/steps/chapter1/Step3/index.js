@@ -12,18 +12,9 @@ export default class extends Step {
    * This method initialize the step and 
    * @param {boolean} isNextStep If the step is arriving form the precedent
    */
-<<<<<<< HEAD
-  init( isNextStep ) {
-    super.init();
-    this.display(isNextStep, AssetsManager.loader.getFiles("chapter-1"));
-=======
   init( isNextStep ) {
     super.init(config);
-    if( AssetsManager.loader.isLoaded("chapter-1") ) {
-      this.display(isNextStep, AssetsManager.loader.getFiles("chapter-1"));
-    }
-    AssetsManager.loader.once("load:chapter-1", (event) => this.display( isNextStep, event ))
->>>>>>> feature/config
+    this.display(isNextStep, AssetsManager.loader.getFiles("chapter-1"));
   }
 
   /**
@@ -42,12 +33,12 @@ export default class extends Step {
     this.scene.humanScale.group.add(this.main);
   }
 
-  display( isNextStep = false, event ) {
+  display( isNextStep = false, event ) {
     this.displayHumanScale( event );
     super.display();
   }
 
-  hide() {
+  hide() {
     this.scene.humanScale.group.remove(this.main);
     super.hide();
   }

@@ -6,7 +6,7 @@ import Api from "./Api";
 import globalDatas from "./../datas/global.json";
 import chapter1Datas from "./../datas/chapter-1.json";
 import Bus from "~/helpers/Bus";
-import SoundManager from "~/webgl/components/SoundManager/SoundManager";
+import SoundManager from "./soundManager/SoundManager";
 
 
 class AppManager {

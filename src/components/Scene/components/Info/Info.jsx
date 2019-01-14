@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.sass";
-import SoundManager from "~/webgl/components/SoundManager/SoundManager";
+import SoundManager from "~/services/soundManager/SoundManager";
 
 class InfoPoint extends React.Component {
 

@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import Menu from "../Menu/Menu";
 import "./styles.sass";
-import SoundManager from "~/webgl/components/SoundManager/SoundManager";
+import SoundManager from "~/services/soundManager/SoundManager";
+
 
 class Header extends React.Component {
 

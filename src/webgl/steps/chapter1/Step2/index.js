@@ -1,6 +1,6 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
-import SoundManager from "~/webgl/components/SoundManager/SoundManager"
+import SoundManager from "~/services/soundManager/SoundManager";
 
 /**
  * @constructor
@@ -8,7 +8,7 @@ import SoundManager from "~/webgl/components/SoundManager/SoundManager"
  */
 export default class extends Step {
 
-  /**
+  /** 
    * This method initialize the step and 
    * @param {boolean} isNextStep If the step is arriving form the precedent
    */

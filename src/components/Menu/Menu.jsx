@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import "./styles.sass";
 import { getChapters } from "../../services/stores/reducers/selectors";
 import PropTypes from 'prop-types';
-import SoundManager from "../../webgl/components/SoundManager/SoundManager";
 
 class Menu extends React.PureComponent {
 

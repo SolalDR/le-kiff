@@ -3,6 +3,7 @@ import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import renderer from "~/webgl/rendering/Renderer";
 import SoundManager from "~/services/soundManager/SoundManager";
 import Bus from "~/helpers/Bus";
+import ConfigManager from "~/services/ConfigManager";
 
 class Scale extends Event {
 
@@ -19,7 +20,7 @@ class Scale extends Event {
     name = ""
   }){
     super();
-    
+    this.config = ConfigManager.config[name];
     this.scene = scene; 
     this.group = new THREE.Group();
     this.group.name = name;
@@ -45,11 +46,11 @@ class Scale extends Event {
    */
   display( config ){
     Bus.dispatch("scale:coming", this);
-  
+    
     this.group.visible = true;
     this.scene.renderer.intensity(10);
 
-    var diff = config.postprocess.bloom.max - config.postprocess.bloom.min;
+    var diff = config.postprocess.bloom.strength.from - config.postprocess.bloom.strength.to;
 
     this.scene.camera.position.copy(config.position.from);
     this.scene.camera.lookAt(config.target.from);
@@ -65,7 +66,7 @@ class Scale extends Event {
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
       duration: config.postprocess.duration 
     }).on("progress", ( event ) => {
-      renderer.intensity( config.postprocess.bloom.max - event.advancement * diff );
+      renderer.intensity( config.postprocess.bloom.strength.from - event.advancement * diff );
     }).on("end", () => {
       Bus.dispatch("scale:display", this, 1)
       Bus.verbose("scale-" + this.name + ":display", 2)
@@ -95,7 +96,7 @@ class Scale extends Event {
 
   hide( config ){
     Bus.dispatch("scale:hidding", this);
-    var diff = config.postprocess.bloom.max - config.postprocess.bloom.min;
+    var diff = config.postprocess.bloom.strength.from - config.postprocess.bloom.strength.to;
 
     var cameraAnim = this.scene.controllerManager.controls.rails.moveTo(config.position.from, {
       duration: config.duration
@@ -105,13 +106,13 @@ class Scale extends Event {
       duration: config.duration
     });
 
-    this.scene.renderer.intensity(config.postprocess.bloom.min);
+    this.scene.renderer.intensity(config.postprocess.bloom.strength.to);
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
         duration: config.postprocess.duration, 
         delay: config.duration - config.postprocess.duration
       }).on("progress", ( event ) => {
         this.scene.renderer.intensity( 
-          config.postprocess.bloom.min + event.advancement*diff
+          config.postprocess.bloom.strength.to + event.advancement*diff
         );
       })
     );

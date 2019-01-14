@@ -1,7 +1,6 @@
 import Molecule from "./components/Molecule";
 import AssetsManager from "~/services/assetsManager/AssetsManager";
 import Scale from "../Scale";
-import config from "./config";
 import Bus from "~/helpers/Bus";
 import {guiMicro} from "~/services/gui"
 import InteractivePlane from "./components/InteractivePlane"
@@ -17,7 +16,7 @@ class MicroScale extends Scale {
   constructor(args){
     super({...args, name: "micro"});
     this.molecules = new Map();
-    this.config = config;
+    
     this.state = {
       ...this.state
     }
@@ -40,11 +39,11 @@ class MicroScale extends Scale {
   }
   
   display(previous, next){
-    super.display( config.transitions.all );
+    super.display( this.config.transitions.all );
   }
 
   hide(previous, next){
-    super.hide( config.transitions.all );
+    super.hide( this.config.transitions.all );
   }
 
   // TODO Function updateFromStep
@@ -98,13 +97,13 @@ class MicroScale extends Scale {
       });
       guiMolecule.addObject3D(molecule.name, molecule.object3D);
       this.molecules.set(item, molecule);
-            
-      if(config.molecules[molecule.name]){
-        if( config.molecules[molecule.name].position ){
-          molecule.object3D.position.copy(config.molecules[molecule.name].position)
+      
+      if(this.config.molecules[molecule.name]){
+        if( this.config.molecules[molecule.name].position ){
+          molecule.object3D.position.copy(this.config.molecules[molecule.name].position)
         }
-        if(config.molecules[molecule.name].rotation ){
-          molecule.object3D.rotation.copy(config.molecules[molecule.name].rotation)
+        if(this.config.molecules[molecule.name].rotation ){
+          molecule.object3D.rotation.copy(this.config.molecules[molecule.name].rotation)
         }
       }
 
@@ -130,6 +129,7 @@ class MicroScale extends Scale {
     this.plane.position.z = -100;
     guiMicro.addObject3D("Plane", this.plane)
     this.group.add(this.plane);
+    
     Bus.verbose("scale-micro:init", 2)
   }
 

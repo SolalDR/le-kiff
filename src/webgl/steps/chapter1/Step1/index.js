@@ -14,9 +14,9 @@ export default class extends Step {
    * This method initialize the step and 
    * @param {boolean} isNextStep If the step is arriving form the precedent
    */
-  init( previousStep ) {
-    super.init();
-    this.folder = {};
+  init( previousStep ) {
+    super.init(config);
+    this.folder = {}; 
     this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
   }
 
@@ -41,7 +41,7 @@ export default class extends Step {
     this.scene.humanScale.group.add(background.object3D);
   }
 
-  display( isNextStep = false, event ) {
+  display( isNextStep = false, event ) {
     this.displayHumanScale( event );
 
     // Sound
@@ -69,7 +69,7 @@ export default class extends Step {
     super.display();
   }
 
-  hide() {
+  hide() {
     this.scene.humanScale.group.remove(this.main);
     this.gui.removeFolder(this.folder.leaf);
 

@@ -5,7 +5,6 @@ import geoGUF from "~/datas/geojson/GUF.geo.json";
 import geoPER from "~/datas/geojson/PER.geo.json";
 
 import GeoCoord from "~/webgl/helpers/geo/GeoCoord";
-import {macroConfig} from "~/webgl/config";
 
 var countries = { 
   argentine: geoARG, 
@@ -17,7 +16,9 @@ var countries = {
 
 class ZoningGeometry {
 
-  constructor(name){
+  constructor(name, {
+    radius = 1
+  }){
     this.geojson = countries[name];
     if( !this.geojson ) return null;
 
@@ -39,7 +40,7 @@ class ZoningGeometry {
     var geometry2D = new THREE.ShapeGeometry( shape );
     var geometry3D = new THREE.Geometry();
     geometry2D.vertices.forEach(vertex => {
-      geometry3D.vertices.push(new GeoCoord(vertex.y, vertex.x).getCartesianCoord(macroConfig.earth.zoningRadius))
+      geometry3D.vertices.push(new GeoCoord(vertex.y, vertex.x).getCartesianCoord(radius))
     })
 
     geometry3D.verticesNeedUpdate = true;

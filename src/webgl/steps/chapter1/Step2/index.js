@@ -1,6 +1,7 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import SoundManager from "~/services/soundManager/SoundManager";
+import config from "./config";
 
 /**
  * @constructor
@@ -12,8 +13,8 @@ export default class extends Step {
    * This method initialize the step and 
    * @param {boolean} isNextStep If the step is arriving form the precedent
    */
-  init( isNextStep ) {
-    super.init();
+  init( isNextStep ) {
+    super.init(config);
     this.display(isNextStep, AssetsManager.loader.getFiles("chapter-1"));
   }
 
@@ -33,7 +34,7 @@ export default class extends Step {
     this.scene.humanScale.group.add(this.main);
   }
 
-  display( isNextStep = false, event ) {
+  display( isNextStep = false, event ) {
     this.displayHumanScale( event );
 
 
@@ -59,7 +60,7 @@ export default class extends Step {
     super.display();
   }
 
-  hide() {
+  hide() {
     this.scene.humanScale.group.remove(this.main);
     super.hide();
   }

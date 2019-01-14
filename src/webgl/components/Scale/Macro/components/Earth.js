@@ -1,11 +1,11 @@
 
 import {guiMacro} from "~/services/gui";
-import { macroConfig } from "~/webgl/config";
+import ConfigManager from "~/services/ConfigManager";
+
 
 class Earth {
 
   constructor(assets, config){
-
 
     var globeMaterial = new THREE.MeshStandardMaterial({ 
       map: assets.diffuse.result, 
@@ -15,6 +15,8 @@ class Earth {
       roughness: 0.8, 
       color: new THREE.Color("rgb(170, 170, 170)")
     });
+
+    this.config = ConfigManager.config.macro;
 
     globeMaterial.onBeforeCompile = shader => {
       shader.uniforms.map_2 = { value: assets.diffuse_night.result };
@@ -62,14 +64,14 @@ class Earth {
     }
 
     this.globe = new THREE.Mesh(
-      new THREE.SphereGeometry(macroConfig.earth.globeRadius, 32, 32),
+      new THREE.SphereGeometry(this.config.earth.globeRadius, 32, 32),
       globeMaterial
     );
 
     this.globe.rotation.y = -0.5;
 
     this.clouds = new THREE.Mesh(
-      new THREE.SphereGeometry(macroConfig.earth.cloudRadius, 32, 32),
+      new THREE.SphereGeometry(this.config.earth.cloudRadius, 32, 32),
       new THREE.MeshPhongMaterial({
         map: assets.cloud.result,
         alphaMap: assets.cloud.result,

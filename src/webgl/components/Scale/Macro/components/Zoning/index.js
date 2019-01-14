@@ -2,11 +2,11 @@
 import ZoningGeometry from "./Geometry"
 
 var countries = { 
-  ARG: new ZoningGeometry("argentine"), 
-  BOL: new ZoningGeometry("bolivie"), 
-  FRA: new ZoningGeometry("france"), 
-  GUF: new ZoningGeometry("guyane"),  
-  PER: new ZoningGeometry("perou") 
+  ARG: new ZoningGeometry("argentine", {radius: 1}), 
+  BOL: new ZoningGeometry("bolivie", {radius: 1}), 
+  FRA: new ZoningGeometry("france", {radius: 1}), 
+  GUF: new ZoningGeometry("guyane", {radius: 1}),  
+  PER: new ZoningGeometry("perou", {radius: 1}) 
 };
 
 class Zoning {

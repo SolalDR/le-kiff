@@ -1,6 +1,7 @@
 import Event from "~/helpers/Event";
 import Bus from "~/helpers/Bus";
 import * as GUI from "~/services/gui";
+import ConfigManager from "~/services/ConfigManager";
 
 /**
  * @class
@@ -38,13 +39,15 @@ class Step extends Event {
 
   }
 
-  init(){
+  init(config){
+    this.config = config;
     this.state.initialised = true;
     Bus.dispatch("step:init", this);
     this.dispatch("init"); 
   }
 
-  display() {
+  display() {
+    ConfigManager.updateConfig(this.config);
     this.scene.microScale.updateFromStep(this);
     this.scene.macroScale.updateFromStep(this);
     

@@ -32,6 +32,9 @@
     "fs-extra": "7.0.0",
     "git-flow": "^0.2.0",
     "glslify-loader": "^2.0.0",
+    "gsap": "^2.0.2",
+    "howler": "^2.1.1",
+    "howler-plugin-effect-chain": "^0.1.2",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "identity-obj-proxy": "3.0.0",
     "jest": "23.6.0",
@@ -40,6 +43,7 @@
     "mini-css-extract-plugin": "0.4.3",
     "mm-packer": "^4.0.5",
     "node-sass": "^4.10.0",
+    "noisadelic": "1.0.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "orbit-controls-es6": "^2.0.0",
     "pnp-webpack-plugin": "1.1.0",
@@ -64,6 +68,7 @@
     "three-dat.gui": "^1.0.0",
     "three-instanced-mesh": "^0.96.1",
     "three-matcap-material": "^1.0.0",
+    "tunajs": "^1.0.2",
     "url-loader": "1.1.1",
     "webpack": "4.19.1",
     "webpack-dev-server": "3.1.9",
@@ -76,6 +81,9 @@
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
+    "globals": {
+      "THREE": true
+    },
     "extends": "react-app"
   },
   "browserslist": [

@@ -1,4 +1,4 @@
-import * as THREE from "three";
+
 import SphericalCoord from "./SphericalCoord";
 
 class GeoCoord extends SphericalCoord {

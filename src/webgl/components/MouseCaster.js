@@ -1,5 +1,6 @@
 import Event from "~/helpers/Event";
-import * as THREE from "three";
+
+import Bus from "../../helpers/Bus";
 
 class MouseCaster extends Event {
   constructor({

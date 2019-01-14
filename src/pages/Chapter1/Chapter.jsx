@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getStepsForChapter, getWholeChapter, getStepsLoaded, getIsLoadedChapters, getChapter, getStep } from "~/services/stores/reducers/selectors";
-import { setCurrentChapterData, setCurrentScale, setCurrentStep, setCurrentInfos, setCurrentStepRank } from "~/services/stores/actions";
+import { getWholeChapter, getStepsLoaded, getIsLoadedChapters, getChapter, getStep } from "~/services/stores/reducers/selectors";
+import { setCurrentChapterData, setCurrentStepRank } from "~/services/stores/actions";
 import Scene from "~/components/Scene/Scene";
 import Timeline from "~/components/Timeline/Timeline";
 import Loading from "~/components/Loading/Loading";
 import "./styles.sass";
+import Bus from "../../helpers/Bus";
 
 class Chapter extends React.Component {
     
@@ -35,6 +36,10 @@ class Chapter extends React.Component {
         };
     }
 
+    componentDidMount(){
+      Bus.verbose("chapter-1:mounted");
+    }
+
     componentWillReceiveProps(nextProps) {
       if (!this.state.isReady && nextProps.isStepsLoaded && nextProps.isChapterLoaded) {
         this.setState({ 
@@ -61,11 +66,10 @@ class Chapter extends React.Component {
 
     onChapterChange = chapterRank => {
       //Call router to navigate 
-      console.log("chapter has changed", chapterRank);
+      // console.log("chapter has changed", chapterRank);
     }
 
     render () {
-      console.log(this.props)
       if( !this.props.step.rank ) return null;
 
       if (this.state.isReady) {
@@ -108,15 +112,6 @@ const mapDispatchToProps = dispatch => {
     _setCurrentChapterData: chapterData => {
       dispatch(setCurrentChapterData(chapterData));
     }, 
-    _setCurrentScale: scale => {
-      dispatch(setCurrentScale(scale));
-    }, 
-    _setCurrentStep: step => {
-      dispatch(setCurrentStep(step));
-    }, 
-    _setCurrentInfos: infos => {
-      dispatch(setCurrentInfos(infos));
-    },
     _setCurrentStepRank: rank => {
       dispatch(setCurrentStepRank(rank));
     }};

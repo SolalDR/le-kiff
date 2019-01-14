@@ -1,0 +1,111 @@
+@import "~/styles/core.scss"
+
+.info-point
+  $self: &
+  position: fixed
+  top: 0
+  left: 0
+  color: #ffffff
+  &:before
+    content: ""
+    position: absolute
+    width: 94px
+    height: 1px
+    background: currentColor
+    opacity: 0
+    transform: scale(0) rotate(-42deg)
+    transform-origin: 0 0
+    transition:
+      property: width, transform, opacity
+      timing-function: ease
+      duration: 0.2s
+      delay: 0.3s
+  &__title
+    font-family: $font-primary
+    font-size: 20px
+    font-weight: 900
+    text-transform: uppercase
+    position: relative
+    padding-bottom: 15px
+    margin-bottom: 15px
+    transition:
+      property: transform
+      timing-function: ease
+      duration: 0.3s
+      delay: 0.4s
+    &:after
+      content: ""
+      opacity: 0
+      position: absolute
+      left: 0
+      right: 0
+      bottom: -3px
+      width: 100%
+      height: 1px
+      background: currentColor
+      transform: scale(0)
+      transform-origin: 0 0
+      transition:
+        property: width, transform, opacity
+        timing-function: ease
+        duration: 0.5s
+        delay: 0.35s
+  &__content
+    visibility: hidden
+    opacity: 0
+    position: absolute
+    left: 70px
+    top: -100px
+    font-size: 16px
+    width: 260px
+    transition:
+      property: opacity
+      timing-function: ease
+      duration: 0.4s
+      delay: 0.4s
+  &__pointer
+    position: absolute
+    top: -20px
+    left: -20px
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 40px
+    height: 40px
+    border: 1px solid currentColor
+    border-radius: 100%
+    transition:
+      property: background, transform
+      duration: 0.2s
+    &:before,
+    &:after
+      content: ""
+      opacity: 1
+      position: absolute
+      width: 20px
+      height: 1px
+      background: currentColor
+      transform-origin: center
+    &:before
+      transform: rotate(90deg)
+
+  &--visible
+    display: block
+
+  &--opened
+    &:before
+      opacity: 1
+      transform: scale(1) rotate(-42deg)
+    #{$self}__content
+      visibility: visible
+      opacity: 1
+    #{$self}__title
+      &:after
+        opacity: 1
+        transform: scale(1)
+    #{$self}__pointer
+      background: currentColor
+      transform: rotate(45deg)
+      &:before,
+      &:after
+        background: #CCCCCC

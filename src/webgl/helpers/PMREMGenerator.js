@@ -11,7 +11,7 @@
  *	by this class.
  */
 
-import * as THREE from "three";
+
 
 var PMREMGenerator = ( function () {
 

@@ -1,11 +1,8 @@
 import BufferGeometryUtils from "../../../../helpers/BufferGeometryUtilsOld";
 import Event from  "~/helpers/Event";
-import * as THREE from "three";
+import config from "./../config";
+
 import * as exportInstancedMesh from "three-instanced-mesh";
-import HDRCubeTextureLoader from "../../../../../services/assetsManager/loaders/HDRCubeTextureLoader";
-import PMREMCubeUVPacker from "../../../../helpers/PMREMCubeUVPacker";
-import PMREMGenerator from "../../../../helpers/PMREMGenerator";
-import gui from "~/services/gui";
 
 var InstancedMesh = exportInstancedMesh(THREE);
 
@@ -21,74 +18,34 @@ class Molecule extends Event {
    */
   constructor({
     name = null,
-    atomGeometry = new THREE.SphereBufferGeometry(0.2, 20, 20),
-    envMap = null,
-    renderer = null, 
     pdb = null,
-    material = null
+    bondMaterial = null,
+    atomMaterial = null
   } = {}){
     super();
-    this.renderer = renderer;
-    this.material = material;
-    this.id = Math.floor(Math.random()*10000);
-    this.loader = new THREE.TextureLoader();
     this.name = name;
-    this.eventsList = ["load"];
+    this.bondMaterial = bondMaterial;
+    this.atomMaterial = atomMaterial;
     this.object3D = new THREE.Group();
-    this.atomGeometry = atomGeometry;
-    this.envMap = envMap;
+    this.object3D.name = "molecule_" + name;
+    this.object3D.visible = false;
+    this.atomGeometry = new THREE.SphereBufferGeometry(0.5, 16, 16);
 
     this.parse(pdb);
   }
 
-  generateAtomModel(){
-
-    this.atomMesh = new InstancedMesh( 
-      this.atomGeometry,
-      this.material,
-      this.atoms.length,  //instance count
-      false,              //is it dynamic
-      false,              //does it have color
-      true                //uniform scale, if you know that the placement function will not do a non-uniform scale, this will optimize the shader
-    );
-
-    gui.addMaterial("Atom" + this.id, this.atomMesh.material);
-
-    // new HDRCubeTextureLoader().setPath( 'images/molecule/hdr/' ).load(
-    //   THREE.UnsignedByteType, 
-    //   [ 'images/molecule/hdr/px.hdr', 'images/molecule/hdr/nx.hdr', 'images/molecule/hdr/py.hdr', 'images/molecule/hdr/ny.hdr', 'images/molecule/hdr/pz.hdr', 'images/molecule/hdr/nz.hdr' ], 
-    //   ( hdrCubeMap ) => {
-
-    //     var pmremGenerator = new PMREMGenerator( hdrCubeMap );
-    //     pmremGenerator.update( this.renderer );
-    //     var pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
-    //     pmremCubeUVPacker.update( this.renderer );
-    //     hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
-    //     this.material.envMap = hdrCubeRenderTarget.texture;
-    //     this.material.needsUpdate = true; 
-    //     hdrCubeMap.dispose();
-    //     pmremGenerator.dispose();
-    //     pmremCubeUVPacker.dispose();
-    //   }
-    // );
-
-    this.loader.load("images/molecule/normal.jpg", (texture)=>{
-      this.atomMesh.material.normalMap = texture;
-      this.atomMesh.material.needsUpdate = true;    
-    })
-
-    this.loader.load("images/molecule/roughness.jpg", (texture)=>{
-      this.atomMesh.material.roughnessMap = texture;
-      this.atomMesh.material.needsUpdate = true;    
-    })
-
-    var _v3 = new THREE.Vector3();
-    var _q = new THREE.Quaternion();
+  generateAtomModel() {
+    var geometries = [];
     for ( var i = 0 ; i < this.atoms.length ; i ++ ) {
-      this.atomMesh.setQuaternionAt(i , _q);
-      this.atomMesh.setPositionAt(i , _v3.set( this.atoms[i].x , this.atoms[i].y, this.atoms[i].z ));
-      this.atomMesh.setScaleAt(i , _v3.set(1,1,1));
+      var geometry = this.atomGeometry.clone();
+      var scaleRandom = 0.75 + Math.random()*0.5;
+      geometry.scale(scaleRandom, scaleRandom, scaleRandom)
+      geometry.translate(this.atoms[i].x, this.atoms[i].y, this.atoms[i].z);
+      geometries.push(geometry)
     }
+
+    var geo = BufferGeometryUtils.merge(geometries);
+    this.atomMesh = new THREE.Mesh(geo, this.atomMaterial);
 
     return this.atomMesh;
   }
@@ -103,34 +60,44 @@ class Molecule extends Event {
       to = this.atoms[this.bonds[i][1]];
       curve = new THREE.LineCurve(from.clone(), to.clone());
       geometries.push(
-        new THREE.TubeBufferGeometry(
-          curve,
-          1,
-          0.02,
-          8
-        )
+        new THREE.TubeBufferGeometry( curve, 1, 0.15, 8 )
       )
     }
     
     var geometry = BufferGeometryUtils.merge(geometries);
-    var mesh = new THREE.Mesh(geometry, this.material);
+    var mesh = new THREE.Mesh(geometry, this.bondMaterial);
 
     return mesh;
+  }
+
+  attach(info){
+    this.info = info;
+    this.object3D.visible = true;
+  }
+
+  detach(){
+    this.info = null;
+    this.object3D.visible = false;
   }
 
   generateModel(){
     this.object3D.add(this.generateAtomModel());
     this.object3D.add(this.generateBondModel());
+    this.object3D.scale.copy(new THREE.Vector3(0.8, 0.8, 0.8))
   }
 
   parse(pdb){
     var json = pdb.json;
     this.atoms = [];
-    json.atoms.forEach(element => this.atoms.push(new THREE.Vector3(element[0], element[1], element[2])));
+    var localConfig = config.molecules[this.name];
+    
+    var offset = localConfig && localConfig.offset ? localConfig.offset : new THREE.Vector3()
+    json.atoms.forEach(element => this.atoms.push(new THREE.Vector3(element[0], element[1], element[2]).add(offset)));
     this.bonds = json.bonds;
     this.generateModel();
     this.dispatch("load");
   }
 }
+
 
 export default Molecule;

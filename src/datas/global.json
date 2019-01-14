@@ -3,7 +3,7 @@
   "files": [
     {
       "name": "noise",
-      "path": "/images/perlinnoise.png"
+      "path": "/images/noise_3d.png"
     }
   ],
   "groups": [
@@ -21,6 +21,14 @@
         { 
           "name": "kerosene",
           "path": "/molecules/kerosene.pdb"       
+        },
+        {
+          "name": "molecule_normal_map",
+          "path": "/images/molecule/normal.jpg"
+        },
+        {
+          "name": "molecule_roughness_map",
+          "path": "/images/molecule/roughness.jpg"
         }
       ],
       "groups": [
@@ -63,6 +71,24 @@
         {
           "name": "cloud",
           "path": "earth_cloud.jpg"
+        }
+      ]
+    },
+    {
+      "name": "ui_sound", 
+      "base": "/sounds/ui/",
+      "files": [
+        {
+          "name": "toggle_infopoint_sound", 
+          "path": "toggle_infopoint.mp3"
+        },
+        {
+          "name": "toggle_default", 
+          "path": "toggle_default.mp3"
+        },
+        {
+          "name": "woosh_sound", 
+          "path": "woosh.mp3"
         }
       ]
     }

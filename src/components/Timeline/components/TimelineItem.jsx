@@ -1,17 +1,19 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import SoundManager from "~/services/soundManager/SoundManager";
 
 class TimelineItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+  
   static propTypes = {
     rank: PropTypes.number.isRequired,
-    title: PropTypes.string
+    title: PropTypes.string,
+    onSelectCallback: PropTypes.func,
+    active: PropTypes.bool,
+    isPassed: PropTypes.bool
   };
 
   handleClick = () => {
+    SoundManager.play('toggle_default'); 
     this.props.onSelectCallback(this.props.rank);
   };
 

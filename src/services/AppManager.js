@@ -5,6 +5,8 @@ import { getChapterApiId, getIsLoadedChapters } from './stores/reducers/selector
 import Api from "./Api";
 import globalDatas from "./../datas/global.json";
 import chapter1Datas from "./../datas/chapter-1.json";
+import Bus from "~/helpers/Bus";
+import SoundManager from "./soundManager/SoundManager";
 
 
 class AppManager {
@@ -18,6 +20,11 @@ class AppManager {
     AssetsManager.loader.loadGroup("global");
     AssetsManager.loader.loadGroup("chapter-1");
 
+    AssetsManager.loader.on("load:global", ()=> Bus.verbose("loader:global"));
+    AssetsManager.loader.on("load:chapter-1", ()=> Bus.verbose("loader:chapter-1"));
+
+    this.addSounds();
+
     this.unsubscribe = store.subscribe( () => {
       this.executeWaitingRequests();
     })
@@ -25,14 +32,45 @@ class AppManager {
 
   initApi() {
     this.api.get('chapters').then(response => {
+      Bus.verbose("api:fetch-chapters");
       const isLoaded = response.status === 200;
       store.dispatch(fetchChapters(response.data, isLoaded));
     })
   }
 
-  initAssets(){
+  initAssets() {
     AssetsManager.loader.addGroup(globalDatas);
     AssetsManager.loader.addGroup(chapter1Datas);
+  }
+
+  addSounds() {
+    AssetsManager.loader.once("load:global", (event) => {
+      // TODO: add config for sound data 
+      const soundsData = [
+        {
+          name : event.toggle_infopoint_sound.name, 
+          sound : event.toggle_infopoint_sound.result,
+          options: {
+            volume: 0.2
+          }
+        },
+        {
+          name : event.toggle_default.name, 
+          sound : event.toggle_default.result,
+          options: {
+            volume: 0.2
+          }
+        },
+        {
+          name : event.woosh_sound.name, 
+          sound : event.woosh_sound.result,
+          options: {
+            volume: 0.4
+          }
+        }
+      ]
+      SoundManager.add(soundsData);
+    })
   }
 
   /**
@@ -42,6 +80,7 @@ class AppManager {
    */
   getChapterSteps(id) {
     this.api.get(`chapters/${id}/steps`).then(response => {
+      Bus.verbose("api:fetch-steps-chapter-"+id);
       const isLoaded = response.status === 200;
       store.dispatch(fetchSteps(response.data, id));
       if (isLoaded) store.dispatch(setLoadedStep(id));

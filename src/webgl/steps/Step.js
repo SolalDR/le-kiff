@@ -41,7 +41,7 @@ class Step extends Event {
   init(){
     this.state.initialised = true;
     Bus.dispatch("step:init", this);
-    this.dispatch("init");
+    this.dispatch("init"); 
   }
 
   display() {

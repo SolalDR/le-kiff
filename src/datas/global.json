@@ -73,6 +73,24 @@
           "path": "earth_cloud.jpg"
         }
       ]
+    },
+    {
+      "name": "ui_sound", 
+      "base": "/sounds/ui/",
+      "files": [
+        {
+          "name": "toggle_infopoint_sound", 
+          "path": "toggle_infopoint.mp3"
+        },
+        {
+          "name": "toggle_default", 
+          "path": "toggle_default.mp3"
+        },
+        {
+          "name": "woosh_sound", 
+          "path": "woosh.mp3"
+        }
+      ]
     }
   ]
 }

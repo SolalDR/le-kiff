@@ -41,7 +41,7 @@ class WebGL {
     this.controllerManager = new ControllerManager({
       camera: this.camera, 
       mouseCaster: this.mouseCaster
-    });
+    })
 
     this.microScale = new MicroScale({ scene: this });
     this.macroScale = new MacroScale({ scene: this });

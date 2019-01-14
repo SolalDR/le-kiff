@@ -1,6 +1,7 @@
 import Event from "~/helpers/Event";
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import renderer from "~/webgl/rendering/Renderer";
+import SoundManager from "~/services/soundManager/SoundManager";
 import Bus from "~/helpers/Bus";
 
 class Scale extends Event {
@@ -70,6 +71,22 @@ class Scale extends Event {
       Bus.verbose("scale-" + this.name + ":display", 2)
     }));
 
+    // add sound effects
+    if(config.soundEffect) {
+      AnimationManager.addAnimation(new Animation({
+        duration: config.soundEffect.duration,
+        delay: 200
+      }).on("start", () => {
+        config.soundEffect.effects.forEach(effectName => {
+          SoundManager.addEffect(effectName);
+        });
+      }).on("progress", ( event ) => {
+        config.soundEffect.effects.forEach(effectName => {
+          SoundManager.setEffectIntensity(effectName, event.advancement);
+        });
+      }));
+    }
+
     return {
       cameraAnim, 
       postprocessAnim: postprocessAnimData.animation
@@ -105,6 +122,22 @@ class Scale extends Event {
       Bus.verbose("scale-" + this.name + ":hide", 2)
       this.group.visible = false;
     });
+
+
+    // remove sound effects
+    if(config.soundEffect) {
+      AnimationManager.addAnimation(new Animation({
+        duration: config.soundEffect.duration
+      }).on("progress", ( event ) => {
+        config.soundEffect.effects.forEach(effectName => {
+          SoundManager.setEffectIntensity(effectName, 1 - event.advancement);
+        });
+      }).on("end", () => {
+        config.soundEffect.effects.forEach(effectName => {
+          SoundManager.removeAllEffects(effectName);
+        });
+      }));
+    }
     
     return {
       cameraAnim,

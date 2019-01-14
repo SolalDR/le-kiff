@@ -42,7 +42,7 @@ class Menu extends React.PureComponent {
   }
 
   onMouseOver(rank) {
-    if (this.state.rank !== rank) {
+    if (this.state.rank !== rank) { 
       this.setState({
         current: rank
       })

@@ -1,6 +1,6 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
-
+import SoundManager from "~/services/soundManager/SoundManager";
 
 /**
  * @constructor
@@ -8,7 +8,7 @@ import AssetsManager from "~/services/assetsManager/AssetsManager"
  */
 export default class extends Step {
 
-  /**
+  /** 
    * This method initialize the step and 
    * @param {boolean} isNextStep If the step is arriving form the precedent
    */
@@ -35,6 +35,27 @@ export default class extends Step {
 
   display( isNextStep = false, event ) {
     this.displayHumanScale( event );
+
+
+    const soundsData = [
+        {
+          name : event.step_2_main_sound.name, 
+          sound : event.step_2_main_sound.result,
+          options : {
+            volume: 0.9
+          }
+        },
+        {
+          name : event.step_1_background_sound.name, 
+          sound : event.step_1_background_sound.result,
+          options : {
+            loop: true,
+            volume: 0.3
+          }
+        }
+      ]
+    SoundManager.updatePlayBack(soundsData);
+
     super.display();
   }
 

@@ -1,6 +1,7 @@
 import React from "react";
 import LetterReveal from '~/components/LetterReveal/LetterReveal';
 import "./styles.sass";
+import SoundManager from "~/services/soundManager/SoundManager";
 
 class ScaleMenu extends React.Component {
   
@@ -15,7 +16,10 @@ class ScaleMenu extends React.Component {
   /**
    * Callback to parent
    */
-  handleClick = this.props.onSelectCallback;
+  handleClick = (scaleName) => {
+    SoundManager.play(['toggle_default', 'woosh_sound']); 
+    this.props.onSelectCallback(scaleName);
+  }
 
   /**
    * @param {string} scale The scale represented

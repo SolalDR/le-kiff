@@ -2,21 +2,15 @@ import { c } from "../../../../helpers/Configuration";
 import baseConfig from "./../config";
 
 export default baseConfig.extends({
-  camera: {
-    position: new THREE.Vector3(0, 0, 5),
-  },
-
   transitions: {
     micro: {
       position: {
-        from: new THREE.Vector3(0, 0, 0),
-        to: new THREE.Vector3(0, 0, 8)
+        from: new THREE.Vector3(0, 0, 0)
       },
       postprocess: {
         bloom: {
           strength: {
-            from: 2.5,
-            to: 0.1          
+            from: 2.5
           }
         }
       }
@@ -24,8 +18,7 @@ export default baseConfig.extends({
 
     macro: {
       position: {
-        from: new THREE.Vector3(0, 10, 25),
-        to: new THREE.Vector3(0, 0, 8)
+        from: new THREE.Vector3(0, 10, 25)
       },
 
       target: {
@@ -36,8 +29,7 @@ export default baseConfig.extends({
         duration: 500,
         bloom: {
           strength: {
-            from: 2.5,
-            to: 0.1
+            from: 2.5
           }
         }
       }

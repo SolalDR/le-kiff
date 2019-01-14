@@ -5,7 +5,6 @@ import Bus from "~/helpers/Bus";
 import {guiMicro} from "~/services/gui"
 import InteractivePlane from "./components/InteractivePlane"
 import {Brownian} from "noisadelic";
-import ConfigManager from "~/services/ConfigManager";
 
 class MicroScale extends Scale {
 
@@ -17,7 +16,7 @@ class MicroScale extends Scale {
   constructor(args){
     super({...args, name: "micro"});
     this.molecules = new Map();
-    this.config = ConfigManager.config.micro;
+    
     this.state = {
       ...this.state
     }

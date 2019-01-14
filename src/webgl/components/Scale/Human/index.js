@@ -1,5 +1,4 @@
 import Scale from "../Scale";
-import ConfigManager from "~/services/ConfigManager";
 
 class HumanScale extends Scale {
  
@@ -13,7 +12,6 @@ class HumanScale extends Scale {
       ...this.state
     }
     
-    this.config = ConfigManager.config.human;
     this.init();
   }
 

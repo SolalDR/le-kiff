@@ -2,6 +2,7 @@ import Event from "~/helpers/Event";
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import renderer from "~/webgl/rendering/Renderer";
 import Bus from "~/helpers/Bus";
+import ConfigManager from "~/services/ConfigManager";
 
 class Scale extends Event {
 
@@ -18,7 +19,7 @@ class Scale extends Event {
     name = ""
   }){
     super();
-    
+    this.config = ConfigManager.config[name];
     this.scene = scene; 
     this.group = new THREE.Group();
     this.group.name = name;

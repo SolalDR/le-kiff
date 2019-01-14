@@ -5,7 +5,6 @@ import Earth from "./components/Earth";
 import Flux from "./components/Flux";
 import Zoning from "./components/Zoning";
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
-import ConfigManager from "~/services/ConfigManager";
 import Bus from "~/helpers/Bus";
 
 
@@ -23,7 +22,6 @@ class MacroScale extends Scale {
 
     this.zonings = new Map();
     this.fluxs = new Map();
-    this.config = ConfigManager.config.macro;
     this.init();
   }
 

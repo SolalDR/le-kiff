@@ -60,6 +60,13 @@ class AppManager {
           options: {
             volume: 0.2
           }
+        },
+        {
+          name : event.woosh_sound.name, 
+          sound : event.woosh_sound.result,
+          options: {
+            volume: 0.4
+          }
         }
       ]
       SoundManager.add(soundsData);

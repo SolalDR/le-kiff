@@ -17,7 +17,7 @@ class ScaleMenu extends React.Component {
    * Callback to parent
    */
   handleClick = (scaleName) => {
-    SoundManager.play('toggle_default');
+    SoundManager.play(['toggle_default', 'woosh_sound']);
     this.props.onSelectCallback(scaleName);
   }
 

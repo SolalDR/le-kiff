@@ -42,10 +42,10 @@ export default class extends Step {
 
     const soundsData = [
         {
-          name : event.step_2_background_music.name, 
-          sound : event.step_2_background_music.result,
+          name : event.step_2_main_sound.name, 
+          sound : event.step_2_main_sound.result,
           options : {
-            volume: 0.2
+            volume: 0.9
           }
         }
       ]
@@ -58,7 +58,7 @@ export default class extends Step {
 
   hide() {
     this.scene.humanScale.group.remove(this.main);
-    SoundManager.stop('step_2_background_music', true);
+    SoundManager.stop('step_2_main_sound', true);
     super.hide();
   }
 }

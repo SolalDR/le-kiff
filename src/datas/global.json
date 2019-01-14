@@ -85,6 +85,10 @@
         {
           "name": "toggle_default", 
           "path": "toggle_default.mp3"
+        },
+        {
+          "name": "woosh_sound", 
+          "path": "woosh.mp3"
         }
       ]
     }

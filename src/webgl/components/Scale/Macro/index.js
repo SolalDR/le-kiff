@@ -5,8 +5,9 @@ import Earth from "./components/Earth";
 import Flux from "./components/Flux";
 import Zoning from "./components/Zoning";
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
-import config from "./config";
+import ConfigManager from "~/services/ConfigManager";
 import Bus from "~/helpers/Bus";
+
 
 class MacroScale extends Scale {
   
@@ -22,11 +23,12 @@ class MacroScale extends Scale {
 
     this.zonings = new Map();
     this.fluxs = new Map();
+    this.config = ConfigManager.config.macro;
     this.init();
   }
 
   display(previous, next){
-    const { cameraAnim } = super.display( config.transitions.all );
+    const { cameraAnim } = super.display( this.config.transitions.all );
     cameraAnim
       .on("progress", ()=>{
         this.scene.camera.lookAt(new THREE.Vector3());  
@@ -37,7 +39,8 @@ class MacroScale extends Scale {
   }
 
   hide(previous, next){
-    super.hide( config.transitions.all );
+    console.log(this.config)
+    super.hide( this.config.transitions.all );
   }
 
 
@@ -121,7 +124,7 @@ class MacroScale extends Scale {
     infos.forEach(info => {
       var zoning = this.zonings.get(info.id);
       if (!zoning) {
-        zoning = new Zoning(info);
+        zoning = new Zoning(info, this.config);
         this.earth.globe.add(zoning.group);
         this.zonings.set(info.id, zoning);
       }
@@ -149,13 +152,13 @@ class MacroScale extends Scale {
 
   /**
    * trigger when a new steps arrived
-   * @param {[Step]} step
+   * @param {[Step]} step
    */
   updateFromStep(step){
     var infos = step.infos.filter(info => info.scale === "macro");
     
     var zoningInfos = infos.filter(info => {
-      if( info.attachment && info.attachment.type === "zoning" ) return true;
+      if( info.attachment && info.attachment.type === "zoning" ) return true;
     });
 
     var fluxInfos = infos.filter(info => {
@@ -174,7 +177,7 @@ class MacroScale extends Scale {
     if( !this.earth ) return;
     super.loop();
 
-    if(this.earth && this.earth.clouds) {
+    if(this.earth && this.earth.clouds) {
       this.earth.clouds.rotation.y += 0.001;
     }
   }

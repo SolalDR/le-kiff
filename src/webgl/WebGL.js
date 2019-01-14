@@ -10,6 +10,8 @@ import History from "./steps/History";
 import Viewport from "~/helpers/Viewport";
 import {guiRendering} from "~/services/gui"
 import Bus from "../helpers/Bus";
+import ConfigManager from "../services/ConfigManager";
+import defaultConfig from "./steps/config";
 
 class WebGL {
 
@@ -43,10 +45,11 @@ class WebGL {
       mouseCaster: this.mouseCaster
     });
 
+    ConfigManager.updateConfig(defaultConfig);
     this.microScale = new MicroScale({ scene: this });
     this.macroScale = new MacroScale({ scene: this });
     this.humanScale = new HumanScale({ scene: this }); 
-    
+
     this.points = []; // TODO: add to pointsManager
     
     this.state = {
@@ -55,20 +58,18 @@ class WebGL {
     };
 
     this.render();
-    this.loop();
-    window.scene = this;
   }
 
   /**
    * Select and display a step
-   * @param { { id, chapter_id, datas }} step 
+   * @param { { id, chapter_id, datas }} step 
    */
-  selectStep(step) {
+  selectStep(step) {
     // TODO Replace chapters[0] with rank
     // get correct step contructor
     var Step = Chapters[0][step.rank - 1];
     
-    if( !Step ) {
+    if( !Step ) {
       console.error(`Scene.js: There is no Step for ${step}`);
       return;
     }
@@ -103,9 +104,13 @@ class WebGL {
     });
 
     this.step.init();
+
     History.registerStep(this.step);
+    
 
     this.humanScale.display( "micro" );
+    
+    this.loop();
   }
 
   /**

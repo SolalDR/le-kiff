@@ -1,4 +1,6 @@
-export default {
+import { c } from "~/helpers/Configuration";
+
+export default c({
   background: new THREE.Color(0xf2f3ee), 
   postprocess: {
     bloom: {
@@ -7,4 +9,4 @@ export default {
       diff: 5.7
     }
   }
-}
+});

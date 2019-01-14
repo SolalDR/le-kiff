@@ -1,6 +1,6 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
-
+import config from "./config";
 
 /**
  * @constructor
@@ -12,8 +12,8 @@ export default class extends Step {
    * This method initialize the step and 
    * @param {boolean} isNextStep If the step is arriving form the precedent
    */
-  init( isNextStep ) {
-    super.init();
+  init( isNextStep ){
+    super.init(config);
     if( AssetsManager.loader.isLoaded("chapter-1") ) {
       this.display(isNextStep, AssetsManager.loader.getFiles("chapter-1"));
     }

@@ -1,5 +1,5 @@
 import Scale from "../Scale";
-import config from "./config";
+import ConfigManager from "~/services/ConfigManager";
 
 class HumanScale extends Scale {
  
@@ -12,16 +12,18 @@ class HumanScale extends Scale {
     this.state = {
       ...this.state
     }
-
+    
+    this.config = ConfigManager.config.human;
     this.init();
   }
 
   display( previous, next ){
-    super.display( config.transitions[previous] );
+    super.display( this.config.transitions[previous] );
   }
 
   hide( previous, next ){
-    super.hide( config.transitions[next] );
+    console.log(this.config, this.config.transitions[next]);
+    super.hide( this.config.transitions[next] );
   }
 
   

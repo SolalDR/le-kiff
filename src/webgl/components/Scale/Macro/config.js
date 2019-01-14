@@ -1,9 +1,11 @@
-export default { 
+import { c } from "../../../../helpers/Configuration";
+import baseConfig from "./../config";
+
+export default baseConfig.extends({ 
   background: new THREE.Color(0x111111),
   
   camera: {
-    position: new THREE.Vector3(0, 0, 5),
-    lookAt: new THREE.Vector3()
+    position: new THREE.Vector3(0, 0, 5)
   },
 
   earth: {
@@ -20,19 +22,15 @@ export default {
         to: new THREE.Vector3(0, 0, 8)
       },
 
-      target: {
-        from: new THREE.Vector3(0, 0, 0),
-        to: new THREE.Vector3(0, 0, 0)
-      },
-      
       postprocess: {
         duration: 400,
         bloom: {
-          min: 0.1,
-          max: 6,
-          diff: 5.7
+          strength: {
+            from: 6,
+            to: 0.1
+          }
         }
       }
     }
   } 
-}
+});

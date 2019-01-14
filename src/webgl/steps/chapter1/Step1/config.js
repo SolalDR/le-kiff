@@ -1,22 +1,9 @@
-import c from "~/helpers/Configuration";
+import baseConfig from "./../../config";
 
-import {merge, cloneDeep} from "lodash"
-var a = {
-  a: {
-    a: 1,
-    b: 2
-  },
-  b: 3
-};
-merge(a, {
-    a: {
-      b: 1,
-      c: 5
-    },
-    b: 3
-  }
-)
-
-export default {
-
-}
+export default baseConfig.extends({
+  background: new THREE.Color(0xf2f3ee),
+  assets: [
+    "background",
+    "step_1_human_leaf"
+  ]
+})

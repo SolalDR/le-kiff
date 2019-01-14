@@ -1,39 +1,46 @@
 import React, {higherOrderComponent} from "react";
 import Cursor from "./../Cursor";
 
-// This function takes a component...
-function withSubscription(WrappedComponent) {
-  // ...and returns another component...
+function withCursor(WrappedComponent) {
   return class extends React.Component {
+    
     constructor(props) {
       super(props);
-      this.handleChange = this.handleChange.bind(this);
-    }
-
-    componentDidMount() {
-      // ... that takes care of the subscription...
-      DataSource.addChangeListener(this.handleChange);
+      this.cursorDelay = 5000;
+      this.isHoldAllowed = false;
+      this.state = {
+        isHoldAllowed: false
+      }
     }
 
     componentWillUnmount() {
-      DataSource.removeChangeListener(this.handleChange);
+      clearTimeout(this.holdTimeout);
     }
 
-    handleChange() {
+    onHoldComplete(e) {
       this.setState({
-        data: selectData(DataSource, this.props)
+        isHoldAllowed: false
       });
+      this.child.onHoldComplete();
+
+    }
+
+    onStepChange(e) {
+      this.holdTimeout = setTimeout( () => {
+        this.setState({
+          isHoldAllowed: true
+        })
+      }, this.cursorDelay);
     }
 
     render() {
-      // ... and renders the wrapped component with the fresh data!
-      // Notice that we pass through any additional props
       return (
         <>
-          <Cursor/>
-          <WrappedComponent {...this.props} />;
+          <Cursor onHoldComplete={this.onHoldComplete.bind(this)} isHoldAllowed={this.state.isHoldAllowed} />
+          <WrappedComponent {...this.props} onRef={ref => (this.child = ref)} onStepChange={this.onStepChange.bind(this)}  />;
         </>
       )
     }
   };
 }
+export default withCursor;

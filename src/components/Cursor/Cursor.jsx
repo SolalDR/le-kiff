@@ -8,18 +8,24 @@ class Cursor extends React.Component {
 
   static propTypes = {
     isLoading: PropTypes.bool,
-    indication: PropTypes.bool
+    indication: PropTypes.bool,
+    isHoldAllowed: PropTypes.bool,
+    onHoldComplete: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
     this.cursor = React.createRef();
+
     this.width = 0;
     this.bulletWidth = 0;
+
     this.counter = 0;
     this.holdDuration = 40;
+    this.minHoldDuration = 5;
     this.timerID = null;
 
+    this.cursorNotMovingTimeout = null;
     this.target = {
       x: 0,
       y: 0
@@ -32,7 +38,8 @@ class Cursor extends React.Component {
 
     this.state = {
       isHolding: false,
-      isIndicating: true
+      isIndicating: true,
+      isCursorStill: false
     }
 
   }
@@ -44,10 +51,6 @@ class Cursor extends React.Component {
     window.addEventListener('mouseleave', this.onMouseUp.bind(this), false);
 
     this.update();
-
-    // setTimeout(() => {
-    //   this.cursor.current.classList.add('is-hold')
-    // }, 5000)
   }
 
   componenWillUnmount() {
@@ -76,17 +79,25 @@ class Cursor extends React.Component {
   };
 
   timer() {
-    console.log(this.counter, this.holdDuration);
     if (this.counter < this.holdDuration) {
       this.timerID = requestAnimationFrame(this.timer.bind(this));
       this.counter++;
     } else {
+      this.props.onHoldComplete();
       console.log("Press threshold reached!");
-      // item.dispatchEvent(pressHoldEvent);
     }
   }
   
   onMouseMove = throttle(e => {
+    if (this.state.isCursorStill) {
+      this.setState({
+        isCursorStill: false
+      })
+    }
+
+    clearTimeout(this.cursorNotMovingTimeout);
+    this.cursorNotMovingTimeout = setTimeout(this.onCursorNotMoving.bind(this), 2000);
+
     this.target = {
       x: e.clientX,
       y: e.clientY
@@ -94,20 +105,28 @@ class Cursor extends React.Component {
   }, 10);
 
   onMouseDown(e) {
-    console.log('mouse down');
-    this.cursor.current.classList.add('is-hold');
-    requestAnimationFrame(this.timer.bind(this));
-    
-    e.preventDefault();
+    if (this.props.isHoldAllowed) {
+      this.cursor.current.classList.add('is-hold');
+      requestAnimationFrame(this.timer.bind(this));
+      
+      e.preventDefault();
+    }
   }
 
   onMouseUp() { 
-    if (this.counter < this.holdDuration) {
-      this.cursor.current.classList.remove('is-hold');
+    if (this.props.isHoldAllowed) {
+      if (this.counter < this.holdDuration) {
+        this.cursor.current.classList.remove('is-hold');
+      }
+      this.counter = 0;
+      cancelAnimationFrame(this.timerID);
     }
-    this.counter = 0;
-    cancelAnimationFrame(this.timerID);
-    console.log('mouse up');
+  }
+
+  onCursorNotMoving() {
+    this.setState({
+      isCursorStill: true
+    })
   }
 
   render() {
@@ -121,7 +140,7 @@ class Cursor extends React.Component {
             </svg>
           </div>
           <span className="cursor__text cursor__loading small">Loading</span>
-          <LetterReveal text="Maintenez pour continuer" class={'cursor__text cursor__hold small'} duration={0.15} delay={0.025} reveal={this.state.isIndicating} />
+          <LetterReveal text="Maintenez pour continuer" class={'cursor__text cursor__hold small'} duration={0.15} delay={0.025} reveal={this.state.isCursorStill && this.props.isHoldAllowed} />
       </div>
     )
   }

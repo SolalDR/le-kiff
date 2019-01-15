@@ -8,7 +8,6 @@ class InteractivePlane {
   } = {}){
     var geometry = new THREE.PlaneGeometry(500, 500, 1, 1)
 
-
     var material = new THREE.ShaderMaterial({
       uniforms: {
         u_color: {type: "v", value: new THREE.Color("#0e2a0e")},

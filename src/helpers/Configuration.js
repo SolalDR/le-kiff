@@ -6,12 +6,14 @@ class Configuration {
     Object.keys(config).forEach(key => {
       var value = config[key];
 
-      switch(value.constructor.name) {
-        case "Vector3": this[key] = value.clone(); break;
-        case "Color": this[key] = value.clone(); break;
-        case "Object": this[key] = new Configuration(value); break;
-        case "Configuration": this[key] = value.clone(); break;
-        default: this[key] = value; break;
+      if( value instanceof THREE.Vector3 || value instanceof THREE.Color ) {
+        this[key] = value.clone();
+      } else if( value instanceof Configuration ){
+        this[key] = value.clone();
+      } else if( value instanceof Object ) {
+        this[key] = new Configuration(value);
+      } else {
+        this[key] = value;
       }
     })
   }
@@ -35,14 +37,9 @@ class Configuration {
     Object.keys(config).forEach(key => {
       var value = config[key];
 
-      if(this[key] && value.constructor.name !== this[key].constructor.name && value.constructor.name !== "Configuration" && value.constructor.name !== "Object") {
-        console.error(`Configuration: "${key}" is type "${value.constructor.name}", you may replace it with an instance of "${this[key].constructor.name}"`);
-        return; 
-      }
-
       // value is already defined
       if (this[key] && this[key] instanceof Configuration) {
-        if ( value instanceof Configuration || value.constructor.name === "Object" ) {
+        if ( value instanceof Configuration || typeof value === 'object' ) {
           this[key].hydrate(value);
         }
         return; 
@@ -51,7 +48,7 @@ class Configuration {
       // Value need to be defined
 
       // Configuration case
-      if( value.constructor.name === "Object") {
+      if( typeof value === "object") {
         this[key] = new Configuration(value);
         return;
       }

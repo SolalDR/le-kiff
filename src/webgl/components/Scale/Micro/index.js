@@ -3,8 +3,9 @@ import AssetsManager from "~/services/assetsManager/AssetsManager";
 import Scale from "../Scale";
 import Bus from "~/helpers/Bus";
 import {guiMicro} from "~/services/gui"
-import ColorPlane from "./../../../components/ColorPlane"
+import {ColorPlane, ParticleCloud} from "./../../../components";
 import {Brownian} from "noisadelic";
+import SimplexNoise from "simplex-noise";
 
 class MicroScale extends Scale {
 
@@ -25,7 +26,9 @@ class MicroScale extends Scale {
       rgb: true,
       dynamic: true
     });
-    
+
+    this.simplex = new SimplexNoise();
+
     this.init();
   }
 
@@ -81,18 +84,18 @@ class MicroScale extends Scale {
     var bondMaterial = this.initMoleculeMaterial(e.molecule.result.scene.children[3])
     var atomMaterial = bondMaterial.clone();
 
+    // Molecules
+    this.moleculesGroup = new THREE.Group();
     guiMicro.addMaterial("Material liaison atom", bondMaterial);
     guiMicro.addMaterial("Material atom", atomMaterial);
     var list = ["cocaine", "kerosene"];
     var listFull = [ "cocaine", "kerosene", "chaux",  "eau",  "acide_sulfurique",  "ammoniac",  "permanganate de potassium",  "hydroxyde d'amonium",  "ether",  "acetone",  "acide_chloridrique", "bicarbonate_de_soude" ]
-
     var guiMolecule = guiMicro.addFolder("Molecules");
-
     list.forEach(item => {
       const molecule = new Molecule({
         name: item,
         pdb: e[item].result,
-        bondMaterial, 
+        bondMaterial,
         atomMaterial
       });
       guiMolecule.addObject3D(molecule.name, molecule.object3D);
@@ -107,18 +110,21 @@ class MicroScale extends Scale {
         }
       }
 
-      this.group.add(molecule.object3D);
+      this.moleculesGroup.add(molecule.object3D)
+      
     })
+    this.group.add(this.moleculesGroup);
 
-    this.plane = new ColorPlane({
-      gui: guiMicro
-    });
-    
-
+    // Color plane
+    this.plane = new ColorPlane({ gui: guiMicro });
     this.plane.position.z = -100;
     guiMicro.addObject3D("Plane", this.plane)
     this.group.add(this.plane);
-    
+
+    // Clouds
+    this.clouds = new ParticleCloud({gui: guiMicro});
+    this.group.add(this.clouds.object3D);
+
     Bus.verbose("scale-micro:init", 2)
   }
 
@@ -126,10 +132,19 @@ class MicroScale extends Scale {
    * @override
    * Raf
    */
-  loop(){
+  loop(time){
     if (this.plane ) {
       this.plane.material.uniforms.u_time.value += 0.0005;
+      this.clouds.render();
     }
+
+    this.moleculesGroup.children.forEach(molecule => {
+      var position = this.config.molecules[molecule.name].position; 
+      molecule.position.x = this.simplex.noise2D(position.x, time*0.0001);
+      molecule.position.y = this.simplex.noise2D(position.y, time*0.0001);
+      molecule.rotation.z = this.simplex.noise2D(position.x, time*0.0001);
+      molecule.rotation.y = this.simplex.noise2D(position.y, time*0.0001);
+    });
     
     super.loop();
   }

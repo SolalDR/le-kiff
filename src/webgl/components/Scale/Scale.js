@@ -152,7 +152,7 @@ class Scale extends Event {
    * @abstract
    */
   loop() {
-    //  ... So lonely
+    
   }
 }
 

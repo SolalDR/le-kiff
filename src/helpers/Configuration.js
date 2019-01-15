@@ -10,7 +10,7 @@ class Configuration {
         this[key] = value.clone();
       } else if( value instanceof Configuration ){
         this[key] = value.clone();
-      } else if( value instanceof Object ) {
+      } else if( value.constructor === Object ) {
         this[key] = new Configuration(value);
       } else {
         this[key] = value;
@@ -39,7 +39,7 @@ class Configuration {
 
       // value is already defined
       if (this[key] && this[key] instanceof Configuration) {
-        if ( value instanceof Configuration || typeof value === 'object' ) {
+        if ( value instanceof Configuration || value.constructor === Object ) {
           this[key].hydrate(value);
         }
         return; 
@@ -48,7 +48,7 @@ class Configuration {
       // Value need to be defined
 
       // Configuration case
-      if( typeof value === "object") {
+      if( value.constructor === Object) {
         this[key] = new Configuration(value);
         return;
       }

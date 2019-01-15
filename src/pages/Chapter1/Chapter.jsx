@@ -91,7 +91,6 @@ class Chapter extends React.Component {
 
     render () {
       if( !this.props.step.rank ) return null;
-
       if (this.state.isReady) {
         return (
             <div className="chapter chapter-1">

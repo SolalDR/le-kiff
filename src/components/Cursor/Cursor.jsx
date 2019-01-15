@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import LetterReveal from '~/components/LetterReveal/LetterReveal'
 import "./styles.sass";
 import throttle from '~/helpers/throttle';
+import Bus from "../../helpers/Bus";
 
 class Cursor extends React.Component {
 
@@ -21,8 +22,8 @@ class Cursor extends React.Component {
     this.bulletWidth = 0;
 
     this.counter = 0;
-    this.holdDuration = 40;
-    this.minHoldDuration = 5;
+    this.holdDuration = 60;
+    this.isHoldComplete = false;
     this.timerID = null;
 
     this.cursorNotMovingTimeout = null;
@@ -55,9 +56,27 @@ class Cursor extends React.Component {
 
   componenWillUnmount() {
     window.cancelAnimationFrame(this.update);
-    window.removeEventListener("mousemove", this.onMouseMove, {
-      passive: true
-    });
+    window.removeEventListener("mousemove", this.onMouseMove);
+    window.removeEventListener("mousedown", this.onMouseDown);
+    window.removeEventListener("mouseup", this.onMouseUp);
+    window.removeEventListener("mouseleave", this.mouseleave);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isHoldAllowed !== this.props.isHoldAllowed) {
+        if (nextProps.isHoldAllowed) {
+          Bus.verbose("cursor:click&hold-allowed");
+        } else {
+          Bus.verbose("cursor:click&hold-not-allowed");
+        }
+    }
+  }
+
+  onCursorTransitionEnd() {
+    if (this.isHoldComplete) {
+      this.cursor.current.classList.remove('is-hold');
+      this.isHoldComplete = false;
+    }
   }
 
   update = () => {
@@ -65,7 +84,9 @@ class Cursor extends React.Component {
 
     if (this.cursor.current && !this.width) {
       this.width = this.cursor.current.clientWidth / 2;
-      this.bulletWidth = this.cursor.current.querySelector('.cursor__bullet').clientWidth / 2;
+      this.bullet = this.cursor.current.querySelector('.cursor__bullet');
+      this.bullet.addEventListener('animationend', this.onCursorTransitionEnd.bind(this));
+      this.bulletWidth = this.bullet.clientWidth / 2;
     }
       
     this.position.x += (this.target.x - this.position.x - this.width) * 0.7;
@@ -83,8 +104,9 @@ class Cursor extends React.Component {
       this.timerID = requestAnimationFrame(this.timer.bind(this));
       this.counter++;
     } else {
+      Bus.verbose("cursor:click&hold-done");
+      this.isHoldComplete = true;
       this.props.onHoldComplete();
-      console.log("Press threshold reached!");
     }
   }
   
@@ -96,7 +118,7 @@ class Cursor extends React.Component {
     }
 
     clearTimeout(this.cursorNotMovingTimeout);
-    this.cursorNotMovingTimeout = setTimeout(this.onCursorNotMoving.bind(this), 2000);
+    this.cursorNotMovingTimeout = setTimeout(this.onCursorNotMoving.bind(this), 1500);
 
     this.target = {
       x: e.clientX,
@@ -114,13 +136,12 @@ class Cursor extends React.Component {
   }
 
   onMouseUp() { 
-    if (this.props.isHoldAllowed) {
-      if (this.counter < this.holdDuration) {
-        this.cursor.current.classList.remove('is-hold');
-      }
-      this.counter = 0;
-      cancelAnimationFrame(this.timerID);
+    if (this.counter < this.holdDuration) {
+      this.cursor.current.classList.remove('is-hold');
+      this.isHoldComplete = false;
     }
+    this.counter = 0;
+    cancelAnimationFrame(this.timerID);
   }
 
   onCursorNotMoving() {
@@ -140,7 +161,7 @@ class Cursor extends React.Component {
             </svg>
           </div>
           <span className="cursor__text cursor__loading small">Loading</span>
-          <LetterReveal text="Maintenez pour continuer" class={'cursor__text cursor__hold small'} duration={0.15} delay={0.025} reveal={this.state.isCursorStill && this.props.isHoldAllowed} />
+          <LetterReveal text="Maintenez pour continuer" class={'cursor__text cursor__hold small'} duration={0.15} delay={0.025} reveal={!this.props.isLoading && this.state.isCursorStill && this.props.isHoldAllowed} />
       </div>
     )
   }

@@ -48,14 +48,12 @@ class Chapter extends React.Component {
     }
 
     onHoldComplete() {
-      console.log('ALERT', this.props.step);
       this.onStepChange(this.props.step.rank + 1);
       this.props.onStepChange();
     }
 
     componentWillReceiveProps(nextProps) {
       if (!this.state.isReady && nextProps.isStepsLoaded && nextProps.isChapterLoaded) {
-        console.log('yeayy');
         this.props.onStepChange(); //Allow cursor
         this.setState({ 
           isReady: true 
@@ -76,7 +74,6 @@ class Chapter extends React.Component {
 
     onStepChange = rank => {
       //@todo : once there is real content
-      console.log('step change', rank, this.props.chapter.steps);
       if (rank < this.props.chapter.steps.length) {
         this.props._setCurrentStepRank(rank);
       } else {
@@ -86,11 +83,12 @@ class Chapter extends React.Component {
 
     onChapterChange = chapterRank => {
       //Call router to navigate 
-      console.log("chapter has changed", chapterRank);
+      console.log("chapter change is selected in timeline", chapterRank);
     }
 
     render () {
       if( !this.props.step.rank ) return null;
+
       if (this.state.isReady) {
         return (
             <div className="chapter chapter-1">

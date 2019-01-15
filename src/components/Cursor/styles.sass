@@ -55,16 +55,13 @@ $h-duration: 3s
     transition: 
       duration: $t-duration
       property: transform, opacity
-      delay: $h-duration * 0.5
+      delay: $h-duration * 0.35
 
   &__stroke
     height: $space-l * .8
     width: $space-l * .8
     stroke-dasharray:  322
     stroke-dashoffset: 322
-    transition: 
-      duration: $h-duration
-      property: stroke-dashoffset
     transform: rotate(-90deg)
     stroke: $color-secondary
 
@@ -92,17 +89,21 @@ $h-duration: 3s
 
       &__stroke
         stroke-dashoffset: 0
+        transition: 
+          duration: $h-duration
+          property: stroke-dashoffset
 
       &__bullet
         animation:
           name: pops
-          duration: $t-duration + $h-duration * 0.8
+          duration: $t-duration + $h-duration * 0.9
           timing-function: $t-timing-function
           fill-mode: forwards
 
       &__hold
         transform: translateY(10px)
         opacity: 0
+        
 
   @keyframes wobble
     0%
@@ -115,13 +116,18 @@ $h-duration: 3s
     10% 
       transform: scale(0.6)
       opacity: 1
-    55%
+    35%
       transform: scale(0.6)
       opacity: 1
-    75%
+    55%
       transform: scale(1.2) 
-    90%
+    70%
       opacity: 1
-    100%
+    80%
       transform: scale(0.3)
       opacity: 0
+    90%
+      transform: scale(0.5)
+    100%
+      transform: scale(1)
+      opacity: 1

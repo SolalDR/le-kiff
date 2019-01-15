@@ -83,11 +83,7 @@ class Chapter extends React.Component {
 
     onChapterChange = chapterRank => {
       //Call router to navigate 
-<<<<<<< HEAD
-      // console.log("chapter has changed", chapterRank);
-=======
       console.log("chapter change is selected in timeline", chapterRank);
->>>>>>> feature/cursor
     }
 
     render () {

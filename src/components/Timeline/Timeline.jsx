@@ -22,6 +22,12 @@ class Timeline extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.current !== this.props.current) {
+      this.updateProgressBar(nextProps.current);
+    }
+  }
+
   componentDidMount() {
     this.updateProgressBar(1);
   }

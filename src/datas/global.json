@@ -14,7 +14,7 @@
           "name": "molecule",   
           "path": "/molecules/molecule.glb"  
         },
-        { 
+        {
           "name": "cocaine",   
           "path": "/molecules/cocaine.pdb"  
         },

@@ -17,11 +17,6 @@ export default baseConfig.extends({
             from: 0.5
           }
         }
-      },
-
-      soundEffect: {
-        duration: 1000,
-        effects : ['moogfilter']
       }
     }
   },

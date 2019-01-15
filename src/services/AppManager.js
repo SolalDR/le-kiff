@@ -22,11 +22,11 @@ class AppManager {
 
     AssetsManager.loader.on("load:global", () => {
       Bus.verbose("loader:global");
-      store.dispatch(setLoadedAssets('global'));
+      // store.dispatch(setLoadedAssets('global'));
     });
     AssetsManager.loader.on("load:chapter-1", () => {
       Bus.verbose("loader:chapter-1");
-      store.dispatch(setLoadedAssets('1'));
+      // store.dispatch(setLoadedAssets('1'));
     });
     
 

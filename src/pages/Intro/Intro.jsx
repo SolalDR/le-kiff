@@ -47,4 +47,5 @@ class Intro extends React.Component {
   }
 }
 
-export default withCursor(Intro);
+// export default withCursor(Intro);
+export default Intro;

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import withCursor, { test } from '~/components/Cursor/hoc/withCursor';
+import withCursor from '~/components/Cursor/hoc/withCursor';
 import PropTypes from 'prop-types';
 import { getWholeChapter, getStepsLoaded, getIsLoadedChapters, getChapter, getStep } from "~/services/stores/reducers/selectors";
 import { setCurrentChapterData, setCurrentStepRank } from "~/services/stores/actions";
@@ -23,6 +23,8 @@ class Chapter extends React.Component {
       content: PropTypes.string,
       steps: PropTypes.array
       }),
+      onRef: PropTypes.func,
+      onStepChange: PropTypes.func
     }
 
     /**

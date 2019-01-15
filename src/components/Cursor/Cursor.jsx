@@ -54,12 +54,19 @@ class Cursor extends React.Component {
     this.update();
   }
 
-  componenWillUnmount() {
+  componentWillUnmount() {
+    // console.log('unmount', this.cursorNotMovingTimeout);
+    clearTimeout(this.cursorNotMovingTimeout);
     window.cancelAnimationFrame(this.update);
+    window.cancelAnimationFrame(this.timer);
     window.removeEventListener("mousemove", this.onMouseMove);
     window.removeEventListener("mousedown", this.onMouseDown);
     window.removeEventListener("mouseup", this.onMouseUp);
     window.removeEventListener("mouseleave", this.mouseleave);
+
+    if (this.bullet) {
+      this.bullet.removeEventListener('animationend', this.onCursorTransitionEnd);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -111,6 +118,7 @@ class Cursor extends React.Component {
   }
   
   onMouseMove = throttle(e => {
+    console.log('iscursorstill');
     if (this.state.isCursorStill) {
       this.setState({
         isCursorStill: false
@@ -145,6 +153,7 @@ class Cursor extends React.Component {
   }
 
   onCursorNotMoving() {
+    console.log('cursor not moving');
     this.setState({
       isCursorStill: true
     })
@@ -160,7 +169,7 @@ class Cursor extends React.Component {
               <circle strokeWidth="1" fill="none"></circle>
             </svg>
           </div>
-          <span className="cursor__text cursor__loading small">Loading</span>
+          <LetterReveal text="Loading" class={'cursor__text cursor__loading small'} duration={0.3} delay={0.025} globalDelay={4} reveal={this.props.isLoading} start={{top: 15}} />
           <LetterReveal text="Maintenez pour continuer" class={'cursor__text cursor__hold small'} duration={0.15} delay={0.025} reveal={!this.props.isLoading && this.state.isCursorStill && this.props.isHoldAllowed} />
       </div>
     )

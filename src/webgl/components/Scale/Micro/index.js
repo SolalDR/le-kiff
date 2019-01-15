@@ -3,7 +3,7 @@ import AssetsManager from "~/services/assetsManager/AssetsManager";
 import Scale from "../Scale";
 import Bus from "~/helpers/Bus";
 import {guiMicro} from "~/services/gui"
-import InteractivePlane from "./../../../components/InteractivePlane"
+import ColorPlane from "./../../../components/ColorPlane"
 import {Brownian} from "noisadelic";
 
 class MicroScale extends Scale {
@@ -110,9 +110,10 @@ class MicroScale extends Scale {
       this.group.add(molecule.object3D);
     })
 
-    this.plane = new InteractivePlane({
+    this.plane = new ColorPlane({
       gui: guiMicro
     });
+    
 
     this.plane.position.z = -100;
     guiMicro.addObject3D("Plane", this.plane)

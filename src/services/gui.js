@@ -5,6 +5,19 @@ var gui = new dat.GUI({
   load: JSON,
 });
 
+
+dat.GUI.prototype.addThreeColor=function(obj,varName){
+  // threejs & dat.gui have color incompatible formats so we use a dummy data as target :
+  var dummy={};
+  // set dummy initial value :
+  dummy[varName]=obj[varName].getStyle(); 
+  return this.addColor(dummy,varName)
+      .onChange(function( colorValue  ){
+          //set color from result :
+          obj[varName].setStyle(colorValue);
+      });
+};
+
 export const guiMicro = gui.addFolder("Micro");
 export const guiMacro = gui.addFolder("Macro");
 export const guiMuman = gui.addFolder("Human");

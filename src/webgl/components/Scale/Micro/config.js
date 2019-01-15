@@ -14,7 +14,7 @@ export default baseConfig.extends({
       postprocess: {
         bloom: {
           strength: {
-            from: 0.5
+            from: 6
           }
         }
       }

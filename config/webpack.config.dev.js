@@ -179,9 +179,8 @@ module.exports = {
       // Disable require.ensure as it's not a standard language feature.
       { parser: { requireEnsure: false } },
 
-      // TODO: Add this in webpac.config.prod.js
       {
-        test: /\.(glsl|frag|vert)$/,
+        test: /\.(glsl|frag|vert|fs|vs)$/,
         use: [
           require.resolve('raw-loader'),
           require.resolve('glslify-loader')

@@ -1,4 +1,4 @@
-import { FETCH_CHAPTERS, FETCH_STEPS, SET_LOADED_STEP } from '../actionTypes';
+import { FETCH_CHAPTERS, FETCH_STEPS, SET_LOADED_STEP, SET_LOADED_ASSETS } from '../actionTypes';
 
 const initialState = {
   chaptersLoaded: false,
@@ -17,6 +17,15 @@ const entities = (state = initialState, action) => {
         chapters: [
           ...state.chapters,
           ...filterArrays(state.chapters, action.chapters)
+        ]
+      }
+
+    case SET_LOADED_ASSETS:
+      return {
+        ...state,
+        loadedAssets: [
+          ...state.loadedAssets,
+          action.loadedAssets
         ]
       }
 

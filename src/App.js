@@ -7,7 +7,6 @@ import Intro from "./pages/Intro/Intro";
 import Outro from "./pages/Outro/Outro";
 import About from "./pages/About/About"
 import StoreTest from "./pages/StoreTest/StoreTest";
-// import Cursor from "./components/Cursor/Cursor";
 import Header from "./components/Header/Header";
 import AppManager from "./services/AppManager.js"
 import { store } from './services/stores/store';
@@ -47,7 +46,6 @@ class App extends Component {
           <div className="app">
             <AppManagerHydrator onRouteChange={this.handleRouteChange} />
             <Header />
-            {/* <Cursor isLoading={false} /> */}
             <div className="app__content">
               <Route exact path="/" component={Intro} />
               {/* { store.getState().entities.chaptersLoaded } */}

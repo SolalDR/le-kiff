@@ -1,6 +1,6 @@
 import AssetsManager from "./assetsManager/AssetsManager";
 import { store } from './stores/store'
-import { fetchChapters, fetchSteps, setLoadedStep } from './stores/actions'
+import { fetchChapters, fetchSteps, setLoadedStep, setLoadedAssets} from './stores/actions'
 import { getChapterApiId, getIsLoadedChapters } from './stores/reducers/selectors'
 import Api from "./Api";
 import globalDatas from "./../datas/global.json";
@@ -20,8 +20,15 @@ class AppManager {
     AssetsManager.loader.loadGroup("global");
     AssetsManager.loader.loadGroup("chapter-1");
 
-    AssetsManager.loader.on("load:global", ()=> Bus.verbose("loader:global"));
-    AssetsManager.loader.on("load:chapter-1", ()=> Bus.verbose("loader:chapter-1"));
+    AssetsManager.loader.on("load:global", () => {
+      Bus.verbose("loader:global");
+      store.dispatch(setLoadedAssets('global'));
+    });
+    AssetsManager.loader.on("load:chapter-1", () => {
+      Bus.verbose("loader:chapter-1");
+      store.dispatch(setLoadedAssets('1'));
+    });
+    
 
     this.addSounds();
 

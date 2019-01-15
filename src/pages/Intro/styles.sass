@@ -10,12 +10,55 @@
   align-items: center
 
   &__inner
+    position: absolute
+    top: 30%
+    bottom: 20%
+    max-width: 580px
+    width: 40%
+    display: flex
+    flex-direction: column
     color: $color-secondary
     text-align: center
-    width: 540px
+    z-index: 2
+    
+    &__bottom
+      margin-top: auto
 
   &__title
+    position: relative
     margin-bottom: 20px
 
+    .letter-reveal__item
+      min-width: 30px
+      filter: blur(2px)
+
+
   &__subtitle
-    margin: 20px 0
+    position: relative 
+    margin: $space-m 0
+
+    .letter-reveal
+      &__item
+        min-width: 25px
+        left: 30px
+        transform: scale(0.1) translateX(30px)
+
+  &__teasing
+    margin-top: $space-l
+    padding-left: 90px
+    padding-right: 90px
+
+  &__indication
+    margin-top: $space-s
+
+  &__video
+    position: fixed
+    top: 0
+    right: 0
+    left: 0
+    bottom: 0
+    width: 100vw
+    height: 100vh
+    object-fit: cover
+    mix-blend-mode: screen
+    z-index: 1

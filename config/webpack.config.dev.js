@@ -178,14 +178,6 @@ module.exports = {
     rules: [
       // Disable require.ensure as it's not a standard language feature.
       { parser: { requireEnsure: false } },
-
-      {
-        test: /\.(glsl|frag|vert|fs|vs)$/,
-        use: [
-          require.resolve('raw-loader'),
-          require.resolve('glslify-loader')
-        ]
-      },
       
       // First, run the linter.
       // It's important to do this before Babel processes the JS.
@@ -212,6 +204,13 @@ module.exports = {
           // "url" loader works like "file" loader except that it embeds assets
           // smaller than specified limit in bytes as data URLs to avoid requests.
           // A missing `test` is equivalent to a match.
+          {
+            test: /\.(glsl|frag|vert|fs|vs)$/,
+            use: [
+              require.resolve('raw-loader'),
+              require.resolve('glslify-loader')
+            ]
+          },
           {
             test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
             loader: require.resolve('url-loader'),

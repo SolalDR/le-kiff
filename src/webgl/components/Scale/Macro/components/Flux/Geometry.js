@@ -15,8 +15,8 @@ class FluxGeometry {
    * @param {float} amplitude 
    */
   constructor({ from = null, to = null } = {}, radius = 3, amplitude = 0.4, precision = 50){
-    this.from = from.constructor.name === "GeoCoord" ? from : new GeoCoord(from.lat, from.lon); 
-    this.to = to.constructor.name === "GeoCoord" ? from : new GeoCoord(to.lat, to.lon); 
+    this.from = from instanceof GeoCoord ? from : new GeoCoord(from.lat, from.lon); 
+    this.to = to instanceof GeoCoord ? from : new GeoCoord(to.lat, to.lon); 
     this.radius = radius;
     this.amplitude = amplitude;
 

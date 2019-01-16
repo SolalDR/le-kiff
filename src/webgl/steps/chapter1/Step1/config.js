@@ -21,4 +21,11 @@ export default baseConfig.extends({
       }
     }
   ]
+  // micro: {
+  //   molecules: {
+  //     cocaine: {
+  //       position: new THREE.Vector3(0, 0, -20)
+  //     }
+  //   }
+  // }
 })

@@ -24,6 +24,12 @@ class MacroScale extends Scale {
     this.init();
   }
 
+  initEvents(){
+    this.on("display", ()=>{
+      this.onDisplay();
+    });
+  }
+
   display(previous, next){
     const { cameraAnim } = super.display( this.config.transitions.all );
     cameraAnim
@@ -36,47 +42,45 @@ class MacroScale extends Scale {
   }
 
   hide(previous, next){
-    console.log(this.config)
     super.hide( this.config.transitions.all );
   }
 
+  onDisplay(){
+    this.zonings.forEach(zoning => {
+      AnimationManager.addAnimation(new Animation({
+        from: 1.2, 
+        to: 1.001, 
+        duration: 500,
+        delay: 2000 + Math.random() * 1000,
+        timingFunction: "easeOutQuad"
+      }).on("progress", (event)=>{
+        zoning.object.scale.x = event.value;
+        zoning.object.scale.y = event.value;
+        zoning.object.scale.z = event.value;
+        zoning.object.material.opacity = event.advancement/2;
+      }))
+    })
+  }
 
-  updateScale(newScale, previousScale){
-    super.updateScale(newScale, previousScale);
-
-    if( newScale === this.name ){
-      this.zonings.forEach(zoning => {
-        AnimationManager.addAnimation(new Animation({
-          from: 1.2, 
-          to: 1.001, 
-          duration: 500,
-          delay: 2000 + Math.random() * 1000,
-          timingFunction: "easeOutQuad"
-        }).on("progress", (event)=>{
-          zoning.object.scale.x = event.value;
-          zoning.object.scale.y = event.value;
-          zoning.object.scale.z = event.value;
-          zoning.object.material.opacity = event.advancement/2;
-        }))
-      })
-    } else {
-      this.zonings.forEach(zoning => {
-        AnimationManager.addAnimation(new Animation({
-          from: 1, 
-          to: 0,
-          duration: 1000, 
-          timingFunction: "easeOutQuad"
-        }).on("progress", (event)=>{
-          zoning.object.material.opacity = event.value;
-        }).on("end", (event)=>{
-          zoning.object.scale.x = 1;
-          zoning.object.scale.y = 1;
-          zoning.object.scale.z = 1;
-          zoning.object.material.opacity = 0;
-        }))
-      })
-
-    }
+  /**
+   * Implement
+   */
+  onHide(){ 
+    this.zonings.forEach(zoning => {
+      AnimationManager.addAnimation(new Animation({
+        from: 1, 
+        to: 0,
+        duration: 1000, 
+        timingFunction: "easeOutQuad"
+      }).on("progress", (event)=>{
+        zoning.object.material.opacity = event.value;
+      }).on("end", _ =>{
+        zoning.object.scale.x = 1;
+        zoning.object.scale.y = 1;
+        zoning.object.scale.z = 1;
+        zoning.object.material.opacity = 0;
+      }))
+    })
   }
 
   /**
@@ -171,12 +175,11 @@ class MacroScale extends Scale {
    * Raf
    */
   loop(){
-    if( !this.earth ) return;
     super.loop();
 
-    if(this.earth && this.earth.clouds) {
-      this.earth.clouds.rotation.y += 0.001;
-    }
+    Flux.LineMaterial.uniforms.dashOffset.value -= this.config.flux.dashOffsetSpeed;
+
+    this.earth.clouds.rotation.y += 0.0005;
   }
 }
 

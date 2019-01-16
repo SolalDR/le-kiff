@@ -17,6 +17,7 @@ class Cursor extends React.Component {
   constructor(props) {
     super(props);
     this.cursor = React.createRef();
+    this.rootDom = document.querySelector('#root');
 
     this.width = 0;
     this.bulletWidth = 0;
@@ -44,9 +45,9 @@ class Cursor extends React.Component {
   }
   
   componentDidMount() {
-    window.addEventListener('mousemove', this.onMouseMove, { passive: true });
-    window.addEventListener('mousedown', this.onMouseDown, false);
-    window.addEventListener('mouseup', this.onMouseUp, false);
+    this.rootDom.addEventListener('mousemove', this.onMouseMove, { passive: true });
+    this.rootDom.addEventListener('mousedown', this.onMouseDown, false);
+    this.rootDom.addEventListener('mouseup', this.onMouseUp, false);
 
     this.update();
   }
@@ -56,9 +57,9 @@ class Cursor extends React.Component {
     clearTimeout(this.cursorNotMovingTimeout);
     window.cancelAnimationFrame(this.update);
     window.cancelAnimationFrame(this.timerRAF);
-    window.removeEventListener("mousemove", this.onMouseMove);
-    window.removeEventListener("mousedown", this.onMouseDown);
-    window.removeEventListener("mouseup", this.onMouseUp);
+    this.rootDom.removeEventListener("mousemove", this.onMouseMove);
+    this.rootDom.removeEventListener("mousedown", this.onMouseDown);
+    this.rootDom.removeEventListener("mouseup", this.onMouseUp);
 
     if (this.bullet) {
       this.bullet.removeEventListener('animationend', this.onCursorTransitionEnd);

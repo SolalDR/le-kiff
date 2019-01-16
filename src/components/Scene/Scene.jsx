@@ -53,7 +53,7 @@ class Scene extends React.Component {
     this.setState({isThreeSceneMounted: true});
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.step.rank !== nextProps.step.rank) {
       /**
        * Before scene component is rendered, update current step in the webgl scene

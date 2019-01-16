@@ -36,6 +36,10 @@ class Scale extends Event {
     this.scene.threeScene.add(this.group);
   }
 
+  initEvents(){
+    this.on("display", () => this.onDisplay())
+  }
+
   /**
    * This abstract method wrap scale transition logic.
    * It decompose animation in two parts : 
@@ -68,9 +72,8 @@ class Scale extends Event {
     }).on("progress", ( event ) => {
       renderer.intensity( config.postprocess.bloom.strength.from - event.advancement * diff );
     }).on("end", () => {
-
+      this.dispatch("display");
       this.updateSound(config, 'display');
-
       Bus.dispatch("scale:display", this, 1)
       Bus.verbose("scale-" + this.name + ":display", 2)
     }));
@@ -120,6 +123,10 @@ class Scale extends Event {
     }
   }
 
+  onDisplay(){
+
+  }
+
   /**
    * Update sounds parameters from config
    * @param {See /webgl/config.js} config 
@@ -145,7 +152,7 @@ class Scale extends Event {
    * @abstract
    */
   loop() {
-    //  ... So lonely
+    
   }
 }
 

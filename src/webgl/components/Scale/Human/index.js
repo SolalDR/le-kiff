@@ -20,7 +20,6 @@ class HumanScale extends Scale {
   }
 
   hide( previous, next ){
-    console.log(this.config, this.config.transitions[next]);
     super.hide( this.config.transitions[next] );
   }
 

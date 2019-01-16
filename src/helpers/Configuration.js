@@ -65,7 +65,7 @@ class Configuration {
 
       if( value instanceof Configuration ){
         this[key] = value.clone();
-        this[key].hydrate()
+        this[key].hydrate(value)
         return;
       }
 

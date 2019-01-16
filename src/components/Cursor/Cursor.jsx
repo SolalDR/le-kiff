@@ -149,6 +149,7 @@ class Cursor extends React.Component {
       this.isHoldComplete = false;
     }
     this.counter = 0;
+    
     cancelAnimationFrame(this.timerID);
   }
 

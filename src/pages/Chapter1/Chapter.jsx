@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
+import withCursor from '~/components/Cursor/hoc/withCursor';
 import PropTypes from 'prop-types';
-import { getWholeChapter, getStepsLoaded, getIsLoadedChapters, getChapter, getStep } from "~/services/stores/reducers/selectors";
+import { getWholeChapter, getChapter, getStep, getIsChapterReady } from "~/services/stores/reducers/selectors";
 import { setCurrentChapterData, setCurrentStepRank } from "~/services/stores/actions";
 import Scene from "~/components/Scene/Scene";
 import Timeline from "~/components/Timeline/Timeline";
@@ -22,6 +23,8 @@ class Chapter extends React.Component {
       content: PropTypes.string,
       steps: PropTypes.array
       }),
+      onRef: PropTypes.func,
+      onStepChange: PropTypes.func
     }
 
     /**
@@ -30,43 +33,61 @@ class Chapter extends React.Component {
      */
     constructor(props) {
         super(props);
+
         this.state = {
           isReady: false,
           stepId: 1
         };
     }
 
-    componentDidMount(){
-      Bus.verbose("chapter-1:mounted");
+    componentWillMount() {
+      if (!this.props.isChapterReady) {
+        this.props.history.push("");
+      }
     }
 
-    componentWillReceiveProps(nextProps) {
-      if (!this.state.isReady && nextProps.isStepsLoaded && nextProps.isChapterLoaded) {
-        this.setState({ 
-          isReady: true 
-        });
+    componentDidMount() {
+      Bus.verbose("chapter-1:mounted");
+      this.props.onRef(this);
 
-        const chapter = nextProps.chapter;
-        
-        // Update store by UI reducer
+      if (this.props.isChapterReady) {
+        this.props.onStepChange(); //Allow cursor
+        this.setState({
+          isReady: true
+        });
+  
         this.props._setCurrentChapterData({
-          chapter: chapter,
-          step: chapter.steps[this.state.stepId - 1],
-          steps: chapter.steps,
-          infos: chapter.steps[this.state.stepId - 1].infos,
+          chapter: this.props.chapter,
+          step: this.props.chapter.steps[this.state.stepId - 1],
+          steps: this.props.chapter.steps,
+          infos: this.props.chapter.steps[this.state.stepId - 1].infos,
           scale: "human"
         });
       }
+
+    }
+
+    componentWillUnmount() {
+      this.props.onRef(undefined);
+    }
+
+    onHoldComplete() {
+      this.onStepChange(this.props.step.rank + 1);
+      this.props.onStepChange();
     }
 
     onStepChange = rank => {
       //@todo : once there is real content
-      this.props._setCurrentStepRank(rank);
+      if (rank < this.props.chapter.steps.length) {
+        this.props._setCurrentStepRank(rank);
+      } else {
+        this.onChapterChange(this.props.chapter.rank + 1);
+      }
     }
 
     onChapterChange = chapterRank => {
       //Call router to navigate 
-      // console.log("chapter has changed", chapterRank);
+      console.log("chapter change is selected in timeline", chapterRank);
     }
 
     render () {
@@ -90,7 +111,7 @@ class Chapter extends React.Component {
 
               <Scene step={this.props.step} />
             </div>
-        );
+        )
       }
       return <Loading />
     }
@@ -101,8 +122,7 @@ const mapStateToProps = (state) => {
     chapter: getWholeChapter(state, 1),
     previousChapter: getChapter(state, 0),
     nextChapter: getChapter(state, 2),
-    isStepsLoaded: getStepsLoaded(state, 1),
-    isChapterLoaded: getIsLoadedChapters(state) ,
+    isChapterReady: getIsChapterReady(state, 1),
     step: getStep(state)
   }
 }
@@ -117,5 +137,5 @@ const mapDispatchToProps = dispatch => {
     }};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chapter);
+export default withCursor(connect(mapStateToProps, mapDispatchToProps)(Chapter));
 

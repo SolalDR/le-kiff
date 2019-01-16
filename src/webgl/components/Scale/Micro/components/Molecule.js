@@ -27,7 +27,7 @@ class Molecule extends Event {
     this.bondMaterial = bondMaterial;
     this.atomMaterial = atomMaterial;
     this.object3D = new THREE.Group();
-    this.object3D.name = "molecule_" + name;
+    this.object3D.name = name;
     this.object3D.visible = false;
     this.atomGeometry = new THREE.SphereBufferGeometry(0.5, 16, 16);
 

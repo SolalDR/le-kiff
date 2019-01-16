@@ -1,7 +1,8 @@
-import { c } from "../../../../helpers/Configuration";
 import baseConfig from "./../config";
+import fluxConfig from "./components/Flux/config"
 
-export default baseConfig.extends({ 
+export default baseConfig.extends({
+  flux: fluxConfig,
   transitions: {
     all: {
       duration: 500,
@@ -17,11 +18,13 @@ export default baseConfig.extends({
           }
         }
       },
-      
-      soundEffect: {
-        duration: 1000,
-        effects : ['convolver']
-      }
+      sound: {
+        volume: 0.7,
+        effect: {
+          duration: 1000,
+          list : ['convolver']
+        }
+      } 
     }
   },
 

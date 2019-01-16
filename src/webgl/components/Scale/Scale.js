@@ -36,6 +36,10 @@ class Scale extends Event {
     this.scene.threeScene.add(this.group);
   }
 
+  initEvents(){
+    this.on("display", () => this.onDisplay())
+  }
+
   /**
    * This abstract method wrap scale transition logic.
    * It decompose animation in two parts : 
@@ -68,25 +72,11 @@ class Scale extends Event {
     }).on("progress", ( event ) => {
       renderer.intensity( config.postprocess.bloom.strength.from - event.advancement * diff );
     }).on("end", () => {
+      this.dispatch("display");
+      this.updateSound(config, 'display');
       Bus.dispatch("scale:display", this, 1)
       Bus.verbose("scale-" + this.name + ":display", 2)
     }));
-
-    // add sound effects
-    if(config.soundEffect) {
-      AnimationManager.addAnimation(new Animation({
-        duration: config.soundEffect.duration,
-        delay: 200
-      }).on("start", () => {
-        config.soundEffect.effects.forEach(effectName => {
-          SoundManager.addEffect(effectName);
-        });
-      }).on("progress", ( event ) => {
-        config.soundEffect.effects.forEach(effectName => {
-          SoundManager.setEffectIntensity(effectName, event.advancement);
-        });
-      }));
-    }
 
     return {
       cameraAnim, 
@@ -122,37 +112,47 @@ class Scale extends Event {
       Bus.dispatch("scale:hide", this);
       Bus.verbose("scale-" + this.name + ":hide", 2)
       this.group.visible = false;
+
+      this.updateSound(config, 'hide');
+
     });
 
-
-    // remove sound effects
-    if(config.soundEffect) {
-      AnimationManager.addAnimation(new Animation({
-        duration: config.soundEffect.duration
-      }).on("progress", ( event ) => {
-        config.soundEffect.effects.forEach(effectName => {
-          SoundManager.setEffectIntensity(effectName, 1 - event.advancement);
-        });
-      }).on("end", () => {
-        config.soundEffect.effects.forEach(effectName => {
-          SoundManager.removeAllEffects(effectName);
-        });
-      }));
-    }
-    
     return {
       cameraAnim,
       postprocessAnim: postprocessAnimData.animation
     }
   }
-  
+
+  onDisplay(){
+
+  }
+
+  /**
+   * Update sounds parameters from config
+   * @param {See /webgl/config.js} config 
+   * @param {String} transitionType Can be 'display' or 'hide' - control sound on transition  
+   */
+  updateSound( config, transitionType ) {
+    if(!config.sound) return;
+    if(config.sound.volume) {
+        SoundManager.volume = config.sound.volume;
+    } else {
+        SoundManager.volume = SoundManager.defaultVolume;
+    }
+    if(config.sound.effect) {
+      const methodName = transitionType === 'display' ? 'addEffect' : transitionType === 'hide' ? 'removeEffect' : null;
+      config.sound.effect.list.forEach(effectName => {
+        SoundManager[methodName](effectName);
+      });
+    }
+  }
 
   /**
    * Raf method to calculate the intensity visibility
    * @abstract
    */
   loop() {
-    //  ... So lonely
+    
   }
 }
 

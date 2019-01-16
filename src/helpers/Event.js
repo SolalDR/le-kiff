@@ -58,6 +58,19 @@
 
     return this;
   }
+
+  onceAll( events, callback ){
+    var queue = events.map( event => ({ name: event, ready: false }));
+    var isReady = _ => queue.find(queueItem => !queueItem.ready ) ? false : true;
+    events.forEach( (event, i) => {
+      this.once(event, () => {
+        queue[i].ready = true;
+        if( isReady() ){
+          callback.call(this);
+        }
+      })
+    })
+  }
     
   /**
    * Register a new callback for an event

@@ -150,16 +150,7 @@ class WebGL {
   loop = () => {
     this.clock.update();
 
-    this.microScale.loop();
-    this.macroScale.loop();
-    this.humanScale.loop();
-
-    if(this.points.length > 0) {
-      for (let i = 0; i < this.points.length; i++) {
-        this.points[i].loop();
-      }
-    }
-
+    this[this.state.currentScale+"Scale"].loop(this.clock.elapsed);
     this.mouseCaster.render();
     this.controllerManager.update();
 

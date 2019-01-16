@@ -1,4 +1,3 @@
-import { c } from "../../../../helpers/Configuration";
 import baseConfig from "./../config";
 
 export default baseConfig.extends({

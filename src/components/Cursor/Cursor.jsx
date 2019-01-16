@@ -23,7 +23,7 @@ class Cursor extends React.Component {
     this.bulletWidth = 0;
 
     this.counter = 0;
-    this.holdDuration = 62;
+    this.holdDuration = 70;
     this.isHoldComplete = false;
     this.cursorNotMovingTimeout = null;
     this.target = {
@@ -120,7 +120,7 @@ class Cursor extends React.Component {
   }, 15);
 
   onMouseDown = (e) => {
-    if (this.props.isHoldAllowed) {
+    if (e.which != 3 && this.props.isHoldAllowed) {
       this.setState({ isHolding: true })
       this.cursor.current.classList.add('is-hold');
       e.preventDefault();
@@ -173,7 +173,7 @@ class Cursor extends React.Component {
           <span className="cursor__bullet"></span>
           <div className="cursor__circle">
             <svg className="cursor__stroke cursor__fill">
-              <circle strokeWidth="1" fill="none"></circle>
+              <circle strokeWidth="1" fill="none" r="24.6" cx="25.6" cy="25.6"></circle>
             </svg>
           </div>
           <LetterReveal text="Loading" class={'cursor__text cursor__loading small'} duration={0.3} delay={0.025} globalDelay={4} reveal={this.props.isLoading} start={{top: 15}} />

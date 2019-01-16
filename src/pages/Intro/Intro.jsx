@@ -41,6 +41,11 @@ class Intro extends React.Component {
     }
   }
 
+  onHoldComplete() {
+    //Do smth
+    this.props.history.push("/chapter-1");
+  }
+
   render() {
     return (
       <div className="intro">

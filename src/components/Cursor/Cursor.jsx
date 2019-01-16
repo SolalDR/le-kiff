@@ -53,7 +53,6 @@ class Cursor extends React.Component {
 
   componentWillUnmount() {
 
-    console.log('unmont');
     clearTimeout(this.cursorNotMovingTimeout);
     window.cancelAnimationFrame(this.update);
     window.cancelAnimationFrame(this.timerRAF);
@@ -120,7 +119,6 @@ class Cursor extends React.Component {
   }, 15);
 
   onMouseDown = (e) => {
-    console.log("mousedown")
     if (this.props.isHoldAllowed) {
       this.setState({ isHolding: true })
       this.cursor.current.classList.add('is-hold');
@@ -138,21 +136,18 @@ class Cursor extends React.Component {
       return;
     }
 
-    console.log("hold complete (timer")
     this.onHoldComplete();
     
   }
 
   onHoldComplete(){
     Bus.verbose("cursor:click&hold-done");
-    console.log("onHoldComplete")
     // this.isHoldComplete = true;
     // this.resetHolding();
     this.props.onHoldComplete();
   }
 
   resetHolding(){
-    console.log("reset holding")
     this.setState({ isHolding: false })
     if (this.cursor.current) {
       this.cursor.current.classList.remove('is-hold');
@@ -160,14 +155,8 @@ class Cursor extends React.Component {
   }
 
   onMouseUp = () => { 
-    console.log("mouseup")
     this.resetHolding();
     this.counter = 0;
-    // if (this.counter < this.holdDuration) {
-    //   this.resetHolding();
-    //   this.isHoldComplete = false;
-    // }
-    // this.counter = 0;
   }
 
   onCursorNotMoving() {

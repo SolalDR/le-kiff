@@ -10,6 +10,7 @@ import StoreTest from "./pages/StoreTest/StoreTest";
 import Header from "./components/Header/Header";
 import AppManager from "./services/AppManager.js"
 import { store } from './services/stores/store';
+import { getIsChapterReady } from './services/stores/reducers/selectors';
 import Bus from "~/helpers/Bus";
 import "./styles/app.sass";
 
@@ -19,6 +20,9 @@ Bus.registerGroup("history", [ "color: green" ]);
 Bus.registerGroup("controls", [ "color: purple" ]);
 Bus.registerGroup("infos", [ "color: salmon" ]);
 Bus.registerGroup("api", [ "color: purple" ]);
+Bus.registerGroup("cursor", [ "color: orange" ]);
+
+window.bus = Bus
 
 class App extends Component {
 
@@ -28,7 +32,7 @@ class App extends Component {
     Bus.verboseLevel = 3;
 
     this.state = {
-      chapterLoaded: false,
+      chapterLoaded: false
     } 
   }
 
@@ -45,10 +49,8 @@ class App extends Component {
             <Header />
             <div className="app__content">
               <Route exact path="/" component={Intro} />
-              {/* { store.getState().entities.chaptersLoaded } */}
-              <Route exact path="/chapter-1" component={Chapter1} />
+              <Route exact path="/chapter-1" component={ Chapter1 } />
               <Route exact path="/outro" component={Outro} />
-              <Route exact path="/store-test" component={StoreTest} />
               <Route exact path="/about" component={About} />
             </div>
           </div>

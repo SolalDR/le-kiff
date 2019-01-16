@@ -14,6 +14,7 @@ class SoundManager {
   constructor(){
     this.sounds = new Map();
     this._volume = 0;
+    this.defaultVolume = 0;
     this.howler = null;
     this.soundEffectManager = null;
 
@@ -27,7 +28,7 @@ class SoundManager {
   init() {
     this.howler = Howler;
     this.soundEffectManager = new SoundEffectManager();
-    this.volume = config.globalVolume;
+    this.volume = this.defaultVolume = config.globalVolume;
   }
 
   get volume() {

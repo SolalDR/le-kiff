@@ -1,8 +1,10 @@
-import { FETCH_CHAPTERS, FETCH_STEPS, SET_LOADED_STEP } from '../actionTypes';
+import { FETCH_CHAPTERS, FETCH_STEPS, SET_LOADED_STEP, SET_LOADED_ASSETS } from '../actionTypes';
 
 const initialState = {
   chaptersLoaded: false,
-  stepsLoadedChapterIds: [],
+  assetsLoaded: [], //Array of ranks (chapter)
+  stepsLoaded: [], //Array of ranks (chapter)
+  chaptersReady: [], //Array of ranks (chapter)
   chapters: [],
   steps: []
 };
@@ -17,6 +19,20 @@ const entities = (state = initialState, action) => {
         chapters: [
           ...state.chapters,
           ...filterArrays(state.chapters, action.chapters)
+        ]
+      }
+
+    case SET_LOADED_ASSETS:
+      let isChapterReady = getIsChapterReady(state, action.chapter_rank);
+      return {
+        ...state,
+        chaptersReady: isChapterReady ? 
+        [...state.chaptersReady,
+          ...[action.chapter_rank]
+        ] : state.chaptersReady,
+        assetsLoaded: [
+          ...state.assetsLoaded,
+          ...[ action.chapter_rank ]
         ]
       }
 
@@ -39,12 +55,16 @@ const entities = (state = initialState, action) => {
       } 
 
     case SET_LOADED_STEP:
-      const newChapterIds = getNewLoadedSteps(state.stepsLoadedChapterIds, action.chapter_id);
+      const newChapterRanks = getNewLoadedSteps(state.stepsLoaded, action.chapter_rank);
+      isChapterReady = getIsChapterReady(state, action.chapter_api_id);
       return {
         ...state,
-        stepsLoadedChapterIds: [
-          ...state.stepsLoadedChapterIds,
-          ...[ newChapterIds ]
+        chaptersReady: isChapterReady ? [...state.chaptersReady,
+          ...[action.chapter_rank]
+        ] : state.chaptersReady,
+        stepsLoaded: [
+          ...state.stepsLoaded,
+          ...[ newChapterRanks ]
         ]
       }
 
@@ -96,9 +116,9 @@ const filterArrays = (currentList, newList) => {
   return list;
 }
 
-const getNewLoadedSteps = (chapterIds, id) => {
-  if (chapterIds.indexOf(id) < 0) {
-    return id;
+const getNewLoadedSteps = (chapterRanks, rank) => {
+  if (chapterRanks.indexOf(rank) < 0) {
+    return rank;
   }
 
   return [];
@@ -106,3 +126,25 @@ const getNewLoadedSteps = (chapterIds, id) => {
 
 
 const getChapterByApiId = (chapterList, api_id) => chapterList.find((chapter) => api_id === chapter.api_id);
+
+// const getById = (itemList, id) => itemList.find((item) => id === item.id);
+
+const getIsChapterReady = (state, chapter_api_id, chapter_rank) => {
+  if (!state.chaptersLoaded) {
+    return false
+  }
+
+  if (state.chaptersReady.length > 0 && state.chaptersReady.indexOf(chapter_rank) >= 0) {
+    return false
+  }
+
+  if (!state.stepsLoaded.length > 0|| !state.stepsLoaded.indexOf(chapter_rank) < 0) {
+    return false
+  }
+
+  if (!state.assetsLoaded.length > 0 || !state.assetsLoaded.indexOf(`chapter-${chapter_rank}`) < 0) {
+    return false
+  }
+
+  return true;
+}

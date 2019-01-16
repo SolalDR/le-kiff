@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import "./styles.sass";
 import { getChapters } from "../../services/stores/reducers/selectors";
 import PropTypes from 'prop-types';
+import LetterReveal from "~/components/LetterReveal/LetterReveal";
 
 class Menu extends React.PureComponent {
 

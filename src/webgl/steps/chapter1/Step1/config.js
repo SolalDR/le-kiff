@@ -5,6 +5,21 @@ export default baseConfig.extends({
   assets: [
     "background",
     "step_1_human_leaf"
+  ],
+  sounds: [
+    {
+      name : "step_1_background_sound",
+      options : {
+        loop: true,
+        volume: 0.3
+      }
+    },
+    {
+      name : "step_1_main_sound",
+      options : {
+        volume: 0.9
+      }
+    }
   ]
   // micro: {
   //   molecules: {

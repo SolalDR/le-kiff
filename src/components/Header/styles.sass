@@ -15,7 +15,7 @@
     outline: none
     padding: ($space-m * .8) $space-s ($space-m * .9)
     box-shadow: none
-    cursor: pointer
+    cursor: none
 
     &:hover
       .header__burger
@@ -59,6 +59,7 @@
     position: absolute
     top: $space-s
     right: $space-l + $space-m
+    pointer-events: none
 
   &__link
     display: inline-block
@@ -74,6 +75,9 @@
       timing-function: $t-timing-function
 
   &.is-active
+    .header__links
+      pointer-events: all
+      
     .header__link 
       transform: translateY(0)
       opacity: 1

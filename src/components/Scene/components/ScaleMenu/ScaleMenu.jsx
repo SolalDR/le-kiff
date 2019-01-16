@@ -17,7 +17,7 @@ class ScaleMenu extends React.Component {
    * Callback to parent
    */
   handleClick = (scaleName) => {
-    SoundManager.play(['toggle_default', 'woosh_sound']); 
+    SoundManager.play(['toggle_default_sound', 'woosh_sound']); 
     this.props.onSelectCallback(scaleName);
   }
 
@@ -50,21 +50,21 @@ class ScaleMenu extends React.Component {
           onMouseOver={() => this.onMouseOver(1)}
           onMouseOut={this.onMouseOut.bind(this)}
           onClick={this.handleClick.bind(this, "micro")}>
-            <LetterReveal text='Molécules' class={'scale-menu__text heading-4'} onClick={this.handleClick.bind(this, "micro")} duration={0.15} delay={0.025} reveal={(this.state.revealed === 1) || (this.state.scale == 'micro') ? true : false} />
+            <LetterReveal text='Molécules' class={'scale-menu__text heading-4'} onClick={this.handleClick.bind(this, "micro")} duration={0.15} delay={0.025} reveal={(this.state.revealed === 1) || (this.props.scale == 'micro') ? true : false} />
         </button>
         <button 
           className={this.computeClassName("human")}
           onMouseOver={() => this.onMouseOver(2)}
           onMouseOut={this.onMouseOut.bind(this)}
           onClick={this.handleClick.bind(this, "human")} >
-          <LetterReveal text='Humain' class={'scale-menu__text heading-4'} onClick={this.handleClick.bind(this, "micro")} duration={0.15} delay={0.025} reveal={(this.state.revealed === 2) || (this.state.scale == 'human') ? true : false} />
+          <LetterReveal text='Humain' class={'scale-menu__text heading-4'} onClick={this.handleClick.bind(this, "micro")} duration={0.15} delay={0.025} reveal={(this.state.revealed === 2) || (this.props.scale == 'human') ? true : false} />
         </button>
         <button 
           className={this.computeClassName("macro")}
           onMouseOver={() => this.onMouseOver(3)}
           onMouseOut={this.onMouseOut.bind(this)}
           onClick={this.handleClick.bind(this, "macro")} >
-          <LetterReveal text='Mondiale' class={'scale-menu__text heading-4'} onClick={this.handleClick.bind(this, "micro")} duration={0.15} delay={0.025} reveal={(this.state.revealed === 3) || (this.state.scale == 'macro') ? true : false} />
+          <LetterReveal text='Mondiale' class={'scale-menu__text heading-4'} onClick={this.handleClick.bind(this, "micro")} duration={0.15} delay={0.025} reveal={(this.state.revealed === 3) || (this.props.scale == 'macro') ? true : false} />
         </button>
       </div>
     )

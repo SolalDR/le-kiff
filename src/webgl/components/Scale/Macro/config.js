@@ -18,11 +18,13 @@ export default baseConfig.extends({
           }
         }
       },
-      
-      soundEffect: {
-        duration: 1000,
-        effects : ['convolver']
-      }
+      sound: {
+        volume: 0.7,
+        effect: {
+          duration: 1000,
+          list : ['convolver']
+        }
+      } 
     }
   },
 

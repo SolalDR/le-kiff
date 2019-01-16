@@ -10,12 +10,96 @@
   align-items: center
 
   &__inner
+    position: absolute
+    top: 30%
+    bottom: 20%
+    max-width: 580px
+    // width: 40%
+    display: flex
+    flex-direction: column
     color: $color-secondary
     text-align: center
-    width: 540px
+    z-index: 2
+    
+    &__bottom
+      margin-top: auto
 
   &__title
+    position: relative
     margin-bottom: 20px
 
+    .letter-reveal__item
+      min-width: 30px
+      filter: blur(2px)
+
+
   &__subtitle
-    margin: 20px 0
+    position: relative 
+    margin: $space-m 0
+
+    .letter-reveal
+      &__item
+        min-width: 25px
+        transform: scale(0.1) translateX(30px)
+
+  &__teasing
+    margin-top: $space-l
+    margin-bottom: $space-m
+    padding-left: 90px
+    padding-right: 90px
+
+    &__item
+      display: inline-block
+      opacity: 0
+      transform: translateY(50px)
+
+      @for $i from 1 to 3
+        &:nth-of-type(#{$i})
+          animation: 
+            name: translateUp
+            delay: 2 + $t-duration * $i * .5
+            duration: $t-duration * 2
+            fill-mode: forwards
+
+
+  &__indication
+    margin-top: $space-s
+    opacity: 0
+    transform: translateY(50px)
+    animation: 
+      name: translateUp, wobble
+      delay: 2 + $t-duration * .5
+      direction: normal, alternate-reverse
+      duration: $t-duration * 2, $t-duration * 3
+      iteration-count: 1, infinite
+      fill-mode: forwards
+
+  &__video
+    position: fixed
+    top: 0
+    right: 0
+    left: 0
+    bottom: 0
+    width: 100vw
+    height: 100vh
+    object-fit: cover
+    mix-blend-mode: screen
+    z-index: 1
+    pointer-events: none
+
+@keyframes translateUp
+    0%
+      opacity: 0
+      transform: translateY(50px)
+    
+    100%
+      opacity: 1
+      transform: translateY(0)
+
+
+@keyframes wobble
+    0%
+      opacity: .25
+    
+    100%
+      opacity: 1

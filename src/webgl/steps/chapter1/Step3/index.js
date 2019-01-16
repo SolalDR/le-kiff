@@ -35,7 +35,7 @@ export default class extends Step {
 
   display( isNextStep = false, event ) {
     this.displayHumanScale( event );
-    super.display();
+    super.display( event );
   }
 
   hide() {

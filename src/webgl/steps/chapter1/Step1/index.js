@@ -43,30 +43,7 @@ export default class extends Step {
 
   display( isNextStep = false, event ) {
     this.displayHumanScale( event );
-
-    // Sound
-    //
-    const soundsData = [
-      {
-        name : event.step_1_background_sound.name, 
-        sound : event.step_1_background_sound.result,
-        options : {
-          loop: true,
-          volume: 0.3
-        }
-      },
-      {
-        name : event.step_1_main_sound.name, 
-        sound : event.step_1_main_sound.result,
-        options : {
-          volume: 0.9
-        }
-      }
-    ];
-    SoundManager.updatePlayBack(soundsData);
-
-    // display
-    super.display();
+    super.display( event );
   }
 
   hide() {

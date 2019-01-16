@@ -6,17 +6,20 @@ export default baseConfig.extends({
       position: {
         from: new THREE.Vector3(0, 0, 50)
       },
-      soundEffect: {
-        duration: 1000,
-        effects : ['moogfilter']
-      },
       postprocess: {
         bloom: {
           strength: {
             from: 6
           }
         }
-      }
+      },
+      sound: {
+        volume: 0.9,
+        effect: {
+          duration: 1000,
+          list : ['moogfilter']
+        }
+      } 
     }
   },
 

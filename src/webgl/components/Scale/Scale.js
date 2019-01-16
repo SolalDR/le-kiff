@@ -37,7 +37,7 @@ class Scale extends Event {
   }
 
   initEvents(){
-    this.on("display", (e) => this.onDisplay(e))
+    this.on("display", () => this.onDisplay())
   }
 
   /**
@@ -73,6 +73,9 @@ class Scale extends Event {
       renderer.intensity( config.postprocess.bloom.strength.from - event.advancement * diff );
     }).on("end", () => {
       this.dispatch("display");
+      this.updateSound(config, 'display');
+      Bus.dispatch("scale:display", this, 1)
+      Bus.verbose("scale-" + this.name + ":display", 2)
     }));
 
     return {
@@ -121,9 +124,7 @@ class Scale extends Event {
   }
 
   onDisplay(){
-    this.updateSound(config, 'display');
-    Bus.dispatch("scale:display", this, 1)
-    Bus.verbose("scale-" + this.name + ":display", 2)
+
   }
 
   /**

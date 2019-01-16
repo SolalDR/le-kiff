@@ -75,7 +75,7 @@
       ]
     },
     {
-      "name": "ui_sound", 
+      "name": "sounds", 
       "base": "/sounds/ui/",
       "files": [
         {
@@ -83,7 +83,7 @@
           "path": "toggle_infopoint.mp3"
         },
         {
-          "name": "toggle_default", 
+          "name": "toggle_default_sound", 
           "path": "toggle_default.mp3"
         },
         {

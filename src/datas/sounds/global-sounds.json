@@ -1,0 +1,22 @@
+[
+  {
+    "name" :"toggle_infopoint_sound", 
+    "options": {
+      "volume": 0.2
+    }
+  },
+  {
+    "name" : "toggle_default_sound", 
+    "sound" : "toggle_default.result",
+    "options": {
+      "volume": 0.2
+    }
+  },
+  {
+    "name" : "woosh_sound", 
+    "sound" : "woosh_sound.result",
+    "options": {
+      "volume": 0.4
+    }
+  }
+]

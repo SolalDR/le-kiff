@@ -120,7 +120,12 @@ class Scale extends Event {
     }
   }
 
-  updateSound( config, type ) {
+  /**
+   * Update sounds parameters from config
+   * @param {See /webgl/config.js} config 
+   * @param {String} transitionType Can be 'display' or 'hide' - control sound on transition  
+   */
+  updateSound( config, transitionType ) {
     if(!config.sound) return;
     if(config.sound.volume) {
         SoundManager.volume = config.sound.volume;
@@ -128,12 +133,11 @@ class Scale extends Event {
         SoundManager.volume = SoundManager.defaultVolume;
     }
     if(config.sound.effect) {
-      const methodName = type === 'display' ? 'addEffect' : type === 'hide' ? 'removeEffect' : null;
+      const methodName = transitionType === 'display' ? 'addEffect' : transitionType === 'hide' ? 'removeEffect' : null;
       config.sound.effect.list.forEach(effectName => {
         SoundManager[methodName](effectName);
       });
     }
-    console.log(SoundManager);
   }
 
   /**

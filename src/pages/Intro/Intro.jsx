@@ -5,7 +5,6 @@ import LetterReveal from '~/components/LetterReveal/LetterReveal';
 import withCursor from '~/components/Cursor/hoc/withCursor';
 import "./styles.sass";
 import { getIsLoadedChapters, getIsChapterReady } from "~/services/stores/reducers/selectors";
-// import { getIsChapterReady } from "./services/stores/reducers/selectors";
 
 class Intro extends React.Component {
   static propTypes = {
@@ -82,8 +81,8 @@ class Intro extends React.Component {
               start={{ opacity: 0, x: 50, scale: 0.5 }}
             />
             <p className="intro__teasing teasing-1">
-              Découvrez l’histoire d’un caillou de crack, de sa production à sa
-              consommation, et ses conséquences sur la vie, la mort et l’humeur
+              <span className="intro__teasing__item">Découvrez l’histoire d’un caillou de crack, de sa production à</span> 
+              <span className="intro__teasing__item">sa consommation, et ses conséquences sur la vie, la mort et l’humeur</span>
             </p>
           </div>
           <div className="intro__inner__bottom">

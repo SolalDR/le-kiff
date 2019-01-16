@@ -78,6 +78,7 @@ $h-duration: 3s
           name: wobble
           delay: $t-duration
           duration: $t-duration * 6
+          direction: alternate-reverse
           timing-function: $t-timing-function
           fill-mode: forwards
           iteration-count: infinite
@@ -110,17 +111,9 @@ $h-duration: 3s
   @keyframes wobble
     0%
       opacity: 1
-      
-    60%
-      opacity: .25
-    
-    90%
-      opacity: .7
 
     100%
-      opacity: .9
-    // 70%
-    //   opacity: .7
+      opacity: .25
 
   @keyframes pops
     10% 

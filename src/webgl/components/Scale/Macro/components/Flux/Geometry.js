@@ -39,6 +39,13 @@ class FluxGeometry {
     
     this.curve = new THREE.SplineCurve3( segments );
 
+    var geo = new THREE.Geometry();
+    var points = this.curve.getSpacedPoints(50);
+    points.forEach(point => {
+      geo.vertices.push(point)
+    })
+    geo.verticesNeedUpdate = true
+    return geo;
     return new THREE.TubeGeometry( this.curve, 25, 0.01, 5, false );
   }
 }

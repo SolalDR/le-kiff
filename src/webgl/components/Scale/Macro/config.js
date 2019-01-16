@@ -1,6 +1,8 @@
 import baseConfig from "./../config";
+import fluxConfig from "./components/Flux/config"
 
-export default baseConfig.extends({ 
+export default baseConfig.extends({
+  flux: fluxConfig,
   transitions: {
     all: {
       duration: 500,

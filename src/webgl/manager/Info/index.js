@@ -70,7 +70,6 @@ class InfoManager extends Event {
   addInfo(info){
     Bus.verbose("infos-manager: add info " + info.id, 3)
     var object = ( info.attachment && info.attachment.name ) ? this.scene.getObjectByName(info.attachment.name) : null;
-    console.log(object);
     this.infos.set(info.id, new Info(info, object));
   }
 

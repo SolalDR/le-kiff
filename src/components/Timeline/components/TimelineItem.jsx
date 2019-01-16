@@ -13,7 +13,7 @@ class TimelineItem extends React.Component {
   };
 
   handleClick = () => {
-    SoundManager.play('toggle_default'); 
+    SoundManager.play('toggle_default_sound'); 
     this.props.onSelectCallback(this.props.rank);
   };
 

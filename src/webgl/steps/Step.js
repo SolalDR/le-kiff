@@ -40,6 +40,17 @@ class Step extends Event {
 
   }
 
+  updateSoundsPlayBack(e) {
+    if(this.config.sounds) {
+      const soundsDatas = [];
+      this.config.sounds.forEach(data => {
+        data.sound = e[data.name].result
+        soundsDatas.push(data);
+      });
+      SoundManager.updatePlayBack(soundsDatas);
+    }
+  }
+
   init(config){
     this.config = config;
     this.state.initialised = true;
@@ -47,21 +58,12 @@ class Step extends Event {
     this.dispatch("init"); 
   }
 
-  display( event ) {
+  display(event) {
     ConfigManager.updateConfig(this.config);
     this.scene.microScale.updateFromStep(this);
     this.scene.macroScale.updateFromStep(this);
 
-    if(this.config.sounds) {
-      const soundsDatas = [];
-      this.config.sounds.forEach(data => {
-        data.sound = event[data.name].result
-        soundsDatas.push(data);
-      });
-      SoundManager.updatePlayBack(soundsDatas);
-
-      console.log(SoundManager);
-    }
+    this.updateSoundsPlayBack(event);
 
     Bus.dispatch("step:display", this);
     this.dispatch("display");

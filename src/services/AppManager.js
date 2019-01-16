@@ -5,8 +5,10 @@ import { getChapterApiId, getIsLoadedChapters } from './stores/reducers/selector
 import Api from "./Api";
 import globalDatas from "./../datas/global.json";
 import chapter1Datas from "./../datas/chapter-1.json";
+import globalSoundsData from "./../datas/sounds/global-sounds.json";
 import Bus from "~/helpers/Bus";
 import SoundManager from "./soundManager/SoundManager";
+import { c } from "../helpers/Configuration";
 
 
 class AppManager {
@@ -43,32 +45,17 @@ class AppManager {
     AssetsManager.loader.addGroup(chapter1Datas);
   }
 
+  /**
+   * add Global App Sounds 
+   */
   addSounds() {
     AssetsManager.loader.once("load:global", (event) => {
-      // TODO: add config for sound data 
-      const soundsData = [
-        {
-          name : event.toggle_infopoint_sound.name, 
-          sound : event.toggle_infopoint_sound.result,
-          options: {
-            volume: 0.2
-          }
-        },
-        {
-          name : event.toggle_default.name, 
-          sound : event.toggle_default.result,
-          options: {
-            volume: 0.2
-          }
-        },
-        {
-          name : event.woosh_sound.name, 
-          sound : event.woosh_sound.result,
-          options: {
-            volume: 0.4
-          }
-        }
-      ]
+      const soundsData = [];
+      globalSoundsData.forEach(data => {
+        console.log(data.name, event[data.name]);
+        data.sound = event[data.name].result
+        soundsData.push(data);
+      });
       SoundManager.add(soundsData);
     })
   }

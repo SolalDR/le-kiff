@@ -22,23 +22,25 @@ class MacroScale extends Scale {
     this.zonings = new Map();
     this.fluxs = new Map();
     this.init();
+    this.initEvents();
   }
 
   initEvents(){
     this.on("display", ()=>{
-      this.onDisplay();
+      this.onDisplay(); 
     });
   }
 
   display(previous, next){
+    console.log("Display macro")
+    
     const { cameraAnim } = super.display( this.config.transitions.all );
-    cameraAnim
-      .on("progress", ()=>{
-        this.scene.camera.lookAt(new THREE.Vector3());  
-      })
-      .on("end", ()=>{
-        this.scene.light.position.copy(new THREE.Vector3(2, 0, 7));
-      })
+    cameraAnim.on("progress", ()=>{
+      this.scene.camera.lookAt(new THREE.Vector3());  
+    }).on("end", ()=>{
+      this.scene.light.position.copy(new THREE.Vector3(2, 0, 7));
+    });
+    
   }
 
   hide(previous, next){
@@ -49,15 +51,17 @@ class MacroScale extends Scale {
     this.zonings.forEach(zoning => {
       AnimationManager.addAnimation(new Animation({
         from: 1.2, 
-        to: 1.001, 
+        to: 1.06, 
         duration: 500,
         delay: 2000 + Math.random() * 1000,
         timingFunction: "easeOutQuad"
       }).on("progress", (event)=>{
-        zoning.object.scale.x = event.value;
-        zoning.object.scale.y = event.value;
-        zoning.object.scale.z = event.value;
-        zoning.object.material.opacity = event.advancement/2;
+        zoning.group.scale.x = event.value;
+        zoning.group.scale.y = event.value;
+        zoning.group.scale.z = event.value;
+        
+        Zoning.Material.opacity = event.advancement;
+        Zoning.Material.needsUpdate = true;
       }))
     })
   }
@@ -131,6 +135,7 @@ class MacroScale extends Scale {
       }
       zoning.display();
     });
+    
   }
 
   updateFluxInfos(infos){
@@ -149,6 +154,7 @@ class MacroScale extends Scale {
       }
       flux.display();
     });
+
   }
 
   /**
@@ -176,9 +182,7 @@ class MacroScale extends Scale {
    */
   loop(){
     super.loop();
-
     Flux.LineMaterial.uniforms.dashOffset.value -= this.config.flux.dashOffsetSpeed;
-
     this.earth.clouds.rotation.y += 0.0005;
   }
 }

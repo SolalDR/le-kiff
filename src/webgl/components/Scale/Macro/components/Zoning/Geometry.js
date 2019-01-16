@@ -17,19 +17,19 @@ var countries = {
 class ZoningGeometry {
 
   constructor(name, {
-    radius = 1
-  }){
+    radius = 3
+  } = {}){
     this.geojson = countries[name];
     if( !this.geojson ) return null;
 
     this.group = new THREE.Group();
     var coordinatesList = [];
     this.geojson.features.forEach((feature, index) => {
-      feature.geometry.coordinates.forEach(coordinates => coordinatesList.push(coordinates))
+      feature.geometry.coordinates.forEach(coordinates => coordinatesList.push(coordinates))
     });
 
     var shape = new THREE.Shape();
-    coordinatesList.forEach(coordinates => {
+    coordinatesList.forEach(coordinates => {
       shape.moveTo(coordinates[0][0], coordinates[0][1]);
       coordinates.shift();
       coordinates.forEach(coordinate => {

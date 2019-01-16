@@ -2,11 +2,11 @@
 import ZoningGeometry from "./Geometry"
 
 var countries = { 
-  ARG: new ZoningGeometry("argentine", {radius: 1}), 
-  BOL: new ZoningGeometry("bolivie", {radius: 1}), 
-  FRA: new ZoningGeometry("france", {radius: 1}), 
-  GUF: new ZoningGeometry("guyane", {radius: 1}),  
-  PER: new ZoningGeometry("perou", {radius: 1}) 
+  ARG: new ZoningGeometry("argentine"),
+  BOL: new ZoningGeometry("bolivie"),
+  FRA: new ZoningGeometry("france"),
+  GUF: new ZoningGeometry("guyane"),
+  PER: new ZoningGeometry("perou")
 };
 
 class Zoning {
@@ -19,7 +19,7 @@ class Zoning {
       color: 0xFFFFFF,
       side: THREE.DoubleSide, 
       transparent: true, 
-      opacity: 0
+      opacity: 1
     })
   }
 
@@ -58,7 +58,7 @@ class Zoning {
   }
 
   updateMaterial(config){
-    this.group.children.forEach(mesh => {
+    this.group.children.forEach(mesh => {
       config.forEach((value, index) => {
         mesh.material[index] = value; 
         mesh.material.needsUpdate = true;

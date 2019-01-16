@@ -8,6 +8,20 @@
   ],
   "groups": [
     {
+      "name": "ui",
+      "base": "/ui/",
+      "files": [
+        {
+          "name": "smoke",
+          "path": "/videos/smoke.mp4"
+        },
+        {
+          "name": "intro_background",
+          "path": "/images/intro_background.png"
+        }
+      ]
+    },
+    {
       "name": "micro",
       "files": [
         {

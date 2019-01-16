@@ -10,6 +10,7 @@ import StoreTest from "./pages/StoreTest/StoreTest";
 import Header from "./components/Header/Header";
 import AppManager from "./services/AppManager.js"
 import { store } from './services/stores/store';
+import { getIsChapterReady } from './services/stores/reducers/selectors';
 import Bus from "~/helpers/Bus";
 import "./styles/app.sass";
 
@@ -40,6 +41,7 @@ class App extends Component {
   }
 
   render() {
+    
     return (
       <Provider store={store}>
         <Router>
@@ -49,7 +51,7 @@ class App extends Component {
             <div className="app__content">
               <Route exact path="/" component={Intro} />
               {/* { store.getState().entities.chaptersLoaded } */}
-              <Route exact path="/chapter-1" component={Chapter1} />
+              <Route exact path="/chapter-1" component={ getIsChapterReady(store.getState(), 1 ) ? Chapter1 : Intro} />
               <Route exact path="/outro" component={Outro} />
               <Route exact path="/store-test" component={StoreTest} />
               <Route exact path="/about" component={About} />

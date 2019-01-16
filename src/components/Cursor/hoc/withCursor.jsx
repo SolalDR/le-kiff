@@ -1,4 +1,4 @@
-import React, {higherOrderComponent} from "react";
+import React from "react";
 import Cursor from "./../Cursor";
 
 function withCursor(WrappedComponent) {
@@ -25,7 +25,6 @@ function withCursor(WrappedComponent) {
         isHoldAllowed: false
       });
       this.child.onHoldComplete();
-
     }
 
     onStepChange(e) {
@@ -36,6 +35,12 @@ function withCursor(WrappedComponent) {
       }, this.cursorDelay);
     }
 
+    onHoldAllowed(e) {
+      this.setState({
+        isHoldAllowed: true
+      }) 
+    }
+
     onLoad(value) {
       this.setState({
         isLoading: value
@@ -44,13 +49,10 @@ function withCursor(WrappedComponent) {
     }
 
     render() {
-      console.log(this.props);
-      return (
-        <>
-          <Cursor onHoldComplete={this.onHoldComplete.bind(this)} isHoldAllowed={this.state.isHoldAllowed} isLoading={this.state.isLoading} />
-          <WrappedComponent {...this.props} onRef={ref => (this.child = ref)} onStepChange={this.onStepChange.bind(this)} onLoad={this.onLoad.bind(this)} />;
-        </>
-      )
+      return <>
+        <Cursor onHoldComplete={this.onHoldComplete.bind(this)} isHoldAllowed={this.state.isHoldAllowed} isLoading={this.state.isLoading} />
+        <WrappedComponent {...this.props} onRef={ref => (this.child = ref)} onStepChange={this.onStepChange.bind(this)} onLoad={this.onLoad.bind(this)} onHoldAllowed={this.onHoldAllowed.bind(this)} />;
+        </>;
     }
   };
 }

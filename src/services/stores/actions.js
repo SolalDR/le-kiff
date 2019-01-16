@@ -16,10 +16,10 @@ export const fetchSteps = (steps, chapter_api_id) => {
   }
 };
 
-export const setLoadedStep = (chapter_id) => {
+export const setLoadedStep = (chapter_rank) => {
   return {
     type: SET_LOADED_STEP,
-    chapter_id
+    chapter_rank
   }
 }
 
@@ -72,10 +72,10 @@ export const setCurrentScale = (scale) => {
   }
 }
 
-export const setLoadedAssets = (id) => {
+export const setLoadedAssets = (chapter_rank) => {
   return {
     type: SET_LOADED_ASSETS,
-    id
+    chapter_rank
   }
 }
 

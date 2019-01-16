@@ -79,6 +79,7 @@ $h-duration: 3s
           delay: $t-duration
           duration: $t-duration * 6
           timing-function: $t-timing-function
+          fill-mode: forwards
           iteration-count: infinite
 
   &.is-hold
@@ -109,9 +110,17 @@ $h-duration: 3s
   @keyframes wobble
     0%
       opacity: 1
+      
+    60%
+      opacity: .25
+    
+    90%
+      opacity: .7
 
     100%
-      opacity: .25
+      opacity: .9
+    // 70%
+    //   opacity: .7
 
   @keyframes pops
     10% 

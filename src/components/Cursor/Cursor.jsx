@@ -55,7 +55,6 @@ class Cursor extends React.Component {
   }
 
   componentWillUnmount() {
-    // console.log('unmount', this.cursorNotMovingTimeout);
     clearTimeout(this.cursorNotMovingTimeout);
     window.cancelAnimationFrame(this.update);
     window.cancelAnimationFrame(this.timer);
@@ -118,7 +117,6 @@ class Cursor extends React.Component {
   }
   
   onMouseMove = throttle(e => {
-    console.log('iscursorstill');
     if (this.state.isCursorStill) {
       this.setState({
         isCursorStill: false
@@ -132,7 +130,7 @@ class Cursor extends React.Component {
       x: e.clientX,
       y: e.clientY
     };
-  }, 10);
+  }, 15);
 
   onMouseDown(e) {
     if (this.props.isHoldAllowed) {
@@ -153,7 +151,6 @@ class Cursor extends React.Component {
   }
 
   onCursorNotMoving() {
-    console.log('cursor not moving');
     this.setState({
       isCursorStill: true
     })

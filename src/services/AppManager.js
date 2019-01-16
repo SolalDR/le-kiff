@@ -1,7 +1,7 @@
 import AssetsManager from "./assetsManager/AssetsManager";
 import { store } from './stores/store'
 import { fetchChapters, fetchSteps, setLoadedStep, setLoadedAssets} from './stores/actions'
-import { getChapterApiId, getIsLoadedChapters } from './stores/reducers/selectors'
+import { getChapterApiId, getIsLoadedChapters, getStepsLoaded} from './stores/reducers/selectors'
 import Api from "./Api";
 import globalDatas from "./../datas/global.json";
 import chapter1Datas from "./../datas/chapter-1.json";
@@ -22,11 +22,11 @@ class AppManager {
 
     AssetsManager.loader.on("load:global", () => {
       Bus.verbose("loader:global");
-      // store.dispatch(setLoadedAssets('global'));
+      store.dispatch(setLoadedAssets('global'));
     });
     AssetsManager.loader.on("load:chapter-1", () => {
       Bus.verbose("loader:chapter-1");
-      // store.dispatch(setLoadedAssets('1'));
+      store.dispatch(setLoadedAssets('1'));
     });
     
 
@@ -38,6 +38,7 @@ class AppManager {
   }
 
   initApi() {
+    console.log('init api');
     this.api.get('chapters').then(response => {
       Bus.verbose("api:fetch-chapters");
       const isLoaded = response.status === 200;
@@ -85,12 +86,12 @@ class AppManager {
    * @param {Integer} id The ID of the selected chapter
    * @returns {void} 
    */
-  getChapterSteps(id) {
+  getChapterSteps(id, rank) {
     this.api.get(`chapters/${id}/steps`).then(response => {
       Bus.verbose("api:fetch-steps-chapter-"+id);
       const isLoaded = response.status === 200;
       store.dispatch(fetchSteps(response.data, id));
-      if (isLoaded) store.dispatch(setLoadedStep(id));
+      if (isLoaded) store.dispatch(setLoadedStep(rank));
     })
   }
 
@@ -102,19 +103,30 @@ class AppManager {
     // If it's a chapter path
     if (path.indexOf('chapter') > 0) {
       const rank = path.match(/\d+/g).map(Number)[0];
-      const apiRequest = (rank) => {
-        const chapterId = getChapterApiId(store.getState(), rank);
-        this.getChapterSteps(chapterId);
-      };
+      this.getChapter(rank);
+    // }
+    } else {
+      this.getChapter(1);
+    }
+  }
 
-      if (getIsLoadedChapters(store.getState())) {
-        apiRequest(rank);
-      } else {
-        this.waitingRequests.push({
-          request: apiRequest, 
-          params: rank
-        });
-      }
+  getChapter(rank) {
+    const state = store.getState();
+    if (!getStepsLoaded(state, rank)) { //If i dont have steps for chapter, then i dont have whole chapter
+      const apiRequest = (rank) => { 
+          const state = store.getState();
+          const chapterId = getChapterApiId(state, rank);
+          this.getChapterSteps(chapterId, rank);
+        };
+  
+        if (getIsLoadedChapters(state)) {
+          apiRequest(rank);
+        } else {
+          this.waitingRequests.push({
+            request: apiRequest, 
+            params: rank
+          });
+        }
     }
   }
 
@@ -124,6 +136,7 @@ class AppManager {
       this.waitingRequests.forEach(request => {
         request.request(request.params);
       });
+      this.waitingRequests = [];
       this.unsubscribe();
     }
   }

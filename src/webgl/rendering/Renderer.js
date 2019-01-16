@@ -3,6 +3,7 @@ import UnrealBloomPass from "./Pass/UnrealBloomPass";
 import BokehPass from "./Pass/BokehPass";
 import {guiRendering} from "~/services/gui";
 import Viewport from "~/helpers/Viewport"
+import config from './config'
 
 class Renderer {
   constructor() {
@@ -30,6 +31,7 @@ class Renderer {
     this.camera = camera;
     element.appendChild(this.renderer.domElement);
 
+    this.initLights();
     this.initPostprocess();
     this.initEvents();
   }
@@ -76,6 +78,33 @@ class Renderer {
     })
     bokehFolder.add(this.bokehPass.uniforms.maxblur, "value", 0.0, 3.0, 0.025).name("Maxblur")
 
+  }
+
+  /**
+   * init scene lights
+   * to call them : this.light[*light key in config*] 
+   */
+  initLights() {
+    // init lights object
+    this.lights = {}
+
+    // create lights 
+    Object.entries(config.light).forEach(([key, config]) => {
+
+      // create default light
+      const light = new THREE.PointLight(0xffffff, 1);
+      // assign parameters
+      Object.entries(config).forEach(([key, value]) => {
+        if(value instanceof THREE.Vector3 || value instanceof THREE.Euler) {
+          light[key].copy(value);
+        } else {
+          light[key] = value;
+        }
+      });
+      this.scene.add(light);
+      guiRendering.addLight(config.name, light);
+      this.lights[key] = light;
+    });
   }
 
   initEvents(){

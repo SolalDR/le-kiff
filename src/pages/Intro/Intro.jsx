@@ -16,6 +16,7 @@ class Intro extends React.Component {
   constructor() {
     super();
     this.state = {
+      autoLoadChapter: true, // TODO: To Remove - Temporary auto load chapter-1 
       reveal: false
     };
   }
@@ -32,6 +33,8 @@ class Intro extends React.Component {
 
     if (this.props.isChapterReady) {
       this.props.onLoad(false);
+      // TODO: To Remove - Temporary auto load chapter-1 
+      if(this.state.autoLoadChapter) this.onHoldComplete();
     } else {
       this.props.onLoad(true);
     }
@@ -54,6 +57,8 @@ class Intro extends React.Component {
     ) {
       this.props.onLoad(false);
       this.props.onHoldAllowed();
+      // TODO: To Remove - Temporary auto load chapter-1 
+      if(this.state.autoLoadChapter) this.onHoldComplete();
     }
   }
 

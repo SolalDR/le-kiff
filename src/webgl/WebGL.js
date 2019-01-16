@@ -46,6 +46,7 @@ class WebGL {
     })
 
     ConfigManager.updateConfig(defaultConfig);
+    this.config = ConfigManager.config;
     this.microScale = new MicroScale({ scene: this });
     this.macroScale = new MacroScale({ scene: this });
     this.humanScale = new HumanScale({ scene: this }); 
@@ -56,7 +57,7 @@ class WebGL {
       previousScale: "human"
     };
 
-    this.render();
+    window.scene = this.threeScene;
   }
 
   /**

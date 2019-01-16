@@ -31,12 +31,20 @@ export default class extends Step {
     });
 
     this.main.scale.y = 1;
-    this.main.position.x = -1;
-    this.main.position.y = -4.5;
-    this.main.rotation.z = 0.2;
+    this.main.position.set(-0.98, -1.18, -1.12);
+    this.main.rotation.set(-0.66, 0.1, -0.38);
+    
     this.folder.leaf = this.gui.addObject3D("Leaf",  this.main, false);
+    this.folder.leaf.addMaterial('Leaf detached', this.main.children[0].children[0].material); 
+    this.folder.leaf.addMaterial('Leaf', this.main.children[2].material); 
 
+    // Add background
     this.scene.humanScale.group.add(background.object3D);
+    
+    
+    
+    
+    
   }
 
   display( isNextStep = false, event ) {

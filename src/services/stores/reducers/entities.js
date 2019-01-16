@@ -142,7 +142,7 @@ const getIsChapterReady = (state, chapter_api_id, chapter_rank) => {
     return false
   }
 
-  if (!state.assetsLoaded.length > 0 || !state.assetsLoaded.indexOf(chapter_api_id) < 0) {
+  if (!state.assetsLoaded.length > 0 || !state.assetsLoaded.indexOf(`chapter-${chapter_rank}`) < 0) {
     return false
   }
 

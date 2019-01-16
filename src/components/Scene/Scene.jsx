@@ -8,6 +8,7 @@ import { getCurrentScale } from '~/services/stores/reducers/selectors';
 import InfoList from "./components/Info/InfoList";
 import {InfoManager} from "~/webgl/manager"
 import AssetsManager from '../../services/assetsManager/AssetsManager';
+import { getIsChapterReady, getIsAssetLoaded } from '../../services/stores/reducers/selectors';
 
 class Scene extends React.Component {
 
@@ -15,6 +16,7 @@ class Scene extends React.Component {
       step: PropTypes.shape({
         api_id: PropTypes.number,
         chapter_id: PropTypes.number,
+        chapter_rank: PropTypes.chapter_rank,
         id: PropTypes.number,
         content: PropTypes.string,
         infos: PropTypes.array,
@@ -25,7 +27,7 @@ class Scene extends React.Component {
     }
 
   constructor(props){
-    super(props);
+    super(props)
 
     this.state = {
       isThreeSceneMounted: false,
@@ -36,20 +38,12 @@ class Scene extends React.Component {
   }
 
   componentDidMount(){
-    var globalIsLoad, chapterIsLoad = false;
-    var isLoad = () => globalIsLoad && chapterIsLoad ? this.iniScene(): null;
-    AssetsManager.loader.on("load:global", ()=>{
-      globalIsLoad = true;
-      isLoad();
-    })
-
-    AssetsManager.loader.on("load:chapter-1", ()=>{
-      chapterIsLoad = true;
-      isLoad();
-    })
+    if (this.props.isChapterReady && this.props.isAssetLoaded) {
+      this.initScene();
+    }
   }
 
-  iniScene(){
+  initScene(){
     this.webgl = new WebGL({
       element: this.sceneElement.current
     });
@@ -99,7 +93,9 @@ class Scene extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    currentScale: getCurrentScale(state)
+    currentScale: getCurrentScale(state),
+    isChapterReady: getIsChapterReady(state, state.ui.chapter.rank),
+    isAssetLoaded: getIsAssetLoaded(state, 'global')
   }
 }
 

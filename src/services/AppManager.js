@@ -26,7 +26,7 @@ class AppManager {
     });
     AssetsManager.loader.on("load:chapter-1", () => {
       Bus.verbose("loader:chapter-1");
-      store.dispatch(setLoadedAssets('1'));
+      store.dispatch(setLoadedAssets('chapter-1'));
     });
     
 
@@ -38,7 +38,6 @@ class AppManager {
   }
 
   initApi() {
-    console.log('init api');
     this.api.get('chapters').then(response => {
       Bus.verbose("api:fetch-chapters");
       const isLoaded = response.status === 200;

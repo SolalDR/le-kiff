@@ -9,7 +9,8 @@ import { getIsLoadedChapters, getIsChapterReady } from "~/services/stores/reduce
 
 class Intro extends React.Component {
   static propTypes = {
-    onLoad: PropTypes.func
+    onLoad: PropTypes.func,
+    onRef: PropTypes.func,
   };
 
   constructor() {
@@ -20,15 +21,22 @@ class Intro extends React.Component {
   }
 
   componentDidMount() {
+    this.props.onRef(this);
+
     this.setState({
       reveal: true
     });
+
 
     if (this.props.isChapterReady) {
       this.props.onLoad(false);
     } else {
       this.props.onLoad(true);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.onRef(undefined);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,7 +62,6 @@ class Intro extends React.Component {
         </video>
         <div className="intro__inner">
           <div className="intro__inner__content">
-            {/* <h1 className="intro__title heading-1">Le Kiff</h1> */}
             <LetterReveal
               text="Le Kiff"
               class={"intro__title heading-1"}
@@ -64,7 +71,6 @@ class Intro extends React.Component {
               reveal={this.state.reveal}
               options={{ filter: "blur(0)" }}
             />
-            {/* <h2 className="intro__subtitle heading-2">Histoire de disparitions</h2> */}
             <LetterReveal
               text="Histoire de disparitions"
               class={"intro__subtitle heading-2"}
@@ -117,11 +123,8 @@ class Intro extends React.Component {
 
 const mapStateToProps = (state) => {
   return { 
-    isChapterReady: getIsChapterReady(state, '1') 
+    isChapterReady: getIsChapterReady(state, 1) 
   };
 }
 
 export default withCursor(connect(mapStateToProps)(Intro));
-
-// export default withCursor(Intro);
-// export default Intro;

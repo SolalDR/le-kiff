@@ -45,7 +45,6 @@ function withCursor(WrappedComponent) {
       this.setState({
         isLoading: value
       });
-      console.log('on load');
     }
 
     render() {

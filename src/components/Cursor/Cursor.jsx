@@ -22,7 +22,7 @@ class Cursor extends React.Component {
     this.bulletWidth = 0;
 
     this.counter = 0;
-    this.holdDuration = 60;
+    this.holdDuration = 62;
     this.isHoldComplete = false;
     this.timerID = null;
 
@@ -143,7 +143,9 @@ class Cursor extends React.Component {
 
   onMouseUp() { 
     if (this.counter < this.holdDuration) {
-      this.cursor.current.classList.remove('is-hold');
+      if (this.cursor.current) {
+        this.cursor.current.classList.remove('is-hold');
+      }
       this.isHoldComplete = false;
     }
     this.counter = 0;

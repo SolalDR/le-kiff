@@ -40,22 +40,31 @@ class Chapter extends React.Component {
         };
     }
 
+    componentWillMount() {
+      if (!this.props.isChapterReady) {
+        this.props.history.push("");
+      }
+    }
+
     componentDidMount() {
       Bus.verbose("chapter-1:mounted");
       this.props.onRef(this);
 
-      this.props.onStepChange(); //Allow cursor
-      this.setState({
-        isReady: true
-      });
+      if (this.props.isChapterReady) {
+        this.props.onStepChange(); //Allow cursor
+        this.setState({
+          isReady: true
+        });
+  
+        this.props._setCurrentChapterData({
+          chapter: this.props.chapter,
+          step: this.props.chapter.steps[this.state.stepId - 1],
+          steps: this.props.chapter.steps,
+          infos: this.props.chapter.steps[this.state.stepId - 1].infos,
+          scale: "human"
+        });
+      }
 
-      this.props._setCurrentChapterData({
-        chapter: this.props.chapter,
-        step: this.props.chapter.steps[this.state.stepId - 1],
-        steps: this.props.chapter.steps,
-        infos: this.props.chapter.steps[this.state.stepId - 1].infos,
-        scale: "human"
-      });
     }
 
     componentWillUnmount() {
@@ -66,27 +75,6 @@ class Chapter extends React.Component {
       this.onStepChange(this.props.step.rank + 1);
       this.props.onStepChange();
     }
-
-    // componentWillReceiveProps(nextProps) {
-    //   console.log('will receive props', this.props.isChapterReady, nextProps.isChapterReady);
-    //   if (!this.state.isReady && nextProps.isStepsLoaded && nextProps.isChapterLoaded) {
-    //     this.props.onStepChange(); //Allow cursor
-    //     this.setState({ 
-    //       isReady: true 
-    //     });
-
-    //     const chapter = nextProps.chapter;
-        
-    //     // Update store by UI reducer
-    //     this.props._setCurrentChapterData({
-    //       chapter: chapter,
-    //       step: chapter.steps[this.state.stepId - 1],
-    //       steps: chapter.steps,
-    //       infos: chapter.steps[this.state.stepId - 1].infos,
-    //       scale: "human"
-    //     });
-    //   }
-    // }
 
     onStepChange = rank => {
       //@todo : once there is real content
@@ -123,7 +111,7 @@ class Chapter extends React.Component {
 
               <Scene step={this.props.step} />
             </div>
-        );
+        )
       }
       return <Loading />
     }
@@ -135,8 +123,6 @@ const mapStateToProps = (state) => {
     previousChapter: getChapter(state, 0),
     nextChapter: getChapter(state, 2),
     isChapterReady: getIsChapterReady(state, 1),
-    // isStepsLoaded: getStepsLoaded(state, 1),
-    // isChapterLoaded: getIsLoadedChapters(state) ,
     step: getStep(state)
   }
 }

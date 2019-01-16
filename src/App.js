@@ -41,7 +41,6 @@ class App extends Component {
   }
 
   render() {
-    
     return (
       <Provider store={store}>
         <Router>
@@ -50,10 +49,8 @@ class App extends Component {
             <Header />
             <div className="app__content">
               <Route exact path="/" component={Intro} />
-              {/* { store.getState().entities.chaptersLoaded } */}
-              <Route exact path="/chapter-1" component={ getIsChapterReady(store.getState(), 1 ) ? Chapter1 : Intro} />
+              <Route exact path="/chapter-1" component={ Chapter1 } />
               <Route exact path="/outro" component={Outro} />
-              <Route exact path="/store-test" component={StoreTest} />
               <Route exact path="/about" component={About} />
             </div>
           </div>

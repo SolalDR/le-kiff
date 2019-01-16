@@ -2,6 +2,7 @@ import Event from "~/helpers/Event";
 import Bus from "~/helpers/Bus";
 import * as GUI from "~/services/gui";
 import ConfigManager from "~/services/ConfigManager";
+import SoundManager from "~/services/soundManager/SoundManager";
 
 /**
  * @class
@@ -46,11 +47,22 @@ class Step extends Event {
     this.dispatch("init"); 
   }
 
-  display() {
+  display( event ) {
     ConfigManager.updateConfig(this.config);
     this.scene.microScale.updateFromStep(this);
     this.scene.macroScale.updateFromStep(this);
-    
+
+    if(this.config.sounds) {
+      const soundsDatas = [];
+      this.config.sounds.forEach(data => {
+        data.sound = event[data.name].result
+        soundsDatas.push(data);
+      });
+      SoundManager.updatePlayBack(soundsDatas);
+
+      console.log(SoundManager);
+    }
+
     Bus.dispatch("step:display", this);
     this.dispatch("display");
   }

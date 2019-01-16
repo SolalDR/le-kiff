@@ -24,8 +24,6 @@ class Cursor extends React.Component {
     this.counter = 0;
     this.holdDuration = 62;
     this.isHoldComplete = false;
-    this.timerID = null;
-
     this.cursorNotMovingTimeout = null;
     this.target = {
       x: 0,
@@ -47,21 +45,21 @@ class Cursor extends React.Component {
   
   componentDidMount() {
     window.addEventListener('mousemove', this.onMouseMove, { passive: true });
-    window.addEventListener('mousedown', this.onMouseDown.bind(this), false);
-    window.addEventListener('mouseup', this.onMouseUp.bind(this), false);
-    window.addEventListener('mouseleave', this.onMouseUp.bind(this), false);
+    window.addEventListener('mousedown', this.onMouseDown, false);
+    window.addEventListener('mouseup', this.onMouseUp, false);
 
     this.update();
   }
 
   componentWillUnmount() {
+
+    console.log('unmont');
     clearTimeout(this.cursorNotMovingTimeout);
     window.cancelAnimationFrame(this.update);
-    window.cancelAnimationFrame(this.timer);
+    window.cancelAnimationFrame(this.timerRAF);
     window.removeEventListener("mousemove", this.onMouseMove);
     window.removeEventListener("mousedown", this.onMouseDown);
     window.removeEventListener("mouseup", this.onMouseUp);
-    window.removeEventListener("mouseleave", this.mouseleave);
 
     if (this.bullet) {
       this.bullet.removeEventListener('animationend', this.onCursorTransitionEnd);
@@ -104,17 +102,6 @@ class Cursor extends React.Component {
       }px, ${this.position.y}px,0)`;
     }
   };
-
-  timer() {
-    if (this.counter < this.holdDuration) {
-      this.timerID = requestAnimationFrame(this.timer.bind(this));
-      this.counter++;
-    } else {
-      Bus.verbose("cursor:click&hold-done");
-      this.isHoldComplete = true;
-      this.props.onHoldComplete();
-    }
-  }
   
   onMouseMove = throttle(e => {
     if (this.state.isCursorStill) {
@@ -132,24 +119,55 @@ class Cursor extends React.Component {
     };
   }, 15);
 
-  onMouseDown(e) {
+  onMouseDown = (e) => {
+    console.log("mousedown")
     if (this.props.isHoldAllowed) {
+      this.setState({ isHolding: true })
       this.cursor.current.classList.add('is-hold');
-      requestAnimationFrame(this.timer.bind(this));
-      
       e.preventDefault();
+      requestAnimationFrame(this.timer);
     }
   }
 
-  onMouseUp() { 
+  timer = () => {
     if (this.counter < this.holdDuration) {
-      if (this.cursor.current) {
-        this.cursor.current.classList.remove('is-hold');
+      this.counter++;
+      if( this.state.isHolding ){
+        this.timerRAF = requestAnimationFrame(this.timer);
       }
-      this.isHoldComplete = false;
+      return;
     }
+
+    console.log("hold complete (timer")
+    this.onHoldComplete();
+    
+  }
+
+  onHoldComplete(){
+    Bus.verbose("cursor:click&hold-done");
+    console.log("onHoldComplete")
+    // this.isHoldComplete = true;
+    // this.resetHolding();
+    this.props.onHoldComplete();
+  }
+
+  resetHolding(){
+    console.log("reset holding")
+    this.setState({ isHolding: false })
+    if (this.cursor.current) {
+      this.cursor.current.classList.remove('is-hold');
+    }
+  }
+
+  onMouseUp = () => { 
+    console.log("mouseup")
+    this.resetHolding();
     this.counter = 0;
-    cancelAnimationFrame(this.timerID);
+    // if (this.counter < this.holdDuration) {
+    //   this.resetHolding();
+    //   this.isHoldComplete = false;
+    // }
+    // this.counter = 0;
   }
 
   onCursorNotMoving() {

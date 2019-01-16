@@ -48,13 +48,13 @@ class InfoManager extends Event {
    */
   updateInfos(infos){
     Bus.verbose("infos-manager:update")
-    infos.forEach((info) => {
+    infos.forEach((info) => {
       if( !this.infos.get(info.id) ) {
         this.addInfo(info);
       }
     });
 
-    this.infos.forEach(info => {
+    this.infos.forEach(info => {
       if( !infos.find(infoTmp => infoTmp.id === info.id) ) {
         this.removeInfo(info.id);
       }
@@ -88,7 +88,7 @@ class InfoManager extends Event {
    */
   attachObjectFromInfoId(id) {
     var info = this.infos.get(id)
-    if (info) {
+    if (info) {
 
     }
   }
@@ -99,7 +99,7 @@ class InfoManager extends Event {
   update(){    
     
     var infoNeedsUpdate = new Map();
-    this.infos.forEach(info => {
+    this.infos.forEach(info => {
       var infoUpdated = info.updateScreenCoordinate(this.camera);
       if(infoUpdated){
         infoNeedsUpdate.set(info.id, infoUpdated);

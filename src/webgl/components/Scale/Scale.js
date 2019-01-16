@@ -68,6 +68,7 @@ class Scale extends Event {
     }).on("progress", ( event ) => {
       renderer.intensity( config.postprocess.bloom.strength.from - event.advancement * diff );
     }).on("end", () => {
+      this.dispatch("display");
       Bus.dispatch("scale:display", this, 1)
       Bus.verbose("scale-" + this.name + ":display", 2)
     }));
@@ -152,7 +153,7 @@ class Scale extends Event {
    * @abstract
    */
   loop() {
-    //  ... So lonely
+    
   }
 }
 

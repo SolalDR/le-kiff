@@ -1,4 +1,3 @@
-import { c } from "../../../../helpers/Configuration";
 import baseConfig from "./../config";
 
 export default baseConfig.extends({  
@@ -14,7 +13,7 @@ export default baseConfig.extends({
       postprocess: {
         bloom: {
           strength: {
-            from: 0.5
+            from: 6
           }
         }
       }

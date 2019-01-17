@@ -151,7 +151,6 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
-      // TODO Add in production
       '~': path.resolve(paths.appSrc)
     },
     plugins: [
@@ -333,7 +332,6 @@ module.exports = {
             // its runtime that would otherwise be processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            // TODO: Add this in webpac.config.prod.js
             exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/, /\.(?:frag|vert|glsl)/],
             loader: require.resolve('file-loader'),
             options: {

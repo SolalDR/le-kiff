@@ -76,7 +76,7 @@ class Earth {
         map: assets.cloud.result,
         alphaMap: assets.cloud.result,
         transparent: true, 
-        opacity: 1, 
+        opacity: 0.5,
         shininess: 1,
         specular: new THREE.Color("rgb(128, 128, 128)")
       })
@@ -84,7 +84,7 @@ class Earth {
 
     this.group = new THREE.Group();
     this.group.add(this.globe);
-    this.group.add(this.clouds);    
+    this.group.add(this.clouds);
 
     guiMacro.addMesh("Mesh Globe", this.globe);
     guiMacro.addMesh("Mesh Clouds", this.clouds);

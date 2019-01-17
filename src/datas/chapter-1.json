@@ -8,7 +8,7 @@
     },
     {
       "name": "background",
-      "path": "/images/intro_background.png"
+      "path": "/ui/images/intro_background.png"
     },
     {
       "name": "step_1_background_sound",

@@ -1,12 +1,20 @@
 {
   "name": "global",
-  "files": [
-    {
-      "name": "noise",
-      "path": "/images/noise_3d.png"
-    }
-  ],
   "groups": [
+    {
+      "name": "ui",
+      "base": "/ui/",
+      "files": [
+        {
+          "name": "smoke",
+          "path": "/videos/smoke.mp4"
+        },
+        {
+          "name": "intro_background",
+          "path": "/images/intro_background.png"
+        }
+      ]
+    },
     {
       "name": "micro",
       "files": [
@@ -31,18 +39,7 @@
           "path": "/images/molecule/roughness.jpg"
         }
       ],
-      "groups": [
-        { 
-          "name": "envMapHDR", 
-          "base": "/images/molecule/hdr/",
-          "files": [ "px.hdr", "nx.hdr", "py.hdr", "ny.hdr", "pz.hdr", "nz.hdr" ]
-        }, 
-        {
-          "name": "envMapLDR", 
-          "base": "/images/molecule/ldr/",
-          "files": [ "px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png" ]
-        }
-      ]
+      "groups": []
     }, 
     {
       "name": "earth", 

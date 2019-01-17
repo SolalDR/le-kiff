@@ -1,27 +1,22 @@
-
+import {guiMacro} from "~/services/gui"
 import ZoningGeometry from "./Geometry"
+import {MeshLineMaterial} from 'three.meshline'
+import AnimationManager, {Animation} from "~/webgl/manager/Animation"
+import config from "./config";
+import { c } from "../../../../../../helpers/Configuration";
+import Renderer from "~/webgl/rendering/Renderer"
+
+// Todo pass on config parent
 
 var countries = { 
-  ARG: new ZoningGeometry("argentine", {radius: 1}), 
-  BOL: new ZoningGeometry("bolivie", {radius: 1}), 
-  FRA: new ZoningGeometry("france", {radius: 1}), 
-  GUF: new ZoningGeometry("guyane", {radius: 1}),  
-  PER: new ZoningGeometry("perou", {radius: 1}) 
+  ARG: new ZoningGeometry("argentine"),
+  BOL: new ZoningGeometry("bolivie"),
+  FRA: new ZoningGeometry("france"),
+  GUF: new ZoningGeometry("guyane"),
+  PER: new ZoningGeometry("perou")
 };
 
 class Zoning {
-
-  /**
-   * @static 
-   */
-  static get Material(){
-    return new THREE.MeshBasicMaterial({
-      color: 0xFFFFFF,
-      side: THREE.DoubleSide, 
-      transparent: true, 
-      opacity: 0
-    })
-  }
 
   /**
    * @constructor
@@ -29,42 +24,87 @@ class Zoning {
    */
   constructor(info){
     if (!info.attachment && !info.attachment.countries) return null;
-    // TODO Refactoring this.id in this.info_id
     this.id = info.id;
     this.group  = new THREE.Group();
     this.group.name = "zoning-" + info.id;
     this.group.visible = false;
+    this.info = info;
+    
+    this.fillMaterial = Zoning.Material.clone();
+    this.strokeMaterial = Zoning.LineMaterial.clone();
+
     info.attachment.countries.forEach(element => {
       if (countries[element]) {
-        this.group.add(new THREE.Mesh( countries[element], Zoning.Material ))
+        this.fillMesh = new THREE.Mesh( countries[element].fillGeometry, this.fillMaterial );
+        this.strokeMesh = new THREE.Mesh( countries[element].strokeGeometry, this.strokeMaterial );
+        this.group.add(this.fillMesh);
+        this.group.add(this.strokeMesh);
+        this.group.visible = false;
       }
     });
   }
 
   display(){
-    this.group.children.forEach(child => {
-      child.material.opacity = 1;
-      child.material.needsUpdate = true;
-    })
     this.group.visible = true;
+    this.fillMaterial.opacity = 0;
+    this.strokeMaterial.uniforms.opacity.value = 0;
+    
+    AnimationManager.addAnimation(new Animation({
+      from: 1.2, 
+      to: 1.01, 
+      duration: 1000,
+      timingFunction: "easeOutQuad"
+    }).on("progress", (event)=>{
+      this.group.scale.x = event.value;
+      this.group.scale.y = event.value;
+      this.group.scale.z = event.value;
+
+      Renderer.setBloomThreshold(event.advancement*0.99);
+      Renderer.setBloomIntensity(0.1 + 2.9*event.advancement);
+
+      this.fillMaterial.opacity = event.advancement * 0.5;
+      this.strokeMaterial.uniforms.opacity.value = event.advancement;
+    }))
   }
 
   hide(){
-    this.group.children.forEach(child => {
-      child.material.opacity = 0;
-      child.material.needsUpdate = true;
+    AnimationManager.addAnimation(new Animation({
+      from: 1, 
+      to: 0,
+      duration: 1000, 
+      timingFunction: "easeOutQuad"
     })
-    this.group.visible = false;
-  }
+    .on("progress", (event)=>{  
+      this.fillMaterial.opacity = event.value;
+      this.strokeMaterial.uniforms.opacity.value = event.value;
+    })
+    .on("end", _ =>{
+      this.group.scale.x = 1;
+      this.group.scale.y = 1;
+      this.group.scale.z = 1;
 
-  updateMaterial(config){
-    this.group.children.forEach(mesh => {
-      config.forEach((value, index) => {
-        mesh.material[index] = value; 
-        mesh.material.needsUpdate = true;
-      })
-    })
+      this.fillMaterial.opacity = 0;
+      this.strokeMaterial.uniforms.opacity.value = 0;
+
+      this.group.visible = false;
+    }));
+    
   }
 }
+
+Zoning.Material = new THREE.MeshBasicMaterial({
+  side: THREE.DoubleSide,
+  transparent: true,
+  color: config.fill.color,
+  opacity: config.opacity
+});
+
+Zoning.LineMaterial = new MeshLineMaterial({
+  lineWidth: .01,
+  dashOffset: 0,
+  dashArray: 0,
+  dashRatio: 0,
+  transparent: true
+})
 
 export default Zoning;

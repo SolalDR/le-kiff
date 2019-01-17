@@ -5,6 +5,7 @@ import LetterReveal from '~/components/LetterReveal/LetterReveal';
 import withCursor from '~/components/Cursor/hoc/withCursor';
 import "./styles.sass";
 import { getIsLoadedChapters, getIsChapterReady } from "~/services/stores/reducers/selectors";
+import AssetsManager from '~/services/assetsManager/AssetsManager';
 
 class Intro extends React.Component {
   static propTypes = {
@@ -19,13 +20,15 @@ class Intro extends React.Component {
     };
   }
 
+  componentWillMount() {
+    AssetsManager.loader.on("load:global", (event) => {
+      this.video = event.smoke.result;
+      this.revealLetters();
+    });
+  }
+
   componentDidMount() {
     this.props.onRef(this);
-
-    this.setState({
-      reveal: true
-    });
-
 
     if (this.props.isChapterReady) {
       this.props.onLoad(false);
@@ -36,6 +39,12 @@ class Intro extends React.Component {
 
   componentWillUnmount() {
     this.props.onRef(undefined);
+  }
+
+  revealLetters() {
+    this.setState({
+      reveal: true
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,11 +63,11 @@ class Intro extends React.Component {
   }
 
   render() {
+    const videoSrc = this.video ? this.video.getAttribute("src") : '';
+
     return (
       <div className="intro">
-        <video muted autoPlay className="intro__video">
-          <source src="../../videos/smoke.mp4" type="video/mp4" />
-        </video>
+        <video muted autoPlay className="intro__video" src={videoSrc} />
         <div className="intro__inner">
           <div className="intro__inner__content">
             <LetterReveal
@@ -80,13 +89,13 @@ class Intro extends React.Component {
               options={{ scale: 1, left: 0, x: 0 }}
               start={{ opacity: 0, x: 50, scale: 0.5 }}
             />
-            <p className="intro__teasing teasing-1">
+            <p className={`intro__teasing teasing-1 ${this.state.reveal ? 'is-revealed' : ''}`}>
               <span className="intro__teasing__item">Découvrez l’histoire d’un caillou de crack, de sa production à</span> 
               <span className="intro__teasing__item">sa consommation, et ses conséquences sur la vie, la mort et l’humeur</span>
             </p>
           </div>
           <div className="intro__inner__bottom">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" className={`intro__sound ${this.state.reveal ? 'is-revealed' : ''}`}>
               <g
                 fill="none"
                 fillRule="evenodd"
@@ -110,7 +119,7 @@ class Intro extends React.Component {
                 />
               </g>
             </svg>
-            <p className="intro__indication small">
+            <p className={`intro__indication small ${this.state.reveal ? 'is-revealed' : ''}`}>
               Better experience with sound
             </p>
           </div>
@@ -122,7 +131,7 @@ class Intro extends React.Component {
 
 const mapStateToProps = (state) => {
   return { 
-    isChapterReady: getIsChapterReady(state, 1) 
+    isChapterReady: getIsChapterReady(state, 1)
   };
 }
 

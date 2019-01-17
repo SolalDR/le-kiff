@@ -1,7 +1,9 @@
-import React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { setCurrentScale } from '~/services/stores/actions';
 import ScaleMenu from "./components/ScaleMenu/ScaleMenu";
+import SoundButton from "./components/SoundButton/SoundButton";
+import FullScreenButton from "./components/FullScreenButton/FullScreenButton";
 import WebGL from "~/webgl/WebGL";
 import PropTypes from 'prop-types';
 import { getCurrentScale } from '~/services/stores/reducers/selectors';
@@ -9,6 +11,7 @@ import InfoList from "./components/Info/InfoList";
 import {InfoManager} from "~/webgl/manager"
 import AssetsManager from '../../services/assetsManager/AssetsManager';
 import { getIsChapterReady, getIsAssetLoaded } from '../../services/stores/reducers/selectors';
+import "./style.sass"
 
 class Scene extends React.Component {
 
@@ -86,6 +89,10 @@ class Scene extends React.Component {
       <div ref={(this.sceneElement)} className="scene">
           <ScaleMenu scale={this.props.currentScale} onSelectCallback={this.selectScale} />
           <InfoList infos={this.webgl ? this.updateInfos() : []}></InfoList>
+          <div className="scene__bottom-right-nav">
+            <SoundButton />
+            <FullScreenButton />
+          </div>
       </div>
     );
   }

@@ -5,6 +5,7 @@ import PDBLoader from "./loaders/PDBLoader";
 import GLTFLoader from "./loaders/GLTFLoader";
 import DRACOLoader from "./loaders/DRACOLoader";
 import SoundLoader from "./loaders/SoundLoader";
+import VideoLoader from "./loaders/VideoLoader";
 
 class AssetsManager {
   
@@ -34,6 +35,10 @@ class AssetsManager {
         {
           test: /\.(?:mp3|wav)/,
           loader: new SoundLoader()
+        },
+        {
+          test: /\.(?:mp4)/,
+          loader: new VideoLoader()
         },
         {
           test: /\.(?:pdb)/,

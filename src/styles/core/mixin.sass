@@ -15,3 +15,38 @@
   @else
   left: 50%
   transform: translate(-50%, -50%)
+
+@mixin largeDesktop 
+  @media (min-width: #{$largeDesktop})
+    @content 
+
+// LERP  
+@function between($from, $to, $fromWidth: $small, $toWidth: $large, $ratio: 1) 
+  $slope: ($to - $from) / ($toWidth - $fromWidth)
+  // @return $slope
+  $base: $from - $slope * $fromWidth
+  @return calc( ( (#{$base} + #{100vw * $slope)}) * #{$ratio})
+
+// LERP  
+@function space($min, $max, $ratio: 1)
+   @return between($min, $max, $small, $large, $ratio)
+
+// LERP  
+@function space-xs($ratio: 1)
+  @return space(8px, 16px, $ratio)  
+
+// LERP  
+@function space-s($ratio: 1)
+  @return space(16px, 22px, $ratio)  
+
+// LERP  
+@function space-m($ratio: 1)
+  @return space(32px, 38px, $ratio)  
+
+// LERP  
+@function space-l($ratio: 1)
+  @return space(64px, 72px, $ratio)  
+
+// LERP  
+@function space-xl($ratio: 1)
+  @return space(64px, 72px, $ratio)  

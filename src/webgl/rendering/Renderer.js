@@ -5,7 +5,7 @@ import {guiRendering} from "~/services/gui";
 import Viewport from "~/helpers/Viewport"
 
 class Renderer {
-  constructor() {
+  constructor() {
     this.renderer = new THREE.WebGLRenderer({ 
       gammaOutput: true,
       gammaInput: true 
@@ -16,7 +16,6 @@ class Renderer {
     this.renderer.setSize( Viewport.width, Viewport.height );   
     this.renderer.setPixelRatio(2);
 
-    
     guiRendering.add(this.renderer, "toneMappingExposure").min(-3).max(3)
     guiRendering.add(this.renderer, "toneMappingWhitePoint").min(-3).max(3)
   }
@@ -85,6 +84,62 @@ class Renderer {
       this.camera.updateProjectionMatrix();
       this.renderer.setSize( Viewport.width, Viewport.height );
     })
+  }
+
+  /**
+   * Postprocess setter bokeh
+   * @param {Number} value 
+   */
+  setBokehFocus(value){
+    this.bokehPass.uniforms.focus.value = value;
+  }
+
+  /**
+   * Postprocess setter bokeh
+   * @param {Number} value 
+   */
+  setBokehAperture(value) {
+    this.bokehPass.uniforms.aperture.value = value * 0.00001;
+  }
+
+  /**
+   * Postprocess setter bokeh
+   * @param {Number} value 
+   */
+  setBokehMaxblur(value) {
+    this.bokehPass.uniforms.maxblur.value = value;
+  }
+
+  /**
+   * Postprocess setter bloom
+   * @param {Number} value 
+   */
+  setBloomIntensity(value){
+    this.bloomPass.strength = value;
+  }
+
+  /**
+   * Postprocess setter bloom
+   * @param {Number} value 
+   */
+  setBloomThreshold(value) {
+    this.bloomPass.threshold = value;
+  }
+
+  /**
+   * Postprocess setter bloom
+   * @param {Number} value 
+   */
+  setBloomRadius(value) {
+    this.bloomPass.radius = value;
+  }
+
+  /**
+   * Postprocess setter bloom
+   * @param {Number} value 
+   */
+  setToneMappingExposure(value) {
+    this.renderer.toneMappingExposure = value;
   }
 
   intensity(value){

@@ -1,7 +1,6 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
-import SoundManager from "~/services/soundManager/SoundManager";
 import config from "./config";
 
 /**
@@ -35,7 +34,6 @@ export default class extends Step {
     this.main.position.x = -1;
     this.main.position.y = -4.5;
     this.main.rotation.z = 0.2;
-    // FIXME : add Folder leaf at every display
     this.folder.leaf = this.gui.addObject3D("Leaf",  this.main, false);
 
     this.scene.humanScale.group.add(background.object3D);
@@ -49,7 +47,6 @@ export default class extends Step {
   hide() {
     this.scene.humanScale.group.remove(this.main);
     this.gui.removeFolder(this.folder.leaf);
-
     super.hide();
   } 
 }

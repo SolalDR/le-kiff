@@ -13,7 +13,7 @@
     position: absolute
     top: 30%
     bottom: 20%
-    max-width: 580px
+    max-width: between(580px, 640px)
     // width: 40%
     display: flex
     flex-direction: column
@@ -47,32 +47,58 @@
     margin-bottom: $space-m
     padding-left: 90px
     padding-right: 90px
+    
 
     &__item
       display: inline-block
+      margin-top: 6px
       opacity: 0
       transform: translateY(50px)
 
+      @include largeDesktop()
+        margin-top: 10px
+
       @for $i from 1 to 3
         &:nth-of-type(#{$i})
-          animation: 
-            name: translateUp
-            delay: 2 + $t-duration * $i * .5
+          transition: 
+            delay: 3 + $t-duration * $i * .5
             duration: $t-duration * 2
-            fill-mode: forwards
 
+    &.is-revealed
+      .intro__teasing__item
+        @for $i from 1 to 3
+          &:nth-of-type(#{$i})
+            transform: translateX(0)
+            opacity: 1
 
   &__indication
     margin-top: $space-s
     opacity: 0
     transform: translateY(50px)
-    animation: 
-      name: translateUp, wobble
-      delay: 2 + $t-duration * .5
-      direction: normal, alternate-reverse
-      duration: $t-duration * 2, $t-duration * 3
-      iteration-count: 1, infinite
-      fill-mode: forwards
+    transition: 
+      delay: 3 + $t-duration * .5
+      duration: $t-duration * 2
+
+    &.is-revealed
+      opacity: 1
+      transform: translateY(0)
+      animation: 
+        delay: 3 + $t-duration * .5
+        name: wobble
+        direction: alternate-reverse
+        duration: $t-duration * 3
+        iteration-count: infinite
+        fill-mode: forwards
+
+  &__sound
+    display: inline-block
+    opacity: 0
+    transition: 
+      delay: 3 + $t-duration * .5
+      duration: $t-duration * 2
+
+    &.is-revealed
+      opacity: 1
 
   &__video
     position: fixed

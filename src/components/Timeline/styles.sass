@@ -4,7 +4,9 @@ $animation-duration: .2s
 .timeline
   position: fixed
   bottom: 0
-  padding: $space-s*5 100px $space-s*2
+  width: 100%
+  box-sizing: border-box
+  padding: $space-s*5 160px $space-s*2
   left: 50%
   transform: translateX(-50%)
   display: flex
@@ -60,12 +62,13 @@ $animation-duration: .2s
       padding: 14px
 
       &--next
-        margin-left: -10px
+        margin-left: -12px
+        margin-top: 2px
 
     &__control
       &--prev
         transform: rotate(-180deg)
-        margin-right: -10px
+        margin-right: -12px
 
     &__inner
       display: flex
@@ -134,7 +137,7 @@ $animation-duration: .2s
     &.is-active 
       .timeline
         &__item__button
-          transform: translateY(-50%) translateX(-50%) scale(1.4)
+          transform: translateY(-50%) translateX(-50%) scale(1.2)
 
           &:after
             background-color: $color-secondary

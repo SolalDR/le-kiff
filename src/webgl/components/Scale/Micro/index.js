@@ -49,7 +49,7 @@ class MicroScale extends Scale {
     super.hide( this.config.transitions.all );
   }
 
-  // TODO Function updateFromStep
+  // TODO Function updateFromStep in Scale 
   updateFromStep( step ){
     var infos = step.infos.filter(info => info.scale === "micro" && info.type === "molecule");
     this.molecules.forEach(molecule => {
@@ -62,18 +62,36 @@ class MicroScale extends Scale {
     })
     
     Bus.verbose("step:micro-update", 2)
+
+    if( this.initialized ){
+      this.onUpdateConfig();
+    }
+  }
+
+  onUpdateConfig() {
+    this.updateMoleculesMaterial();
+  }
+
+  updateMoleculesMaterial(){
+    this.atomMaterial.color = this.config.atomMaterial.color;
+    this.atomMaterial.emissive = this.config.atomMaterial.emissive;
+    this.atomMaterial.envMapIntensity = this.config.atomMaterial.envMapIntensity; 
+    this.atomMaterial.needsUpdate = true;
+
+    this.bondMaterial.color = this.config.bondMaterial.color;
+    this.bondMaterial.emissive = this.config.bondMaterial.emissive;
+    this.bondMaterial.envMapIntensity = this.config.bondMaterial.envMapIntensity; 
+    this.bondMaterial.needsUpdate = true;
   }
 
   initMoleculeMaterial(mat){
     var env = new THREE.CubeTextureLoader().setPath( '/images/molecule/ldr/' ).load( ['px.png','nx.png','py.png','ny.png','pz.png','nz.png' ] );
     mat.material.envMap = env;
-    mat.material.envMapIntensity = 2; 
-    mat.material.metalness = 1;
-    mat.material.roughness = 0.2;
     mat.material.transparent = true;
     mat.material.opacity = 1;
     mat.material.needsUpdate = true;
-    // mat.material.color = new THREE.Color(0, 0, 0);
+    mat.material.roughness = 0.2;
+    mat.material.metalness = 1;
     return mat.material;
   }
 
@@ -81,13 +99,14 @@ class MicroScale extends Scale {
    * Init THREE.js part
    */
   initScene(e){
-    var bondMaterial = this.initMoleculeMaterial(e.molecule.result.scene.children[3])
-    var atomMaterial = bondMaterial.clone();
+    this.bondMaterial = this.initMoleculeMaterial(e.molecule.result.scene.children[3])
+    this.atomMaterial = this.bondMaterial.clone();
+    this.updateMoleculesMaterial();
 
     // Molecules
     this.moleculesGroup = new THREE.Group();
-    guiMicro.addMaterial("Material liaison atom", bondMaterial);
-    guiMicro.addMaterial("Material atom", atomMaterial);
+    guiMicro.addMaterial("Material liaison atom", this.bondMaterial);
+    guiMicro.addMaterial("Material atom", this.atomMaterial);
     var list = ["cocaine", "kerosene"];
     var listFull = [ "cocaine", "kerosene", "chaux",  "eau",  "acide_sulfurique",  "ammoniac",  "permanganate de potassium",  "hydroxyde d'amonium",  "ether",  "acetone",  "acide_chloridrique", "bicarbonate_de_soude" ]
     var guiMolecule = guiMicro.addFolder("Molecules");
@@ -95,8 +114,8 @@ class MicroScale extends Scale {
       const molecule = new Molecule({
         name: item,
         pdb: e[item].result,
-        bondMaterial,
-        atomMaterial
+        bondMaterial: this.bondMaterial,
+        atomMaterial: this.atomMaterial
       });
       guiMolecule.addObject3D(molecule.name, molecule.object3D);
       this.molecules.set(item, molecule);
@@ -116,7 +135,7 @@ class MicroScale extends Scale {
     this.group.add(this.moleculesGroup);
 
     // Color plane
-    this.plane = new ColorPlane({ gui: guiMicro });
+    this.plane = new ColorPlane({ gui: guiMicro, config: this.config.colorPlane });
     this.plane.position.z = -100;
     guiMicro.addObject3D("Plane", this.plane)
     this.group.add(this.plane);

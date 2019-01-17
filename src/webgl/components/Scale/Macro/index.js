@@ -24,64 +24,46 @@ class MacroScale extends Scale {
     this.init();
   }
 
+  /**
+   * @extends Scale.initEvents
+   */
   initEvents(){
-    this.on("display", ()=>{
-      this.onDisplay();
-    });
+    super.initEvents();
+
+    Bus.on("info:open-macro-zoning", (event)=>{
+      var zoning = this.zonings.get(event.info.id);
+      if( zoning ){
+        zoning.display();
+      }
+    })
+
+    Bus.on("info:close-macro-zoning", (event)=>{
+      var zoning = this.zonings.get(event.info.id);
+      if( zoning ){
+        zoning.hide();
+      }
+    })
   }
 
-  display(previous, next){
+  display(previous, next){    
     const { cameraAnim } = super.display( this.config.transitions.all );
-    cameraAnim
-      .on("progress", ()=>{
-        this.scene.camera.lookAt(new THREE.Vector3());  
-      })
-      .on("end", ()=>{
-        this.scene.light.position.copy(new THREE.Vector3(2, 0, 7));
-      })
+    cameraAnim.on("progress", ()=>{
+      this.scene.camera.lookAt(new THREE.Vector3());  
+    });
   }
 
   hide(previous, next){
     super.hide( this.config.transitions.all );
   }
 
-  onDisplay(){
-    this.zonings.forEach(zoning => {
-      AnimationManager.addAnimation(new Animation({
-        from: 1.2, 
-        to: 1.001, 
-        duration: 500,
-        delay: 2000 + Math.random() * 1000,
-        timingFunction: "easeOutQuad"
-      }).on("progress", (event)=>{
-        zoning.object.scale.x = event.value;
-        zoning.object.scale.y = event.value;
-        zoning.object.scale.z = event.value;
-        zoning.object.material.opacity = event.advancement/2;
-      }))
-    })
+  onDisplay(event){
+    super.onDisplay(event)
   }
 
   /**
    * Implement
    */
-  onHide(){ 
-    this.zonings.forEach(zoning => {
-      AnimationManager.addAnimation(new Animation({
-        from: 1, 
-        to: 0,
-        duration: 1000, 
-        timingFunction: "easeOutQuad"
-      }).on("progress", (event)=>{
-        zoning.object.material.opacity = event.value;
-      }).on("end", _ =>{
-        zoning.object.scale.x = 1;
-        zoning.object.scale.y = 1;
-        zoning.object.scale.z = 1;
-        zoning.object.material.opacity = 0;
-      }))
-    })
-  }
+  onHide(){}
 
   /**
    * @override
@@ -129,7 +111,6 @@ class MacroScale extends Scale {
         this.earth.globe.add(zoning.group);
         this.zonings.set(info.id, zoning);
       }
-      zoning.display();
     });
   }
 
@@ -166,6 +147,7 @@ class MacroScale extends Scale {
       if( info.attachment && info.attachment.type === "flux" ) return true;
     });
 
+    
     this.updateZoningInfos(zoningInfos);
     this.updateFluxInfos(fluxInfos);
   }
@@ -176,10 +158,8 @@ class MacroScale extends Scale {
    */
   loop(){
     super.loop();
-
     Flux.LineMaterial.uniforms.dashOffset.value -= this.config.flux.dashOffsetSpeed;
-
-    this.earth.clouds.rotation.y += 0.0005;
+    this.earth.clouds.rotation.y += 0.0001;
   }
 }
 

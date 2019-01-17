@@ -1,4 +1,5 @@
 import baseConfig from "./../config";
+import colorPlane from "./../../ColorPlane/config";
 
 export default baseConfig.extends({  
   transitions: {
@@ -9,7 +10,8 @@ export default baseConfig.extends({
       postprocess: {
         bloom: {
           strength: {
-            from: 6
+            from: 12,
+            to: 0.37
           }
         }
       },
@@ -19,9 +21,47 @@ export default baseConfig.extends({
           duration: 1000,
           list : ['moogfilter']
         }
-      } 
+      }
     }
   },
+
+  bondMaterial: {
+    envMapIntensity: 2,
+    color: new THREE.Color("rgb(0, 158, 46)"),
+    emissive: new THREE.Color("rgb(51, 73, 59)"),
+  },
+
+  atomMaterial: {
+    envMapIntensity: 0,
+    color: new THREE.Color("rgb(0, 0, 0)"),
+    emissive: new THREE.Color("rgb(0, 0, 0)")
+  },
+
+  colorPlane: colorPlane.extends({
+    position: new THREE.Vector3(0, 0, -100)
+  }),
+
+  particleCloud: {
+    // TODO Implement from particle cloud
+  },
+
+  rendering: {
+    toneMappingExposure: 0.7,
+    light: {
+      primary: {
+        color: new THREE.Color(155, 220, 151)
+      },
+      secondary: {
+        color: new THREE.Color(155, 220, 151)
+      }
+    },
+    bokeh: {
+      focus: 10,
+      aperture: 10,
+      maxblur: 1.55
+    }
+  },
+
 
   molecules: {
     cocaine: {

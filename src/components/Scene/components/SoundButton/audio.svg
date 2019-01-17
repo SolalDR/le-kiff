@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="45px" height="37px" viewBox="0 0 45 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>audio</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="symboles" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="audio" stroke="#FFFFFF">
+            <g id="Group">
+                <path d="M41,21 C41,17.3079601 41,24.2863421 41,17.7507108 C41,7.94726393 32.7172679,0 22.5,0 C12.2827321,0 4,7.94726393 4,17.7507108 C4,24.2863421 4,17.3079601 4,21" id="Oval-4"></path>
+                <rect id="Rectangle-Copy" x="37.5" y="21.5" width="7" height="15" rx="3.5"></rect>
+                <rect id="Rectangle-Copy-2" x="0.5" y="21.5" width="7" height="15" rx="3.5"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -20,12 +20,13 @@ class AppManager {
     this.waitingRequests = [];
 
     AssetsManager.loader.loadGroup("global");
-    AssetsManager.loader.loadGroup("chapter-1");
-
-    AssetsManager.loader.on("load:global", () => {
+    
+    AssetsManager.loader.once("load:global", ()=>{
+      AssetsManager.loader.loadGroup("chapter-1");
       Bus.verbose("loader:global");
       store.dispatch(setLoadedAssets('global'));
-    });
+    })
+    
     AssetsManager.loader.on("load:chapter-1", () => {
       Bus.verbose("loader:chapter-1");
       store.dispatch(setLoadedAssets('chapter-1'));
@@ -59,7 +60,6 @@ class AppManager {
     AssetsManager.loader.once("load:global", (event) => {
       const soundsData = [];
       globalSoundsData.forEach(data => {
-        console.log(data.name, event[data.name]);
         data.sound = event[data.name].result
         soundsData.push(data);
       });

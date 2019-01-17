@@ -9,6 +9,10 @@ body {
   font-family: 'Spectral', serif;
   font-style: italic;
   font-weight: bold;
+  @include largeDesktop {
+    font-size: 148px;
+    line-height: 134px;
+  }
 }
 
 .heading-2 {
@@ -17,6 +21,11 @@ body {
   font-family: 'Spectral', serif;
   letter-spacing: 8.3px;
   text-transform: uppercase;
+  @include largeDesktop {
+    font-size: 24px;
+    line-height: 134px;
+    letter-spacing: 9px;
+  }
 }
 
 .heading-3 {
@@ -24,24 +33,33 @@ body {
   font-weight: 900;
   font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
+  @include largeDesktop {
+    font-size: 22px;
+  }
 }
 
 .heading-4 {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   font-family: 'Montserrat',
   sans-serif;
   text-transform: uppercase;
   letter-spacing: 1px;
+  @include largeDesktop {
+    font-size: 16px;
+  }
 }
 
 .heading-5 {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   font-family: 'Montserrat',
   sans-serif;
   text-transform: uppercase;
   letter-spacing: 1px;
+  @include largeDesktop {
+    font-size: 14px;
+  }
 }
 
 .heading-6 {
@@ -49,14 +67,42 @@ body {
   line-height: 16px;
   font-weight: normal;
   font-family: 'Spectral', serif;
+  @include largeDesktop {
+    font-size: 24px;
+  }
+}
+
+.heading-7 {
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 900;
+  font-family: 'Montserrat', serif;
+  text-transform: uppercase;
+  @include largeDesktop {
+    font-size: 18px;
+  }
+}
+
+.heading-8 {
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 900;
+  font-family: 'Montserrat', serif;
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  @include largeDesktop {
+    font-size: 18px;
+  }
 }
 
 .small {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: normal;
   font-style: italic;
-  font-family: 'Spectral',
-  serif;
+  font-family: 'Spectral', serif;
+  @include largeDesktop {
+    font-size: 16px;
+  }
 }
 
 .teasing-1 {
@@ -64,22 +110,32 @@ body {
   line-height: 18px;
   font-weight: normal;
   font-style: italic;
-  font-family: 'Spectral',
-  serif;
+  font-family: 'Spectral', serif;
+  @include largeDesktop {
+    font-size: 16px;
+    line-height: 20px;
+  }
 }
 
 .teasing-2 {
-  font-size: 24px;
-  line-height: 28px;
+  font-size: 20px;
+  line-height: 24px;
   font-weight: normal;
-  font-family: 'Spectral',
-  serif;
+  font-family: 'Spectral', serif;
+  @include largeDesktop {
+    font-size: 24px;
+    line-height: 28px;
+  }
 }
 
 .teasing-3 {
   font-size: 16px;
-  line-height: 18px;
+  line-height: 20px;
   font-weight: normal;
-  font-family: 'Spectral',
-  serif;
+  font-family: 'Spectral', serif;
+  @include largeDesktop {
+    font-size: 20px;
+    line-height: 22px;
+  }
 }
+

@@ -5,13 +5,43 @@
   &__text
     position: absolute
     width: 570px
-    left: $space-m
-    top: $space-m
+    left: $space-m * .8
+    top: $space-m * .8
     color: $color-secondary
-    opacity: .5
+
+    @include largeDesktop()
+      left: $space-l * .75
+      top: $space-l * .75
+
+    &.is-active
+      .chapter__title
+        opacity: .5
+        transform: translateX(0)
+        transition:
+          delay: $t-duration * 1.5
+
+      .chapter__step__text
+        opacity: .5
+        transform: translateY(0)
+        transition:
+          delay: $t-duration * 1.5
 
   &__step__text
     margin-top: 10px
-    
-  
+    opacity: 0
+    transform: translateY($space-l)
+    transition:
+      property: opacity, transform
+      duration: $t-duration * 1.5
+      timing-function: $t-timing-function
+      delay: 0
+
+  .chapter__title
+    transform: translateY($space-m)
+    opacity: 0
+    transition:
+      property: transform, opacity
+      duration: $t-duration * 1.5
+      timing-function: $t-timing-function
+      delay: 0
 

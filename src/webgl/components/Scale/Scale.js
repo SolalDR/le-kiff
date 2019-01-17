@@ -26,6 +26,7 @@ class Scale extends Event {
     this.group.name = name;
     this.name = name;
     this.group.visible = false;
+    this.initialized = false;
   }
   
   /**
@@ -34,10 +35,15 @@ class Scale extends Event {
    */
   init(){
     this.scene.threeScene.add(this.group);
+    this.initialized = true;
+    this.initEvents();
   }
 
   initEvents(){
-    this.on("display", () => this.onDisplay())
+    this.on("display", (event) => this.onDisplay(event))
+    Bus.on("config:update", ()=>{
+      this.config = ConfigManager.config[this.name];
+    })
   }
 
   /**
@@ -50,12 +56,11 @@ class Scale extends Event {
    */
   display( config ){
     Bus.dispatch("scale:coming", this);
-    
     this.group.visible = true;
-    this.scene.renderer.intensity(10);
+  
+    this.updateRendering();
 
     var diff = config.postprocess.bloom.strength.from - config.postprocess.bloom.strength.to;
-
     this.scene.camera.position.copy(config.position.from);
     this.scene.camera.lookAt(config.target.from);
     
@@ -70,10 +75,9 @@ class Scale extends Event {
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
       duration: config.postprocess.duration 
     }).on("progress", ( event ) => {
-      renderer.intensity( config.postprocess.bloom.strength.from - event.advancement * diff );
+      renderer.setBloomIntensity(config.postprocess.bloom.strength.from - event.advancement * diff);      
     }).on("end", () => {
-      this.dispatch("display");
-      this.updateSound(config, 'display');
+      this.dispatch("display", { transition: config });
       Bus.dispatch("scale:display", this, 1)
       Bus.verbose("scale-" + this.name + ":display", 2)
     }));
@@ -82,6 +86,25 @@ class Scale extends Event {
       cameraAnim, 
       postprocessAnim: postprocessAnimData.animation
     }
+  }
+
+  updateRendering(){
+    var c = this.config.rendering;
+
+    this.scene.renderer.setToneMappingExposure(c.toneMappingExposure);
+    this.scene.renderer.setBloomRadius(c.bloom.radius);
+    this.scene.renderer.setBloomThreshold(c.bloom.threshold);
+    this.scene.renderer.setBloomIntensity(c.bloom.strength);
+    this.scene.renderer.setBokehAperture(c.bokeh.aperture);
+    this.scene.renderer.setBokehFocus(c.bokeh.focus);
+    this.scene.renderer.setBokehMaxblur(c.bokeh.maxblur);
+  
+    this.scene.lightPrimary.position.copy(c.light.primary.position);
+    this.scene.lightSecondary.position.copy(c.light.secondary.position);
+    this.scene.lightPrimary.intensity = c.light.primary.intensity;
+    this.scene.lightSecondary.intensity = c.light.secondary.intensity;
+    this.scene.lightPrimary.color = c.light.primary.color;
+    this.scene.lightSecondary.color = c.light.secondary.color;
   }
 
   hide( config ){
@@ -96,14 +119,14 @@ class Scale extends Event {
       duration: config.duration
     });
 
-    this.scene.renderer.intensity(config.postprocess.bloom.strength.to);
+    this.scene.renderer.setBloomThreshold(0);
+    this.scene.renderer.setBloomIntensity(config.postprocess.bloom.strength.to);
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
         duration: config.postprocess.duration, 
         delay: config.duration - config.postprocess.duration
       }).on("progress", ( event ) => {
-        this.scene.renderer.intensity( 
-          config.postprocess.bloom.strength.to + event.advancement*diff
-        );
+        console.log(this.scene.renderer.bloomPass.intensity, this.scene.renderer.bloomPass.threshold)
+        this.scene.renderer.setBloomIntensity( config.postprocess.bloom.strength.to + event.advancement*diff );
       })
     );
 
@@ -112,9 +135,7 @@ class Scale extends Event {
       Bus.dispatch("scale:hide", this);
       Bus.verbose("scale-" + this.name + ":hide", 2)
       this.group.visible = false;
-
       this.updateSound(config, 'hide');
-
     });
 
     return {
@@ -123,8 +144,12 @@ class Scale extends Event {
     }
   }
 
-  onDisplay(){
-
+  /**
+   * @abstract
+   */
+  updateFromStep() {}
+  onDisplay(config) {
+    this.updateSound(config.transition, 'display');
   }
 
   /**

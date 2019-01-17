@@ -3,8 +3,9 @@ import geoBOL from "~/datas/geojson/BOL.geo.json";
 import geoFRA from "~/datas/geojson/FRA.geo.json";
 import geoGUF from "~/datas/geojson/GUF.geo.json";
 import geoPER from "~/datas/geojson/PER.geo.json";
-
 import GeoCoord from "~/webgl/helpers/geo/GeoCoord";
+import {MeshLine} from 'three.meshline'
+
 
 var countries = { 
   argentine: geoARG, 
@@ -17,22 +18,25 @@ var countries = {
 class ZoningGeometry {
 
   constructor(name, {
-    radius = 1
-  }){
+    radius = 3
+  } = {}){
     this.geojson = countries[name];
     if( !this.geojson ) return null;
 
     this.group = new THREE.Group();
     var coordinatesList = [];
     this.geojson.features.forEach((feature, index) => {
-      feature.geometry.coordinates.forEach(coordinates => coordinatesList.push(coordinates))
+      feature.geometry.coordinates.forEach(coordinates => coordinatesList.push(coordinates))
     });
 
     var shape = new THREE.Shape();
-    coordinatesList.forEach(coordinates => {
+    var geometry = new THREE.Geometry();
+    coordinatesList.forEach(coordinates => {
+      geometry.vertices.push(new THREE.Vector3(coordinates[0][0], coordinates[0][1], 0));
       shape.moveTo(coordinates[0][0], coordinates[0][1]);
       coordinates.shift();
       coordinates.forEach(coordinate => {
+        geometry.vertices.push(new THREE.Vector3(coordinate[0], coordinate[1], 0));
         shape.lineTo(coordinate[0], coordinate[1]);
       });
     })
@@ -43,12 +47,21 @@ class ZoningGeometry {
       geometry3D.vertices.push(new GeoCoord(vertex.y, vertex.x).getCartesianCoord(radius))
     })
 
+    geometry.vertices.forEach(vertex => {
+      vertex.copy(new GeoCoord(vertex.y, vertex.x).getCartesianCoord(radius))
+    })
+
     geometry3D.verticesNeedUpdate = true;
     geometry3D.faces = geometry2D.faces;
     geometry3D.computeFaceNormals();
     geometry3D.computeVertexNormals();
 
-    return geometry3D
+    
+    var line = new MeshLine();
+    line.setGeometry(geometry);   
+
+    this.fillGeometry = geometry3D;
+    this.strokeGeometry = line.geometry;
   }
 }
 

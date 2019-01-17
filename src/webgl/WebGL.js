@@ -49,8 +49,7 @@ class WebGL {
     this.microScale = new MicroScale({ scene: this });
     this.macroScale = new MacroScale({ scene: this });
     this.humanScale = new HumanScale({ scene: this }); 
-
-    this.points = []; // TODO: add to pointsManager
+    
     
     this.state = {
       currentScale: "human",
@@ -65,9 +64,8 @@ class WebGL {
    * @param { { id, chapter_id, datas }} step 
    */
   selectStep(step) {
-    // TODO Replace chapters[0] with rank
     // get correct step contructor
-    var Step = Chapters[0][step.rank - 1];
+    var Step = Chapters[step.chapter_rank - 1][step.rank - 1];
     
     if( !Step ) {
       console.error(`Scene.js: There is no Step for ${step}`);
@@ -75,9 +73,7 @@ class WebGL {
     }
 
     if( this.step ){
-
       var previousStep = this.step;
-
       var newStep = History.getStep(step.id);
       if( !newStep ){
         newStep = new Step({
@@ -102,14 +98,17 @@ class WebGL {
       scene: this,
       datas: step
     });
-
     this.step.init();
-
     History.registerStep(this.step);
     
-
+    this.humanScale.group.visible = true
+    this.microScale.group.visible = true
+    this.macroScale.group.visible = true
+    this.renderer.renderer.render(this.threeScene, this.camera);
+    this.microScale.group.visible = false
+    this.macroScale.group.visible = false
     this.humanScale.display( "micro" );
-    
+
     this.loop();
   }
 
@@ -118,7 +117,6 @@ class WebGL {
    */
    selectScale = (name) => {
     if( name !== this.state.currentScale ){
-
       var currentScale = this.state.currentScale;
       this[currentScale + "Scale"].hide(currentScale, name);
       this[currentScale + "Scale"].once("hide", ()=>{
@@ -131,20 +129,20 @@ class WebGL {
   }
 
   render(){
-    this.light = new THREE.PointLight(0xffffff, 1.3);
-    this.light.position.x = 5;
-    this.light.position.z = 5;
-    this.light.position.y = 5;
-    this.threeScene.add(this.light);
+    this.lightPrimary = new THREE.PointLight(0xffffff, 1.3);
+    this.lightPrimary.position.x = 5;
+    this.lightPrimary.position.z = 5;
+    this.lightPrimary.position.y = 5;
+    this.threeScene.add(this.lightPrimary);
 
-    this.light2 = new THREE.PointLight(0xffffff, 1);
-    this.light2.position.x = -5;
-    this.light2.position.z = -5;
-    this.light2.position.y = -5;
-    this.threeScene.add(this.light2);
+    this.lightSecondary = new THREE.PointLight(0xffffff, 1);
+    this.lightSecondary.position.x = -5;
+    this.lightSecondary.position.z = -5;
+    this.lightSecondary.position.y = -5;
+    this.threeScene.add(this.lightSecondary);
 
-    guiRendering.addLight("Light Primary", this.light);
-    guiRendering.addLight("Light Secondary", this.light2);
+    guiRendering.addLight("Light Primary", this.lightPrimary);
+    guiRendering.addLight("Light Secondary", this.lightSecondary);
   }
 
   loop = () => {

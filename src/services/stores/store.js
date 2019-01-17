@@ -10,4 +10,3 @@ const stores = combineReducers({
 export const store = createStore(
   stores
 );
-

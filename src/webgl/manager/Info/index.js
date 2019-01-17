@@ -82,6 +82,10 @@ class InfoManager extends Event {
     this.infos.delete( id );
   }
 
+  findInfo(id) {
+    return this.infos.get(id);
+  }
+
   /**
    * Attach a 3D object to an info. Use full when the object 3D is created after the infos was added
    * @param {int} id 

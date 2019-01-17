@@ -76,7 +76,7 @@ class Earth {
         map: assets.cloud.result,
         alphaMap: assets.cloud.result,
         transparent: true, 
-        opacity: 1,
+        opacity: 0.5,
         shininess: 1,
         specular: new THREE.Color("rgb(128, 128, 128)")
       })

@@ -11,14 +11,9 @@ export default baseConfig.extends({
       postprocess: {
         bloom: {
           strength: {
-            from: 6,
+            from: 12,
             to: 0.37
           }
-        },
-        bokeh: {
-          focus: 10,
-          apperture: 10,
-          maxBlur: 1.55
         }
       },
       sound: {
@@ -27,7 +22,7 @@ export default baseConfig.extends({
           duration: 1000,
           list : ['moogfilter']
         }
-      } 
+      }
     }
   },
 
@@ -53,14 +48,22 @@ export default baseConfig.extends({
 
   rendering: {
     toneMappingExposure: 0.7,
-    lightPrimary: {
-      color: new THREE.Color(155, 220, 151)
+    light: {
+      primary: {
+        color: new THREE.Color(155, 220, 151)
+      },
+      secondary: {
+        color: new THREE.Color(155, 220, 151)
+      }
     },
-    lightSecondary: {
-      color: new THREE.Color(155, 220, 151)
+    bokeh: {
+      focus: 10,
+      aperture: 10,
+      maxblur: 1.55
     }
   },
-  
+
+
   molecules: {
     cocaine: {
       offset: new THREE.Vector3(-30, -8, 20),

@@ -1,6 +1,7 @@
 import React from "react";
 import "./styles.sass";
 import SoundManager from "~/services/soundManager/SoundManager";
+import InfoManager from "~/webgl/manager/Info"
 
 class InfoPoint extends React.Component {
 
@@ -8,23 +9,32 @@ class InfoPoint extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      opened: false,
       screenPosition: {x: 0, y: 0}
     }
+    this.webGLInfo = null;
   }
 
   componentWillReceiveProps(nextProps, previousProps){
-    console.log("Info.jsx componentWillReceiveProps", nextProps, this.state)
     if( nextProps.currentScale !== previousProps.currentScale ){
       this.setState({visible: nextProps.currentScale === this.props.info.scale })
     }
+
+    if(nextProps.opened !== previousProps.opened) {
+      if (this.webGLInfo) {
+        this.webGLInfo.click(nextProps.opened);
+      }
+    }
+  }
+
+  componentDidMount(){
+    this.webGLInfo = InfoManager.findInfo(this.props.info.id);
   }
 
   computedClassModifier(){
     return "info-point "
       + (this.state.visible ? "info-point--visible" : "info-point--hidden")
       + " "
-      + ((this.state.opened) ? "info-point--opened" : "");
+      + ((this.props.opened) ? "info-point--opened" : "");
   }
 
   computedStyle(){
@@ -34,14 +44,13 @@ class InfoPoint extends React.Component {
     }
   }
 
-  toggleClass(){
-    this.setState({opened: !this.state.opened});
-  }
 
-  handleClick = () => {
-    this.toggleClass();
+  handleClick = () => {
+    
     SoundManager.play('toggle_infopoint_sound');
-    if (this.props.onClick) this.props.onClick();
+    if (this.props.onClick) this.props.onClick({
+      id: this.props.info.id
+    });
   };
 
   render(){

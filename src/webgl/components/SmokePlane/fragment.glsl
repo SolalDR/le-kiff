@@ -2,7 +2,6 @@ uniform sampler2D u_noise;
 uniform float u_time;
 varying vec2 v_uv;
 
-// noise_3d.png
 vec3 noise3D(in vec3 coord){
   return vec3(
     texture2D(u_noise, coord.xy + vec2(0., coord.z)).x,

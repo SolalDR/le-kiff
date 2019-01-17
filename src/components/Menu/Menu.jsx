@@ -75,7 +75,7 @@ class Menu extends React.PureComponent {
       return <div onClick={this.handleCloseClick} key={index} to={`/chapter-${chapter.rank}`} className={className} onMouseOver={() => this.onMouseOver(chapter.rank)} onMouseOut={this.onMouseOut.bind(this)}>
           <Link onClick={this.handleCloseClick} key={index} to={`/chapter-${chapter.rank}`} className="menu__item__link">
             <h1 className="menu__item__title heading-3">
-              {chapter.rank}. {chapter.title}
+              {chapter.title}
             </h1>
             <span className="menu__item__burger" style={{ transform: transform }} />
           </Link>
@@ -88,6 +88,15 @@ class Menu extends React.PureComponent {
             <p className="menu__item__content teasing-3">
               {chapter.content}
             </p>
+            { chapter.rank == 2 && 
+              <p className="menu__item__available teasing-3">Disponible le 01.03.2019 </p>
+            }
+            { chapter.rank == 3 && 
+              <p className="menu__item__available teasing-3">Disponible le 07.03.2019 </p>
+            }
+            { chapter.rank == 4 && 
+              <p className="menu__item__available teasing-3">Disponible le 14.03.2019 </p>
+            }
           </div>
         </div>;
     })

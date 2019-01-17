@@ -26,7 +26,6 @@ class Flux {
     gui = null
   } = {}){
     if (!info.attachment && !info.attachment.flux) return null;
-    // TODO Refactoring this.id in this.info_id
     this.gui = gui;
     this.id = info.id;
     this.group  = new THREE.Group();

@@ -110,9 +110,7 @@ class Scale extends Event {
         duration: config.postprocess.duration, 
         delay: config.duration - config.postprocess.duration
       }).on("progress", ( event ) => {
-        this.scene.renderer.setBloomIntensity( 
-          config.postprocess.bloom.strength.to + event.advancement*diff
-        );
+        this.scene.renderer.setBloomIntensity( config.postprocess.bloom.strength.to + event.advancement*diff );
       })
     );
 
@@ -121,9 +119,7 @@ class Scale extends Event {
       Bus.dispatch("scale:hide", this);
       Bus.verbose("scale-" + this.name + ":hide", 2)
       this.group.visible = false;
-
       this.updateSound(config, 'hide');
-
     });
 
     return {

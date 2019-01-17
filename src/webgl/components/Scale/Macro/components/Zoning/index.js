@@ -20,7 +20,6 @@ class Zoning {
    */
   constructor(info){
     if (!info.attachment && !info.attachment.countries) return null;
-    // TODO Refactoring this.id in this.info_id
     this.id = info.id;
     this.group  = new THREE.Group();
     this.group.name = "zoning-" + info.id;

@@ -49,8 +49,6 @@ class WebGL {
     this.microScale = new MicroScale({ scene: this });
     this.macroScale = new MacroScale({ scene: this });
     this.humanScale = new HumanScale({ scene: this }); 
-
-    this.points = []; // TODO: add to pointsManager
     
     this.state = {
       currentScale: "human",
@@ -65,9 +63,9 @@ class WebGL {
    * @param { { id, chapter_id, datas }} step 
    */
   selectStep(step) {
-    // TODO Replace chapters[0] with rank
     // get correct step contructor
-    var Step = Chapters[0][step.rank - 1];
+    console.log(step);
+    var Step = Chapters[step.chapter_rank - 1][step.rank - 1];
     
     if( !Step ) {
       console.error(`Scene.js: There is no Step for ${step}`);

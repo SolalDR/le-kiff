@@ -58,44 +58,12 @@ class MacroScale extends Scale {
 
   onDisplay(event){
     super.onDisplay(event)
-    // this.zonings.forEach(zoning => {
-    //   AnimationManager.addAnimation(new Animation({
-    //     from: 1.2, 
-    //     to: 1.01, 
-    //     duration: 500,
-    //     delay: 2000 + Math.random() * 1000,
-    //     timingFunction: "easeOutQuad"
-    //   }).on("progress", (event)=>{
-    //     zoning.group.scale.x = event.value;
-    //     zoning.group.scale.y = event.value;
-    //     zoning.group.scale.z = event.value;
-        
-    //     Zoning.Material.opacity = event.advancement * 0.5;
-    //     Zoning.Material.needsUpdate = true;
-    //   }))
-    // })
   }
 
   /**
    * Implement
    */
-  onHide(){ 
-    // this.zonings.forEach(zoning => {
-    //   AnimationManager.addAnimation(new Animation({
-    //     from: 1, 
-    //     to: 0,
-    //     duration: 1000, 
-    //     timingFunction: "easeOutQuad"
-    //   }).on("progress", (event)=>{
-    //     zoning.object.material.opacity = event.value;
-    //   }).on("end", _ =>{
-    //     zoning.object.scale.x = 1;
-    //     zoning.object.scale.y = 1;
-    //     zoning.object.scale.z = 1;
-    //     zoning.object.material.opacity = 0;
-    //   }))
-    // })
-  }
+  onHide(){}
 
   /**
    * @override
@@ -144,7 +112,6 @@ class MacroScale extends Scale {
         this.zonings.set(info.id, zoning);
       }
     });
-    
   }
 
   updateFluxInfos(infos){
@@ -163,7 +130,6 @@ class MacroScale extends Scale {
       }
       flux.display();
     });
-
   }
 
   /**

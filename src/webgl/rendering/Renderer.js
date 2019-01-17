@@ -16,7 +16,6 @@ class Renderer {
     this.renderer.setSize( Viewport.width, Viewport.height );   
     this.renderer.setPixelRatio(2);
 
-    
     guiRendering.add(this.renderer, "toneMappingExposure").min(-3).max(3)
     guiRendering.add(this.renderer, "toneMappingWhitePoint").min(-3).max(3)
   }

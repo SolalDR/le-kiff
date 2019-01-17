@@ -105,8 +105,6 @@ class Scale extends Event {
     this.scene.lightSecondary.intensity = c.light.secondary.intensity;
     this.scene.lightPrimary.color = c.light.primary.color;
     this.scene.lightSecondary.color = c.light.secondary.color;
-    
-    console.log(this.scene.lightPrimary.position);
   }
 
   hide( config ){

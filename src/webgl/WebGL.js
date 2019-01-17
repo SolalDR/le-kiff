@@ -50,6 +50,7 @@ class WebGL {
     this.macroScale = new MacroScale({ scene: this });
     this.humanScale = new HumanScale({ scene: this }); 
     
+    
     this.state = {
       currentScale: "human",
       previousScale: "human"
@@ -100,7 +101,14 @@ class WebGL {
     this.step.init();
     History.registerStep(this.step);
     
+    this.humanScale.group.visible = true
+    this.microScale.group.visible = true
+    this.macroScale.group.visible = true
+    this.renderer.renderer.render(this.threeScene, this.camera);
+    this.microScale.group.visible = false
+    this.macroScale.group.visible = false
     this.humanScale.display( "micro" );
+
     this.loop();
   }
 
@@ -121,7 +129,6 @@ class WebGL {
   }
 
   render(){
-    console.log("render");
     this.lightPrimary = new THREE.PointLight(0xffffff, 1.3);
     this.lightPrimary.position.x = 5;
     this.lightPrimary.position.z = 5;

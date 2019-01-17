@@ -39,7 +39,7 @@ body {
 }
 
 .heading-4 {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   font-family: 'Montserrat',
   sans-serif;
@@ -51,7 +51,7 @@ body {
 }
 
 .heading-5 {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   font-family: 'Montserrat',
   sans-serif;
@@ -106,8 +106,8 @@ body {
 }
 
 .teasing-2 {
-  font-size: 24px;
-  line-height: 28px;
+  font-size: 20px;
+  line-height: 24px;
   font-weight: normal;
   font-family: 'Spectral', serif;
   @include largeDesktop {
@@ -118,12 +118,11 @@ body {
 
 .teasing-3 {
   font-size: 16px;
-  line-height: 22px;
+  line-height: 20px;
   font-weight: normal;
   font-family: 'Spectral', serif;
   @include largeDesktop {
     font-size: 20px;
     line-height: 22px;
   }
-  
 }

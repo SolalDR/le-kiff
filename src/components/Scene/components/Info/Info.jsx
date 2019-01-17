@@ -53,7 +53,7 @@ class InfoPoint extends React.Component {
         <div className="info-point__pointer"/>
         <div className="info-point__content">
           <h3 className="info-point__title">{this.props.info.title}</h3>
-          <div className="info-point__text" dangerouslySetInnerHTML={{__html: this.props.info.content}}/>
+          <div className="info-point__text teasing-3" dangerouslySetInnerHTML={{__html: this.props.info.content}}/>
         </div>
       </div>
     )

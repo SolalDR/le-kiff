@@ -58,7 +58,8 @@
       position: absolute
       top: 10px
       right: -($space-m * 2) 
-      width: $space-m
+      width: between(24px, 30px)
+      min-width: 24px
       height: 1px
       background: $color-secondary
       pointer-events: none
@@ -88,7 +89,7 @@
           timing-function: $t-timing-function
 
     &__expand
-      width: 30%
+      width: between(350px, 480px)
       min-width: 350px
       margin-right: -($space-l)
       overflow: hidden

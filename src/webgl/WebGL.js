@@ -150,6 +150,7 @@ class WebGL {
     this.clock.update();
 
     this[this.state.currentScale+"Scale"].loop(this.clock.elapsed);
+    this.step.loop();
     this.mouseCaster.render();
     this.controllerManager.update();
 

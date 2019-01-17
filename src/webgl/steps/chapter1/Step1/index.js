@@ -2,6 +2,7 @@ import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
 import config from "./config";
+import { c } from "../../../../helpers/Configuration";
 
 /**
  * @constructor
@@ -30,20 +31,18 @@ export default class extends Step {
       distance: 100
     });
 
+    // main transform
     this.main.scale.y = 1;
     this.main.position.set(-0.98, -1.18, -1.12);
     this.main.rotation.set(-0.66, 0.1, -0.38);
     
+    // add leaf folder
     this.folder.leaf = this.gui.addObject3D("Leaf",  this.main, false);
     this.folder.leaf.addMaterial('Leaf detached', this.main.children[0].children[0].material); 
     this.folder.leaf.addMaterial('Leaf', this.main.children[2].material); 
 
     // Add background
     this.scene.humanScale.group.add(background.object3D);
-    
-    
-    
-    
     
   }
 
@@ -53,8 +52,16 @@ export default class extends Step {
   }
 
   hide() {
-    this.scene.humanScale.group.remove(this.main);
+    //this.scene.humanScale.group.remove(this.main);
     this.gui.removeFolder(this.folder.leaf);
     super.hide();
   } 
+
+  /**
+   * @override
+   * Raf
+   */
+  loop(){
+    super.loop();
+  }
 }

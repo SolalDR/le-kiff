@@ -5,7 +5,7 @@ export default c({
   light: {
     primary: {
       name: 'Light Primary',
-      color: new THREE.Color(0xf0c63d), // redish yellow
+      color: new THREE.Color(0xf8cb5f), // redish yellow 
       position: new THREE.Vector3(5, 5, 5),
       intensity: 1.5,
       power: 21,

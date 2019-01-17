@@ -75,6 +75,13 @@ class Step extends Event {
     Bus.dispatch("step:hide", this);
     this.dispatch("hide");
   }
+
+  /**
+   * Raf method
+   * @abstract
+   */
+  loop() {
+  }
 }
 
 export default Step;

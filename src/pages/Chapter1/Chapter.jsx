@@ -92,14 +92,29 @@ class Chapter extends React.Component {
 
     render () {
       if( !this.props.step.rank ) return null;
+      const date = new Date().toLocaleDateString('fr', {
+        weekday: "long", year: "numeric", month: "long", day: "numeric"
+      });
+
+      let chapterTexts = [];
+      for (let i = 0; i < this.props.chapter.steps.length; i++) {
+        (rank =>
+          chapterTexts.push(
+            <div className={`chapter__text ${this.props.step.rank == (rank + 1) ? 'is-active' : ''}`} key={`chapter-text-${rank}`}>
+              <h1 className="chapter__title heading-7">El despuente - {date}</h1>
+              <h2 className="chapter__step__text teasing-2">{this.props.chapter.steps[rank].content}</h2>
+            </div>
+          ))(i);
+      }
 
       if (this.state.isReady) {
         return (
             <div className="chapter chapter-1">
-              <div className="chapter__text">
-                <h1 className="chapter__title heading-3">{this.props.step.title}</h1>
+              {/* <div className="chapter__text">
+                <h1 className="chapter__title heading-7">El despuente - {date}</h1>
                 <h2 className="chapter__step__text teasing-2">{this.props.step.content}</h2>
-              </div>
+              </div> */}
+              {chapterTexts}
               <Timeline 
                 length={this.props.chapter.steps.length} 
                 previousChapter={this.props.previousChapter} 

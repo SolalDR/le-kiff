@@ -54,7 +54,14 @@ class Scale extends Event {
     Bus.dispatch("scale:coming", this);
     
     this.group.visible = true;
-    this.scene.renderer.intensity(10);
+    
+    this.scene.renderer.setBloomRadius(config.postprocess.bloom.radius.from);
+    this.scene.renderer.setBloomThreshold(config.postprocess.bloom.threshold.from);
+    this.scene.renderer.setBloomIntensity(config.postprocess.bloom.threshold.from);
+
+    this.scene.renderer.setBokehAperture(config.postprocess.bokeh.aperture.from);
+    this.scene.renderer.setBokehFocus(config.postprocess.bokeh.focus.from);
+    this.scene.renderer.setBokehMaxblur(config.postprocess.bokeh.maxblur.from);
 
     var diff = config.postprocess.bloom.strength.from - config.postprocess.bloom.strength.to;
 
@@ -72,7 +79,7 @@ class Scale extends Event {
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
       duration: config.postprocess.duration 
     }).on("progress", ( event ) => {
-      renderer.intensity( config.postprocess.bloom.strength.from - event.advancement * diff );
+      renderer.setBloomIntensity(config.postprocess.bloom.strength.from - event.advancement * diff);      
     }).on("end", () => {
       this.dispatch("display");
       this.updateSound(config, 'display');
@@ -98,12 +105,12 @@ class Scale extends Event {
       duration: config.duration
     });
 
-    this.scene.renderer.intensity(config.postprocess.bloom.strength.to);
+    this.scene.renderer.setBloomIntensity(config.postprocess.bloom.strength.to);
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
         duration: config.postprocess.duration, 
         delay: config.duration - config.postprocess.duration
       }).on("progress", ( event ) => {
-        this.scene.renderer.intensity( 
+        this.scene.renderer.setBloomIntensity( 
           config.postprocess.bloom.strength.to + event.advancement*diff
         );
       })

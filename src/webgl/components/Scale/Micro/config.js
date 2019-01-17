@@ -11,14 +11,20 @@ export default baseConfig.extends({
       postprocess: {
         bloom: {
           strength: {
-            from: 6,
+            from: 12,
             to: 0.37
           }
         },
         bokeh: {
-          focus: 10,
-          apperture: 10,
-          maxBlur: 1.55
+          focus: {
+            from: 10
+          },
+          aperture: {
+            from: 10
+          },
+          maxblur: {
+            from: 1.55
+          }
         }
       },
       sound: {
@@ -60,7 +66,7 @@ export default baseConfig.extends({
       color: new THREE.Color(155, 220, 151)
     }
   },
-  
+
   molecules: {
     cocaine: {
       offset: new THREE.Vector3(-30, -8, 20),

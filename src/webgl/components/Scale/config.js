@@ -16,8 +16,36 @@ var transitionConfig = c({
     duration: 1000,
     bloom: {
       strength: {
+        active: true,
         from: 10,
         to: 0.1
+      },
+      radius: {
+        active: false,
+        from: 0,
+        to: 0
+      },
+      threshold: {
+        active: false,
+        from: 0,
+        to: 0
+      }
+    },
+    bokeh: {
+      focus: {
+        active: false,
+        from: 500,
+        to: 0
+      },
+      aperture: {
+        active: false,
+        from: 0.3*0.00001,
+        to: 0
+      },
+      maxblur: {
+        active: false,
+        from: 1,
+        to: 0
       }
     }
   }

@@ -43,6 +43,8 @@ class MicroScale extends Scale {
   
   display(previous, next){
     super.display( this.config.transitions.all );
+
+    console.log(this.config.transitions.all);
   }
 
   hide(previous, next){

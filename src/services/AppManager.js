@@ -20,12 +20,13 @@ class AppManager {
     this.waitingRequests = [];
 
     AssetsManager.loader.loadGroup("global");
-    AssetsManager.loader.loadGroup("chapter-1");
-
-    AssetsManager.loader.on("load:global", () => {
+    
+    AssetsManager.loader.once("load:global", ()=>{
+      AssetsManager.loader.loadGroup("chapter-1");
       Bus.verbose("loader:global");
       store.dispatch(setLoadedAssets('global'));
-    });
+    })
+    
     AssetsManager.loader.on("load:chapter-1", () => {
       Bus.verbose("loader:chapter-1");
       store.dispatch(setLoadedAssets('chapter-1'));

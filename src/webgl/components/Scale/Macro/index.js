@@ -31,9 +31,7 @@ class MacroScale extends Scale {
     });
   }
 
-  display(previous, next){
-    console.log("Display macro")
-    
+  display(previous, next){    
     const { cameraAnim } = super.display( this.config.transitions.all );
     cameraAnim.on("progress", ()=>{
       this.scene.camera.lookAt(new THREE.Vector3());  

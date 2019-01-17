@@ -64,7 +64,6 @@ class WebGL {
    */
   selectStep(step) {
     // get correct step contructor
-    console.log(step);
     var Step = Chapters[step.chapter_rank - 1][step.rank - 1];
     
     if( !Step ) {

@@ -7,15 +7,20 @@
   right: 0
   z-index: 3
   pointer-events: none
+  @include largeDesktop()
+    top: 125px
 
   &__container 
     position: relative
     float: right
-    margin-right: $space-m + $space-s
+    margin-right: $space-m * 0.9
     transition: 
       duration: $t-duration
       property: transform
       timing-function: $t-timing-function
+
+    @include largeDesktop()
+      margin-right: $space-l * .75
 
   &__item 
     flex: 1
@@ -52,13 +57,11 @@
           property: opacity, transform
           timing-function: $t-timing-function
 
-      
-
     &__burger
       position: absolute
       top: 10px
       right: -($space-m * 2) 
-      width: between(24px, 30px)
+      width: $space-m
       min-width: 24px
       height: 1px
       background: $color-secondary

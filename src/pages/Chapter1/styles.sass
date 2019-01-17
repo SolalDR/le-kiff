@@ -5,9 +5,13 @@
   &__text
     position: absolute
     width: 570px
-    left: $space-m
-    top: $space-m
+    left: $space-m * .8
+    top: $space-m * .8
     color: $color-secondary
+
+    @include largeDesktop()
+      left: $space-l * .75
+      top: $space-l * .75
 
     &.is-active
       .chapter__title

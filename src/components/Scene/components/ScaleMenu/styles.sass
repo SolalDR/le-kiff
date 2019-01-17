@@ -3,23 +3,27 @@
 .scale-menu
   position: fixed
   top: 50%
-  left: $space-m
+  left: $space-m * .8
   display: flex
   flex-direction: column
   z-index: 1
   transform: translateY(-50%)
+  @include largeDesktop()
+    left: $space-l * .75
 
   &__link
     text-align: left
     text-align: left
     padding:  $space-s $space-l * 2 $space-s $space-m
-    margin-bottom: $space-s
+    margin-bottom: $space-s * .3
     font-size: between(10px, 12px)
     text-transform: uppercase
     position: relative
     color: white
     outline: none
     cursor: none
+    @include largeDesktop()
+      margin-bottom: $space-s
 
     &::before
       content: ""

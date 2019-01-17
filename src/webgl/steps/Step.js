@@ -62,6 +62,7 @@ class Step extends Event {
     ConfigManager.updateConfig(this.config);
     this.scene.microScale.updateFromStep(this);
     this.scene.macroScale.updateFromStep(this);
+    this.scene.humanScale.updateFromStep(this);
 
     this.updateSoundsPlayBack(event);
 

@@ -36,10 +36,14 @@ class Scale extends Event {
   init(){
     this.scene.threeScene.add(this.group);
     this.initialized = true;
+    this.initEvents();
   }
 
   initEvents(){
-    this.on("display", () => this.onDisplay())
+    this.on("display", (event) => this.onDisplay(event))
+    Bus.on("config:update", ()=>{
+      this.config = ConfigManager.config[this.name];
+    })
   }
 
   /**
@@ -55,6 +59,8 @@ class Scale extends Event {
     
     this.group.visible = true;
     
+    // Set postprocess scale value
+
     this.scene.renderer.setBloomRadius(config.postprocess.bloom.radius.from);
     this.scene.renderer.setBloomThreshold(config.postprocess.bloom.threshold.from);
     this.scene.renderer.setBloomIntensity(config.postprocess.bloom.threshold.from);
@@ -78,13 +84,17 @@ class Scale extends Event {
 
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
       duration: config.postprocess.duration 
-    }).on("progress", ( event ) => {
+    })
+    .on("progress", ( event ) => {
+      
       renderer.setBloomIntensity(config.postprocess.bloom.strength.from - event.advancement * diff);      
+    
     }).on("end", () => {
-      this.dispatch("display");
-      this.updateSound(config, 'display');
+
+      this.dispatch("display", { transition: config });
       Bus.dispatch("scale:display", this, 1)
       Bus.verbose("scale-" + this.name + ":display", 2)
+
     }));
 
     return {
@@ -128,8 +138,12 @@ class Scale extends Event {
     }
   }
 
-  onDisplay(){
-
+  /**
+   * @abstract
+   */
+  updateFromStep() {}
+  onDisplay(config) {
+    this.updateSound(config.transition, 'display');
   }
 
   /**

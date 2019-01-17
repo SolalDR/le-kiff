@@ -16,7 +16,7 @@ class Intro extends React.Component {
   constructor() {
     super();
     this.state = {
-      autoLoadChapter: true, // TODO: To Remove - Temporary auto load chapter-1 
+      autoLoadChapter: false,
       reveal: false
     };
   }

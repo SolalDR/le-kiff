@@ -72,6 +72,7 @@ export default class extends Step {
     this.currentAction = this.animations[0].animation;
   }
 
+  // TODO:  add to separate class to manage clip animations
   playAnimation(name, callback) {
     if(!this.currentAction.isRunning()) {
         let activeAction, mixer;
@@ -101,10 +102,6 @@ export default class extends Step {
     this.main = event.step_1_human_leaf.result.scene;
     this.mainRoot = event.step_1_human_leaf.result;
     this.main.name = "main-step-2"
-
-    // TODO : temp transform main to debug animation
-    //this.main.position.set(-28.46, 8.76, 2.5);
-    //this.main.rotation.set(0, 0.18, -0.34);
 
     this.createMeshAnimations();
 

@@ -59,7 +59,6 @@ class AppManager {
     AssetsManager.loader.once("load:global", (event) => {
       const soundsData = [];
       globalSoundsData.forEach(data => {
-        console.log(data.name, event[data.name]);
         data.sound = event[data.name].result
         soundsData.push(data);
       });

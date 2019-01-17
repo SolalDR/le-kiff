@@ -10,17 +10,20 @@
   &:before
     content: ""
     position: absolute
-    width: 94px
+    left: 3px
+    top: -28px
+    width: 86px
     height: 1px
     background: currentColor
     opacity: 0
-    transform: scale(0) rotate(-42deg)
+    transform: scale(0) rotate(-45deg)
     transform-origin: 0 0
     transition:
       property: width, transform, opacity
       timing-function: ease
       duration: 0.2s
       delay: 0.3s
+    z-index: 9
 
   &__title
     position: absolute
@@ -31,7 +34,7 @@
     font-size: 20px
     font-weight: 900
     text-transform: uppercase
-    padding-bottom: 15px
+    padding-bottom: $space-xs
     margin-bottom: 15px
     transition:
       property: transform
@@ -42,10 +45,9 @@
       content: ""
       opacity: 0
       position: absolute
-      left: 0
+      left: -36px
       right: 0
-      bottom: -3px
-      width: 100%
+      bottom: -2px
       height: 1px
       background: currentColor
       transform: scale(0)
@@ -60,8 +62,8 @@
     visibility: hidden
     opacity: 0
     position: absolute
-    left: 70px
-    top: -50px
+    left: 100px
+    top: -75px
     font-size: 16px
     width: 260px
     transition:
@@ -71,13 +73,13 @@
       delay: 0.4s
   &__pointer
     position: absolute
-    top: -20px
+    top: -32px
     left: -20px
     display: flex
     align-items: center
     justify-content: center
-    width: 40px
-    height: 40px
+    width: 25px
+    height: 25px
     border: 1px solid currentColor
     border-radius: 100%
     transition:
@@ -89,8 +91,8 @@
       content: ""
       opacity: 1
       position: absolute
-      width: 20px
-      height: 1px
+      width: 12px
+      height: 2px
       background: currentColor
       transform-origin: center
     &:before
@@ -105,7 +107,7 @@
   &--opened
     &:before
       opacity: 1
-      transform: scale(1) rotate(-42deg)
+      transform: scale(1) rotate(-45deg)
     #{$self}__content
       visibility: visible
       opacity: 1

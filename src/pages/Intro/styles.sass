@@ -51,9 +51,12 @@
 
     &__item
       display: inline-block
-      margin-top: between(4px, 8px)
+      margin-top: 6px
       opacity: 0
       transform: translateY(50px)
+
+      @include largeDesktop()
+        margin-top: 10px
 
       @for $i from 1 to 3
         &:nth-of-type(#{$i})

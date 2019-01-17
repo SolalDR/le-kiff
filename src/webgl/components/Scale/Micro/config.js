@@ -1,7 +1,6 @@
 import baseConfig from "./../config";
 import colorPlane from "./../../ColorPlane/config";
 
-
 export default baseConfig.extends({  
   transitions: {
     all: {

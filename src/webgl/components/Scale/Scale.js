@@ -119,7 +119,7 @@ class Scale extends Event {
       duration: config.duration
     });
 
-    this.scene.renderer.setBloomThreshold(1);
+    this.scene.renderer.setBloomThreshold(0);
     this.scene.renderer.setBloomIntensity(config.postprocess.bloom.strength.to);
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
         duration: config.postprocess.duration, 

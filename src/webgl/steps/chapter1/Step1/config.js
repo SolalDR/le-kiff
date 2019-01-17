@@ -20,12 +20,11 @@ export default baseConfig.extends({
         volume: 0.9
       }
     }
-  ]
-  // micro: {
-  //   molecules: {
-  //     cocaine: {
-  //       position: new THREE.Vector3(0, 0, -20)
-  //     }
-  //   }
-  // }
+  ],
+  micro: {
+    atomMaterial: {
+      // Test extends config step2
+      // color: new THREE.Color("rgb(172, 103, 29)")
+    }
+  }
 })

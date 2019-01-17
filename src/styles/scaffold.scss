@@ -83,6 +83,18 @@ body {
   }
 }
 
+.heading-8 {
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 900;
+  font-family: 'Montserrat', serif;
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  @include largeDesktop {
+    font-size: 18px;
+  }
+}
+
 .small {
   font-size: 14px;
   font-weight: normal;

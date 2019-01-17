@@ -97,9 +97,9 @@ class Timeline extends React.Component {
           </span>
         </div>
         <svg
-          width="6"
-          height="10"
-          viewBox="0 0 6 10"
+          width="7"
+          height="11"
+          viewBox="0 0 7 11"
           className="timeline__chapter__control timeline__chapter__control--prev"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -119,9 +119,9 @@ class Timeline extends React.Component {
       nextChapter = (
         <h2 className="timeline__chapter timeline__chapter--next">
           <svg
-            width="6"
-            height="10"
-            viewBox="0 0 6 10"
+            width="7"
+            height="11"
+            viewBox="0 0 7 11"
             className="timeline__chapter__control timeline__chapter__control--next"
             xmlns="http://www.w3.org/2000/svg"
           >

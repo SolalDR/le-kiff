@@ -7,15 +7,20 @@
   right: 0
   z-index: 3
   pointer-events: none
+  @include largeDesktop()
+    top: 125px
 
   &__container 
     position: relative
     float: right
-    margin-right: $space-m + $space-s
+    margin-right: $space-m * 0.9
     transition: 
       duration: $t-duration
       property: transform
       timing-function: $t-timing-function
+
+    @include largeDesktop()
+      margin-right: $space-l * .75
 
   &__item 
     flex: 1
@@ -28,6 +33,9 @@
       duration: $t-duration * 1.5
       property: transform, opacity
       timing-function: $t-timing-function
+
+    @include largeDesktop()
+      marign-bottom: $space-l
 
     @for $i from 0 to 5
       &:nth-of-type(#{$i})
@@ -52,14 +60,13 @@
           property: opacity, transform
           timing-function: $t-timing-function
 
-      
-
     &__burger
       position: absolute
       top: 10px
       right: -($space-m * 2) 
-      width: $space-m
-      height: 1px
+      width: $space-m * .6
+      min-width: 24px
+      height: 2px
       background: $color-secondary
       pointer-events: none
       transition: 
@@ -87,8 +94,18 @@
           property: opacity, transform
           timing-function: $t-timing-function
 
+    &__available
+      margin-right: $space-l
+      margin-top: $space-m
+      transform: skewX(10deg) translateX(10%)
+      opacity: 0
+      transition: 
+        duration: $t-duration * 1.5
+        property: transform
+        timing-function: $t-timing-function
+
     &__expand
-      width: 30%
+      width: between(350px, 480px)
       min-width: 350px
       margin-right: -($space-l)
       overflow: hidden
@@ -109,7 +126,8 @@
     //States
     &.is-active
       .menu__item
-        &__content
+        &__content,
+        &__available
           opacity: 1
           transform: skewX(0) translateX(0)
 

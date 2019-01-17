@@ -3,23 +3,31 @@
 .scale-menu
   position: fixed
   top: 50%
-  left: $space-m
+  left: $space-m * .8
   display: flex
   flex-direction: column
   z-index: 1
   transform: translateY(-50%)
+  @include largeDesktop()
+    left: $space-l * .75
 
   &__link
     text-align: left
     text-align: left
-    padding:  $space-s $space-l * 2 $space-s $space-m
-    margin-bottom: $space-s
-    font-size: 0.75em
+    padding:  $space-xs $space-l * 2 $space-xs $space-m
+    margin-bottom: $space-xs
     text-transform: uppercase
+    font-size: 11px
+    font-weight: 700
+    letter-spacing: 2.2px
     position: relative
     color: white
     outline: none
     cursor: none
+    @include largeDesktop()
+      margin-bottom: $space-s
+      font-size: 12px
+      letter-spacing: 2px
 
     &::before
       content: ""
@@ -27,7 +35,7 @@
       position: absolute
       top: 50%
       left: 0
-      border: 1px solid white
+      border: 2px solid white
       transform: translateY(-50%)
       border-radius: 100%
       background-color: transparent
@@ -38,17 +46,17 @@
 
     &:nth-child(1)::before
       left: 5px
-      width: 10px
-      height: 10px 
+      width: $space-xs
+      height: $space-xs
     
     &:nth-child(2)::before
       left: 2.5px
-      width: 15px
-      height: 15px 
+      width: $space-s * .75
+      height: $space-s * .75
 
     &:nth-child(3)::before
-      width: 20px
-      height: 20px 
+      width: $space-s
+      height: $space-s 
 
 
     &--active

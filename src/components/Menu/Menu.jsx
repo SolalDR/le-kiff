@@ -16,7 +16,7 @@ class Menu extends React.PureComponent {
   constructor(props) {
     super(props);
     this.sizes = [];
-    this.gap = 14;
+    this.gap = 8;
     this.menu = null;
 
     this.state = {
@@ -72,7 +72,7 @@ class Menu extends React.PureComponent {
       const height = this.state.current === chapter.rank ? size.height : 0;
       const className = this.state.current === chapter.rank ? 'menu__item is-active' : 'menu__item';
 
-      return <div onClick={this.handleCloseClick} key={index} to={`/chapter-${chapter.rank}`} className={className} onMouseOver={() => this.onMouseOver(chapter.rank)} onMouseOut={this.onMouseOut.bind(this)}>
+      return <div onClick={this.handleCloseClick} key={index} to={`/chapter-${chapter.rank}`} className={`${className} ${chapter.rank === 1 ? 'is-available' : ''}`} onMouseOver={() => this.onMouseOver(chapter.rank)} onMouseOut={this.onMouseOut.bind(this)}>
           <Link onClick={this.handleCloseClick} key={index} to={`/chapter-${chapter.rank}`} className="menu__item__link">
             <h1 className="menu__item__title heading-3">
               {chapter.title}

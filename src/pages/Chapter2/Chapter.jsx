@@ -29,14 +29,12 @@ class Chapter extends React.Component {
     }
 
     render () {
-      return(
-        <div className="chapter chapter-2">
-          <h1 class="heading-2">À découvrir</h1>
-          <h1 class="heading-1">Transport</h1>
-          <h2 class="heading-2 chapter__date">Le 01.03.2019</h2>
-          <p class="heading-8">Partagez</p>
-        </div>
-      )
+      return <div className="chapter chapter-2">
+          <h1 className="heading-2">À découvrir</h1>
+          <h1 className="heading-1">Transport</h1>
+          <h2 className="heading-2 chapter__date">Le 01.03.2019</h2>
+          <p className="heading-8">Partagez</p>
+        </div>;
       
     }
 }

@@ -27,13 +27,13 @@ class Cursor extends React.Component {
     this.isHoldComplete = false;
     this.cursorNotMovingTimeout = null;
     this.target = {
-      x: 0,
-      y: 0
+      x: 100,
+      y: 100
     };
 
     this.position = {
-      x: 0,
-      y: 0
+      x: 100,
+      y: 100
     };
 
     this.state = {

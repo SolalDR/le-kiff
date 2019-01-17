@@ -64,9 +64,9 @@
       position: absolute
       top: 10px
       right: -($space-m * 2) 
-      width: $space-m
+      width: $space-m * .6
       min-width: 24px
-      height: 1px
+      height: 2px
       background: $color-secondary
       pointer-events: none
       transition: 
@@ -97,6 +97,12 @@
     &__available
       margin-right: $space-l
       margin-top: $space-m
+      transform: skewX(10deg) translateX(10%)
+      opacity: 0
+      transition: 
+        duration: $t-duration * 1.5
+        property: transform
+        timing-function: $t-timing-function
 
     &__expand
       width: between(350px, 480px)
@@ -120,7 +126,8 @@
     //States
     &.is-active
       .menu__item
-        &__content
+        &__content,
+        &__available
           opacity: 1
           transform: skewX(0) translateX(0)
 

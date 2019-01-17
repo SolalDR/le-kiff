@@ -26,6 +26,7 @@ class Scale extends Event {
     this.group.name = name;
     this.name = name;
     this.group.visible = false;
+    this.initialized = false;
   }
   
   /**
@@ -34,6 +35,7 @@ class Scale extends Event {
    */
   init(){
     this.scene.threeScene.add(this.group);
+    this.initialized = true;
   }
 
   initEvents(){

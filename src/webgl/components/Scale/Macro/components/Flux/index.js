@@ -3,7 +3,6 @@ import {MeshLine, MeshLineMaterial} from 'three.meshline'
 import {guiMacro} from "~/services/gui"
 import config from "./config";
 
-console.log(config.material);
 class Flux {
 
   static Material = new THREE.MeshBasicMaterial( {

@@ -51,7 +51,7 @@ class MacroScale extends Scale {
     this.zonings.forEach(zoning => {
       AnimationManager.addAnimation(new Animation({
         from: 1.2, 
-        to: 1.06, 
+        to: 1.01, 
         duration: 500,
         delay: 2000 + Math.random() * 1000,
         timingFunction: "easeOutQuad"
@@ -60,7 +60,7 @@ class MacroScale extends Scale {
         zoning.group.scale.y = event.value;
         zoning.group.scale.z = event.value;
         
-        Zoning.Material.opacity = event.advancement;
+        Zoning.Material.opacity = event.advancement * 0.5;
         Zoning.Material.needsUpdate = true;
       }))
     })
@@ -183,7 +183,7 @@ class MacroScale extends Scale {
   loop(){
     super.loop();
     Flux.LineMaterial.uniforms.dashOffset.value -= this.config.flux.dashOffsetSpeed;
-    this.earth.clouds.rotation.y += 0.0005;
+    this.earth.clouds.rotation.y += 0.0001;
   }
 }
 

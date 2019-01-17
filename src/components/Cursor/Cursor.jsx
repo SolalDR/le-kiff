@@ -5,7 +5,7 @@ import "./styles.sass";
 import throttle from '~/helpers/throttle';
 import Bus from "../../helpers/Bus";
 
-class Cursor extends React.Component {
+class Cursor extends React.Component {
 
   static propTypes = {
     isLoading: PropTypes.bool,
@@ -69,9 +69,9 @@ class Cursor extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.isHoldAllowed !== this.props.isHoldAllowed) {
         if (nextProps.isHoldAllowed) {
-          Bus.verbose("cursor:click&hold-allowed");
+          Bus.verbose("cursor:click&hold-allowed", 3);
         } else {
-          Bus.verbose("cursor:click&hold-not-allowed");
+          Bus.verbose("cursor:click&hold-not-allowed", 3);
         }
     }
   }
@@ -142,7 +142,7 @@ class Cursor extends React.Component {
   }
 
   onHoldComplete(){
-    Bus.verbose("cursor:click&hold-done");
+    Bus.verbose("cursor:click");
     // this.isHoldComplete = true;
     // this.resetHolding();
     this.props.onHoldComplete();

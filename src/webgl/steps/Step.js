@@ -3,6 +3,7 @@ import Bus from "~/helpers/Bus";
 import * as GUI from "~/services/gui";
 import ConfigManager from "~/services/ConfigManager";
 import SoundManager from "~/services/soundManager/SoundManager";
+import InfoManager from "~/webgl/manager/Info";
 
 /**
  * @class
@@ -14,7 +15,7 @@ class Step extends Event {
    * @param {Scene} scene
    * @param {Object} datas 
    * @param {[string]} availableScale
-   * @param {[Info]} points A list of point See ~/webgl/components/point/Point.js
+   * @param {[Info]} points A list of point See ~/webgl/manager/Info/components/Info.js
    */
   constructor({
     scene = null,
@@ -26,7 +27,7 @@ class Step extends Event {
     this.rank = datas.rank;
     this.chapter_rank = datas.chapter_rank;
     this.content = datas.content;
-    this.infos = datas.infos;
+    this.infos = datas.infos
     
     this.state = {
       initialised: false

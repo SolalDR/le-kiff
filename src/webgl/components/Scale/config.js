@@ -1,3 +1,5 @@
+import renderingConfig from "./../../rendering/config";
+
 import { c } from "../../../helpers/Configuration";
 
 var transitionConfig = c({
@@ -14,37 +16,18 @@ var transitionConfig = c({
   
   postprocess: {
     duration: 1000,
+    
     bloom: {
-      strength: {
-        active: true,
+      strength: { // Animated
         from: 10,
         to: 0.1
       },
       radius: {
-        active: false,
         from: 0,
         to: 0
       },
       threshold: {
-        active: false,
         from: 0,
-        to: 0
-      }
-    },
-    bokeh: {
-      focus: {
-        active: false,
-        from: 500,
-        to: 0
-      },
-      aperture: {
-        active: false,
-        from: 0.3*0.00001,
-        to: 0
-      },
-      maxblur: {
-        active: false,
-        from: 1,
         to: 0
       }
     }
@@ -52,10 +35,12 @@ var transitionConfig = c({
 });
 
 export default c({
-  background: new THREE.Color(0xf2f3ee),
   camera: {
     position: new THREE.Vector3(0, 0, 8),
   },
+
+  rendering: renderingConfig,
+
   transitions: {
     micro: transitionConfig.clone(),
     macro: transitionConfig.clone(),

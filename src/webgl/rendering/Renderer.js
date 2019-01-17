@@ -135,6 +135,14 @@ class Renderer {
     this.bloomPass.radius = value;
   }
 
+  /**
+   * Postprocess setter bloom
+   * @param {Number} value 
+   */
+  setToneMappingExposure(value) {
+    this.renderer.toneMappingExposure = value;
+  }
+
   intensity(value){
     this.bloomPass.strength = value;
   }

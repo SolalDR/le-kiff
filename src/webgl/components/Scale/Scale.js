@@ -56,21 +56,11 @@ class Scale extends Event {
    */
   display( config ){
     Bus.dispatch("scale:coming", this);
-    
     this.group.visible = true;
-    
-    // Set postprocess scale value
-
-    this.scene.renderer.setBloomRadius(config.postprocess.bloom.radius.from);
-    this.scene.renderer.setBloomThreshold(config.postprocess.bloom.threshold.from);
-    this.scene.renderer.setBloomIntensity(config.postprocess.bloom.threshold.from);
-
-    this.scene.renderer.setBokehAperture(config.postprocess.bokeh.aperture.from);
-    this.scene.renderer.setBokehFocus(config.postprocess.bokeh.focus.from);
-    this.scene.renderer.setBokehMaxblur(config.postprocess.bokeh.maxblur.from);
+  
+    this.updateRendering();
 
     var diff = config.postprocess.bloom.strength.from - config.postprocess.bloom.strength.to;
-
     this.scene.camera.position.copy(config.position.from);
     this.scene.camera.lookAt(config.target.from);
     
@@ -84,23 +74,39 @@ class Scale extends Event {
 
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
       duration: config.postprocess.duration 
-    })
-    .on("progress", ( event ) => {
-      
+    }).on("progress", ( event ) => {
       renderer.setBloomIntensity(config.postprocess.bloom.strength.from - event.advancement * diff);      
-    
     }).on("end", () => {
-
       this.dispatch("display", { transition: config });
       Bus.dispatch("scale:display", this, 1)
       Bus.verbose("scale-" + this.name + ":display", 2)
-
     }));
 
     return {
       cameraAnim, 
       postprocessAnim: postprocessAnimData.animation
     }
+  }
+
+  updateRendering(){
+    var c = this.config.rendering;
+
+    this.scene.renderer.setToneMappingExposure(c.toneMappingExposure);
+    this.scene.renderer.setBloomRadius(c.bloom.radius);
+    this.scene.renderer.setBloomThreshold(c.bloom.threshold);
+    this.scene.renderer.setBloomIntensity(c.bloom.strength);
+    this.scene.renderer.setBokehAperture(c.bokeh.aperture);
+    this.scene.renderer.setBokehFocus(c.bokeh.focus);
+    this.scene.renderer.setBokehMaxblur(c.bokeh.maxblur);
+  
+    this.scene.lightPrimary.position.copy(c.light.primary.position);
+    this.scene.lightSecondary.position.copy(c.light.secondary.position);
+    this.scene.lightPrimary.intensity = c.light.primary.intensity;
+    this.scene.lightSecondary.intensity = c.light.secondary.intensity;
+    this.scene.lightPrimary.color = c.light.primary.color;
+    this.scene.lightSecondary.color = c.light.secondary.color;
+    
+    console.log(this.scene.lightPrimary.position);
   }
 
   hide( config ){

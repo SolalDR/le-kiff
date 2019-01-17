@@ -1,7 +1,6 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
-import SoundManager from "~/services/soundManager/SoundManager";
 import config from "./config";
 
 /**

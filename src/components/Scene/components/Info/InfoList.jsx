@@ -32,10 +32,16 @@ class InfoList extends React.Component {
     })
   }
 
+  handleClick = (event) => {
+    this.setState({
+      visibleId: this.state.visibleId === event.id ? null : event.id
+    })
+  }
+
   render(){
     this.infos = this.props.infos.map(info => {
       Bus.verbose("infos-react:update")
-      return <Info ref={React.createRef()} key={info.id} info={info}/>
+      return <Info ref={React.createRef()} key={info.id} info={info} opened={this.state.visibleId === info.id} onClick={this.handleClick}/>
     });
 
     return (

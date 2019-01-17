@@ -1,5 +1,6 @@
 import Event from "~/helpers/Event";
 import Viewport from "~/helpers/Viewport"
+import Bus from "../../../../helpers/Bus";
 
 
 /**
@@ -21,8 +22,29 @@ class Info extends Event{
     this.datas = info;
     this.state = {
       screenPosition: new THREE.Vector2(),
-      previousVector: new THREE.Vector3()
+      previousVector: new THREE.Vector3(),
+      opened: false
     };
+  }
+
+  /**
+   * Callback React Info.jsx
+   */
+  click(opened){
+    if( opened && !this.state.opened ){
+      this.state.opened = true;
+      Bus.dispatch(`info:open-${this.datas.scale}-${this.datas.attachment.type}`, {
+        info: this
+      }, 4)
+      return;
+    }
+    
+    if( !opened && this.state.opened ){
+      this.state.opened = false;
+      Bus.dispatch(`info:close-${this.datas.scale}-${this.datas.attachment.type}`, {
+        info: this
+      }, 4)
+    }
   }
 
   /**

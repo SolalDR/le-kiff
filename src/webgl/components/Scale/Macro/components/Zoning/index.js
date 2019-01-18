@@ -33,7 +33,7 @@ class Zoning {
     
     this.fillMaterial = Zoning.Material.clone();
     this.strokeMaterial = Zoning.LineMaterial.clone();
-
+    
     info.attachment.countries.forEach(element => {
       if (countries[element]) {
         this.fillMesh = new THREE.Mesh( countries[element].fillGeometry, this.fillMaterial );

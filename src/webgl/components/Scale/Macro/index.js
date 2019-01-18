@@ -112,6 +112,7 @@ class MacroScale extends Scale {
         this.zonings.set(info.id, zoning);
       }
     });
+    console.log(infos, this.zonings);
   }
 
   updateFluxInfos(infos){

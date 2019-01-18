@@ -3,16 +3,17 @@ import geoBOL from "~/datas/geojson/BOL.geo.json";
 import geoFRA from "~/datas/geojson/FRA.geo.json";
 import geoGUF from "~/datas/geojson/GUF.geo.json";
 import geoPER from "~/datas/geojson/PER.geo.json";
+import geoCOL from "~/datas/geojson/COL.geo.json";
 import GeoCoord from "~/webgl/helpers/geo/GeoCoord";
 import {MeshLine} from 'three.meshline'
-
 
 var countries = { 
   argentine: geoARG, 
   bolivie: geoBOL, 
   france: geoFRA, 
   guyane: geoGUF,  
-  perou: geoPER 
+  perou: geoPER,
+  colombie: geoCOL
 };
 
 class ZoningGeometry {

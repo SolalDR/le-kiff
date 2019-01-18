@@ -1,7 +1,7 @@
 import Event from "~/helpers/Event";
 import Viewport from "~/helpers/Viewport"
 import Bus from "../../../../helpers/Bus";
-
+import GeoCoord from "~/webgl/helpers/geo/GeoCoord";
 
 /**
  * Represent the link with a react infos
@@ -20,6 +20,14 @@ class Info extends Event{
     this.position = new THREE.Vector3(info.attachment.position.x, info.attachment.position.y, info.attachment.position.z);
     this.normal = new THREE.Vector3();
     this.datas = info;
+
+    if(info.attachment.gps_coordinates && (info.attachment.gps_coordinates.lat !== 0 || info.attachment.gps_coordinates.lon !== 0)){
+      var geocoord = new GeoCoord(info.attachment.gps_coordinates.lat, info.attachment.gps_coordinates.lon);
+      this.position = geocoord.getCartesianCoord(3);
+      console.log(this.object3D);
+    }
+    
+
     this.state = {
       screenPosition: new THREE.Vector2(),
       previousVector: new THREE.Vector3(),
@@ -55,6 +63,9 @@ class Info extends Event{
     if( this.object3D ) vector.setFromMatrixPosition(this.object3D.matrixWorld)
     
     vector.add(this.position);
+
+    if( this.object3D ) vector.applyEuler(this.object3D.rotation)
+
     vector.project(camera);
 
     Viewport.transformUnit(vector, this.state.screenPosition);

@@ -43,9 +43,6 @@ class MicroScale extends Scale {
   
   display(previous, next){
     super.display( this.config.transitions.all );
-    // light color to default
-    const light = this.scene.renderer.lights.primary;
-    light.color = new THREE.Color(0xffffff);
   }
 
   hide(previous, next){

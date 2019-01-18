@@ -31,7 +31,7 @@ class Renderer {
     this.camera = camera;
     element.appendChild(this.renderer.domElement);
 
-    this.initLights();
+    //this.initLights();
     this.initPostprocess();
     this.initEvents();
   }

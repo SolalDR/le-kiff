@@ -4,18 +4,16 @@ export default c({
   background: new THREE.Color(0xf2f3ee),
   light: {
     primary: {
-      name: 'Light Primary',
-      color: new THREE.Color(0xf8cb5f), // redish yellow 
       position: new THREE.Vector3(5, 5, 5),
-      intensity: 1.5,
-      power: 21,
+      intensity: 1.3,
+      color: new THREE.Color(0xf8cb5f)
     },
     secondary: {
-      name: 'Light Secondary',
       position: new THREE.Vector3(-5, -5, -5),
-      intensity: 1
+      intensity: 1,
+      color: new THREE.Color(0xffffff)
     }
-  }, 
+  },
   postprocess: {
     bloom: {
       max: 6,

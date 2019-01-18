@@ -57,6 +57,8 @@ class WebGL {
       previousScale: "human"
     };
 
+    this.render();
+
     window.scene = this.threeScene;
   }
 

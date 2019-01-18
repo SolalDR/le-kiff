@@ -34,7 +34,7 @@ export default class extends Step {
     // main transform
     this.main.scale.y = 1;
     this.main.position.set(-0.98, -1.18, -1.12);
-    this.main.rotation.set(-0.66, 0.1, -0.38);
+    this.main.rotation.set(-0.16, 0.1, -0.38);
     
     // add leaf folder
     this.folder.leaf = this.gui.addObject3D("Leaf",  this.main, false);
@@ -52,6 +52,7 @@ export default class extends Step {
   }
 
   hide() {
+    console.log(this.scene.camera.position);
     //this.scene.humanScale.group.remove(this.main);
     this.gui.removeFolder(this.folder.leaf);
     super.hide();

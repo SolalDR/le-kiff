@@ -36,6 +36,7 @@ export default class extends Step {
 
       var startPosition = this.main.position.clone();
       var startRotation = this.main.rotation.clone();
+
       AnimationManager.addAnimation(new Animation({
         duration: 3600, 
         timingFunction: "easeInOutQuad"
@@ -47,7 +48,7 @@ export default class extends Step {
         this.main.position.z = lerp(startPosition.z, 0.96, a);
         this.main.rotation.x = lerp(startRotation.x, 0.46, a);
         this.main.rotation.y = lerp(startRotation.y, 0.20, a);
-        this.main.rotation.z = lerp(startRotation.y, -0.18, a);
+        this.main.rotation.z = lerp(startRotation.z, -0.18, a);
       }).on("end", () => {
         console.log('branch anim end');
       }));

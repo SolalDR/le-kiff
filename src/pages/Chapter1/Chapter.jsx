@@ -77,7 +77,6 @@ class Chapter extends React.Component {
     }
 
     onStepChange = rank => {
-      //@todo : once there is real content
       if (rank < this.props.chapter.steps.length) {
         this.props._setCurrentStepRank(rank);
       } else {
@@ -85,9 +84,9 @@ class Chapter extends React.Component {
       }
     }
 
+    // TODO Call router to navigate 
     onChapterChange = chapterRank => {
-      //Call router to navigate 
-      console.log("chapter change is selected in timeline", chapterRank);
+
     }
 
     render () {

@@ -38,7 +38,6 @@ class InfoPoint extends React.Component {
   }
 
   computedStyle(){
-    // console.log("Info.jsx computeStyle", this.state.screenPosition)
     return {
       transform: `translate3d(${this.state.screenPosition.x}px, ${this.state.screenPosition.y}px, 0)`
     }

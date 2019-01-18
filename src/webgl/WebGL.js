@@ -46,6 +46,7 @@ class WebGL {
     })
 
     ConfigManager.updateConfig(defaultConfig);
+    this.config = ConfigManager.config;
     this.microScale = new MicroScale({ scene: this });
     this.macroScale = new MacroScale({ scene: this });
     this.humanScale = new HumanScale({ scene: this }); 
@@ -57,6 +58,8 @@ class WebGL {
     };
 
     this.render();
+
+    window.scene = this.threeScene;
   }
 
   /**
@@ -149,6 +152,7 @@ class WebGL {
     this.clock.update();
 
     this[this.state.currentScale+"Scale"].loop(this.clock.elapsed);
+    this.step.loop();
     this.mouseCaster.render();
     this.controllerManager.update();
 

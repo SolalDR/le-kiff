@@ -25,7 +25,7 @@ export default class extends Step {
     this.main.name = "main-step-1";
     
     this.scene.humanScale.group.add(this.main);
-    var background = new FitPlane({
+    this.background = new FitPlane({
       background: e.background.result, 
       size: 450,
       distance: 100
@@ -34,7 +34,7 @@ export default class extends Step {
     // main transform
     this.main.scale.y = 1;
     this.main.position.set(-0.98, -1.18, -1.12);
-    this.main.rotation.set(-0.66, 0.1, -0.38);
+    this.main.rotation.set(-0.16, 0.1, -0.38);
     
     // add leaf folder
     this.folder.leaf = this.gui.addObject3D("Leaf",  this.main, false);
@@ -42,7 +42,7 @@ export default class extends Step {
     this.folder.leaf.addMaterial('Leaf', this.main.children[2].material); 
 
     // Add background
-    this.scene.humanScale.group.add(background.object3D);
+    this.scene.humanScale.group.add(this.background.object3D);
     
   }
 
@@ -52,6 +52,7 @@ export default class extends Step {
   }
 
   hide() {
+    console.log(this.scene.camera.position);
     //this.scene.humanScale.group.remove(this.main);
     this.gui.removeFolder(this.folder.leaf);
     super.hide();

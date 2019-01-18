@@ -33,7 +33,30 @@ export default class extends Step {
     this.createMeshAnimations();
 
     this.playAnimation('hang-out').then((e) => {
-      this.playAnimation('move-in-wind');
+
+      var startPosition = this.main.position.clone();
+      var startRotation = this.main.rotation.clone();
+
+      AnimationManager.addAnimation(new Animation({
+        duration: 3600, 
+        timingFunction: "easeInOutQuad"
+      }).on("progress", ( event ) => {
+        var a = event.advancement;
+        var lerp = THREE.Math.lerp;
+        this.main.position.x = lerp(startPosition.x, -30, a);
+        this.main.position.y = lerp(startPosition.y, 1.76, a);
+        this.main.position.z = lerp(startPosition.z, 0.96, a);
+        this.main.rotation.x = lerp(startRotation.x, 0.46, a);
+        this.main.rotation.y = lerp(startRotation.y, 0.20, a);
+        this.main.rotation.z = lerp(startRotation.z, -0.18, a);
+      }).on("end", () => {
+        console.log('branch anim end');
+      }));
+
+      this.playAnimation('move-in-wind').then(() => {
+        this.playAnimation('idle');
+      });
+
     });
   }
 
@@ -112,7 +135,7 @@ export default class extends Step {
     this.currentAction = this.animations[0].animation;
   }
 
-  // TODO:  add to separate class to manage clip animations
+  // TODO:  add to separate animationClip manager to handle clip animations between steps
   playAnimation(name, callback) {
     if(!this.currentAction.isRunning()) {
         var mixer;

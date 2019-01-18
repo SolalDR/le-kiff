@@ -13,7 +13,8 @@ var countries = {
   BOL: new ZoningGeometry("bolivie"),
   FRA: new ZoningGeometry("france"),
   GUF: new ZoningGeometry("guyane"),
-  PER: new ZoningGeometry("perou")
+  PER: new ZoningGeometry("perou"),
+  COL: new ZoningGeometry("colombie")
 };
 
 class Zoning {

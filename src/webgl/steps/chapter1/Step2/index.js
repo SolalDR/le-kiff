@@ -2,9 +2,9 @@ import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import SoundManager from "~/services/soundManager/SoundManager";
 import config from "./config";
-import ClipAnimationUtils from "../../../helpers/ClipAnimationUtils"; 
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import { c } from "../../../../helpers/Configuration";
+import ModelAnimationManager from "../../../manager/ModelAnimation";
 
 /**
  * @constructor
@@ -28,12 +28,15 @@ export default class extends Step {
   displayHumanScale( event ){
     this.main = event.step_1_human_leaf.result.scene;
     this.mainRoot = event.step_1_human_leaf.result;
-    this.main.name = "main-step-2"
+    this.mainRootName = this.mainRoot.name;
+    this.main.name = "main-step-2";
 
-    this.createMeshAnimations();
+    // create clips from current scene model anims
+    ModelAnimationManager.createClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options)
 
-    this.playAnimation('hang-out').then((e) => {
-
+    // TODO: add possibility to set active model to only call play('clipName')
+    ModelAnimationManager.play(this.mainRootName, 'hang-out').then(() => {
+      
       var startPosition = this.main.position.clone();
       var startRotation = this.main.rotation.clone();
 
@@ -53,10 +56,11 @@ export default class extends Step {
         console.log('branch anim end');
       }));
 
-      this.playAnimation('move-in-wind').then(() => {
-        this.playAnimation('idle');
+      ModelAnimationManager.play(this.mainRootName, 'move-in-wind').then(() => {
+        ModelAnimationManager.play(this.mainRootName, 'idle').then(() => {
+          ModelAnimationManager.play(this.mainRootName, 'cut');
+        })
       });
-
     });
   }
 
@@ -76,88 +80,5 @@ export default class extends Step {
    */
   loop(){
     super.loop();
-    if ( this.mixers.length > 0 ) {
-      for ( var i = 0; i < this.mixers.length; i ++ ) {
-          this.mixers[ i ].update( this.scene.clock.delta );
-      }
-    }
-  }
-
-  // TODO: make generic animations in steps for main leaf
-  createMeshAnimations() {
-    this.mixers = [];
-    // TODO: add to some anim config
-    this.animations = [
-      {
-        name: 'hang-out',
-        firstFrame: 0,
-        lastFrame: 70,
-        animation: null
-      },
-      {
-        name: 'move-in-wind',
-        firstFrame: 70,
-        lastFrame: 171,
-        animation: null
-      },
-      {
-        name: 'idle',
-        firstFrame: 171,
-        lastFrame: 213,
-        loop: THREE.LoopRepeat,
-        animation: null
-      },
-      {
-        name: 'cut',
-        firstFrame: 213,
-        lastFrame: 264,
-        animation: null
-      },
-    ];
-
-    this.currentAction = null;
-
-    this.mixer = new THREE.AnimationMixer(this.main);
-    this.mixer.timeScale = 0.0009;
-
-    var mainClip = this.mixer.clipAction( this.mainRoot.animations[ 0 ] );
-
-    for (var i = 0; i < this.animations.length; i++) { 
-      const animData = this.animations[i];
-      const loopType = animData.loop !== undefined ? animData.loop : THREE.LoopOnce;
-      animData.animation = this.mixer.clipAction(ClipAnimationUtils.subclip(mainClip._clip, this.animations[i].name , this.animations[i].firstFrame, this.animations[i].lastFrame ));
-      animData.animation.setLoop( loopType );
-      animData.animation.clampWhenFinished = true;
-    }
-
-    this.mixers.push( this.mixer );
-
-    this.currentAction = this.animations[0].animation;
-  }
-
-  // TODO:  add to separate animationClip manager to handle clip animations between steps
-  playAnimation(name, callback) {
-    if(!this.currentAction.isRunning()) {
-        var mixer;
-        let activeAction;
-        let lastAction = this.currentAction;
-        let activeAnimation = this.animations.find(u => u.name === name);
-
-        activeAction = activeAnimation.animation;
-        mixer = activeAction.getMixer();
-        this.currentAction = activeAction;
-
-        if(activeAction == lastAction) {
-            activeAction.stop().play();
-        } else {
-            activeAction.play();
-            lastAction.stop();
-        }
-
-        // anim chain
-        return new Promise(function(resolve, reject) {
-          mixer.addEventListener('finished', resolve);
-        });
-    }
   }
 }

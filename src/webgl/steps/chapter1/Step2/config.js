@@ -2,6 +2,34 @@ import baseConfig from "./../../config";
 
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
+  modelAnimation: {
+    options: {
+      timeScale: 0.0009
+    },
+    clips: [
+      {
+        name: 'hang-out',
+        firstFrame: 0,
+        lastFrame: 70,
+      },
+      {
+        name: 'move-in-wind',
+        firstFrame: 70,
+        lastFrame: 171,
+      },
+      {
+        name: 'idle',
+        firstFrame: 171,
+        lastFrame: 213,
+        loop: THREE.LoopRepeat,
+      },
+      {
+        name: 'cut',
+        firstFrame: 213,
+        lastFrame: 264,
+      },
+    ]
+  }, 
   sounds: [
     {
       name : "step_2_main_sound", 

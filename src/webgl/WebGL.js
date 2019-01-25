@@ -12,6 +12,7 @@ import {guiRendering} from "~/services/gui"
 import Bus from "../helpers/Bus";
 import ConfigManager from "../services/ConfigManager";
 import defaultConfig from "./steps/config";
+import ModelAnimationManager from "./manager/ModelAnimation";
 
 class WebGL {
 
@@ -158,6 +159,7 @@ class WebGL {
 
     InfoManager.update();
     AnimationManager.renderAnimations(this.clock.delta);
+    ModelAnimationManager.update(this.clock.delta);
 
     this.renderer.render();
 

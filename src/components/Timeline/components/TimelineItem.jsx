@@ -24,7 +24,7 @@ class TimelineItem extends React.Component {
     return (
       <div className={className}>
         <button className="timeline__item__button" onClick={this.handleClick} />
-        <span className="timeline__item__title small">{this.props.title}</span>
+        <span className="timeline__item__title teasing-5">{this.props.title}</span>
       </div>
     );
   }

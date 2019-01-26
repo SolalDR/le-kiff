@@ -85,7 +85,7 @@ class Menu extends React.PureComponent {
                 <path d="M9.6 12H0L9.6 0H0z" stroke="#FFF" fill="none" fillRule="evenodd" />
               </svg> <span className="menu__item__time__value t-heading-7"> - 5 minutes</span>
             </div>
-            <p className="menu__item__content teasing-3">
+            <p className="menu__item__content teasing-2">
               {chapter.content}
             </p>
             { chapter.rank == 2 && 

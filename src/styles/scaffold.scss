@@ -39,6 +39,7 @@ body {
 .heading-3 {
   font-family: $font-primary;
   font-weight: 900;
+  text-transform: uppercase;
   font-size: 48px;
 
   @include desktop {
@@ -71,8 +72,9 @@ body {
 .heading-5 {
   font-family: $font-primary;
   font-weight: 900;
+  text-transform: uppercase;
   font-size: 14px;
-  letter-spacing: 1px;
+  letter-spacing: 1.08px;
 
   @include desktop {
     font-size: 16px;
@@ -81,7 +83,7 @@ body {
 
   @include up-large-desktop {
     font-size: 19px;
-    letter-spacing: 1.9px;
+    letter-spacing: 1.19px;
   }
 }
 

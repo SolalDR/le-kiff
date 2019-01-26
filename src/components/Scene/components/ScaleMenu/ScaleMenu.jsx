@@ -11,6 +11,12 @@ class ScaleMenu extends React.Component {
       scale: props.scale,
       revealed: null
     };
+
+    this.infos = [
+      {scale: 'micro', title: 'Molécule'},
+      {scale: 'human', title: 'Humain'},
+      {scale: 'macro', title: 'Planète'}
+    ];
   }
 
   /**
@@ -26,8 +32,8 @@ class ScaleMenu extends React.Component {
    */
   computeClassName(scale){
     return scale === this.props.scale ? 
-      "scale-menu__link scale-menu__link--active" : 
-      "scale-menu__link";
+      "scale-menu__item is-active" : 
+      "scale-menu__item";
   }
 
   onMouseOver(rank) {
@@ -41,35 +47,28 @@ class ScaleMenu extends React.Component {
       revealed: null
     })
   }
+
+  renderScaleItem() {
+    return this.infos.map((item, index) => {
+      const rank = index + 1;
+      return (<button 
+        key={`scale-menu${index}`}
+        className={this.computeClassName(item.scale)}
+        onMouseOver={() => this.onMouseOver(rank)}
+        onMouseOut={this.onMouseOut.bind(this)}
+        onClick={this.handleClick.bind(this, item.scale)}>
+          <LetterReveal text={item.title} class={'scale-menu__text heading-8'} duration={0.15} delay={0.025} reveal={(this.state.revealed === rank) || (this.props.scale == item.scale) ? true : false} />
+      </button>)
+    })
+  }
+
   render(){
     return (
       <div className="scale-menu">
-        {/* <LetterReveal text='Molécules' onClick={this.handleClick.bind(this, "micro")} reveal={true} /> */}
-        <button 
-          className={this.computeClassName("micro")}
-          onMouseOver={() => this.onMouseOver(1)}
-          onMouseOut={this.onMouseOut.bind(this)}
-          onClick={this.handleClick.bind(this, "micro")}>
-            <LetterReveal text='Molécule' class={'scale-menu__text heading-8'} onClick={this.handleClick.bind(this, "micro")} duration={0.15} delay={0.025} reveal={(this.state.revealed === 1) || (this.props.scale == 'micro') ? true : false} />
-        </button>
-        <button 
-          className={this.computeClassName("human")}
-          onMouseOver={() => this.onMouseOver(2)}
-          onMouseOut={this.onMouseOut.bind(this)}
-          onClick={this.handleClick.bind(this, "human")} >
-          <LetterReveal text='Humain' class={'scale-menu__text heading-8'} onClick={this.handleClick.bind(this, "micro")} duration={0.15} delay={0.025} reveal={(this.state.revealed === 2) || (this.props.scale == 'human') ? true : false} />
-        </button>
-        <button 
-          className={this.computeClassName("macro")}
-          onMouseOver={() => this.onMouseOver(3)}
-          onMouseOut={this.onMouseOut.bind(this)}
-          onClick={this.handleClick.bind(this, "macro")} >
-          <LetterReveal text='Planète' class={'scale-menu__text heading-8'} onClick={this.handleClick.bind(this, "micro")} duration={0.15} delay={0.025} reveal={(this.state.revealed === 3) || (this.props.scale == 'macro') ? true : false} />
-        </button>
+        {this.renderScaleItem()}
       </div>
     )
   }
-
 }
 
 export default ScaleMenu;

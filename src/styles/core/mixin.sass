@@ -96,3 +96,10 @@
 // LERP  
 @function space-xl($ratio: 1)
   @return space(64px, 72px, $ratio)  
+
+
+//ANTIALIASING
+@mixin antialiasing($type: antialiased) 
+  -webkit-font-smoothing: $type
+  font-smoothing: $type
+  font-smooth: always

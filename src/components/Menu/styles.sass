@@ -7,7 +7,7 @@
   right: 0
   z-index: 3
   pointer-events: none
-  @include largeDesktop()
+  @include up-large-desktop()
     top: 125px
 
   &__container 
@@ -19,7 +19,7 @@
       property: transform
       timing-function: $t-timing-function
 
-    @include largeDesktop()
+    @include up-large-desktop()
       margin-right: $space-l * .75
 
   &__item 
@@ -34,7 +34,7 @@
       property: transform, opacity
       timing-function: $t-timing-function
 
-    @include largeDesktop()
+    @include up-large-desktop()
       marign-bottom: $space-l
 
     @for $i from 0 to 5

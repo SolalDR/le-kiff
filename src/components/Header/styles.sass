@@ -7,7 +7,7 @@
   width: 100vw
   height: 0
   z-index: 2
-  @include largeDesktop()
+  @include up-large-desktop()
     top: $space-m
 
 
@@ -19,7 +19,7 @@
     padding: ($space-m * .6) $space-xs ($space-m * .6)
     box-shadow: none
     cursor: none
-    @include largeDesktop()
+    @include up-large-desktop()
       right: $space-m
 
     &:hover
@@ -38,7 +38,7 @@
       right: $space-m
       opacity: 0
       z-index: 5
-      @include largeDesktop()
+      @include up-large-desktop()
         right: $space-m * 1.2
 
       &:before,
@@ -65,7 +65,7 @@
     top: $space-s
     right: $space-l
     pointer-events: none
-    @include largeDesktop()
+    @include up-large-desktop()
         right: $space-l * 1.5
 
   &__link

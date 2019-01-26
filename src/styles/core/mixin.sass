@@ -16,9 +16,55 @@
   left: 50%
   transform: translate(-50%, -50%)
 
-@mixin largeDesktop 
-  @media (min-width: #{$largeDesktop})
+//MEDIA QUERIES
+//Large desktop
+@mixin largeDesktop
+  @media (min-width: #{$mq-large-desktop})
     @content 
+
+@mixin up-large-desktop 
+  @media (min-width: #{$mq-large-desktop})
+    @content 
+
+//Desktop
+@mixin up-desktop
+  @media (min-width: #{$mq-desktop})
+    @content 
+
+@mixin desktop
+  @media (min-width: #{$mq-desktop}) and (max-width: $mq-large-desktop)
+    @content 
+
+@mixin below-desktop
+  @media (max-width: #{$mq-desktop})
+    @content 
+
+//Small desktop
+@mixin up-small-desktop
+  @media (min-width: #{$mq-small-desktop})
+    @content 
+
+@mixin small-desktop
+  @media (min-width: #{$mq-small-desktop}) and (max-width: $mq-desktop)
+    @content 
+
+@mixin below-small-desktop
+  @media (max-width: #{$mq-desktop})
+    @content 
+
+//Tablet
+@mixin up-tablet
+  @media (min-width: #{$mq-tablet})
+    @content 
+
+@mixin below-tablet
+  @media (max-width: #{$mq-tablet})
+    @content 
+
+@mixin tablet
+  @media (min-width: #{$mq-mobile}) and (max-width: #{$mq-tablet})
+    @content 
+
 
 // LERP  
 @function between($from, $to, $fromWidth: $small, $toWidth: $large, $ratio: 1) 

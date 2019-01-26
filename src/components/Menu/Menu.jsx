@@ -74,7 +74,7 @@ class Menu extends React.PureComponent {
 
       return <div onClick={this.handleCloseClick} key={index} to={`/chapter-${chapter.rank}`} className={`${className} ${chapter.rank === 1 ? 'is-available' : ''}`} onMouseOver={() => this.onMouseOver(chapter.rank)} onMouseOut={this.onMouseOut.bind(this)}>
           <Link onClick={this.handleCloseClick} key={index} to={`/chapter-${chapter.rank}`} className="menu__item__link">
-            <h1 className="menu__item__title heading-3">
+            <h1 className="menu__item__title heading-4">
               {chapter.title}
             </h1>
             <span className="menu__item__burger" style={{ transform: transform }} />
@@ -83,7 +83,7 @@ class Menu extends React.PureComponent {
             <div className="menu__item__time">
               <svg width="10" height="12" xmlns="http://www.w3.org/2000/svg" className="menu__item__time__icon">
                 <path d="M9.6 12H0L9.6 0H0z" stroke="#FFF" fill="none" fillRule="evenodd" />
-              </svg> <span className="menu__item__time__value heading-6"> - 5 minutes</span>
+              </svg> <span className="menu__item__time__value t-heading-7"> - 5 minutes</span>
             </div>
             <p className="menu__item__content teasing-3">
               {chapter.content}

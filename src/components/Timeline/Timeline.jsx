@@ -88,11 +88,11 @@ class Timeline extends React.Component {
     previousChapter = (
       <h2 className="timeline__chapter timeline__chapter--prev">
         <div className="timeline__chapter__inner">
-          <span className="timeline__chapter__indicator heading-5">
+          <span className="timeline__chapter__indicator heading-7">
             Chapitre précédent
           </span>
-          {/* <span className="timeline__chapter__title heading-4">{this.props.previousChapter.rank}. {this.props.previousChapter.title}</span> */}
-          <span className="timeline__chapter__title heading-4">
+          {/* <span className="timeline__chapter__title heading-6">{this.props.previousChapter.rank}. {this.props.previousChapter.title}</span> */}
+          <span className="timeline__chapter__title heading-6">
             1. La naissance
           </span>
         </div>
@@ -133,10 +133,10 @@ class Timeline extends React.Component {
             />
           </svg>
           <div className="timeline__chapter__inner">
-            <span className="timeline__chapter__indicator heading-5">
+            <span className="timeline__chapter__indicator heading-7">
               Chapitre suivant
             </span>
-            <span className="timeline__chapter__title heading-4">
+            <span className="timeline__chapter__title heading-6">
               {this.props.nextChapter.rank}. {this.props.nextChapter.title}
             </span>
           </div>

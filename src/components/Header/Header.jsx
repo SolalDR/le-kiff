@@ -38,10 +38,10 @@ class Header extends React.Component {
             <div className="header__top">
               <div className="header__links">
                 <Link className="header__link" to={'/'}>
-                  <span className="heading-5">Crédits</span>
+                  <span className="heading-7">Crédits</span>
                 </Link>
                 <Link className="header__link" to={'/'}>
-                  <span className="heading-5">À propos</span>
+                  <span className="heading-7">À propos</span>
                 </Link>
               </div>
               <button className="header__menu" onClick={this.handleToggleMenu} ref={this.initPos}>

@@ -94,7 +94,7 @@ class Intro extends React.Component {
               options={{ scale: 1, left: 0, x: 0 }}
               start={{ opacity: 0, x: 50, scale: 0.5 }}
             />
-            <p className={`intro__teasing teasing-1 ${this.state.reveal ? 'is-revealed' : ''}`}>
+            <p className={`intro__teasing teasing-3 ${this.state.reveal ? 'is-revealed' : ''}`}>
               <span className="intro__teasing__item">Découvrez l’histoire d’un caillou de crack, de sa production à</span> 
               <span className="intro__teasing__item">sa consommation, et ses conséquences sur la vie, la mort et l’humeur</span>
             </p>

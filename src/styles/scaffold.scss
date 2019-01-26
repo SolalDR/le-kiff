@@ -176,17 +176,17 @@ body {
   font-family: $font-secondary;
   font-weight: 400;
   font-style: italic;
-  font-size: 19px;
+  font-size: 16px;
   line-height: 18px;
 
   @include desktop {
-    font-size: 16px;
-    line-height: 18px;
+    font-size: 18px;
+    line-height: 21px;
   }
 
   @include up-large-desktop {
     font-size: 19px;
-    letter-spacing: 18px;
+    letter-spacing: 23px;
   }
 }
 

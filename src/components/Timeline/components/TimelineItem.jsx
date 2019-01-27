@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import SoundManager from "~/services/soundManager/SoundManager";
+import "./styles.sass";
 
 class TimelineItem extends React.Component {
   

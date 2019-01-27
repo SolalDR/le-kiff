@@ -91,6 +91,7 @@ body {
   font-family: $font-primary;
   font-weight: 900;
   text-transform: uppercase;
+  @include antialiasing();
   font-size: 13px;
   letter-spacing: 1.08px;
 
@@ -213,6 +214,7 @@ body {
   font-family: $font-secondary;
   font-style: italic;
   font-weight: 600;
+  @include antialiasing()
   font-size: 14px;
 
   @include desktop {

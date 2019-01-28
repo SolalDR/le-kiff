@@ -1,6 +1,8 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import config from "./config";
+import Water from "../../../components/Water";
+import Renderer from "~/webgl/rendering/Renderer"
 
 /**
  * @constructor
@@ -28,8 +30,23 @@ export default class extends Step {
         color: 0xFF0000
       })
     );
+    this.water = new Water({
+      renderer: Renderer.renderer
+    });
+    this.water.mesh.position.y = -2;
+
+    this.waterGui = this.gui.addFolder("Water");
+    this.waterGui.add(this.water.heightmapVariable.material.uniforms.mouseSize, "value", 0, 0.5).name("Size")
+    this.waterGui.add(this.water.heightmapVariable.material.uniforms.viscosityConstant, "value", 0, 0.1).name("viscosityConstant")
+    this.waterGui.add(this.water.heightmapVariable.material.uniforms.gravityConstant, "value", 0, 20).name("gravityConstant")
+    
+    this.waterGui.addMaterial("Water", this.water.material);
+    window.water = this.water
+
+    console.log(this);
     this.main.name = "main-step-2"
 
+    this.scene.humanScale.group.add(this.water.mesh)
     this.scene.humanScale.group.add(this.main);
   }
 
@@ -40,6 +57,13 @@ export default class extends Step {
 
   hide() {
     this.scene.humanScale.group.remove(this.main);
+    this.scene.humanScale.group.remove(this.water.mesh)
+    this.gui.remove(this.waterGui)
     super.hide();
+  }
+
+  loop(){
+    super.loop();
+    this.water.render();
   }
 }

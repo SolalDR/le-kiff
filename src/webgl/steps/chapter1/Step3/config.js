@@ -10,5 +10,18 @@ export default baseConfig.extends({
         }
       }
     }
-  }
+  },
+  modelAnimation: {
+    name : 'coca-plant',
+    options: {
+      timeScale: 0.0009
+    },
+    clips: [
+      {
+        name: 'cut',
+        firstFrame: 213,
+        lastFrame: 264,
+      }
+    ]
+  },
 })

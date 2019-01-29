@@ -27,16 +27,14 @@ export default class extends Step {
    */
   displayHumanScale( event ){
     this.main = event.step_1_human_leaf.result.scene;
-    this.mainRoot = event.step_1_human_leaf.result;
-    this.mainRootName = this.mainRoot.name;
     this.main.name = "main-step-2";
+    this.mainRoot = event.step_1_human_leaf.result;
+    this.mainRoot.name = config.modelAnimation.name;
 
     // create clips from current scene model anims
-    ModelAnimationManager.createClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options)
+    ModelAnimationManager.generateClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options)
 
-    // TODO: add possibility to set active model to only call play('clipName')
-    ModelAnimationManager.play(this.mainRootName, 'hang-out').then(() => {
-      
+    ModelAnimationManager.play('hang-out').then(() => {
       var startPosition = this.main.position.clone();
       var startRotation = this.main.rotation.clone();
 
@@ -56,10 +54,8 @@ export default class extends Step {
         console.log('branch anim end');
       }));
 
-      ModelAnimationManager.play(this.mainRootName, 'move-in-wind').then(() => {
-        ModelAnimationManager.play(this.mainRootName, 'idle').then(() => {
-          ModelAnimationManager.play(this.mainRootName, 'cut');
-        })
+      ModelAnimationManager.play('move-in-wind').then(() => {
+        ModelAnimationManager.play('idle');
       });
     });
   }

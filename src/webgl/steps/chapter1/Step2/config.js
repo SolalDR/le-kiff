@@ -3,6 +3,7 @@ import baseConfig from "./../../config";
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
   modelAnimation: {
+    name : 'coca-plant',
     options: {
       timeScale: 0.0009
     },
@@ -22,12 +23,7 @@ export default baseConfig.extends({
         firstFrame: 171,
         lastFrame: 213,
         loop: THREE.LoopRepeat,
-      },
-      {
-        name: 'cut',
-        firstFrame: 213,
-        lastFrame: 264,
-      },
+      }
     ]
   }, 
   sounds: [

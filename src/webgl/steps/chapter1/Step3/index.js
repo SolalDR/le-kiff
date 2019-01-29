@@ -3,6 +3,7 @@ import AssetsManager from "~/services/assetsManager/AssetsManager"
 import config from "./config";
 import Water from "../../../components/Water";
 import Renderer from "~/webgl/rendering/Renderer"
+import ModelAnimationManager from "../../../manager/ModelAnimation";
 
 /**
  * @constructor
@@ -24,12 +25,17 @@ export default class extends Step {
    * @param {*} event
    */
   displayHumanScale( event ){
-    this.main = new THREE.Mesh(
-      new THREE.BoxGeometry(),
-      new THREE.MeshPhongMaterial({
-        color: 0xFF0000
-      })
-    );
+    // this.main = new THREE.Mesh(
+    //   new THREE.BoxGeometry(),
+    //   new THREE.MeshPhongMaterial({
+    //     color: 0xFF0000
+    //   })
+    // );
+    this.main = event.step_1_human_leaf.result.scene;
+    this.mainRoot = event.step_1_human_leaf.result;
+    this.mainRoot.name = config.modelAnimation.name;
+    this.main.name = "main-step-3"
+
     this.water = new Water({
       renderer: Renderer.renderer
     });
@@ -57,6 +63,10 @@ export default class extends Step {
 
     this.scene.humanScale.group.add(this.water.mesh)
     this.scene.humanScale.group.add(this.main);
+
+    // create clips from current scene model anims
+    ModelAnimationManager.generateClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options)
+    ModelAnimationManager.play('cut');
   }
 
   display( isNextStep = false, event ) {

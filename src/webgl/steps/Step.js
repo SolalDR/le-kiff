@@ -65,6 +65,10 @@ class Step extends Event {
     this.scene.macroScale.updateFromStep(this);
     this.scene.humanScale.updateFromStep(this);
 
+    //console.log('step event', event);
+    console.log('id', this.id);
+    console.log('rank', this.rank);
+
     this.updateSoundsPlayBack(event);
 
     Bus.dispatch("step:display", this);

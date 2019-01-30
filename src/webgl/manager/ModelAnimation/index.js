@@ -7,7 +7,6 @@ class ModelAnimationManager extends Event {
     super();
     this.models = new Map();
     this.activeModel = null;
-    this.currentAction = null;
   }
 
   generateClips(model, clipsData, options = {}) {
@@ -24,7 +23,7 @@ class ModelAnimationManager extends Event {
     }
 
     // set first clip has current action
-    this.currentAction = clipsData[0].animation;
+    modelAnim.currentAction = clipsData[0].animation;
     
     // add modelAnim to list
     this.models.set(modelAnim.name, modelAnim);
@@ -38,11 +37,14 @@ class ModelAnimationManager extends Event {
     let modelAnim = this.models.get(model.name);
 
     // if not create new modelAnim
+
+    // TODO: create modelAnim
     if(!modelAnim) {
       modelAnim = {
         name : model.name,
         mixer: new THREE.AnimationMixer(model.scene),
         clips: [],
+        currentAction: null,
         running: false
       } 
     }
@@ -76,12 +78,14 @@ class ModelAnimationManager extends Event {
   }
 
   _play(modelName, clipName) {
-    if(this.currentAction.isRunning()) return;
   
+    var modelAnim = this.models.get(modelName);
+    var lastAction = modelAnim.currentAction;
+
+    if(lastAction.isRunning()) return;
+
     var mixer;
     var activeAction;
-    var lastAction = this.currentAction;
-    var modelAnim = this.models.get(modelName);
     var activeAnimation;
 
     // set modelAnim running
@@ -102,11 +106,10 @@ class ModelAnimationManager extends Event {
     } else {
         activeAction.play();
         lastAction.stop();
-        console.log(lastAction);
     }
 
     // set currentAction
-    this.currentAction = activeAction;
+    modelAnim.currentAction = activeAction;
 
     // anim chain
     const isLooping = activeAction.loop === THREE.LoopRepeat;
@@ -119,18 +122,29 @@ class ModelAnimationManager extends Event {
     });
   }
 
+  // FIXME: stop not reseting animation
   stopAll() {
     if ( this.models.size > 0 ) {
       for (var model of this.models.values()) {
-        if(model.running) model.mixer.stopAllAction()
+        if(model.running) {
+          model.mixer.time = 0;
+          model.mixer.stopAllAction();
+          console.log('mixer stop all', model.mixer);
+          model.mixer.update(0);
+          model.running = false;
+        } 
       }
     }
+  }
+
+  stopCurrent(modelName) {
+    const model = this.models.get(modelName);
+    (model ? model : this.activeModel).currentAction.stop();
   }
 
   update(delta) { 
     if ( this.models.size > 0 ) {
       for (var model of this.models.values()) {
-        console.log('model.running', model.running);
         if(model.running) model.mixer.update(delta);
       }
     }

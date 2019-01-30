@@ -13,11 +13,11 @@ export default class extends Step {
 
   /**
    * This method initialize the step and 
-   * @param {boolean} isNextStep If the step is arriving form the precedent
+   * @param {Step} previousStep previous step in History
    */
-  init( isNextStep ) {
-    super.init(config);
-    this.display(isNextStep, AssetsManager.loader.getFiles("chapter-1"));
+  init( previousStep ) {
+    super.init(config, previousStep);
+    this.display(AssetsManager.loader.getFiles("chapter-1"));
   }
 
   /**
@@ -69,7 +69,7 @@ export default class extends Step {
     ModelAnimationManager.play('cut');
   }
 
-  display( isNextStep = false, event ) {
+  display( event ) {
     this.displayHumanScale( event );
     super.display( event );
   }

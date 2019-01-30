@@ -6,8 +6,8 @@ class ConfigManager {
   }
 
   updateConfig(config) {
-    Bus.dispatch("config:update");
     this.config = config;
+    Bus.dispatch("config:update");
   }
 }
 

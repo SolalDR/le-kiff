@@ -12,12 +12,12 @@ export default class extends Step {
 
   /**
    * This method initialize the step and 
-   * @param {boolean} isNextStep If the step is arriving form the precedent
+   * @param {Step} previousStep previous step in History
    */
   init( previousStep ) {
-    super.init(config);
+    super.init(config, previousStep);
     this.folder = {}; 
-    this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
+    this.display(AssetsManager.loader.getFiles("chapter-1"));
   }
 
   displayHumanScale( e ){
@@ -46,7 +46,7 @@ export default class extends Step {
     
   }
 
-  display( isNextStep = false, event ) {
+  display( event ) {
     this.displayHumanScale( event );
     super.display( event );
   }

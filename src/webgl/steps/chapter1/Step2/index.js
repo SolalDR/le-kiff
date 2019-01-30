@@ -14,11 +14,11 @@ export default class extends Step {
 
   /** 
    * This method initialize the step and 
-   * @param {boolean} isNextStep If the step is arriving form the precedent
+   * @param {Step} previousStep previous step in History
    */
-  init( isNextStep ) {
-    super.init(config);
-    this.display(isNextStep, AssetsManager.loader.getFiles("chapter-1"));
+  init( previousStep ) {
+    super.init(config, previousStep);
+    this.display(AssetsManager.loader.getFiles("chapter-1"));
   }
 
   /**
@@ -32,27 +32,29 @@ export default class extends Step {
     this.mainRoot.name = config.modelAnimation.name;
 
     // create clips from current scene model anims
-    ModelAnimationManager.generateClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options)
-
+    ModelAnimationManager.generateClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options);
+      
     ModelAnimationManager.play('hang-out').then(() => {
       var startPosition = this.main.position.clone();
       var startRotation = this.main.rotation.clone();
 
-      AnimationManager.addAnimation(new Animation({
-        duration: 3600, 
-        timingFunction: "easeInOutQuad"
-      }).on("progress", ( event ) => {
-        var a = event.advancement;
-        var lerp = THREE.Math.lerp;
-        this.main.position.x = lerp(startPosition.x, -30, a);
-        this.main.position.y = lerp(startPosition.y, 1.76, a);
-        this.main.position.z = lerp(startPosition.z, 0.96, a);
-        this.main.rotation.x = lerp(startRotation.x, 0.46, a);
-        this.main.rotation.y = lerp(startRotation.y, 0.20, a);
-        this.main.rotation.z = lerp(startRotation.z, -0.18, a);
-      }).on("end", () => {
-        console.log('branch anim end');
-      }));
+
+      
+      // AnimationManager.addAnimation(new Animation({
+      //   duration: 3600, 
+      //   timingFunction: "easeInOutQuad"
+      // }).on("progress", ( event ) => {
+      //   var a = event.advancement;
+      //   var lerp = THREE.Math.lerp;
+      //   this.main.position.x = lerp(startPosition.x, -30, a);
+      //   this.main.position.y = lerp(startPosition.y, 1.76, a);
+      //   this.main.position.z = lerp(startPosition.z, 0.96, a);
+      //   this.main.rotation.x = lerp(startRotation.x, 0.46, a);
+      //   this.main.rotation.y = lerp(startRotation.y, 0.20, a);
+      //   this.main.rotation.z = lerp(startRotation.z, -0.18, a);
+      // }).on("end", () => {
+      //   console.log('branch anim end');
+      // }));
 
       ModelAnimationManager.play('move-in-wind').then(() => {
         ModelAnimationManager.play('idle');
@@ -60,7 +62,7 @@ export default class extends Step {
     });
   }
 
-  display( isNextStep = false, event ) {
+  display( event ) {
     this.displayHumanScale( event );
     super.display( event );
   }

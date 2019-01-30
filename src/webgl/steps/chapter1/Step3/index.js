@@ -33,15 +33,24 @@ export default class extends Step {
     this.water = new Water({
       renderer: Renderer.renderer
     });
-    this.water.mesh.position.y = -2;
+    this.water.mesh.position.y = -5;
     this.water.mesh.position.z = 7;
 
+    // this.waterGui = this.gui.addFolder("Water");
+
+
     this.waterGui = this.gui.addFolder("Water");
+    var a = {
+      explode: () => { this.water.drop(Math.random(), Math.random(), Math.random()*0.5 + 0.5) }
+    }
+    this.waterGui.addMesh("Water mesh", this.water.mesh);
     this.waterGui.add(this.water.heightmapVariable.material.uniforms.mouseSize, "value", 0, 0.5).name("Size")
     this.waterGui.add(this.water.heightmapVariable.material.uniforms.viscosityConstant, "value", 0, 0.1).name("viscosityConstant")
     this.waterGui.add(this.water.heightmapVariable.material.uniforms.gravityConstant, "value", 0, 20).name("gravityConstant")
-    
-    this.waterGui.addMaterial("Water", this.water.material);
+    this.waterGui.add(a, "explode");
+    this.waterGui.add(this.water.mesh.material.uniforms.opacity, "value", 0, 1)
+
+
     window.water = this.water
 
     this.main.name = "main-step-2"

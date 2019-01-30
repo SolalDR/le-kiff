@@ -52,7 +52,7 @@ void main() {
   #include <defaultnormal_vertex>
 
   #ifndef FLAT_SHADED // Normal computed with derivatives when FLAT_SHADED
-  if (position.y == 1.5) {
+  if (position.y == 5.) {
     vNormal = normalize( transformedNormal );
   } else {
     vNormal = normal;
@@ -61,7 +61,7 @@ void main() {
 
   //# include <begin_vertex>
   vec3 transformed;
-  if (position.y == 1.5) {
+  if (position.y == 5.) {
     transformed = vec3( position.x, position.y + texture2D( heightmap, uv ).x, position.z );
   } else {
     transformed = position.xyz;

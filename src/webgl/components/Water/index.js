@@ -30,7 +30,6 @@ class Water {
   toggle(){
     var value = this.material.uniforms.testNormal.value; 
     this.material.uniforms.testNormal.value = (value == 1) ? 0 : 1;
-    console.log(this.material.uniforms.testNormal.value);
   }
 
   init(){
@@ -43,14 +42,12 @@ class Water {
 
     this.geometry = new THREE.BoxBufferGeometry(
       this.config.bounds, 
-      3,
+      10,
       this.config.bounds,
       this.config.width - 1, 
       this.config.width - 1,
       this.config.width - 1
     );
-    
-
 
     this.material = new THREE.ShaderMaterial({
       uniforms: THREE.UniformsUtils.merge( [
@@ -73,7 +70,7 @@ class Water {
     this.material.specular = new THREE.Color( 0xFFFFFF );
     this.material.shininess = 100;
     this.material.transparent = true;
-    this.material.opacity = 0.5;
+    this.material.opacity = 0.7;
 
 
     // Sets the uniforms with the material values

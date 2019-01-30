@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { getCurrentScale } from '~/services/stores/reducers/selectors';
 import InfoList from "./components/Info/InfoList";
 import {InfoManager} from "~/webgl/manager"
-import AssetsManager from '../../services/assetsManager/AssetsManager';
+import Bus from "~/helpers/Bus"
 import { getIsChapterReady, getIsAssetLoaded } from '../../services/stores/reducers/selectors';
 import "./style.sass"
 
@@ -43,6 +43,11 @@ class Scene extends React.Component {
   componentDidMount(){
     if (this.props.isChapterReady && this.props.isAssetLoaded) {
       this.initScene();
+      Bus.on("scale:display", (scale)=>{
+        if( this.props.currentScale !== scale.name ){
+          this.props._setCurrentScale(scale.name);
+        }
+      })
     }
   }
 

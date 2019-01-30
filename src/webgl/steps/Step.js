@@ -73,6 +73,15 @@ class Step extends Event {
   }
 
   hide(){
+    if( this.scene.state.currentScale !== "human" ){
+      Bus.verbose("step:prevent-hide Change scale", 2);
+      this.scene.selectScale("human");
+      Bus.once('scale:hide', ()=>{
+        Bus.dispatch("step:hide", this);
+        this.dispatch("hide");
+      })
+      return;
+    }
     Bus.dispatch("step:hide", this);
     this.dispatch("hide");
   }

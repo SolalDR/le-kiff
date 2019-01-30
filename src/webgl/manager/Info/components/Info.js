@@ -24,7 +24,6 @@ class Info extends Event{
     if(info.attachment.gps_coordinates && (info.attachment.gps_coordinates.lat !== 0 || info.attachment.gps_coordinates.lon !== 0)){
       var geocoord = new GeoCoord(info.attachment.gps_coordinates.lat, info.attachment.gps_coordinates.lon);
       this.position = geocoord.getCartesianCoord(3);
-      console.log(this.object3D);
     }
     
 

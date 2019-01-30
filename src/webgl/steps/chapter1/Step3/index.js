@@ -34,6 +34,7 @@ export default class extends Step {
       renderer: Renderer.renderer
     });
     this.water.mesh.position.y = -2;
+    this.water.mesh.position.z = 7;
 
     this.waterGui = this.gui.addFolder("Water");
     this.waterGui.add(this.water.heightmapVariable.material.uniforms.mouseSize, "value", 0, 0.5).name("Size")
@@ -43,7 +44,6 @@ export default class extends Step {
     this.waterGui.addMaterial("Water", this.water.material);
     window.water = this.water
 
-    console.log(this);
     this.main.name = "main-step-2"
 
     this.scene.humanScale.group.add(this.water.mesh)

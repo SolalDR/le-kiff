@@ -65,6 +65,7 @@ class Step extends Event {
     this.scene.macroScale.updateFromStep(this);
     this.scene.humanScale.updateFromStep(this);
 
+    this.scene.humanScale.updateRendering();
     this.updateSoundsPlayBack(event);
 
     Bus.dispatch("step:display", this);

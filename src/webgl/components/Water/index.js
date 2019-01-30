@@ -9,7 +9,7 @@ class Water {
   constructor(args = {}){
     this.config = {
       width: 64, 
-      bounds: 32, 
+      bounds: 15, 
       boundsHalf: 16,
       effects: {
         mouseSize: 0.1, 
@@ -41,6 +41,17 @@ class Water {
       this.config.width - 1
     );
 
+    this.geometry = new THREE.BoxBufferGeometry(
+      this.config.bounds, 
+      3,
+      this.config.bounds,
+      this.config.width - 1, 
+      this.config.width - 1,
+      this.config.width - 1
+    );
+    
+
+
     this.material = new THREE.ShaderMaterial({
       uniforms: THREE.UniformsUtils.merge( [
         THREE.ShaderLib[ 'phong' ].uniforms, 
@@ -61,20 +72,25 @@ class Water {
     this.material.color = new THREE.Color( this.config.color );
     this.material.specular = new THREE.Color( 0xFFFFFF );
     this.material.shininess = 100;
+    this.material.transparent = true;
+    this.material.opacity = 0.5;
+
 
     // Sets the uniforms with the material values
     this.material.uniforms.diffuse.value = this.material.color;
     this.material.uniforms.specular.value = this.material.specular;
     this.material.uniforms.shininess.value = Math.max( this.material.shininess, 1e-4 );
+    this.material.uniforms.opacity.value = 0.5;
 
     this.material.defines.WIDTH = this.config.width.toFixed( 1 );
     this.material.defines.BOUNDS = this.config.bounds.toFixed( 1 );
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.mesh.rotation.x = -Math.PI/2;
-    this.mesh.matrixAutoUpdate = false;
+    // this.mesh.rotation.x = -Math.PI/2;
+    // this.mesh.matrixAutoUpdate = false;
     this.mesh.updateMatrix();
     this.mesh.name = "Water";
+
   }
 
   initGpuRenderer(){

@@ -43,6 +43,9 @@ class Scale extends Event {
     this.on("display", (event) => this.onDisplay(event))
     Bus.on("config:update", ()=>{
       this.config = ConfigManager.config[this.name];
+      if( this.name === "human" ){
+        console.log("Update config scale", this.config);
+      }
     })
   }
 
@@ -101,6 +104,8 @@ class Scale extends Event {
   
     this.scene.lightPrimary.position.copy(c.light.primary.position);
     this.scene.lightSecondary.position.copy(c.light.secondary.position);
+
+    console.log("Update rendering", c.light.primary.position);
     this.scene.lightPrimary.intensity = c.light.primary.intensity;
     this.scene.lightSecondary.intensity = c.light.secondary.intensity;
     this.scene.lightPrimary.color = c.light.primary.color;

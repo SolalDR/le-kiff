@@ -52,7 +52,6 @@ export default class extends Step {
   }
 
   hide() {
-    console.log(this.scene.camera.position);
     //this.scene.humanScale.group.remove(this.main);
     this.gui.removeFolder(this.folder.leaf);
     super.hide();

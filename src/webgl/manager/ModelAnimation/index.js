@@ -68,6 +68,11 @@ class ModelAnimationManager extends Event {
     clip.animation.clampWhenFinished = true;
     return clip;
   }
+  
+  clear() {
+    this.activeModel = null;
+    this.models.clear();
+  }
 
   playFrom(modelName, clipName) {
     return this._play(modelName, clipName);
@@ -82,7 +87,12 @@ class ModelAnimationManager extends Event {
     var modelAnim = this.models.get(modelName);
     var lastAction = modelAnim.currentAction;
 
-    if(lastAction.isRunning()) return;
+    
+    // if(lastAction.isRunning()) {
+    //   console.log('last action still running');
+    //   console.log('lastAction', lastAction);
+    //   return;
+    // }
 
     var mixer;
     var activeAction;
@@ -98,6 +108,8 @@ class ModelAnimationManager extends Event {
       activeAnimation = modelAnim.clips.find(u => u.name === clipName);
     }
 
+    console.log('calling', clipName, 'to play');
+
     activeAction = activeAnimation.animation;
     mixer = activeAction.getMixer();
 
@@ -110,15 +122,18 @@ class ModelAnimationManager extends Event {
 
     // set currentAction
     modelAnim.currentAction = activeAction;
+    console.log('-- running action', activeAction.getClip().name);
+    console.log(this);
 
     // anim chain
     const isLooping = activeAction.loop === THREE.LoopRepeat;
     const eventLabel = isLooping ? 'loop' : 'finished';
     return new Promise(function(resolve, reject) {
       mixer.addEventListener(eventLabel, () => {
+        // remove event listener if stop
         resolve();
         if (!isLooping) modelAnim.running = false;
-      });
+      }, {once: true});
     });
   }
 
@@ -127,19 +142,35 @@ class ModelAnimationManager extends Event {
     if ( this.models.size > 0 ) {
       for (var model of this.models.values()) {
         if(model.running) {
-          model.mixer.time = 0;
-          model.mixer.stopAllAction();
-          console.log('mixer stop all', model.mixer);
-          model.mixer.update(0);
+          //model.mixer.stopAllAction();
+          for(var clip of model.clips) {
+            clip.animation.stop();
+          }
           model.running = false;
         } 
       }
+      model.mainClip.animation.play().stop();
     }
   }
 
   stopCurrent(modelName) {
-    const model = this.models.get(modelName);
-    (model ? model : this.activeModel).currentAction.stop();
+    const model = this.models.get(modelName) ? this.models.get(modelName) : this.activeModel ;
+    if(!model) return;
+    model.currentAction.stop().stopFading();
+    
+
+    // TEST
+    model.currentAction.stop().stopFading();
+    model.mixer.stopAllAction();
+    const mixer = model.currentAction.getMixer();
+    mixer.stopAllAction();
+    //
+
+    // FIXME: find a better way to reset animation
+    model.mainClip.animation.play().stop();
+
+    model.running = false;
+    console.log('anim after stop', this);
   }
 
   update(delta) { 

@@ -21,10 +21,14 @@ export default class extends Step {
   }
 
   displayHumanScale( e ){
+    this.mainRoot = e.step_1_human_leaf.result;
     this.main = e.step_1_human_leaf.result.scene;
     this.main.name = "main-step-1";
     
-    this.scene.humanScale.group.add(this.main);
+    if(!this.scene.humanScale.group.getObjectByName(this.main.name)) {
+      this.scene.humanScale.group.add(this.main);
+    }
+
     this.background = new FitPlane({
       background: e.background.result, 
       size: 450,

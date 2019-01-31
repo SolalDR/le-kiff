@@ -62,7 +62,9 @@ export default class extends Step {
     this.main.name = "main-step-2"
 
     this.scene.humanScale.group.add(this.water.mesh)
-    this.scene.humanScale.group.add(this.main);
+    if(!this.scene.humanScale.group.getObjectByName(this.main.name)) {
+      this.scene.humanScale.group.add(this.main);
+    }
 
     // create clips from current scene model anims
     ModelAnimationManager.generateClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options)
@@ -75,7 +77,7 @@ export default class extends Step {
   }
 
   hide() {
-    this.scene.humanScale.group.remove(this.main);
+    //this.scene.humanScale.group.remove(this.main);
     this.scene.humanScale.group.remove(this.water.mesh)
     this.gui.remove(this.waterGui)
     super.hide();

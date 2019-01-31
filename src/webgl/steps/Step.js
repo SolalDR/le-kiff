@@ -57,6 +57,15 @@ class Step extends Event {
     this.config = config;
     this.state.initialised = true;
     this.previousStep = previousStep;
+
+    // if not next step reset all anims
+    if(this.previousStep && !this.isNextStep()) {
+      console.log('modelAnimationManager stop all');
+      ModelAnimationManager.stopAll();
+      ModelAnimationManager.clear();
+      //ModelAnimationManager.stopAll();
+    }
+
     Bus.dispatch("step:init", this);
     this.dispatch("init"); 
   }

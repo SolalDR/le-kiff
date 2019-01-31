@@ -51,13 +51,39 @@ class WebGL {
     this.macroScale = new MacroScale({ scene: this });
     this.humanScale = new HumanScale({ scene: this }); 
     
-    
     this.state = {
       currentScale: "human",
-      previousScale: "human"
+      previousScale: "human",
+      scaleWheelChanging: false,
+      baseRadius: this.controllerManager.state.controller.radius,
+      targetRadius: this.controllerManager.state.controller.radius
     };
 
     this.render();
+
+    window.addEventListener("mousewheel", (event)=>{
+      if( this.state.scaleWheelChanging ) return;
+      if( Math.abs(event.deltaY) < 50 ) {
+        this.state.targetRadius = this.state.baseRadius + event.deltaY*0.1
+        return;
+      }
+      
+      if( event.deltaY > 0 && this.state.currentScale !== "macro"){
+        this.selectScale((this.state.currentScale === "micro" ? "human" : "macro"));
+        this.state.scaleWheelChanging = true
+        Bus.once("scale:display", _ => this.state.scaleWheelChanging = false)
+        this.state.targetRadius = this.state.baseRadius;
+        return;
+      } else if (event.deltaY < 0 && this.state.currentScale !== "micro"){
+        this.selectScale((this.state.currentScale === "macro" ? "human" : "micro"));
+        this.state.scaleWheelChanging = true
+        Bus.once("scale:display", _ => this.state.scaleWheelChanging = false)
+        this.state.targetRadius = this.state.baseRadius;
+        return;
+      }
+
+
+    })
 
     window.scene = this.threeScene;
   }
@@ -149,6 +175,20 @@ class WebGL {
   }
 
   loop = () => {
+
+    var currentRadius = this.controllerManager.state.controller.radius; 
+    if( currentRadius !== this.state.baseRadius ) {
+      // Easing target 
+      if( Math.abs(this.state.baseRadius - this.state.targetRadius) < 0.1 ){
+        this.state.targetRadius = this.state.baseRadius; 
+      }
+
+      var radius = currentRadius + (this.state.targetRadius - currentRadius) * 0.05
+      if(Math.abs(this.state.targetRadius - radius) < 0.01) {
+        radius = this.state.targetRadius;
+      }
+      this.controllerManager.state.controller.radius = radius;
+    }
     this.clock.update();
 
     this[this.state.currentScale+"Scale"].loop(this.clock.elapsed);

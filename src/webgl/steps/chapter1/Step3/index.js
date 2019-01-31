@@ -29,7 +29,7 @@ export default class extends Step {
     this.main.name = "main-step-3"
 
     // TODO: DEBUG
-    this.main.scale.set(0.1, 0.1, 0.1);    
+    //this.main.scale.set(0.1, 0.1, 0.1);    
 
     if(!this.scene.humanScale.group.getObjectByName(this.main.name)) {
       this.scene.humanScale.group.add(this.main);

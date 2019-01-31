@@ -82,7 +82,8 @@ class Step extends Event {
     this.dispatch("display");
   }
 
-  hide(){
+  hide( newStep ){
+    console.log('newStep', newStep);
     Bus.dispatch("step:hide", this);
     this.dispatch("hide");
   }

@@ -55,6 +55,7 @@ class WebGL {
       currentScale: "human",
       previousScale: "human",
       scaleWheelChanging: false,
+      // TODO Update baseRadius on step/scale change
       baseRadius: this.controllerManager.state.controller.radius,
       targetRadius: this.controllerManager.state.controller.radius
     };
@@ -81,8 +82,6 @@ class WebGL {
         this.state.targetRadius = this.state.baseRadius;
         return;
       }
-
-
     })
 
     window.scene = this.threeScene;

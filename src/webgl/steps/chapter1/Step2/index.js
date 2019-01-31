@@ -32,7 +32,7 @@ export default class extends Step {
     this.mainRoot.name = config.modelAnimation.name;
 
     // TODO: DEBUG
-    this.main.scale.set(0.1, 0.1, 0.1);
+    //this.main.scale.set(0.1, 0.1, 0.1);
 
     // TODO: make it generic
     if(!this.scene.humanScale.group.getObjectByName(this.main.name)) {
@@ -43,26 +43,21 @@ export default class extends Step {
     ModelAnimationManager.generateClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options);
       
     ModelAnimationManager.play('hang-out').then(() => {
-      var startPosition = this.main.position.clone();
-      var startRotation = this.main.rotation.clone();
+      var mainPosition = this.main.position.clone();
+      var mainRotation = this.main.rotation.toVector3();
 
-      
-      
-      // AnimationManager.addAnimation(new Animation({
-      //   duration: 3600, 
-      //   timingFunction: "easeInOutQuad"
-      // }).on("progress", ( event ) => {
-      //   var a = event.advancement;
-      //   var lerp = THREE.Math.lerp;
-      //   this.main.position.x = lerp(startPosition.x, -30, a);
-      //   this.main.position.y = lerp(startPosition.y, 1.76, a);
-      //   this.main.position.z = lerp(startPosition.z, 0.96, a);
-      //   this.main.rotation.x = lerp(startRotation.x, 0.46, a);
-      //   this.main.rotation.y = lerp(startRotation.y, 0.20, a);
-      //   this.main.rotation.z = lerp(startRotation.z, -0.18, a);
-      // }).on("end", () => {
-      //   console.log('branch anim end');
-      // }));
+      const mainTransitionData = config.transitions.find(u => u.object === this.main.name); 
+      AnimationManager.addAnimation(new Animation({
+        duration: mainTransitionData.duration, 
+        timingFunction: "easeInOutQuad"
+      }).on("progress", ( event ) => {
+        var a = event.advancement;
+        this.main.position.lerpVectors(mainPosition, mainTransitionData.position, a);
+        var targetRotation = new THREE.Vector3().lerpVectors(mainRotation, mainTransitionData.rotation, a);
+        this.main.rotation.setFromVector3(targetRotation);
+      }).on("end", () => {
+        console.log('branch anim end');
+      }));
       
       ModelAnimationManager.play('move-in-wind').then(() => {
         ModelAnimationManager.play('idle');

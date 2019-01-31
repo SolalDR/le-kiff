@@ -87,13 +87,6 @@ class ModelAnimationManager extends Event {
     var modelAnim = this.models.get(modelName);
     var lastAction = modelAnim.currentAction;
 
-    
-    // if(lastAction.isRunning()) {
-    //   console.log('last action still running');
-    //   console.log('lastAction', lastAction);
-    //   return;
-    // }
-
     var mixer;
     var activeAction;
     var activeAnimation;
@@ -108,8 +101,6 @@ class ModelAnimationManager extends Event {
       activeAnimation = modelAnim.clips.find(u => u.name === clipName);
     }
 
-    console.log('calling', clipName, 'to play');
-
     activeAction = activeAnimation.animation;
     mixer = activeAction.getMixer();
 
@@ -122,8 +113,6 @@ class ModelAnimationManager extends Event {
 
     // set currentAction
     modelAnim.currentAction = activeAction;
-    console.log('-- running action', activeAction.getClip().name);
-    console.log(this);
 
     // anim chain
     const isLooping = activeAction.loop === THREE.LoopRepeat;
@@ -151,26 +140,6 @@ class ModelAnimationManager extends Event {
       }
       model.mainClip.animation.play().stop();
     }
-  }
-
-  stopCurrent(modelName) {
-    const model = this.models.get(modelName) ? this.models.get(modelName) : this.activeModel ;
-    if(!model) return;
-    model.currentAction.stop().stopFading();
-    
-
-    // TEST
-    model.currentAction.stop().stopFading();
-    model.mixer.stopAllAction();
-    const mixer = model.currentAction.getMixer();
-    mixer.stopAllAction();
-    //
-
-    // FIXME: find a better way to reset animation
-    model.mainClip.animation.play().stop();
-
-    model.running = false;
-    console.log('anim after stop', this);
   }
 
   update(delta) { 

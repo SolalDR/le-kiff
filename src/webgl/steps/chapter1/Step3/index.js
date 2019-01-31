@@ -28,7 +28,12 @@ export default class extends Step {
     this.mainRoot.name = config.modelAnimation.name;
     this.main.name = "main-step-3"
 
-    this.scene.humanScale.group.add(this.main);
+    // TODO: DEBUG
+    this.main.scale.set(0.1, 0.1, 0.1);    
+
+    if(!this.scene.humanScale.group.getObjectByName(this.main.name)) {
+      this.scene.humanScale.group.add(this.main);
+    }
 
     // create clips from current scene model anims
     ModelAnimationManager.generateClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options)
@@ -41,7 +46,7 @@ export default class extends Step {
   }
 
   hide() {
-    this.scene.humanScale.group.remove(this.main);
+    //this.scene.humanScale.group.remove(this.main);
     super.hide();
   }
 }

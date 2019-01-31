@@ -31,6 +31,14 @@ export default class extends Step {
     this.mainRoot = event.step_1_human_leaf.result;
     this.mainRoot.name = config.modelAnimation.name;
 
+    // TODO: DEBUG
+    this.main.scale.set(0.1, 0.1, 0.1);
+
+    // TODO: make it generic
+    if(!this.scene.humanScale.group.getObjectByName(this.main.name)) {
+      this.scene.humanScale.group.add(this.main);
+    }
+
     // create clips from current scene model anims
     ModelAnimationManager.generateClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options);
       
@@ -38,7 +46,7 @@ export default class extends Step {
       var startPosition = this.main.position.clone();
       var startRotation = this.main.rotation.clone();
 
-
+      
       
       // AnimationManager.addAnimation(new Animation({
       //   duration: 3600, 
@@ -55,7 +63,7 @@ export default class extends Step {
       // }).on("end", () => {
       //   console.log('branch anim end');
       // }));
-
+      
       ModelAnimationManager.play('move-in-wind').then(() => {
         ModelAnimationManager.play('idle');
       });
@@ -68,15 +76,7 @@ export default class extends Step {
   }
 
   hide() {
-    this.scene.humanScale.group.remove(this.main);
+    //this.scene.humanScale.group.remove(this.main);
     super.hide();
-  }
-
-  /**
-   * @override
-   * Raf
-   */
-  loop(){
-    super.loop();
   }
 }

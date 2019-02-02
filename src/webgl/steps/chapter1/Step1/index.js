@@ -3,6 +3,7 @@ import AssetsManager from "~/services/assetsManager/AssetsManager"
 import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
 import config from "./config";
 import { c } from "../../../../helpers/Configuration";
+import { InteractivePlane } from "../../../components";
 
 /**
  * @constructor
@@ -16,7 +17,7 @@ export default class extends Step {
    */
   init( previousStep ) {
     super.init(config);
-    this.folder = {}; 
+    this.folder = {};
     this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
   }
 
@@ -25,7 +26,7 @@ export default class extends Step {
     this.main.name = "main-step-1";
     
     this.scene.humanScale.group.add(this.main);
-    this.background = new FitPlane({
+    this.background = new InteractivePlane({
       background: e.background.result, 
       size: 450,
       distance: 100

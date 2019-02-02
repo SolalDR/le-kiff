@@ -7,8 +7,20 @@
       "path": "/chapter-1/step_1_human_leaf.glb"
     },
     {
-      "name": "background",
+      "name": "background1",
       "path": "/ui/images/intro_background.png"
+    },
+    {
+      "name": "background2",
+      "path": "/chapter-1/chapitre_01_etape_02_background.png"
+    },
+    {
+      "name": "background4",
+      "path": "/chapter-1/chapitre_01_etape_04_background.png"
+    },
+    {
+      "name": "background6",
+      "path": "/chapter-1/chapitre_01_etape_06_background.png"
     },
     {
       "name": "step_1_background_sound",

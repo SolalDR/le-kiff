@@ -27,10 +27,13 @@ export default class extends Step {
     
     this.scene.humanScale.group.add(this.main);
     this.background = new InteractivePlane({
-      background: e.background.result, 
+      front: e.background1.result, 
+      back: e.background2.result,
       size: 450,
-      distance: 100
+      gui: this.gui
     });
+
+    this.background.object3D.position.z = -100;
 
     // main transform
     this.main.scale.y = 1;

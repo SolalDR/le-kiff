@@ -44,27 +44,21 @@ export default class extends Step {
 
     // this.waterGui = this.gui.addFolder("Water");
 
-
-    this.waterGui = this.gui.addFolder("Water");
-    var a = {
-      explode: () => { this.water.drop(Math.random(), Math.random(), Math.random()*0.5 + 0.5) }
-    }
-    this.waterGui.addMesh("Water mesh", this.water.mesh);
-    this.waterGui.add(this.water.heightmapVariable.material.uniforms.mouseSize, "value", 0, 0.5).name("Size")
-    this.waterGui.add(this.water.heightmapVariable.material.uniforms.viscosityConstant, "value", 0, 0.1).name("viscosityConstant")
-    this.waterGui.add(this.water.heightmapVariable.material.uniforms.gravityConstant, "value", 0, 20).name("gravityConstant")
-    this.waterGui.add(a, "explode");
-    this.waterGui.add(this.water.mesh.material.uniforms.opacity, "value", 0, 1)
+    // var a = {
+    //   explode: () => { this.water.drop(Math.random(), Math.random(), Math.random()*0.5 + 0.5) }
+    // }
+    // this.waterGui.addMesh("Water mesh", this.water.mesh);
+    // this.waterGui.add(this.water.heightmapVariable.material.uniforms.mouseSize, "value", 0, 0.5).name("Size")
+    // this.waterGui.add(this.water.heightmapVariable.material.uniforms.viscosityConstant, "value", 0, 0.1).name("viscosityConstant")
+    // this.waterGui.add(this.water.heightmapVariable.material.uniforms.gravityConstant, "value", 0, 20).name("gravityConstant")
+    // this.waterGui.add(a, "explode");
+    // this.waterGui.add(this.water.mesh.material.uniforms.opacity, "value", 0, 1)
 
 
     window.water = this.water
 
-    this.main.name = "main-step-2"
-
     this.scene.humanScale.group.add(this.water.mesh)
-    if(!this.scene.humanScale.group.getObjectByName(this.main.name)) {
-      this.scene.humanScale.group.add(this.main);
-    }
+    this.scene.humanScale.group.add(this.main);
 
     // create clips from current scene model anims
     ModelAnimationManager.generateClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options)
@@ -77,9 +71,9 @@ export default class extends Step {
   }
 
   hide() {
-    //this.scene.humanScale.group.remove(this.main);
+    this.scene.humanScale.group.remove(this.main);
     this.scene.humanScale.group.remove(this.water.mesh)
-    this.gui.remove(this.waterGui)
+    //this.gui.remove(this.waterGui)
     super.hide();
   }
 

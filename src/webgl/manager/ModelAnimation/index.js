@@ -1,5 +1,6 @@
 import Event from "~/helpers/Event"; 
 import ClipAnimationUtils from "../../helpers/ClipAnimationUtils";
+import ModelAnimEntity from "./ModelAnimEntity";
 
 class ModelAnimationManager extends Event {
     
@@ -37,25 +38,11 @@ class ModelAnimationManager extends Event {
     let modelAnim = this.models.get(model.name);
 
     // if not create new modelAnim
-
-    // TODO: create modelAnim
     if(!modelAnim) {
-      modelAnim = {
-        name : model.name,
-        mixer: new THREE.AnimationMixer(model.scene),
-        clips: [],
-        currentAction: null,
-        running: false
-      } 
-    }
-
-    // set options
-    if(options.timeScale) modelAnim.mixer.timeScale = options.timeScale;
-
-    // set main clip
-    modelAnim.mainClip = {
-      name: 'main',
-      animation : modelAnim.mixer.clipAction( model.animations[0] )
+      modelAnim = new ModelAnimEntity({
+        model,
+        options
+      })
     }
     return modelAnim
   }
@@ -126,7 +113,6 @@ class ModelAnimationManager extends Event {
     });
   }
 
-  // FIXME: stop not reseting animation
   stopAll() {
     if ( this.models.size > 0 ) {
       for (var model of this.models.values()) {
@@ -140,6 +126,11 @@ class ModelAnimationManager extends Event {
       }
       model.mainClip.animation.play().stop();
     }
+  }
+
+  reset() {
+    this.stopAll();
+    this.clear();
   }
 
   update(delta) { 

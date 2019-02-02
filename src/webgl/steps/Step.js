@@ -60,10 +60,7 @@ class Step extends Event {
 
     // if not next step reset all anims
     if(this.previousStep && !this.isNextStep()) {
-      console.log('modelAnimationManager stop all');
-      ModelAnimationManager.stopAll();
-      ModelAnimationManager.clear();
-      //ModelAnimationManager.stopAll();
+      ModelAnimationManager.reset();
     }
 
     Bus.dispatch("step:init", this);
@@ -79,12 +76,6 @@ class Step extends Event {
     this.scene.humanScale.updateRendering();
     this.updateSoundsPlayBack(event);
 
-    // if not next step reset all anims
-    if(this.previousStep && !this.isNextStep()) {
-      console.log('modelAnimationManager stop all');
-      ModelAnimationManager.stopCurrent();
-    }    
-
     Bus.dispatch("step:display", this);
     this.dispatch("display");
   }
@@ -99,12 +90,17 @@ class Step extends Event {
       })
       return;
     }
+    
     Bus.dispatch("step:hide", this);
     this.dispatch("hide");
   }
 
   isNextStep() {
-    return this.rank - 1 === this.previousStep.rank;
+    if(this.previousStep) {
+      return this.rank - 1 === this.previousStep.rank;
+    } else {
+      return false;
+    }
   }
 
   /**

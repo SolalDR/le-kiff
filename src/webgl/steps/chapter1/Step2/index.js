@@ -31,21 +31,18 @@ export default class extends Step {
     this.mainRoot = event.step_1_human_leaf.result;
     this.mainRoot.name = config.modelAnimation.name;
 
-    // TODO: DEBUG
-    //this.main.scale.set(0.1, 0.1, 0.1);
 
-    // TODO: make it generic
-    if(!this.scene.humanScale.group.getObjectByName(this.main.name)) {
-      this.scene.humanScale.group.add(this.main);
-    }
-
+    // TODO: in Step.js ?
     // create clips from current scene model anims
     ModelAnimationManager.generateClips(this.mainRoot, config.modelAnimation.clips, config.modelAnimation.options);
       
     ModelAnimationManager.play('hang-out').then(() => {
       var mainPosition = this.main.position.clone();
       var mainRotation = this.main.rotation.toVector3();
+      var targetRotation = new THREE.Vector3()
 
+      
+      // TODO : make it generic
       const mainTransitionData = config.transitions.find(u => u.object === this.main.name); 
       AnimationManager.addAnimation(new Animation({
         duration: mainTransitionData.duration, 
@@ -53,7 +50,7 @@ export default class extends Step {
       }).on("progress", ( event ) => {
         var a = event.advancement;
         this.main.position.lerpVectors(mainPosition, mainTransitionData.position, a);
-        var targetRotation = new THREE.Vector3().lerpVectors(mainRotation, mainTransitionData.rotation, a);
+        targetRotation.lerpVectors(mainRotation, mainTransitionData.rotation, a);
         this.main.rotation.setFromVector3(targetRotation);
       }).on("end", () => {
         console.log('branch anim end');
@@ -71,7 +68,7 @@ export default class extends Step {
   }
 
   hide() {
-    //this.scene.humanScale.group.remove(this.main);
+    this.scene.humanScale.group.remove(this.main);
     super.hide();
   }
 }

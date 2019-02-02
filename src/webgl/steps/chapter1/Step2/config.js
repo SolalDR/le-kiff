@@ -7,7 +7,7 @@ export default baseConfig.extends({
       object: 'main-step-2',
       duration: 3600,
       position: new THREE.Vector3(-30, 1.76, 0.96),
-      rotation: new THREE.Vector3(0.46, 0.2, -0.18)
+      rotation: new THREE.Euler(0.46, 0.2, -0.18)
     }
   ],
   modelAnimation: {

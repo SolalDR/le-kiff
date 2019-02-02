@@ -24,10 +24,8 @@ export default class extends Step {
     this.mainRoot = e.step_1_human_leaf.result;
     this.main = e.step_1_human_leaf.result.scene;
     this.main.name = "main-step-1";
-    
-    if(!this.scene.humanScale.group.getObjectByName(this.main.name)) {
-      this.scene.humanScale.group.add(this.main);
-    }
+
+    this.scene.humanScale.group.add(this.main);
 
     this.background = new FitPlane({
       background: e.background.result, 
@@ -36,9 +34,10 @@ export default class extends Step {
     });
 
     // main transform
+    const mainTransformData = config.transforms.find(u => u.object === this.main.name); 
+    this.main.position.copy(mainTransformData.position);
+    this.main.rotation.copy(mainTransformData.rotation);
     this.main.scale.y = 1;
-    this.main.position.set(-0.98, -1.18, -1.12);
-    this.main.rotation.set(-0.16, 0.1, -0.38);
     
     // add leaf folder
     this.folder.leaf = this.gui.addObject3D("Leaf",  this.main, false);
@@ -56,6 +55,7 @@ export default class extends Step {
   }
 
   hide() {
+    //console.log('isnext step in hide', this.isNextStep());
     //this.scene.humanScale.group.remove(this.main);
     this.gui.removeFolder(this.folder.leaf);
     super.hide();

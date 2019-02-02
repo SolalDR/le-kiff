@@ -22,6 +22,8 @@ class TimelineItem extends React.Component {
     var className = this.props.active
       ? "timeline__item is-active"
       : "timeline__item";
+    className += this.props.isPassed ? ' is-passed' : '';
+
     return (
       <div className={className}>
         <button className="timeline__item__button" onClick={this.handleClick} />

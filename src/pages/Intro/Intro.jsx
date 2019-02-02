@@ -85,7 +85,7 @@ class Intro extends React.Component {
               options={{ filter: "blur(0)" }}
             />
             <LetterReveal
-              text="Histoire de disparitions"
+              text="A fading tale"
               class={"intro__subtitle heading-2"}
               duration={0.09}
               delay={-0.05}
@@ -95,8 +95,8 @@ class Intro extends React.Component {
               start={{ opacity: 0, x: 50, scale: 0.5 }}
             />
             <p className={`intro__teasing teasing-3 ${this.state.reveal ? 'is-revealed' : ''}`}>
-              <span className="intro__teasing__item">Découvrez l’histoire d’un caillou de crack, de sa production à</span> 
-              <span className="intro__teasing__item">sa consommation, et ses conséquences sur la vie, la mort et l’humeur</span>
+              <span className="intro__teasing__item">Discover the story of a crack rock,</span> 
+              <span className="intro__teasing__item">from its birth in Colombia to its consumption in Paris.</span>
             </p>
           </div>
           <div className="intro__inner__bottom">

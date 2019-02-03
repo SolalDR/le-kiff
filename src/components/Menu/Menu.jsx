@@ -72,7 +72,7 @@ class Menu extends React.PureComponent {
       const height = this.state.current === chapter.rank ? size.height : 0;
       const className = this.state.current === chapter.rank ? 'menu__item is-active' : 'menu__item';
 
-      return <div onClick={this.handleCloseClick} key={index} to={`/chapter-${chapter.rank}`} className={`${className} ${chapter.rank === 1 ? 'is-available' : ''}`} onMouseOver={() => this.onMouseOver(chapter.rank)} onMouseOut={this.onMouseOut.bind(this)}>
+      return <div onClick={this.handleCloseClick} key={index} to={`/chapter-${chapter.rank}`} className={`${className} ${chapter.rank == 1 ? 'is-available' : 'is-unvailable'}`} onMouseOver={() => this.onMouseOver(chapter.rank)} onMouseOut={this.onMouseOut.bind(this)}>
           <Link onClick={this.handleCloseClick} key={index} to={`/chapter-${chapter.rank}`} className="menu__item__link">
             <h1 className="menu__item__title heading-4">
               {chapter.title}
@@ -83,19 +83,19 @@ class Menu extends React.PureComponent {
             <div className="menu__item__time">
               <svg width="10" height="12" xmlns="http://www.w3.org/2000/svg" className="menu__item__time__icon">
                 <path d="M9.6 12H0L9.6 0H0z" stroke="#FFF" fill="none" fillRule="evenodd" />
-              </svg> <span className="menu__item__time__value t-heading-7"> - 5 minutes</span>
+              </svg> <span className="menu__item__time__value teasing-4"> - 5 minutes</span>
             </div>
-            <p className="menu__item__content teasing-2">
+          <p className={`menu__item__content teasing-2  `}>
               {chapter.content}
             </p>
             { chapter.rank == 2 && 
-              <p className="menu__item__available teasing-3">Disponible le 01.03.2019 </p>
+              <p className="menu__item__available teasing-3 teasing-3--bold">Disponible le 01.03.2019 </p>
             }
             { chapter.rank == 3 && 
-              <p className="menu__item__available teasing-3">Disponible le 07.03.2019 </p>
+              <p className="menu__item__available teasing-3 teasing-3--bold">Disponible le 07.03.2019 </p>
             }
             { chapter.rank == 4 && 
-              <p className="menu__item__available teasing-3">Disponible le 14.03.2019 </p>
+              <p className="menu__item__available teasing-3 teasing-3--bold">Disponible le 14.03.2019 </p>
             }
           </div>
         </div>;

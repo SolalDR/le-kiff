@@ -2,25 +2,23 @@
 
 .header 
   position: fixed
-  top: $space-s
+  top: $pos-s
   left: 0
   width: 100vw
   height: 0
   z-index: 2
-  @include up-large-desktop()
-    top: $space-m
-
+  background: pink
 
   &__menu
     position: absolute
-    right: $space-s * 1.25
+    right: $pos-s - 7
     border: none
     outline: none
-    padding: ($space-m * .6) $space-xs ($space-m * .6)
+    width: 36px
+    height: 45px
     box-shadow: none
     cursor: none
-    @include up-large-desktop()
-      right: $space-m
+    background: yellow
 
     &:hover
       .header__burger
@@ -34,12 +32,11 @@
 
     &--close
       position: absolute
-      top: $space-xs
-      right: $space-m
+      top: 8px
+      right: 25px
       opacity: 0
       z-index: 5
-      @include up-large-desktop()
-        right: $space-m * 1.2
+      background: red
 
       &:before,
       &:after
@@ -48,9 +45,10 @@
         top: 0
         left: 0
         right: 0
-        width: $space-s / .7
-        height: 1px
+        width: 17px
+        height: 2px
         background: $color-secondary
+        background: purple
         z-index: 7
         transition: 
           duration: $t-duration
@@ -62,15 +60,13 @@
 
   &__links
     position: absolute
-    top: $space-s
-    right: $space-l
+    top: $pos-s / 2
+    right: $pos-s * 2
     pointer-events: none
-    @include up-large-desktop()
-        right: $space-l * 1.5
 
   &__link
     display: inline-block
-    margin-right: $space-m
+    margin-right: $pos-s
     transform: translateY(200%)
     opacity: 0
     color: $color-secondary
@@ -99,3 +95,13 @@
         transform: translateY(15px) rotate(-45deg)
 
 
+  //Responsive
+  @include up-desktop()
+    top: $pos-m
+
+    &__menu
+      right: 16px
+      &--close
+        &:before,
+        &:after
+          width: 20px

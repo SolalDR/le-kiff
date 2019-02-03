@@ -4,6 +4,7 @@ import * as GUI from "~/services/gui";
 import ConfigManager from "~/services/ConfigManager";
 import SoundManager from "~/services/soundManager/SoundManager";
 import InfoManager from "~/webgl/manager/Info";
+import ModelAnimationManager from "../manager/ModelAnimation";
 
 /**
  * @class
@@ -27,7 +28,7 @@ class Step extends Event {
     this.rank = datas.rank;
     this.chapter_rank = datas.chapter_rank;
     this.content = datas.content;
-    this.infos = datas.infos
+    this.infos = datas.infos;
     
     this.state = {
       initialised: false
@@ -52,9 +53,16 @@ class Step extends Event {
     }
   }
 
-  init(config){
+  init(config, previousStep){
     this.config = config;
     this.state.initialised = true;
+    this.previousStep = previousStep;
+
+    // if not next step reset all anims
+    if(this.previousStep && !this.isNextStep()) {
+      ModelAnimationManager.reset();
+    }
+
     Bus.dispatch("step:init", this);
     this.dispatch("init"); 
   }
@@ -82,8 +90,17 @@ class Step extends Event {
       })
       return;
     }
+    
     Bus.dispatch("step:hide", this);
     this.dispatch("hide");
+  }
+
+  isNextStep() {
+    if(this.previousStep) {
+      return this.rank - 1 === this.previousStep.rank;
+    } else {
+      return false;
+    }
   }
 
   /**

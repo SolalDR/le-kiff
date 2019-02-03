@@ -12,19 +12,21 @@ export default class extends Step {
 
   /**
    * This method initialize the step and 
-   * @param {boolean} isNextStep If the step is arriving form the precedent
+   * @param {Step} previousStep previous step in History
    */
   init( previousStep ) {
-    super.init(config);
+    super.init(config, previousStep);
     this.folder = {}; 
-    this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
+    this.display(AssetsManager.loader.getFiles("chapter-1"));
   }
 
   displayHumanScale( e ){
+    this.mainRoot = e.step_1_human_leaf.result;
     this.main = e.step_1_human_leaf.result.scene;
     this.main.name = "main-step-1";
-    
+
     this.scene.humanScale.group.add(this.main);
+
     this.background = new FitPlane({
       background: e.background.result, 
       size: 450,
@@ -32,9 +34,10 @@ export default class extends Step {
     });
 
     // main transform
+    const mainTransformData = config.transforms.find(u => u.object === this.main.name); 
+    this.main.position.copy(mainTransformData.position);
+    this.main.rotation.copy(mainTransformData.rotation);
     this.main.scale.y = 1;
-    this.main.position.set(-0.98, -1.18, -1.12);
-    this.main.rotation.set(-0.16, 0.1, -0.38);
     
     // add leaf folder
     this.folder.leaf = this.gui.addObject3D("Leaf",  this.main, false);
@@ -46,12 +49,13 @@ export default class extends Step {
     
   }
 
-  display( isNextStep = false, event ) {
+  display( event ) {
     this.displayHumanScale( event );
     super.display( event );
   }
 
   hide() {
+    //console.log('isnext step in hide', this.isNextStep());
     //this.scene.humanScale.group.remove(this.main);
     this.gui.removeFolder(this.folder.leaf);
     super.hide();

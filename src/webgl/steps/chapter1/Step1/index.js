@@ -11,54 +11,87 @@ import { InteractivePlane } from "../../../components";
  */
 export default class extends Step {
 
+  constructor(params){
+    super(params, [ "leaf", "background" ]);
+  }
   /**
    * This method initialize the step and 
    * @param {boolean} isNextStep If the step is arriving form the precedent
    */
   init( previousStep ) {
     super.init(config);
-    this.folder = {};
     this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
   }
 
-  displayHumanScale( e ){
-    this.main = e.step_1_human_leaf.result.scene;
-    this.main.name = "main-step-1";
+  /**
+   * Display the initialized step and launch human scale by default
+   * @param {bool} isNextStep 
+   * @param {object} ressources 
+   */
+  display( isNextStep = false, ressources ) {
+    this.displayHumanScale( ressources );
+    super.display( ressources );
+  }
+
+  displayHumanScale( ressources ){
     
-    this.scene.humanScale.group.add(this.main);
     this.background = new InteractivePlane({
-      front: e.background1.result, 
-      back: e.background2.result,
+      front: ressources.background1.result, 
+      back: ressources.background2.result,
       size: 450,
       gui: this.gui
     });
-
+    this.background.object3D.name = "background";
     this.background.object3D.position.z = -100;
 
-    // main transform
-    this.main.scale.y = 1;
-    this.main.position.set(-0.98, -1.18, -1.12);
-    this.main.rotation.set(-0.16, 0.1, -0.38);
-    
-    // add leaf folder
-    this.folder.leaf = this.gui.addObject3D("Leaf",  this.main, false);
-    this.folder.leaf.addMaterial('Leaf detached', this.main.children[0].children[0].material); 
-    this.folder.leaf.addMaterial('Leaf', this.main.children[2].material); 
 
+    this.leaf = ressources.step_1_human_leaf.result;
+    var main = this.leaf.scene;
+    main.name = "main-step-1";
+    main.scale.y = 1;
+    main.position.set(-0.98, -1.18, -1.12);
+    main.rotation.set(-0.16, 0.1, -0.38);
+    this.scene.humanScale.group.add(main);
+  
+
+    // main transform
+
+    this.initGUI();
+ 
     // Add background
     this.scene.humanScale.group.add(this.background.object3D);
     
   }
 
-  display( isNextStep = false, event ) {
-    this.displayHumanScale( event );
-    super.display( event );
+  initGUI(){
+    // add leaf folder if doesn't exist
+    if(!this.folder.leaf){
+      this.folder.leaf = this.gui.addObject3D("Leaf",  this.leaf.scene, false);
+      this.folder.leaf.addMaterial('Leaf detached', this.leaf.scene.children[0].children[0].material); 
+      this.folder.leaf.addMaterial('Leaf', this.leaf.scene.children[2].material);   
+    }
+
+    if(!this.folder.background ){
+      this.folder.background = this.gui.addFolder("Interactiv\e Plane");
+      this.folder.background.add(this.background.object3D.material.uniforms.u_opacity, "value", 0, 1).name("Opacity");
+      this.folder.background.addVector("offset front", this.background.object3D.material.uniforms.u_offset_front.value);
+      this.folder.background.addVector("offset back", this.background.object3D.material.uniforms.u_offset_back.value);
+    }
+
   }
 
-  hide() {
-    //this.scene.humanScale.group.remove(this.main);
-    this.gui.removeFolder(this.folder.leaf);
-    super.hide();
+  hide( newStep ) {
+    var toRemove = this.getRemovableObject(newStep);
+
+    if ( toRemove.includes("leaf") ){
+      this.scene.humanScale.group.remove(this.leaf.scene);
+    }
+
+    if ( toRemove.includes("background") ){
+      this.scene.humanScale.group.remove(this.background.object3D);
+    }
+    
+    super.hide(newStep);
   } 
 
   /**

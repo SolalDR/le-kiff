@@ -31,10 +31,6 @@ class InteractivePlane {
     })
 
     this.object3D = new THREE.Mesh(geometry, material);
-
-    if( gui ){
-      this.initGUI(gui);
-    }
   }
 
   set opacity(value) {
@@ -51,13 +47,6 @@ class InteractivePlane {
   
   set offsetBack(vec2) {
     this.object3D.uniforms.u_offset_back.value = vec2;
-  }
-
-  initGUI(gui){
-    var folder = gui.addFolder("Interactiv\e Plane");
-    folder.add(this.object3D.material.uniforms.u_opacity, "value", 0, 1).name("Opacity");
-    folder.addVector("offset front", this.object3D.material.uniforms.u_offset_front.value);
-    folder.addVector("offset back", this.object3D.material.uniforms.u_offset_back.value);
   }
 }
 

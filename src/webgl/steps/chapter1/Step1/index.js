@@ -28,12 +28,12 @@ export default class extends Step {
    * @param {bool} isNextStep 
    * @param {object} ressources 
    */
-  display( isNextStep = false, ressources ) {
-    this.displayHumanScale( ressources );
+  display( previousStep = null, ressources ) {
+    this.displayHumanScale( ressources, previousStep );
     super.display( ressources );
   }
 
-  displayHumanScale( ressources ){
+  displayHumanScale( ressources, previousStep ){
     
     this.background = new InteractivePlane({
       front: ressources.background1.result, 

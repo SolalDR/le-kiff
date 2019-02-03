@@ -13,6 +13,8 @@ import { c } from "../../../../helpers/Configuration";
 export default class extends Step {
   constructor(params){
     super(params, ["leaf", "background"]);
+    this.mixers = [];
+    this.animations = [];
   }
 
   /** 
@@ -29,8 +31,8 @@ export default class extends Step {
    * @param {bool} isNextStep 
    * @param {object} ressources 
    */
-  display( isNextStep = false, ressources ) {
-    this.displayHumanScale( ressources );
+  display( previousStep = null, ressources ) {
+    this.displayHumanScale( ressources, previousStep );
     super.display( ressources );
   }
 
@@ -38,9 +40,15 @@ export default class extends Step {
    * Display human scale scene 
    * @param {*} ressources
    */
-  displayHumanScale( ressources ){
+  displayHumanScale( ressources, previousStep ){
     this.leaf = ressources.step_1_human_leaf.result;
     var main = ressources.step_1_human_leaf.result.scene;
+    
+    if (previousStep.background){
+      this.background = previousStep.background;
+    }
+
+    this.background.changeBackground(ressources.background2.result, 3000, 3000);
 
     this.createMeshAnimations();
 
@@ -77,11 +85,11 @@ export default class extends Step {
   hide(newStep) {
     var toRemove = this.getRemovableObject(newStep);
     if ( toRemove.includes("leaf") ){
-      this.scene.humanScale.group.remove("main-step-1");
+      this.scene.humanScale.group.remove(this.leaf.scene);
     }
 
     if ( toRemove.includes("background") ){
-      this.scene.humanScale.group.remove("background");
+      this.scene.humanScale.group.remove(this.background.objec3D);
     }
     super.hide(newStep);
   }

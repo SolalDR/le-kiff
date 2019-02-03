@@ -21,8 +21,8 @@ export default class extends Step {
     this.display(isNextStep, AssetsManager.loader.getFiles("chapter-1"));
   }
 
-  display( isNextStep = false, event ) {
-    this.displayHumanScale( event );
+  display( previousStep = null, event ) {
+    this.displayHumanScale( event, previousStep );
     super.display( event );
   }
 
@@ -30,7 +30,7 @@ export default class extends Step {
    * Init human scale scene 
    * @param {*} event
    */
-  displayHumanScale( event ){
+  displayHumanScale( ressources, previousStep ){
     this.main = new THREE.Mesh( new THREE.BoxGeometry(), new THREE.MeshPhongMaterial({ color: 0xFF0000 }) );
     this.main.name = "cube";
 

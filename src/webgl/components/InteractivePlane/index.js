@@ -1,5 +1,6 @@
 import vertex from "./vertex.glsl";
 import fragment from "./fragment.glsl";
+import AnimationManager, {Animation} from "~/webgl/manager/Animation"
 
 class InteractivePlane {
 
@@ -31,6 +32,28 @@ class InteractivePlane {
     })
 
     this.object3D = new THREE.Mesh(geometry, material);
+  }
+
+  changeBackground(background, duration = 1000, delay = 0){
+    if( duration ){
+      this.back = background;
+      this.object3D.material.uniforms.u_texture_back.value = this.back;
+      this.object3D.material.uniforms.u_opacity.value = 1.;
+
+      AnimationManager.addAnimation(new Animation({ duration, delay })
+        .on("progress", (event)=>{
+          this.object3D.material.uniforms.u_opacity.value = 1. - event.advancement;
+        }).on("end", (event) => {
+          this.object3D.material.uniforms.u_opacity.value = 1.;
+          this.object3D.material.uniforms.u_texture_front.value = background;
+        })
+      )
+    } else {
+      this.back = this.front;
+      this.front = background;
+      this.object3D.material.uniforms.u_texture_front.value = this.front;
+      this.object3D.material.uniforms.u_texture_back.value = this.back;
+    }
   }
 
   set opacity(value) {

@@ -11,7 +11,7 @@
 
   &__inner
     position: absolute
-    top: 30%
+    top: 29%
     bottom: 20%
     max-width: between(580px, 640px)
     // width: 40%
@@ -29,26 +29,30 @@
     margin-bottom: 20px
 
     .letter-reveal__item
-      min-width: 30px
       filter: blur(2px)
+
+    .letter-reveal__space
+      width: 35px
 
 
   &__subtitle
     position: relative 
-    margin: $space-m 0
+    margin: 24px 0 $space-m
 
     .letter-reveal
       &__item
-        min-width: 25px
+        margin-right: 8.3px
         transform: scale(0.1) translateX(30px)
 
+      &__space
+        width: 12px
+
   &__teasing
-    margin-top: $space-l
+    margin-top: $pos-s
     margin-bottom: $space-m
     padding-left: 90px
     padding-right: 90px
     
-
     &__item
       display: inline-block
       margin-top: 6px
@@ -91,6 +95,7 @@
         fill-mode: forwards
 
   &__sound
+    margin-top: $space-l
     display: inline-block
     opacity: 0
     transition: 
@@ -129,3 +134,29 @@
     
     100%
       opacity: 1
+
+//Responsive
+  @include up-desktop()
+    &__subtitle
+      .letter-reveal
+        &__item
+          margin-right: 10px
+
+
+    &__teasing
+      margin-top: 50px
+
+    &__sound
+      margin-top: $space-l * 2
+
+  @include up-large-desktop()
+    &__subtitle
+      .letter-reveal
+        &__item
+          margin-right: 11px
+
+    &__teasing
+      margin-top: 150px
+
+    &__sound
+      margin-top: 130px

@@ -71,6 +71,7 @@
       timing-function: ease
       duration: 0.4s
       delay: 0.4s
+
   &__pointer
     position: absolute
     top: -32px
@@ -125,3 +126,16 @@
         opacity: 1
         transform: scale(1)
 
+//Responsive
+  @include up-desktop()
+    &__pointer
+      width: 30px
+      height: 30px
+
+    &__title
+      margin-bottom: 20px
+
+  @include up-large-desktop()
+    &__pointer
+      width: 35px
+      height: 35px

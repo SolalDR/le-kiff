@@ -4,7 +4,7 @@ export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
   transitions: [
     {
-      object: 'main-step-2',
+      object: 'step_1_human_leaf',
       duration: 3600,
       position: new THREE.Vector3(-30, 1.76, 0.96),
       rotation: new THREE.Euler(0.46, 0.2, -0.18)

@@ -11,9 +11,14 @@ import { c } from "../../../../helpers/Configuration";
  * @param {int} id
  */
 export default class extends Step {
+  constructor(params){
+    super(params, ["leaf", "background"]);
+    this.mixers = [];
+    this.animations = [];
+  }
 
   /** 
-   * This method initialize the step and 
+   * This method initialize the step and launch display method
    * @param {boolean} isNextStep If the step is arriving form the precedent
    */
   init( isNextStep ) {
@@ -22,35 +27,48 @@ export default class extends Step {
   }
 
   /**
-   * Init human scale scene 
-   * @param {*} event
+   * Display the initialized step and launch human scale by default
+   * @param {bool} isNextStep 
+   * @param {object} ressources 
    */
-  displayHumanScale( event ){
-    this.main = event.step_1_human_leaf.result.scene;
-    this.mainRoot = event.step_1_human_leaf.result;
-    this.main.name = "main-step-2"
+  display( previousStep = null, ressources ) {
+    this.displayHumanScale( ressources, previousStep );
+    super.display( ressources );
+  }
+
+  /**
+   * Display human scale scene 
+   * @param {*} ressources
+   */
+  displayHumanScale( ressources, previousStep ){
+    this.leaf = ressources.step_1_human_leaf.result;
+    var main = ressources.step_1_human_leaf.result.scene;
+    
+    if (previousStep.background){
+      this.background = previousStep.background;
+    }
+
+    this.background.changeBackground(ressources.background2.result, 3000, 3000);
 
     this.createMeshAnimations();
 
     this.playAnimation('hang-out').then((e) => {
 
-      var startPosition = this.main.position.clone();
-      var startRotation = this.main.rotation.clone();
+      var startPosition = main.position.clone();
+      var startRotation = main.rotation.clone();
 
       AnimationManager.addAnimation(new Animation({
         duration: 3600, 
         timingFunction: "easeInOutQuad"
-      }).on("progress", ( event ) => {
-        var a = event.advancement;
+      }).on("progress", ( ressources ) => {
+        var a = ressources.advancement;
         var lerp = THREE.Math.lerp;
-        this.main.position.x = lerp(startPosition.x, -30, a);
-        this.main.position.y = lerp(startPosition.y, 1.76, a);
-        this.main.position.z = lerp(startPosition.z, 0.96, a);
-        this.main.rotation.x = lerp(startRotation.x, 0.46, a);
-        this.main.rotation.y = lerp(startRotation.y, 0.20, a);
-        this.main.rotation.z = lerp(startRotation.z, -0.18, a);
-      }).on("end", () => {
-        console.log('branch anim end');
+        main.position.x = lerp(startPosition.x, -30, a);
+        main.position.y = lerp(startPosition.y, 1.76, a);
+        main.position.z = lerp(startPosition.z, 0.96, a);
+        main.rotation.x = lerp(startRotation.x, 0.46, a);
+        main.rotation.y = lerp(startRotation.y, 0.20, a);
+        main.rotation.z = lerp(startRotation.z, -0.18, a);
       }));
 
       this.playAnimation('move-in-wind').then(() => {
@@ -60,14 +78,20 @@ export default class extends Step {
     });
   }
 
-  display( isNextStep = false, event ) {
-    this.displayHumanScale( event );
-    super.display( event );
+  initGUI(){
+    // Silence is golden
   }
 
-  hide() {
-    this.scene.humanScale.group.remove(this.main);
-    super.hide();
+  hide(newStep) {
+    var toRemove = this.getRemovableObject(newStep);
+    if ( toRemove.includes("leaf") ){
+      this.scene.humanScale.group.remove(this.leaf.scene);
+    }
+
+    if ( toRemove.includes("background") ){
+      this.scene.humanScale.group.remove(this.background.objec3D);
+    }
+    super.hide(newStep);
   }
 
   /**
@@ -117,10 +141,9 @@ export default class extends Step {
 
     this.currentAction = null;
 
-    this.mixer = new THREE.AnimationMixer(this.main);
+    this.mixer = new THREE.AnimationMixer(this.leaf.scene);
     this.mixer.timeScale = 0.0009;
-
-    var mainClip = this.mixer.clipAction( this.mainRoot.animations[ 0 ] );
+    var mainClip = this.mixer.clipAction( this.leaf.animations[ 0 ] );
 
     for (var i = 0; i < this.animations.length; i++) { 
       const animData = this.animations[i];

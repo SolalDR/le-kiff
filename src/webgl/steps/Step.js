@@ -3,7 +3,8 @@ import Bus from "~/helpers/Bus";
 import * as GUI from "~/services/gui";
 import ConfigManager from "~/services/ConfigManager";
 import SoundManager from "~/services/soundManager/SoundManager";
-import InfoManager from "~/webgl/manager/Info";
+import {AnimationManager} from "~/webgl/manager";
+import {Animation} from "~/webgl/manager/Animation";
 
 /**
  * @class
@@ -20,7 +21,7 @@ class Step extends Event {
   constructor({
     scene = null,
     datas = {}
-  } = {}){
+  } = {}, persistentObjects = []){
     super();
     this.scene= scene;
     this.id = datas.id;
@@ -28,13 +29,36 @@ class Step extends Event {
     this.chapter_rank = datas.chapter_rank;
     this.content = datas.content;
     this.infos = datas.infos
-    
+    this.persistentObjects = persistentObjects;
+    this.folder = {};
+
     this.state = {
-      initialised: false
+      initialised: false,
+      guiInitialized: false
     }
 
     this.parentGUI = GUI["guiChapter"+this.chapter_rank];
     this.gui = this.parentGUI.addFolder("Step "+this.rank);
+  }
+
+  getRemovableObject(step){
+    var toRemove = [];
+    this.persistentObjects.forEach(name => {
+      if(!step.persistentObjects.includes(name)){
+        toRemove.push(name);
+      }
+    })
+    return toRemove;
+  }
+
+  getMissingObject(step){
+    var toAdd = [];
+    step.persistentObjects.forEach(name => {
+      if(!this.persistentObjects.includes(name)){
+        toAdd.push(name);
+      }
+    })
+    return toAdd;
   }
 
   manageInfos(infos){
@@ -55,8 +79,11 @@ class Step extends Event {
   init(config){
     this.config = config;
     this.state.initialised = true;
-    Bus.dispatch("step:init", this);
-    this.dispatch("init"); 
+
+    if( this.state.initialised ){
+      Bus.dispatch("step:init", this);
+      this.dispatch("init"); 
+    }
   }
 
   display(event) {
@@ -72,7 +99,30 @@ class Step extends Event {
     this.dispatch("display");
   }
 
-  hide(){
+  hide( nextStep ){
+    
+    // Next step don't follow current step
+    if( nextStep.rank !== this.rank + 1) {
+      Bus.verbose("step:prevent-hide Change step", 2);
+      this.scene.renderer.setBloomThreshold(0);
+      var config = this.config[this.scene.state.currentScale].transitions[this.scene.state.currentScale];
+      this.scene.renderer.setBloomIntensity(config.postprocess.bloom.strength.to);
+      var diff = config.postprocess.bloom.strength.from - config.postprocess.bloom.strength.to;
+      // postprocess anim
+      AnimationManager.addAnimation(new Animation({
+          duration: 1000,
+        }).on("progress", ( event ) => {
+          this.scene.renderer.setBloomIntensity( config.postprocess.bloom.strength.to + event.advancement*diff );
+        }).on("end", ()=>{
+          Bus.dispatch("step:hide", this);
+          this.dispatch("hide");
+        })
+      );
+
+      return; 
+    } 
+
+    // If different of human
     if( this.scene.state.currentScale !== "human" ){
       Bus.verbose("step:prevent-hide Change scale", 2);
       this.scene.selectScale("human");
@@ -82,6 +132,7 @@ class Step extends Event {
       })
       return;
     }
+
     Bus.dispatch("step:hide", this);
     this.dispatch("hide");
   }

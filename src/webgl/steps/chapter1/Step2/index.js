@@ -21,7 +21,7 @@ export default class extends Step {
    * This method initialize the step and launch display method
    * @param {boolean} isNextStep If the step is arriving form the precedent
    */
-  init( previousStep ) {
+  init( previousStep = null ) {
     super.init(config, previousStep);
     this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
   }
@@ -41,10 +41,9 @@ export default class extends Step {
    * @param {*} ressources
    */
   displayHumanScale( ressources, previousStep ){
-    console.log(ressources);
-    // previousStep.leaf;
+    // TODO: previousStep.leaf;
     this.leaf = ressources.step_1_human_leaf.result;
-    this.leaf.name = 'coca-plant';
+    this.leaf.name = config.modelAnimation.name;;
     var main = ressources.step_1_human_leaf.result.scene;
     main.name = 'step_1_human_leaf';
     
@@ -53,17 +52,15 @@ export default class extends Step {
       this.background.changeBackground(ressources.background2.result, 3000, 3000);
     }
     
-
-
-    ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);
-      
-
+    ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);     
     ModelAnimationManager.play('hang-out').then((e) => {
 
       var mainPosition = this.leaf.scene.position.clone();
       var mainRotation = this.leaf.scene.rotation.toVector3();
       var targetRotation = new THREE.Vector3()
-      const mainTransitionData = config.transitions.find(u => u.object === this.leaf.scene.name); 
+      console.log('config.transitions', config.transitions);
+      console.log('config.transitions', config.transitions);
+      const mainTransitionData = config.transitions.find(u => u.object === this.leaf.name); 
       AnimationManager.addAnimation(new Animation({
         duration: mainTransitionData.duration, 
         timingFunction: "easeInOutQuad"
@@ -72,8 +69,6 @@ export default class extends Step {
         this.leaf.scene.position.lerpVectors(mainPosition, mainTransitionData.position, a);
         targetRotation.lerpVectors(mainRotation, mainTransitionData.rotation, a);
         this.leaf.scene.rotation.setFromVector3(targetRotation);
-      }).on("end", () => {
-        console.log('branch anim end');
       }));
       
       ModelAnimationManager.play('move-in-wind').then(() => {

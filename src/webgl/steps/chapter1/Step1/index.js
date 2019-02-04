@@ -18,8 +18,8 @@ export default class extends Step {
    * This method initialize the step and 
    * @param {Step} previousStep previous step in History
    */
-  init( previousStep ) {
-    super.init(config);
+  init( previousStep = null ) {
+    super.init(config, previousStep);
     this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
   }
 

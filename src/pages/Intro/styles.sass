@@ -37,6 +37,8 @@
 
   &__subtitle
     position: relative 
+    left: 50%
+    transform: translateX(-50%)
     margin: 24px 0 $space-m
 
     .letter-reveal
@@ -118,6 +120,33 @@
     z-index: 1
     pointer-events: none
 
+  //Responsive
+  @include up-desktop()
+    &__subtitle
+      margin-top: 34px
+      .letter-reveal
+        &__item
+          margin-right: 10px
+
+    &__teasing
+      margin-top: $pos-s
+
+    &__inner__bottom
+      margin-top: $space-l * 2
+
+  @include up-large-desktop()
+    &__subtitle
+      margin-top: 44px
+      .letter-reveal
+        &__item
+          margin-right: 11px
+
+    &__teasing
+      margin-top: 70px
+
+    &__inner__bottom
+      margin-top: 100px
+
 @keyframes translateUp
     0%
       opacity: 0
@@ -134,29 +163,3 @@
     
     100%
       opacity: 1
-
-//Responsive
-  @include up-desktop()
-    &__subtitle
-      .letter-reveal
-        &__item
-          margin-right: 10px
-
-
-    &__teasing
-      margin-top: 50px
-
-    &__sound
-      margin-top: $space-l * 2
-
-  @include up-large-desktop()
-    &__subtitle
-      .letter-reveal
-        &__item
-          margin-right: 11px
-
-    &__teasing
-      margin-top: 150px
-
-    &__sound
-      margin-top: 130px

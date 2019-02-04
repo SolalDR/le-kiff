@@ -25,7 +25,7 @@ class Menu extends React.PureComponent {
     }
   }
 
-  initPositions(itemList) {
+  initPositions = (itemList) => {
     [].forEach.call(itemList, (item, index) => {
       const expand = item.querySelector(".menu__item__expand");
       const content = item.querySelector(".menu__item__content");
@@ -41,6 +41,11 @@ class Menu extends React.PureComponent {
       isReady: true
     });
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.initPositions);
+  }
+
 
   onMouseOver(rank) {
     if (this.state.rank !== rank) { 
@@ -63,6 +68,7 @@ class Menu extends React.PureComponent {
   componentDidMount = (e) => {
     const items = this.menu.querySelectorAll(".menu__item");
     this.initPositions(items);
+    window.addEventListener('resize', this.initPositions(items));
   }
 
   renderMenuItems() {

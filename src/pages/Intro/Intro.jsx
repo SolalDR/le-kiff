@@ -85,7 +85,7 @@ class Intro extends React.Component {
               options={{ filter: "blur(0)" }}
             />
             <LetterReveal
-              text="A fading tale"
+              text="Stories of disappearances"
               class={"intro__subtitle heading-2"}
               duration={0.09}
               delay={-0.05}

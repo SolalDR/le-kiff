@@ -189,10 +189,11 @@ class WebGL {
       }
       this.controllerManager.state.controller.radius = radius;
     }
+
     this.clock.update();
 
     this[this.state.currentScale+"Scale"].loop(this.clock.elapsed);
-    this.step.loop();
+    this.step.loop(this.clock.elapsed*0.001);
     this.mouseCaster.render();
     this.controllerManager.update();
 

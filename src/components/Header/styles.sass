@@ -2,7 +2,7 @@
 
 .header 
   position: fixed
-  top: $pos-s
+  top: 25px
   left: 0
   width: 100vw
   height: 0
@@ -12,13 +12,13 @@
   &__menu
     position: absolute
     right: $pos-s - 7
+    top: 0
     border: none
     outline: none
     width: 36px
     height: 45px
     box-shadow: none
     cursor: none
-    background: yellow
 
     &:hover
       .header__burger
@@ -32,11 +32,10 @@
 
     &--close
       position: absolute
-      top: 8px
+      top: 4px
       right: 25px
       opacity: 0
       z-index: 5
-      background: red
 
       &:before,
       &:after
@@ -48,7 +47,6 @@
         width: 17px
         height: 2px
         background: $color-secondary
-        background: purple
         z-index: 7
         transition: 
           duration: $t-duration
@@ -60,7 +58,7 @@
 
   &__links
     position: absolute
-    top: $pos-s / 2
+    top: 12px
     right: $pos-s * 2
     pointer-events: none
 
@@ -97,11 +95,27 @@
 
   //Responsive
   @include up-desktop()
-    top: $pos-m
+    top: $pos-s
 
     &__menu
-      right: 16px
+      right: 34px
+      width: 42px
+
       &--close
         &:before,
         &:after
           width: 20px
+
+    &__links
+      right: 75px
+
+    @include up-desktop()
+      &__menu
+        &--close
+          right: 38px
+          &:before,
+          &:after
+            width: 35px
+
+      &__links
+        right: 85px

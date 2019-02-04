@@ -60,7 +60,6 @@
       height: 2px
       background: $color-secondary
       pointer-events: none
-      background: red
       transition: 
         duration: $t-duration
         property: transform
@@ -160,10 +159,22 @@
       
   //Responsive
   @include up-desktop()
+    top: 120px
+
     &__item
-      margin-bottom: 25px
+      margin-bottom: 15px
 
       &__burger
-        width: $pos-m
+        width: $pos-s
 
-    &__available
+    &__container
+      margin-right: $pos-m
+
+  @include up-large-desktop()
+    top: 150px
+
+    &__item
+      padding-right: 70px
+
+      &__burger
+        right: -73px

@@ -45,8 +45,7 @@ class InfoPoint extends React.Component {
 
 
   handleClick = () => {
-    
-    SoundManager.play('toggle_infopoint_sound');
+    SoundManager.play('ui_sounds', 'toggle_infopoint');
     if (this.props.onClick) this.props.onClick({
       id: this.props.info.id
     });

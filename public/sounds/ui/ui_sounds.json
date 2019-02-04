@@ -1,8 +1,7 @@
-[{
-  "name": "ui_sounds",
-  "options": {
-    "volume": 0.3
-  },
+{
+  "urls": [
+    "ui_sounds.mp3"
+  ],
   "sprite": {
     "toggle_default": [
       0,
@@ -17,4 +16,4 @@
       1786.4852607709754
     ]
   }
-}]
+}

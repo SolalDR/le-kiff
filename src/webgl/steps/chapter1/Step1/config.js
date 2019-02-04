@@ -22,10 +22,10 @@ export default baseConfig.extends({
       }
     },
     {
-      name : "step_1_main_sound",
+      name : "chapter_1_main_voice",
       options : {
         volume: 0.9
-      }
+      } 
     }
   ],
   micro: {

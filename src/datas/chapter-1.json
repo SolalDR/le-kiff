@@ -34,5 +34,29 @@
       "name": "step_2_main_sound",
       "path": "/sounds/chapter-1/step_2_main.mp3"
     }
+  ],
+  "groups": [
+    {
+      "name": "leaf",
+      "base": "/chapter-1/leaf", 
+      "files": [
+        {
+          "name": "mapLeaf",
+          "path": "/diffuse.jpg"
+        },
+        {
+          "name": "alphaLeaf",
+          "path": "/alpha.jpg"
+        },
+        {
+          "name": "normalLeaf",
+          "path": "/normal.jpg"
+        },
+        {
+          "name": "roughnessLeaf",
+          "path": "/roughness.jpg"
+        }
+      ] 
+    }
   ]
 }

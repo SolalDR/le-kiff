@@ -1,6 +1,6 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
-import SoundManager from "~/services/soundManager/SoundManager";
+import LeafCloud from "./../components/LeafCloud";
 import config from "./config";
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import { c } from "../../../../helpers/Configuration";
@@ -41,25 +41,28 @@ export default class extends Step {
    * @param {*} ressources
    */
   displayHumanScale( ressources, previousStep ){
-    console.log(ressources);
-    // previousStep.leaf;
     this.leaf = ressources.step_1_human_leaf.result;
     this.leaf.name = 'coca-plant';
     var main = ressources.step_1_human_leaf.result.scene;
     main.name = 'step_1_human_leaf';
     
+    this.leafClouds = new LeafCloud({
+      map: ressources.mapLeaf.result,
+      alpha: ressources.alphaLeaf.result,
+      normal: ressources.normalLeaf.result,
+      roughness: ressources.roughnessLeaf.result,
+      transparent: true
+    });
+    
+    this.scene.humanScale.group.add(this.leafClouds.object3D);
+
     if (previousStep.background){
       this.background = previousStep.background;
       this.background.changeBackground(ressources.background2.result, 3000, 3000);
     }
-    
-
-
+  
     ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);
-      
-
     ModelAnimationManager.play('hang-out').then((e) => {
-
       var mainPosition = this.leaf.scene.position.clone();
       var mainRotation = this.leaf.scene.rotation.toVector3();
       var targetRotation = new THREE.Vector3()
@@ -80,11 +83,15 @@ export default class extends Step {
         ModelAnimationManager.play('idle');
       });
     });
-  
+    
+    this.initGUI();
+
   }
 
   initGUI(){
-    // Silence is golden
+    if( !this.folder.leafCloud ) {
+      this.folder.leafCloud = this.gui.addMaterial("Leaf cloud", this.leafClouds.object3D.material);
+    }
   }
 
   hide(newStep) {
@@ -97,5 +104,15 @@ export default class extends Step {
       this.scene.humanScale.group.remove(this.background.objec3D);
     }
     super.hide(newStep);
+  }
+
+
+  /**
+   * @override
+   * Raf
+   */
+  loop(time){
+    this.leafClouds.render(time * 0.01);
+    super.loop();
   }
 }

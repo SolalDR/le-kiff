@@ -34,9 +34,9 @@ export default class extends Step {
   displayHumanScale( ressources, previousStep ){
     this.main = new THREE.Mesh( new THREE.BoxGeometry(), new THREE.MeshPhongMaterial({ color: 0xFF0000 }) );
     this.main.name = "cube";
-    this.leaf = ressources.step_1_human_leaf.result.scene;
+    this.leaf = ressources.step_1_human_leaf.result;
     this.leaf.name = config.modelAnimation.name;
-    this.main.name = "main-step-3"
+    this.main.name = "step_1_human_leaf"
 
     this.water = new Water({ renderer: Renderer.renderer });
     this.water.mesh.position.y = -5;
@@ -47,6 +47,7 @@ export default class extends Step {
 
     this.scene.humanScale.group.add(this.water.mesh)
     this.scene.humanScale.group.add(this.main);
+    this.scene.humanScale.group.add(this.leaf.scene);
 
     ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options)
     ModelAnimationManager.play('cut');

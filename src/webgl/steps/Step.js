@@ -77,15 +77,19 @@ class Step extends Event {
     }
   }
 
-  init(config, previousStep){
-    this.config = config;
-    this.state.initialised = true;
-    this.previousStep = previousStep;
-
-    // if not next step reset all anims
+  // if not next step reset all anims
+  resetModelAnimation() {
     if(this.previousStep && !this.isNextStep()) {
       ModelAnimationManager.reset();
     }
+  }
+
+  init(config, previousStep){
+    this.config = config;
+    this.previousStep = previousStep;
+    this.state.initialised = true;
+
+    this.resetModelAnimation();
 
     if( this.state.initialised ){
       Bus.dispatch("step:init", this);

@@ -18,14 +18,14 @@ export default class extends Step {
    * This method initialize the step and 
    * @param {Step} previousStep previous step in History
    */
-  init( previousStep ) {
-    super.init(config);
+  init( previousStep = null ) {
+    super.init(config, previousStep);
     this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
   }
 
   /**
    * Display the initialized step and launch human scale by default
-   * @param {bool} isNextStep 
+   * @param {Step} previousStep 
    * @param {object} ressources 
    */
   display( previousStep = null, ressources ) {
@@ -49,9 +49,9 @@ export default class extends Step {
     var main = this.leaf.scene;
     main.name = "step_1_human_leaf";
     main.scale.y = 1;
-    // TODO: pass config
-    main.position.set(-0.98, -1.18, -1.12);
-    main.rotation.set(-0.16, 0.1, -0.38);
+    var mainTransformConfig = config.transforms.find(transform => transform.asset === main.name);
+    main.position.copy(mainTransformConfig.position);
+    main.rotation.copy(mainTransformConfig.rotation);
     this.scene.humanScale.group.add(main);
   
 

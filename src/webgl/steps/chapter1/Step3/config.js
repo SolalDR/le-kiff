@@ -12,7 +12,7 @@ export default baseConfig.extends({
     }
   },
   modelAnimation: {
-    name : 'coca-plant',
+    name : 'step_1_human_leaf',
     options: {
       timeScale: 0.0009
     },

@@ -21,7 +21,7 @@ export default class extends Step {
    * This method initialize the step and launch display method
    * @param {boolean} isNextStep If the step is arriving form the precedent
    */
-  init( previousStep ) {
+  init( previousStep = null ) {
     super.init(config, previousStep);
     this.display(previousStep, AssetsManager.loader.getFiles("chapter-1"));
   }
@@ -41,8 +41,9 @@ export default class extends Step {
    * @param {*} ressources
    */
   displayHumanScale( ressources, previousStep ){
+    // TODO: previousStep.leaf;
     this.leaf = ressources.step_1_human_leaf.result;
-    this.leaf.name = 'coca-plant';
+    this.leaf.name = config.modelAnimation.name;;
     var main = ressources.step_1_human_leaf.result.scene;
     main.name = 'step_1_human_leaf';
     

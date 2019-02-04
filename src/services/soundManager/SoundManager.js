@@ -42,21 +42,30 @@ class SoundManager {
 
   /**
    * 
-   * @param {String[]|String} soundNames Array or String of sound names
+   * @param {String[]|Array.<string[]>|String} soundNames Array of String or of String array for sprite id or String of sound names
+   * @param {String} sprite Sound sprite name
    */
-  play(soundNames) {
-    const play = (name) => {
+  play(soundNames, sprite) {
+    const play = (name, sprite) => {
       const sound = this.getSound(name);
-      if(sound.playing()) return;
       sound.volume(sound.defaultVolume);
-      sound.play();
+      if(sprite) {
+        sound.play(sprite);
+      } else {
+        sound.play();
+      }
     }
     if(Array.isArray( soundNames )) {
-      soundNames.forEach(name => {
-        play(name);
+      soundNames.forEach(sound => {
+        // if sound sprite
+        if(Array.isArray(sound)) {
+          play(sound[0], sound[1]);
+        } else {
+          play(sound);
+        }
       })
     } else {
-      play(soundNames);
+      play(soundNames, sprite);
     }
   }
   
@@ -172,6 +181,12 @@ class SoundManager {
  add(soundsData){
    const add = (data) => {
     const soundObject = this.assignOptions(data.sound, data.options);
+
+    // set sprite
+    if(data.sprite) {
+      soundObject._sprite = data.sprite
+    }
+
     this.sounds.set(data.name, soundObject);
    }
    if( Array.isArray( soundsData )) {
@@ -212,6 +227,10 @@ class SoundManager {
         this.removeSound(name);
       }
     });
+  }
+
+  addSprite() {
+    
   }
 
   /**

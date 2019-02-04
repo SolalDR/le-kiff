@@ -4,138 +4,295 @@ body {
 
 // Here put custom code global to all application
 .heading-1 {
+  font-family: $font-secondary;
+  font-style: italic;
+  font-weight: 800;
   font-size: 144px;
   line-height: 130px;
-  font-family: 'Spectral', serif;
-  font-style: italic;
-  font-weight: bold;
-  @include largeDesktop {
-    font-size: 148px;
-    line-height: 134px;
+
+  @include desktop {
+    font-size: 170px;
+  }
+  @include up-large-desktop {
+    font-size: 200px;
   }
 }
 
 .heading-2 {
-  font-size: 20px;
-  font-weight: normal;
-  font-family: 'Spectral', serif;
-  letter-spacing: 8.3px;
+  font-family: $font-secondary;
+  font-weight: 400;
   text-transform: uppercase;
-  @include largeDesktop {
+  font-size: 20px;
+  letter-spacing: 8.33px;
+  line-height: 2.2px;
+
+  @include desktop {
     font-size: 24px;
-    line-height: 134px;
-    letter-spacing: 9px;
+  }
+  @include up-large-desktop {
+    font-size: 28.5px;
+    line-height: 26px;
+    letter-spacing: 11.88px;
   }
 }
 
 .heading-3 {
-  font-size: 18px;
+  font-family: $font-primary;
   font-weight: 900;
-  font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
-  @include largeDesktop {
-    font-size: 22px;
+  font-size: 48px;
+
+  @include desktop {
+    font-size: 58px;
+  }
+
+  @include up-large-desktop {
+    font-size: 72px;
   }
 }
 
 .heading-4 {
-  font-size: 13px;
-  font-weight: 700;
-  font-family: 'Montserrat',
-  sans-serif;
+  font-family: $font-primary;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  @include largeDesktop {
-    font-size: 16px;
+  font-size: 20px;
+  letter-spacing: 1.11px;
+
+  @include desktop {
+    font-size: 24px;
+    letter-spacing: 1.33px;
+  }
+
+  @include up-large-desktop {
+    font-size: 28.4px;
+    letter-spacing: 2px;
   }
 }
 
 .heading-5 {
-  font-size: 11px;
-  font-weight: 700;
-  font-family: 'Montserrat',
-  sans-serif;
+  font-family: $font-primary;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  @include largeDesktop {
-    font-size: 14px;
+  font-size: 14px;
+  letter-spacing: 1.08px;
+
+  @include desktop {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  @include up-large-desktop {
+    font-size: 19px;
+    letter-spacing: 1.19px;
   }
 }
 
 .heading-6 {
-  font-size: 20px;
-  line-height: 16px;
-  font-weight: normal;
-  font-family: 'Spectral', serif;
-  @include largeDesktop {
-    font-size: 24px;
+  font-family: $font-primary;
+  font-weight: 900;
+  text-transform: uppercase;
+  @include antialiasing();
+  font-size: 13px;
+  letter-spacing: 1.08px;
+
+  @include desktop {
+    font-size: 15px;
+    letter-spacing: 1.25px;
+  }
+
+  @include up-large-desktop {
+    font-size: 18px;
+    letter-spacing: 1.5px;
   }
 }
 
 .heading-7 {
-  font-size: 14px;
-  letter-spacing: 1px;
-  font-weight: 900;
-  font-family: 'Montserrat', serif;
+  font-family: $font-primary;
+  font-weight: 700;
   text-transform: uppercase;
-  @include largeDesktop {
-    font-size: 18px;
+  font-size: 11px;
+  letter-spacing: 2.2px;
+
+  @include desktop {
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+
+  @include up-large-desktop {
+    font-size: 14px;
+    letter-spacing: 2.33px;
   }
 }
+
 
 .heading-8 {
-  font-size: 14px;
-  letter-spacing: 1px;
-  font-weight: 900;
-  font-family: 'Montserrat', serif;
+  font-family: $font-primary;
+  font-weight: 700;
+  @include antialiasing();
   text-transform: uppercase;
-  letter-spacing: 7px;
-  @include largeDesktop {
-    font-size: 18px;
-  }
-}
+  font-size: 10px;
+  letter-spacing: 1px;
 
-.small {
-  font-size: 14px;
-  font-weight: normal;
-  font-style: italic;
-  font-family: 'Spectral', serif;
-  @include largeDesktop {
-    font-size: 16px;
+  @include desktop {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  @include up-large-desktop {
+    font-size: 13px;
+    letter-spacing: 2px;
   }
 }
 
 .teasing-1 {
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: normal;
-  font-style: italic;
-  font-family: 'Spectral', serif;
-  @include largeDesktop {
-    font-size: 16px;
-    line-height: 20px;
+  font-family: $font-secondary;
+  font-size: 20px;
+  line-height: 22px;
+  @include antialiasing();
+
+  @include desktop {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  @include up-large-desktop {
+    font-size: 28.5px;
+    line-height: 33px;
   }
 }
 
 .teasing-2 {
-  font-size: 20px;
-  line-height: 24px;
-  font-weight: normal;
-  font-family: 'Spectral', serif;
-  @include largeDesktop {
-    font-size: 24px;
-    line-height: 28px;
+  font-family: $font-secondary;
+  font-size: 16px;
+  line-height: 20px;
+
+  @include desktop {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  @include up-large-desktop {
+    font-size: 19px;
+    line-height: 24px;
   }
 }
 
 .teasing-3 {
+  font-family: $font-secondary;
+  font-weight: 400;
+  font-style: italic;
   font-size: 16px;
-  line-height: 20px;
-  font-weight: normal;
-  font-family: 'Spectral', serif;
-  @include largeDesktop {
-    font-size: 20px;
-    line-height: 22px;
+  line-height: 18px;
+
+  &--bold {
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @include desktop {
+    font-size: 18px;
+    line-height: 21px;
+  }
+
+  @include up-large-desktop {
+    font-size: 19px;
+    line-height: 23px;
   }
 }
 
+.teasing-4 {
+  font-family: $font-secondary;
+  font-size: 14px;
+  line-height: 16px;
+
+  @include desktop {
+    font-size: 16px;
+    line-height: 16px;
+    @include antialiasing();
+  }
+
+  @include up-large-desktop {
+    font-size: 17px;
+    line-height: 16px;
+  }
+}
+
+.teasing-5 {
+  font-family: $font-secondary;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 14px;
+  @include antialiasing();
+
+  @include desktop {
+    font-size: 16px;
+  }
+
+  @include up-large-desktop {
+    font-size: 19px;
+  }
+}
+
+.small {
+  font-family: $font-secondary;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 12px;
+
+  @include desktop {
+    font-size: 14px;
+  }
+  @include up-large-desktop {
+    font-size: 15px;
+  }
+}
+
+.cover {
+  &__inner {
+    padding: $pos-s $pos-s 0;
+    color: $color-secondary;
+  }
+}
+
+.panel {
+  padding: 70px;
+  color: $color-secondary;
+
+  &__title {
+    margin-bottom: 50px;
+  }
+
+  &__inner {
+    width: 610px;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  p {
+    margin-bottom: 15px;
+  }
+
+  &__item {
+    margin-bottom: 70px;
+
+    &__title {
+      margin-bottom: 30px;
+    }
+  }
+}
+
+.list__item {
+  display: inline-block;
+  margin-right: 60px;
+}
+
+.list__link {
+  color: $color-secondary;
+  text-decoration: none;
+}
+
+.static-page {
+  overflow: scroll;
+}

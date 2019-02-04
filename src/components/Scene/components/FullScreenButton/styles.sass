@@ -1,8 +1,10 @@
+@import "~/styles/core.scss"
+
 .fullscreen-button
   display: block
-  width: 30px
+  // width: 30px
   height: 30px
-  margin-left: 20px
+  margin-left: $pos-s
   cursor: none
   transform: scale(1)
   transition:
@@ -15,4 +17,12 @@
     
   img 
     height: 15px
+    width: auto
     
+  @include up-desktop()
+    img 
+      height: 22px
+
+  @include up-large-desktop()
+    img 
+      height: 25px

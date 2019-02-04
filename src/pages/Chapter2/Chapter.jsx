@@ -33,7 +33,7 @@ class Chapter extends React.Component {
           <h1 className="heading-2">À découvrir</h1>
           <h1 className="heading-1">Transport</h1>
           <h2 className="heading-2 chapter__date">Le 01.03.2019</h2>
-          <p className="heading-8">Partagez</p>
+          <p className="t-heading-8">Partagez</p>
         </div>;
       
     }

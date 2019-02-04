@@ -100,8 +100,8 @@ class Chapter extends React.Component {
         (rank =>
           chapterTexts.push(
             <div className={`chapter__text ${this.props.step.rank == (rank + 1) ? 'is-active' : ''}`} key={`chapter-text-${rank}`}>
-              <h1 className="chapter__title heading-7">El despuente - {date}</h1>
-              <h2 className="chapter__step__text teasing-2">{this.props.chapter.steps[rank].content}</h2>
+              <h1 className="chapter__title heading-5">El despuente - {date}</h1>
+              <h2 className="chapter__step__text teasing-1">{this.props.chapter.steps[rank].content}</h2>
             </div>
           ))(i);
       }
@@ -109,10 +109,6 @@ class Chapter extends React.Component {
       if (this.state.isReady) {
         return (
             <div className="chapter chapter-1">
-              {/* <div className="chapter__text">
-                <h1 className="chapter__title heading-7">El despuente - {date}</h1>
-                <h2 className="chapter__step__text teasing-2">{this.props.step.content}</h2>
-              </div> */}
               {chapterTexts}
               <Timeline 
                 length={this.props.chapter.steps.length} 

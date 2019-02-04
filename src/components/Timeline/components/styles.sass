@@ -1,0 +1,109 @@
+@import "./../../../styles/core.scss"
+
+.timeline
+  &__item
+    flex: 1
+    position: relative
+    display: flex
+    pointer-events: none
+
+    &__title
+      position: absolute
+      top: 15px
+      left: 50%
+      transform: translateX(-50%) translateY(5px)
+      font-size: 1.2rem
+      color: $color-secondary
+      white-space: nowrap
+      opacity: 0
+      transition: opacity $t-duration, transform $t-duration
+
+    &__button
+      display: block
+      top: 0
+      left: 50%
+      position: absolute
+      display: block
+      padding: 10px
+      z-index: 2
+      cursor: none
+      pointer-events: all
+      transform: translateY(-50%) translateX(-50%) scale(1)
+      transition: 
+        duration: $t-duration
+        property: transform, background-color
+        timing-function: $t-timing-function
+
+      &:after
+        content: ''
+        display: block
+        height: 8px
+        width: 8px
+        border: 1px solid $color-secondary
+        border-radius: 40px
+        transition: 
+          duration: $t-duration
+          property: background-color
+          timing-function: $t-timing-function
+
+      //States
+      &:focus
+        outline: none
+
+      &--visited
+        background-color: black    
+      
+      &:hover
+        transform: translateY(-50%) translateX(-50%) scale(1.4)
+
+          
+    //States
+    &.is-active 
+      .timeline
+        &__item__button
+          transform: translateY(-50%) translateX(-50%) scale(1.3)
+
+          &:after
+            background-color: $color-secondary
+
+        &__item__title
+          opacity: 1
+          transform: translateY(0) translateX(-50%)
+    
+    &.is-passed
+      .timeline
+        &__item__button
+          &:after
+            background-color: $color-secondary
+
+    &:hover
+      .timeline__item__title
+        opacity: 1
+        transform: translateY(0) translateX(-50%)
+
+  //Responsive
+  @include up-desktop()
+    &__item
+      &__button
+        &:after
+          width: 8.7px
+          height: 8.7px
+
+      //States
+      &.is-active
+        .timeline__item__button
+            transform: translateY(-50%) translateX(-50%) scale(1.4)
+
+  @include up-large-desktop()
+    &__item
+      &__button
+        &:after
+          width: 10.7px
+          height: 10.7px
+
+      //States
+      &.is-active
+        .timeline
+          &__item__button
+            transform: translateY(-50%) translateX(-50%) scale(1.2)
+    

@@ -2,25 +2,23 @@
 
 .header 
   position: fixed
-  top: $space-s
+  top: 25px
   left: 0
   width: 100vw
   height: 0
   z-index: 2
-  @include largeDesktop()
-    top: $space-m
-
+  background: pink
 
   &__menu
     position: absolute
-    right: $space-s * 1.25
+    right: $pos-s - 7
+    top: 0
     border: none
     outline: none
-    padding: ($space-m * .6) $space-xs ($space-m * .6)
+    width: 36px
+    height: 45px
     box-shadow: none
     cursor: none
-    @include largeDesktop()
-      right: $space-m
 
     &:hover
       .header__burger
@@ -34,12 +32,10 @@
 
     &--close
       position: absolute
-      top: $space-xs
-      right: $space-m
+      top: 4px
+      right: 25px
       opacity: 0
       z-index: 5
-      @include largeDesktop()
-        right: $space-m * 1.2
 
       &:before,
       &:after
@@ -48,8 +44,8 @@
         top: 0
         left: 0
         right: 0
-        width: $space-s / .7
-        height: 1px
+        width: 17px
+        height: 2px
         background: $color-secondary
         z-index: 7
         transition: 
@@ -62,15 +58,13 @@
 
   &__links
     position: absolute
-    top: $space-s
-    right: $space-l
+    top: 12px
+    right: $pos-s * 2
     pointer-events: none
-    @include largeDesktop()
-        right: $space-l * 1.5
 
   &__link
     display: inline-block
-    margin-right: $space-m
+    margin-right: $pos-s
     transform: translateY(200%)
     opacity: 0
     color: $color-secondary
@@ -99,3 +93,29 @@
         transform: translateY(15px) rotate(-45deg)
 
 
+  //Responsive
+  @include up-desktop()
+    top: $pos-s
+
+    &__menu
+      right: 34px
+      width: 42px
+
+      &--close
+        &:before,
+        &:after
+          width: 20px
+
+    &__links
+      right: 75px
+
+    @include up-desktop()
+      &__menu
+        &--close
+          right: 38px
+          &:before,
+          &:after
+            width: 35px
+
+      &__links
+        right: 85px

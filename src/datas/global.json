@@ -30,6 +30,38 @@
           "name": "kerosene",
           "path": "/molecules/kerosene.pdb"       
         },
+        { 
+          "name": "acide_chlorhydrique",
+          "path": "/molecules/acide_chlorhydrique.pdb"       
+        },
+        { 
+          "name": "acide_sulfurique",
+          "path": "/molecules/acide_sulfurique.pdb"       
+        },
+        { 
+          "name": "ether",
+          "path": "/molecules/ether.pdb"       
+        },
+        { 
+          "name": "water",
+          "path": "/molecules/water.pdb"       
+        },
+        { 
+          "name": "ammoniac",
+          "path": "/molecules/ammoniac.pdb"       
+        },
+        { 
+          "name": "benzoylecgonine",
+          "path": "/molecules/benzoylecgonine.pdb"       
+        },
+        { 
+          "name": "chaux_vive",
+          "path": "/molecules/chaux_vive.pdb"       
+        },
+        { 
+          "name": "cinnamoylcocaine",
+          "path": "/molecules/cinnamoylcocaine.pdb"       
+        },
         {
           "name": "molecule_normal_map",
           "path": "/images/molecule/normal.jpg"

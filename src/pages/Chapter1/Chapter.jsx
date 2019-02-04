@@ -109,19 +109,6 @@ class Chapter extends React.Component {
 
     render () {
       if( !this.props.step.rank ) return null;
-      
-
-      // let chapterTexts = [];
-
-     
-      // for (let i = 0; i < this.props.chapter.steps.length; i++) {
-      //   (rank =>
-      //     chapterTexts.push(
-           
-      //     ))(i);
-      // }
-
-     
 
       if (this.state.isReady) {
         return (

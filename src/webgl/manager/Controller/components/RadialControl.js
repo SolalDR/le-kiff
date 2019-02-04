@@ -36,6 +36,21 @@ class RadialControl {
     this.state.baseCoords = SphericalCoord.fromCartesian(this.camera, this.config.origin);
   }
 
+  get radius() {
+    return this.state.radius
+  }
+
+  set radius(value) {
+    this.state.radius = value;
+    this.camera.position.copy(
+      this.camera.position
+        .clone()
+        .sub(this.config.origin)
+        .normalize()
+        .multiplyScalar(this.state.radius)
+    )
+  }
+
   initEvents() {
     this.mouseCaster.on("move", (position)=>{
       this.state.targetCoords.phi = this.state.baseCoords.phi + position.y * this.config.amplitude[1];

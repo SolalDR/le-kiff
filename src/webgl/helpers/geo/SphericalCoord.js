@@ -1,6 +1,6 @@
 
 
-class SphericalCoord {
+class SphericalCoord {
   constructor(phi, theta){
     this.phi = phi;
     this.theta = theta;

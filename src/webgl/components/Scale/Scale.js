@@ -101,16 +101,16 @@ class Scale extends Event {
   
     this.scene.lightPrimary.position.copy(c.light.primary.position);
     this.scene.lightSecondary.position.copy(c.light.secondary.position);
+
     this.scene.lightPrimary.intensity = c.light.primary.intensity;
     this.scene.lightSecondary.intensity = c.light.secondary.intensity;
     this.scene.lightPrimary.color = c.light.primary.color;
     this.scene.lightSecondary.color = c.light.secondary.color;
   }
 
-  hide( config ){
-    Bus.dispatch("scale:hidding", this);
+  hideAnimate( config ){
     var diff = config.postprocess.bloom.strength.from - config.postprocess.bloom.strength.to;
-
+    
     var cameraAnim = this.scene.controllerManager.controls.rails.moveTo(config.position.from, {
       duration: config.duration
     })
@@ -136,10 +136,13 @@ class Scale extends Event {
       this.group.visible = false;
       this.updateSound(config, 'hide');
     });
+  }
 
-    return {
-      cameraAnim,
-      postprocessAnim: postprocessAnimData.animation
+  hide( config, animate = true ){
+    Bus.dispatch("scale:hidding", this);
+    if( animate ){
+      this.hideAnimate(config);
+      return;
     }
   }
 

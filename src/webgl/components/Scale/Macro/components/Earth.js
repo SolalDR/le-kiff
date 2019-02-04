@@ -67,6 +67,7 @@ class Earth {
       new THREE.SphereGeometry(this.config.earth.globeRadius, 32, 32),
       globeMaterial
     );
+    this.globe.name = "globe";
 
     this.globe.rotation.y = -0.5;
 

@@ -33,5 +33,13 @@ export default baseConfig.extends({
         }
       }
     }
+  },
+  rendering: {
+    light: {
+      primary: {
+        position: new THREE.Vector3(-4, -3, 10),
+        intensity: 2.4
+      }
+    }
   }
 });

@@ -5,13 +5,9 @@
   &__text
     position: absolute
     width: 570px
-    left: $space-m * .8
-    top: $space-m * .8
+    left: $pos-s 
+    top: $pos-s 
     color: $color-secondary
-
-    @include largeDesktop()
-      left: $space-l * .75
-      top: $space-l * .75
 
     &.is-active
       .chapter__title
@@ -45,3 +41,13 @@
       timing-function: $t-timing-function
       delay: 0
 
+  //Responsive
+  @include up-desktop()
+    &__text
+      left: $pos-m
+      top: $pos-m
+
+
+  @include up-large-desktop()
+    &__text
+      width: 640px

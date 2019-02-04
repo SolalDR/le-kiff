@@ -3,7 +3,6 @@ import AssetsManager from "~/services/assetsManager/AssetsManager";
 import Earth from "./components/Earth";
 import Flux from "./components/Flux";
 import Zoning from "./components/Zoning";
-import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import Bus from "~/helpers/Bus";
 
 

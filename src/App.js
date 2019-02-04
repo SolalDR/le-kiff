@@ -7,6 +7,7 @@ import Chapter2 from "./pages/Chapter2/Chapter";
 import Intro from "./pages/Intro/Intro";
 import Outro from "./pages/Outro/Outro";
 import About from "./pages/About/About"
+import Credits from "./pages/Credits/Credits"
 import Header from "./components/Header/Header";
 import AppManager from "./services/AppManager.js"
 import { store } from './services/stores/store';
@@ -28,7 +29,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.manager = AppManager;
-    Bus.verboseLevel = 0;
+    Bus.verboseLevel = 3;
 
     this.state = {
       chapterLoaded: false
@@ -52,6 +53,7 @@ class App extends Component {
               <Route exact path="/chapter-2" component={ Chapter2 } />
               <Route exact path="/outro" component={Outro} />
               <Route exact path="/about" component={About} />
+              <Route exact path="/credits" component={Credits} />
             </div>
           </div>
         </Router>

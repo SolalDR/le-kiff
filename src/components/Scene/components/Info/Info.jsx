@@ -38,7 +38,6 @@ class InfoPoint extends React.Component {
   }
 
   computedStyle(){
-    // console.log("Info.jsx computeStyle", this.state.screenPosition)
     return {
       transform: `translate3d(${this.state.screenPosition.x}px, ${this.state.screenPosition.y}px, 0)`
     }
@@ -61,7 +60,7 @@ class InfoPoint extends React.Component {
             ref={(ref) => this.myRef = ref}> 
         <div className="info-point__pointer"/>
         <div className="info-point__content">
-          <h3 className="info-point__title">{this.props.info.title}</h3>
+          <h3 className="info-point__title heading-4">{this.props.info.title}</h3>
           <div className="info-point__text teasing-3" dangerouslySetInnerHTML={{__html: this.props.info.content}}/>
         </div>
       </div>

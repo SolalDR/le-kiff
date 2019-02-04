@@ -77,7 +77,6 @@ class Chapter extends React.Component {
     }
 
     onStepChange = rank => {
-      //@todo : once there is real content
       if (rank < this.props.chapter.steps.length) {
         this.props._setCurrentStepRank(rank);
       } else {
@@ -85,36 +84,49 @@ class Chapter extends React.Component {
       }
     }
 
+    // TODO Call router to navigate 
     onChapterChange = chapterRank => {
-      //Call router to navigate 
-      console.log("chapter change is selected in timeline", chapterRank);
+
+    }
+
+    renderSteps () {
+      return this.props.chapter.steps.map((item, rank) => {
+        let newDate = new Date();
+        const days = item.days * 1
+        newDate.setDate(newDate.getDate() + days);
+        
+        return (
+          <div className={`chapter__text ${item.rank == (this.props.step.rank + 1) ? 'is-active' : ''}`} key={`chapter-text-${rank}`}>
+            <h1 className="chapter__title heading-5">{item.place} - {newDate.toLocaleDateString('fr', {
+                weekday: "long", year: "numeric", month: "long", day: "numeric"
+              })}
+            </h1>
+            <h2 className="chapter__step__text teasing-1">{item.content}</h2>
+          </div>
+        )
+      })
     }
 
     render () {
       if( !this.props.step.rank ) return null;
-      const date = new Date().toLocaleDateString('fr', {
-        weekday: "long", year: "numeric", month: "long", day: "numeric"
-      });
+      
 
-      let chapterTexts = [];
-      for (let i = 0; i < this.props.chapter.steps.length; i++) {
-        (rank =>
-          chapterTexts.push(
-            <div className={`chapter__text ${this.props.step.rank == (rank + 1) ? 'is-active' : ''}`} key={`chapter-text-${rank}`}>
-              <h1 className="chapter__title heading-7">El despuente - {date}</h1>
-              <h2 className="chapter__step__text teasing-2">{this.props.chapter.steps[rank].content}</h2>
-            </div>
-          ))(i);
-      }
+      // let chapterTexts = [];
+
+     
+      // for (let i = 0; i < this.props.chapter.steps.length; i++) {
+      //   (rank =>
+      //     chapterTexts.push(
+           
+      //     ))(i);
+      // }
+
+     
 
       if (this.state.isReady) {
         return (
             <div className="chapter chapter-1">
-              {/* <div className="chapter__text">
-                <h1 className="chapter__title heading-7">El despuente - {date}</h1>
-                <h2 className="chapter__step__text teasing-2">{this.props.step.content}</h2>
-              </div> */}
-              {chapterTexts}
+               {this.renderSteps()}
               <Timeline 
                 length={this.props.chapter.steps.length} 
                 previousChapter={this.props.previousChapter} 

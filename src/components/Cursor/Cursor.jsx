@@ -177,7 +177,7 @@ class Cursor extends React.Component {
             </svg>
           </div>
           <LetterReveal text="Loading" class={'cursor__text cursor__loading small'} duration={0.3} delay={0.025} globalDelay={4} reveal={this.props.isLoading} start={{top: 15}} />
-          <LetterReveal text="Maintenez pour continuer" class={'cursor__text cursor__hold small'} duration={0.15} delay={0.025} reveal={!this.props.isLoading && this.state.isCursorStill && this.props.isHoldAllowed} />
+          <LetterReveal text="Hold to continue" class={'cursor__text cursor__hold small'} duration={0.15} delay={0.025} reveal={!this.props.isLoading && this.state.isCursorStill && this.props.isHoldAllowed} />
       </div>
     )
   }

@@ -6,7 +6,7 @@ $animation-duration: .2s
   bottom: 0
   width: 100%
   box-sizing: border-box
-  padding: $space-s*5 160px $space-s*2
+  padding: $space-s*5 160px $pos-s
   left: 50%
   transform: translateX(-50%)
   display: flex
@@ -60,6 +60,7 @@ $animation-duration: .2s
 
     &__control
       padding: 14px
+      opacity: .5
 
       &--next
         margin-left: -12px
@@ -89,6 +90,9 @@ $animation-duration: .2s
     //State
     &:hover
       .timeline__chapter
+        &__control
+          opacity: 1
+
         &__title
           opacity: 1
           transition: transform $animation-duration, opacity $animation-duration
@@ -119,7 +123,7 @@ $animation-duration: .2s
     left: 0
     right: 0
     background: $color-secondary
-    height: 1px
+    height: .5px
     transform-origin: left
     transition: 
       duration: $t-duration
@@ -127,83 +131,11 @@ $animation-duration: .2s
       timing-function: $t-timing-function
     z-index: 1
 
-  &__item
-    flex: 1
-    position: relative
-    display: flex
-    pointer-events: none
+  //Responsive
+  @include up-desktop()
+    padding-bottom: $pos-m
 
-    //States
-    &.is-active 
-      .timeline
-        &__item__button
-          transform: translateY(-50%) translateX(-50%) scale(1.2)
-
-          &:after
-            background-color: $color-secondary
-
-        &__item__title
-          opacity: 1
-          transform: translateY(0) translateX(-50%)
-      
-
-    &:hover
-      .timeline__item__title
-        opacity: 1
-        transform: translateY(0) translateX(-50%)
-
-    &__title
-      position: absolute
-      top: 15px
-      left: 50%
-      transform: translateX(-50%) translateY(5px)
-      font-size: 1.2rem
-      color: $color-secondary
-      white-space: nowrap
-      opacity: 0
-      transition: opacity $t-duration, transform $t-duration
-
-    &__button
-      display: block
-      top: 0
-      left: 50%
-      position: absolute
-      display: block
-      padding: 10px
-      z-index: 2
-      cursor: none
-      pointer-events: all
-      transform: translateY(-50%) translateX(-50%) scale(1)
-      transition: 
-        duration: $t-duration
-        property: transform, background-color
-        timing-function: $t-timing-function
-
-      &:after
-        content: ''
-        display: block
-        height: 8px
-        width: 8px
-        border: 1px solid $color-secondary
-        border-radius: 20px
-        transition: 
-          duration: $t-duration
-          property: background-color
-          timing-function: $t-timing-function
-        
-
-      &:focus
-        outline: none
-
-
-      &--visited
-        background-color: black
-        
-      
-      &:hover
-        transform: translateY(-50%) translateX(-50%) scale(1.5)
-        
-
-    
+  @include up-large-desktop()
+    padding-bottom: 50px
 
 

@@ -1,33 +1,25 @@
 @import "./../../../../styles/core.scss"
+$border-width: 2px
 
 .scale-menu
   position: fixed
   top: 50%
-  left: $space-m * .8
+  left: $pos-s
   display: flex
   flex-direction: column
   z-index: 1
   transform: translateY(-50%)
-  @include largeDesktop()
-    left: $space-l * .75
 
-  &__link
+  &__item
     text-align: left
     text-align: left
-    padding:  $space-xs $space-l * 2 $space-xs $space-m
+    padding-left: $space-m * .9
+    padding-right: $space-l * 1.5
     margin-bottom: $space-s
-    text-transform: uppercase
-    font-size: 11px
-    font-weight: 700
-    letter-spacing: 2.2px
     position: relative
     color: white
     outline: none
     cursor: none
-    @include largeDesktop()
-      margin-bottom: $space-s
-      font-size: 12px
-      letter-spacing: 2px
 
     &::before
       content: ""
@@ -35,32 +27,41 @@
       position: absolute
       top: 50%
       left: 0
-      border: 2px solid white
+      border: $border-width solid white
       transform: translateY(-50%)
       border-radius: 100%
-      background-color: transparent
+      box-sizing: border-box
       transition:
         property: background
         duration: .4s
         timing-function: ease-out
 
-    &:nth-child(1)::before
-      left: 5px
-      width: $space-xs
-      height: $space-xs
+    &:nth-child(1)
+      padding-top: $space-xs + $border-width
+
+      &:before
+        left: 3.5px
+        width: $space-xs + $border-width
+        height: $space-xs + $border-width
     
-    &:nth-child(2)::before
-      left: 2.5px
-      width: $space-s * .75
-      height: $space-s * .75
+    &:nth-child(2)
+      padding-top:  $space-xs + ($border-width * 2)
 
-    &:nth-child(3)::before
-      width: $space-s
-      height: $space-s 
+      &:before
+        left: 1.5px
+        width:  $space-xs + ($border-width * 3)
+        height:  $space-xs + ($border-width * 3)
 
+    &:nth-child(3)
+      padding-top: $space-s + $border-width
+      margin-bottom: 0
 
-    &--active
-      font-weight: bold
+      &:before
+        width: $space-s + $border-width
+        height: $space-s + $border-width 
+
+    //States
+    &.is-active
       &::before
         background-color: white
 
@@ -78,5 +79,64 @@
 
     .letter-reveal__item
       top: 10px
+      padding-right: 2.2px
+      width: auto
 
+  //Responsive
+  @include desktop()
+    left: $pos-m
+
+    &__item
+      margin-bottom: $space-m * .75
+      padding-left: $space-m * 1.1
+
+      &:nth-child(1)
+        padding-top: $space-xs + ($border-width * 2)
+
+        &:before
+          width: $space-xs + ($border-width * 2)
+          height: $space-xs + ($border-width * 2)
+
+      &:nth-child(2)
+        padding-top: $space-s + $border-width
+
+        &:before
+          width: $space-s + $border-width
+          height: $space-s + $border-width
       
+      &:nth-child(3)
+        padding-top: $space-s + $space-xs
+        margin-bottom: 0
+
+        &:before
+          width: $space-s + $space-xs
+          height: $space-s + $space-xs
+
+  @include up-large-desktop()
+    left: $pos-m
+
+    &__item
+      margin-bottom: $space-m
+      padding-left: $space-m * 1.3
+
+      &:nth-child(1)
+        padding-top: $space-xs + ($border-width * 3)
+
+        &:before
+          width: $space-xs + ($border-width * 3)
+          height: $space-xs + ($border-width * 3)
+
+      &:nth-child(2)
+        padding-top: $space-s + ($border-width * 3)
+
+        &:before
+          width: $space-s + ($border-width * 3)
+          height: $space-s + ($border-width * 3)
+      
+      &:nth-child(3)
+        padding-top: $space-s + ($border-width * 3)
+        margin-bottom: 0
+
+        &:before
+          width: $space-m - ($border-width * 2)
+          height: $space-m - ($border-width * 2)

@@ -1,3 +1,5 @@
+@import "~/styles/core.scss"
+
 .sound-button
   display: block
   width: 30px
@@ -14,3 +16,12 @@
 
   img 
     height: 15px
+    width: auto
+
+  @include up-desktop()
+    img
+      height: 22px
+
+  @include up-large-desktop()
+    img
+      height: 25px

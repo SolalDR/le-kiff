@@ -18,9 +18,10 @@ $h-duration: 3s
   &__bullet
     display: block
     background: $color-secondary
-    width: $space-s * .7
-    height: $space-s * .7
+    width: 5px
+    height: 5px
     border-radius: $space-s
+    border: 1px solid $color-primary
     transition: 
       duration: $t-duration
       property: transform
@@ -28,7 +29,7 @@ $h-duration: 3s
 
   &__text
     position: absolute
-    top: $space-l
+    top: 50px
     color: $color-secondary
     white-space: nowrap
 
@@ -129,3 +130,4 @@ $h-duration: 3s
     100%
       transform: scale(1)
       opacity: 1
+    

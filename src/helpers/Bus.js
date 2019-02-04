@@ -9,14 +9,6 @@ class Bus extends Event {
     this.state = {
       lastIsBus: false
     }
-
-    // this.consoleLog = console.log
-
-    // console.log = (...args)=>{
-    //   this.state.lastIsBus = false;
-    //   console.groupEnd("Bus");
-    //   this.consoleLog.apply(console, args)
-    // }
   }
 
   registerGroup(name, color){
@@ -31,16 +23,9 @@ class Bus extends Event {
 
   verbose(content, verboseLevel = 1){
     if( this.verboseLevel >= verboseLevel ) {
-      // if( !this.state.lastIsBus ){ 
-      //   console.group("Bus"); 
-      // }
-
-
       var group = content.match( /^(.+?)[\-\:]/ )[1];
       var style = group && this.group.get(group) ? this.group.get(group).join(';') : ``;
       console.log("%c" + "--".repeat(verboseLevel) + " " + content, style);
-
-      // this.state.lastIsBus = true;
     }
   }
 }

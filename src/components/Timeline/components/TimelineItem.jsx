@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import SoundManager from "~/services/soundManager/SoundManager";
+import "./styles.sass";
 
 class TimelineItem extends React.Component {
   
@@ -21,10 +22,12 @@ class TimelineItem extends React.Component {
     var className = this.props.active
       ? "timeline__item is-active"
       : "timeline__item";
+    className += this.props.isPassed ? ' is-passed' : '';
+
     return (
       <div className={className}>
         <button className="timeline__item__button" onClick={this.handleClick} />
-        <span className="timeline__item__title small">{this.props.title}</span>
+        <span className="timeline__item__title teasing-5">{this.props.title}</span>
       </div>
     );
   }

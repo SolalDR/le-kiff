@@ -87,16 +87,17 @@ class LetterReveal extends React.Component {
   render() {
     let results = [];
     for (let i = 0; i < this.length; i++) {
+      const letter = this.lettersArray[i];
       (rank =>
         results.push(
           <span
-            className="letter-reveal__item"
+            className={`letter-reveal__item ${letter.indexOf(' ') >= 0 ? 'letter-reveal__space' : ''}`}
             key={rank}
             ref={el => {
               this.letterEls[i] = el;
             }}
           >
-            {this.lettersArray[i]}
+            {letter}
           </span>
         ))(i);
     }

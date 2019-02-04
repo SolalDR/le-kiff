@@ -3,7 +3,11 @@
 .scene
   &__bottom-right-nav
     position: fixed
-    bottom: $space-m
-    right: $space-m
+    bottom: $pos-s
+    right: $pos-s
     display: flex
     justify-content: flex-end
+
+    @include up-desktop()
+      bottom: $pos-m 
+      right: $pos-m

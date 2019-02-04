@@ -40,7 +40,8 @@ export default baseConfig.extends({
     light: {
       primary: {
         position: new THREE.Vector3(-2, 0, 7),
-        intensity: 3.3
+        intensity: 3.3,
+        color: new THREE.Color(0xffffff)
       }
     },
     bokeh: {

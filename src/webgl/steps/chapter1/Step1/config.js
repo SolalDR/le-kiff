@@ -8,7 +8,7 @@ export default baseConfig.extends({
   ],
   transforms: [
     {
-      object: 'main-step-1',
+      asset: 'step_1_human_leaf',
       position: new THREE.Vector3(-0.98, -1.18, -1.12),
       rotation: new THREE.Euler(-0.16, 0.1, -0.38)
     }

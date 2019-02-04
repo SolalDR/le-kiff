@@ -58,8 +58,6 @@ export default class extends Step {
       var mainPosition = this.leaf.scene.position.clone();
       var mainRotation = this.leaf.scene.rotation.toVector3();
       var targetRotation = new THREE.Vector3()
-      console.log('config.transitions', config.transitions);
-      console.log('config.transitions', config.transitions);
       const mainTransitionData = config.transitions.find(u => u.object === this.leaf.name); 
       AnimationManager.addAnimation(new Animation({
         duration: mainTransitionData.duration, 

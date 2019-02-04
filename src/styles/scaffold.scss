@@ -148,6 +148,7 @@ body {
   font-family: $font-secondary;
   font-size: 20px;
   line-height: 22px;
+  @include antialiasing();
 
   @include desktop {
     font-size: 24px;
@@ -244,4 +245,54 @@ body {
   @include up-large-desktop {
     font-size: 15px;
   }
+}
+
+.cover {
+  &__inner {
+    padding: $pos-s $pos-s 0;
+    color: $color-secondary;
+  }
+}
+
+.panel {
+  padding: 70px;
+  color: $color-secondary;
+
+  &__title {
+    margin-bottom: 50px;
+  }
+
+  &__inner {
+    width: 610px;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  p {
+    margin-bottom: 15px;
+  }
+
+  &__item {
+    margin-bottom: 70px;
+
+    &__title {
+      margin-bottom: 30px;
+    }
+  }
+}
+
+.list__item {
+  display: inline-block;
+  margin-right: 60px;
+}
+
+.list__link {
+  color: $color-secondary;
+  text-decoration: none;
+}
+
+.static-page {
+  overflow: scroll;
 }

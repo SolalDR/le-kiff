@@ -95,13 +95,13 @@ class Menu extends React.PureComponent {
               {chapter.content}
             </p>
             { chapter.rank == 2 && 
-              <p className="menu__item__available teasing-3 teasing-3--bold">Disponible le 01.03.2019 </p>
+              <p className="menu__item__available teasing-3 teasing-3--bold">Available on 01.03.2019 </p>
             }
             { chapter.rank == 3 && 
-              <p className="menu__item__available teasing-3 teasing-3--bold">Disponible le 07.03.2019 </p>
+              <p className="menu__item__available teasing-3 teasing-3--bold">Available on 07.03.2019 </p>
             }
             { chapter.rank == 4 && 
-              <p className="menu__item__available teasing-3 teasing-3--bold">Disponible le 14.03.2019 </p>
+              <p className="menu__item__available teasing-3 teasing-3--bold">Available on 14.03.2019 </p>
             }
           </div>
         </div>;

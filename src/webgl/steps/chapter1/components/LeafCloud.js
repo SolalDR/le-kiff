@@ -7,7 +7,20 @@ class LeafCloud {
     normal = null,
     alpha = null
   } = {}){
-    var boxGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
+    this.config = {
+      speedRotation: 2.,
+      speedPosition: 0.2,
+      amplitude: 30
+    }
+    var boxGeometry = new THREE.PlaneBufferGeometry(2, 2, 5, 5);
+    boxGeometry.attributes.position.array.forEach((item, i) => {
+      if(i % 3 === 2){
+        item = (Math.cos(i) + 1)*10
+      }
+    })
+    boxGeometry.attributes.position.needsUpdate = true;
+    console.log(boxGeometry.attributes.position.array)
+
     var material = new THREE.MeshStandardMaterial({ 
       map, 
       roughnessMap: roughness, 
@@ -42,22 +55,23 @@ class LeafCloud {
   }
 
   render(time){
-    var timeRotation = time * 10.;
+    var timeRotation = time * this.config.speedRotation;
+    var timePosition = time * this.config.speedPosition;
     this.items.forEach((item, i) => {
       this.object3D.setQuaternionAt( i , new THREE.Quaternion(
         this.noise.noise2D(item.rotation.x + i*0.5, timeRotation),
         this.noise.noise2D(item.rotation.y + i*0.5, timeRotation),
         this.noise.noise2D(item.rotation.z + i*0.5, timeRotation),
         this.noise.noise2D(item.rotation.w + i*0.5, timeRotation)
-      ) );
+      ).normalize() );
       this.object3D.setPositionAt( i , new THREE.Vector3(
-        this.noise.noise2D(item.position.x + i*0.5, time) * 15,
-        this.noise.noise2D(item.position.y + i*0.5, time) * 10,
-        this.noise.noise2D(item.position.z + i*0.5, time) * 10
+        this.noise.noise2D(item.position.x + i*0.5, timePosition) * this.config.amplitude,
+        this.noise.noise2D(item.position.y + i*0.5, timePosition) * this.config.amplitude,
+        this.noise.noise2D(item.position.z + i*0.5, timePosition) * this.config.amplitude*0.5
       ) );
+      
     })
-    // console.log(this.object3D.geometry);
-    // con
+
     this.object3D.needsUpdate("position");
     this.object3D.needsUpdate("quaternion");
   }

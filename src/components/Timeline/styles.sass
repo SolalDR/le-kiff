@@ -132,7 +132,10 @@ $animation-duration: .2s
     z-index: 1
 
   //Responsive
-    @include up-desktop()
-      background: red
+  @include up-desktop()
+    padding-bottom: $pos-m
+
+  @include up-large-desktop()
+    padding-bottom: 50px
 
 

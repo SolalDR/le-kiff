@@ -41,8 +41,13 @@
       timing-function: $t-timing-function
       delay: 0
 
-//Responsive
+  //Responsive
   @include up-desktop()
-    .chapter__text
+    &__text
       left: $pos-m
       top: $pos-m
+
+
+  @include up-large-desktop()
+    &__text
+      width: 640px

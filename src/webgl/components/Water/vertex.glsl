@@ -52,21 +52,17 @@ void main() {
   #include <defaultnormal_vertex>
 
   #ifndef FLAT_SHADED // Normal computed with derivatives when FLAT_SHADED
+  vNormal = normal;
   if (position.y == 5.) {
     vNormal = normalize( transformedNormal );
-  } else {
-    vNormal = normal;
   }
   #endif
 
   //# include <begin_vertex>
-  vec3 transformed;
+  vec3 transformed = position.xyz;
   if (position.y == 5.) {
     transformed = vec3( position.x, position.y + texture2D( heightmap, uv ).x, position.z );
-  } else {
-    transformed = position.xyz;
   }
-    
 
   //<begin_vertex>
   // PERFORMANCE // #include <morphtarget_vertex>

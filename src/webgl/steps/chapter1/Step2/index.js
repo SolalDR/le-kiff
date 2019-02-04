@@ -50,9 +50,9 @@ export default class extends Step {
     
     if (previousStep.background){
       this.background = previousStep.background;
+      this.background.changeBackground(ressources.background2.result, 3000, 3000);
     }
-
-    this.background.changeBackground(ressources.background2.result, 3000, 3000);
+    
 
 
     ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);

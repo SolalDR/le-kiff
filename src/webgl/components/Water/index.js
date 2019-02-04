@@ -34,9 +34,9 @@ class Water {
 
   init(){
     this.geometry = new THREE.PlaneBufferGeometry( 
-      this.config.bounds, 
-      this.config.bounds, 
-      this.config.width - 1, 
+      this.config.bounds,
+      this.config.bounds,
+      this.config.width - 1,
       this.config.width - 1
     );
 

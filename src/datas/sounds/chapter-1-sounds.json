@@ -1,7 +1,7 @@
 [{
   "name": "chapter_1_main_voice",
   "options": {
-    "volume": 0.3
+    "volume": 0.9
   },
   "sprite": {
     "step_1": [

@@ -13,6 +13,7 @@ class SoundManager {
    */
   constructor(){
     this.sounds = new Map();
+    this.playingSounds = [];
     this._volume = 0;
     this.defaultVolume = 0;
     this.howler = null;
@@ -168,7 +169,16 @@ class SoundManager {
     });
 
     // play added sounds
-    this.play(soundsData.map(data => data.name))
+    soundsData.forEach(data => {
+      if(data.sprite) {
+        console.log('data sprite', data.prite);
+        this.play(data.name, Object.keys(data.sprite)[0]);
+      } else {
+        console.log('data sprite');
+        this.play(data.name);
+      }
+    })
+    //this.play(soundsData.map(data => data.name))
   }
 
   /**

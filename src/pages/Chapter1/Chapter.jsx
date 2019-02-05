@@ -96,7 +96,7 @@ class Chapter extends React.Component {
         newDate.setDate(newDate.getDate() + days);
         
         return (
-          <div className={`chapter__text ${item.rank == (this.props.step.rank + 1) ? 'is-active' : ''}`} key={`chapter-text-${rank}`}>
+          <div className={`chapter__text ${item.rank == (this.props.step.rank) ? 'is-active' : ''}`} key={`chapter-text-${rank}`}>
             <h1 className="chapter__title heading-5">{item.place} - {newDate.toLocaleDateString('fr', {
                 weekday: "long", year: "numeric", month: "long", day: "numeric"
               })}

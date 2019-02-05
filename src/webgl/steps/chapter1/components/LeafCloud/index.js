@@ -8,6 +8,7 @@ class LeafCloud {
     roughness = null,
     normal = null,
     alpha = null,
+    alpha2 = null,
     geometry = null
   } = {}){
     
@@ -25,10 +26,11 @@ class LeafCloud {
       alphaMap: alpha, 
       transparent: true, 
       opacity: 1,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      alphaTest: 0.01
     });
 
-    this.count = 100;
+    this.count = 500;
     var cluster = new THREE.InstancedMesh(  geometry, material, this.count, true, false );
 
     var _v3 = new THREE.Vector3();
@@ -46,7 +48,7 @@ class LeafCloud {
     }
     this.noise = new SimplexNoise();
     this.object3D = cluster;
-    
+    this.object3D.geometry.maxInstancedCount = 100
   }
 
   render(time){

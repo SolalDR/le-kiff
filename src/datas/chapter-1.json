@@ -19,6 +19,10 @@
       "path": "/chapter-1/chapitre_01_etape_02_background.png"
     },
     {
+      "name": "background3",
+      "path": "/chapter-1/chapitre_01_etape_03_background.jpg"
+    },
+    {
       "name": "background4",
       "path": "/chapter-1/chapitre_01_etape_04_background.png"
     },
@@ -51,6 +55,10 @@
         {
           "name": "alphaLeaf",
           "path": "/alpha.jpg"
+        },
+        {
+          "name": "alphaWaterLeaf",
+          "path": "/alpha_water.jpg"
         },
         {
           "name": "normalLeaf",

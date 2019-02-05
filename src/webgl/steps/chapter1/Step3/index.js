@@ -5,6 +5,7 @@ import Water from "../../../components/Water";
 import Renderer from "~/webgl/rendering/Renderer"
 import ModelAnimationManager from "../../../manager/ModelAnimation";
 import AnimationManager, {Animation} from "../../../manager/Animation";
+import LeafCloud from "../components/LeafCloud";
 
 /**
  * @constructor
@@ -44,6 +45,8 @@ export default class extends Step {
     this.water.mesh.name = "water-step-3";
     this.water.drop(0, -5, 1)
 
+    this.background = previousStep.background;
+
     
 
     this.initGUI();
@@ -57,17 +60,71 @@ export default class extends Step {
     
     setTimeout(()=>{
       this.water.drop(0, -5, 1)
-    }, 200)
+    }, 300)
+
+    // Leaf clouds fall and water rise, hide leaf
+    var fromAperture = Renderer.getBokehAperture();
+    var fromPosition = this.leaf.scene.position.y;
     AnimationManager.addAnimation(new Animation({
       duration: 1500,
       delay: 500,
       timingFunction: "easeOutQuad"
     }).on("progress", (event) => {
-      this.leafClouds.object3D.position.y = - event.advancement*15;
+      this.leafClouds.object3D.position.y = - event.advancement*20;
       this.water.mesh.position.y = -15 + event.advancement*13;
-    }).on("end", (event)=>{
+      this.leaf.scene.position.y = fromPosition - event.advancement*5
 
+      Renderer.setBokehAperture(fromAperture + event.advancement * 4)
+    }).on("end", (event)=>{
+      this.scene.humanScale.group.remove(this.leaf.scene);
+
+      // Hide leaf clouds
+      var fromColor = this.water.material.uniforms.diffuse.value.clone();
+      var toColor = new THREE.Color("rgb(100, 85, 14)");
+      AnimationManager.addAnimation(
+        new Animation({duration: 5000,delay: 0,timingFunction: "easeOutQuad"})
+          .on("progress", (event) => {
+            this.leafClouds.object3D.position.y = -20 - event.advancement*20;
+            this.leafClouds.object3D.material.opacity = 1 - event.advancement;
+            this.water.material.uniforms.diffuse.value = new THREE.Color(
+              fromColor.r + (toColor.r - fromColor.r)*event.advancement,
+              fromColor.g + (toColor.g - fromColor.g)*event.advancement,
+              fromColor.b + (toColor.b - fromColor.b)*event.advancement
+            );
+          })
+          .on("end", (event)=>{
+            this.water.material.uniforms.diffuse.value = toColor;
+            this.scene.humanScale.group.remove(this.leafClouds.object3D);
+          })
+      );
     }));
+
+    // Leaf cloud disapear & replace
+    AnimationManager.addAnimation(new Animation({
+      duration: 750,
+      delay: 500,
+      timingFunction: "easeOutQuad"
+    }).on("progress", (event)=>{
+      this.leafClouds.object3D.material.opacity = 1. - event.advancement;
+    }).on("end", ()=>{
+      this.leafClouds.object3D.material.alphaMap = ressources.alphaWaterLeaf.result;
+      this.leafClouds.object3D.material.opacity = 0;
+      this.leafClouds.object3D.geometry.maxInstancedCount = 500;
+      this.leafClouds.config.speedPosition = 5;
+
+      AnimationManager.addAnimation(new Animation({
+        duration: 500,
+        timingFunction: "easeOutQuad"
+      }).on("progress", (event)=>{
+        this.leafClouds.object3D.material.opacity = event.advancement;
+      }).on("end", ()=>{
+        this.leafClouds.object3D.material.opacity = 1;
+      }))
+    }))
+
+    // Change backgrouund 
+    this.background.changeBackground(ressources.background3.result, 5000, 1000)
+
 
   }
 

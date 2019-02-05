@@ -11,7 +11,7 @@ import ModelAnimationManager from "../../../manager/ModelAnimation";
  */
 export default class extends Step {
   constructor(params){
-    super(params, ["background", "cube", "water", "leaf"]);
+    super(params, ["background", "water"]);
   }
   /**
    * This method initialize the step and 
@@ -32,25 +32,25 @@ export default class extends Step {
    * @param {*} event
    */
   displayHumanScale( ressources, previousStep ){
-    this.main = new THREE.Mesh( new THREE.BoxGeometry(), new THREE.MeshPhongMaterial({ color: 0xFF0000 }) );
-    this.main.name = "cube";
-    this.leaf = ressources.step_1_human_leaf.result;
-    this.leaf.name = config.modelAnimation.name;
-    this.main.name = "step_1_human_leaf"
+    this.pasta = ressources.step_4_pasta.result;
+    this.pasta.name = config.modelAnimation.name;
 
-    this.water = new Water({ renderer: Renderer.renderer });
-    this.water.mesh.position.y = -5;
-    this.water.mesh.position.z = 7;
-    this.water.mesh.name = "water-step-3";
+    if(this.previousStep.water) {
+      this.water = this.previousStep.water;
+    } else {
+      this.water = new Water({ renderer: Renderer.renderer });
+      this.water.mesh.position.y = -3;
+      this.water.mesh.position.z = 7;
+      this.water.mesh.name = "water-step-3";
+    }
 
     this.initGUI();
 
     this.scene.humanScale.group.add(this.water.mesh)
-    this.scene.humanScale.group.add(this.main);
-    this.scene.humanScale.group.add(this.leaf.scene);
+    this.scene.humanScale.group.add(this.pasta.scene)
 
-    ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options)
-    ModelAnimationManager.play('cut');
+    //ModelAnimationManager.generateClips(this.pasta, config.modelAnimation.clips, config.modelAnimation.options)
+    //ModelAnimationManager.play('cut');
   }
 
 
@@ -66,6 +66,10 @@ export default class extends Step {
       this.folder.water.add(a, "explode");
       this.folder.water.add(this.water.mesh.material.uniforms.opacity, "value", 0, 1)
     }
+    if(!this.folder.pasta){
+      this.folder.pasta = this.gui.addObject3D("Pasta",  this.pasta.scene, false);
+      this.folder.pasta.addMaterial('Pasta', this.pasta.scene.children[0].children[0].material);         
+    }
   }
 
   hide(newStep) {
@@ -80,10 +84,6 @@ export default class extends Step {
 
     if ( toRemove.includes("water") ){
       this.scene.humanScale.group.remove(this.water.mesh);
-    }
-
-    if ( toRemove.includes("leaf") ){
-      this.scene.humanScale.group.remove(this.leaf.scene);
     }
 
     super.hide(newStep);

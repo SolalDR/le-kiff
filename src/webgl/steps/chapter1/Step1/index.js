@@ -46,13 +46,12 @@ export default class extends Step {
 
 
     this.leaf = ressources.step_1_human_leaf.result;
-    var main = this.leaf.scene;
-    main.name = "step_1_human_leaf";
-    main.scale.y = 1;
-    var mainTransformConfig = config.transforms.find(transform => transform.asset === main.name);
-    main.position.copy(mainTransformConfig.position);
-    main.rotation.copy(mainTransformConfig.rotation);
-    this.scene.humanScale.group.add(main);
+    var leafScene = this.leaf.scene;
+    leafScene.name = 'step_1_human_leaf_scene';
+    var mainTransformConfig = config.transforms.find(transform => transform.asset === leafScene.name);
+    leafScene.position.copy(mainTransformConfig.position);
+    leafScene.rotation.copy(mainTransformConfig.rotation);
+    this.scene.humanScale.group.add(leafScene);
   
 
     // main transform

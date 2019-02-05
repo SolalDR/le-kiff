@@ -71,6 +71,7 @@ class Step extends Event {
       const soundsDatas = [];
       this.config.sounds.forEach(data => {
         data.sound = e[data.name].result
+        if(data.sprite);
         soundsDatas.push(data);
       });
       SoundManager.updatePlayBack(soundsDatas);

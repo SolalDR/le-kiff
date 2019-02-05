@@ -1,5 +1,6 @@
 import baseConfig from "./../config";
 import colorPlane from "./../../ColorPlane/config";
+import particleConfig from "~/webgl/components/ParticleCloud/config"
 
 export default baseConfig.extends({  
   transitions: {
@@ -41,9 +42,7 @@ export default baseConfig.extends({
     position: new THREE.Vector3(0, 0, -100)
   }),
 
-  particleCloud: {
-    // TODO Implement from particle cloud
-  },
+  particleCloud: particleConfig,
 
   rendering: {
     toneMappingExposure: 0.7,

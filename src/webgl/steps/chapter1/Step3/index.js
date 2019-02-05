@@ -5,7 +5,7 @@ import Water from "../../../components/Water";
 import Renderer from "~/webgl/rendering/Renderer"
 import ModelAnimationManager from "../../../manager/ModelAnimation";
 import AnimationManager, {Animation} from "../../../manager/Animation";
-import LeafCloud from "../components/LeafCloud";
+import ParticleCloud from "~/webgl/components/ParticleCloud"
 
 /**
  * @constructor
@@ -47,6 +47,7 @@ export default class extends Step {
 
     this.background = previousStep.background;
 
+    this.particleCloud = new ParticleCloud({ gui: this.gui, config: config.particleCloud });
     
 
     this.initGUI();
@@ -95,6 +96,7 @@ export default class extends Step {
           .on("end", (event)=>{
             this.water.material.uniforms.diffuse.value = toColor;
             this.scene.humanScale.group.remove(this.leafClouds.object3D);
+            this.scene.humanScale.group.add(this.particleCloud.object3D);
           })
       );
     }));
@@ -163,6 +165,9 @@ export default class extends Step {
   loop(time){
     super.loop();
     this.leafClouds.render(time * 0.01);
+    if( this.particleCloud ) {
+      this.particleCloud.render()
+    }
     this.water.render();
   }
 }

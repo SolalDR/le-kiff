@@ -1,4 +1,3 @@
-import config from "./config";  
 import {Brownian} from "noisadelic";
 import vertexShader from "./vertex.glsl";
 import fragmentShader from "./fragment.glsl";
@@ -6,7 +5,8 @@ import fragmentShader from "./fragment.glsl";
 class ParticleCloud {
 
   constructor({
-    gui = null
+    gui = null,
+    config = null
   } = {}) {
     var noise = new Brownian({rgb: true});
     var texture = new THREE.Texture(noise.convertImage());
@@ -16,9 +16,9 @@ class ParticleCloud {
     texture.repeat.y = 512;
 
     texture.needsUpdate = true;
-
+    this.config = config;
     this.geometry = new THREE.Geometry();
-    for(var i=0; i < config.count; i++){
+    for(var i=0; i < this.config.count; i++){
       this.geometry.vertices.push(new THREE.Vector3(
         0.5 - Math.random(),
         0.5 - Math.random(),
@@ -33,17 +33,17 @@ class ParticleCloud {
       fragmentShader: fragmentShader,
       uniforms: {
         u_texture: {type: "t", value: texture},
-        u_noise_amplitude: {type: "v3", value: config.noise_amplitude},
-        u_amplitude: {type: "v3", value: config.amplitude},
+        u_noise_amplitude: {type: "v3", value: this.config.noise_amplitude},
+        u_amplitude: {type: "v3", value: this.config.amplitude},
         u_time: {type: "f", value: 0},
-        u_spread: {type: "f", value: config.spread},
-        u_color: {type: "f", value: config.color},
-        u_size: {type: "f", value: config.size}
+        u_spread: {type: "f", value: this.config.spread},
+        u_color: {type: "f", value: this.config.color},
+        u_size: {type: "f", value: this.config.size}
       }
     })
 
     this.object3D = new THREE.Points(this.geometry, this.material);
-    this.object3D.position.copy(config.position);
+    this.object3D.position.copy(this.config.position);
     this.initGui(gui);
   }
 
@@ -55,12 +55,12 @@ class ParticleCloud {
       folder.add(this.material.uniforms.u_spread, "value", 0, 1).name("Spread noise");
       folder.addThreeColor(this.material.uniforms.u_color, "value").name("Color");
       folder.add(this.material.uniforms.u_size, "value", 0, 10).name("Particle Size");
-      folder.add(config, "speed", 0, 0.2).name("Speed");
+      folder.add(this.config, "speed", 0, 0.2).name("Speed");
     }
   }
 
   render(){
-    this.material.uniforms.u_time.value += config.speed;
+    this.material.uniforms.u_time.value += this.config.speed;
   }
 
 }

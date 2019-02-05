@@ -7,6 +7,10 @@
       "path": "/chapter-1/step_1_human_leaf.glb"
     },
     {
+      "name": "step_4_pasta",
+      "path": "/chapter-1/chapitre_01_etape_04_05_pasta.glb"
+    },
+    {
       "name": "background1",
       "path": "/ui/images/intro_background.png"
     },

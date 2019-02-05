@@ -4,26 +4,26 @@
 
   &__text
     position: absolute
-    width: 570px
     left: $pos-s 
     top: $pos-s 
     color: $color-secondary
 
     &.is-active
       .chapter__title
-        opacity: .5
+        opacity: 1
         transform: translateX(0)
         transition:
           delay: $t-duration * 1.5
 
       .chapter__step__text
-        opacity: .5
         transform: translateY(0)
+        opacity: 1
         transition:
           delay: $t-duration * 1.5
 
   &__step__text
     margin-top: 10px
+    width: 570px
     opacity: 0
     transform: translateY($space-l)
     transition:
@@ -49,5 +49,5 @@
 
 
   @include up-large-desktop()
-    &__text
-      width: 640px
+    &__step__text
+      width: 690px

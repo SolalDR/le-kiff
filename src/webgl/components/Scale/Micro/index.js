@@ -52,10 +52,13 @@ class MicroScale extends Scale {
   // TODO Function updateFromStep in Scale 
   updateFromStep( step ){
     var infos = step.infos.filter(info => info.scale === "micro" && info.type === "molecule");
+    console.log( 'INFOS', infos);
+
     this.molecules.forEach(molecule => {
       var info = infos.find(info => info.attachment.name === molecule.name);
       if( info ){
         molecule.attach(info);
+        molecule.updateFromConfig(this.config.molecules[info.attachment.name]);
       } else {
         molecule.detach();
       }
@@ -107,7 +110,7 @@ class MicroScale extends Scale {
     this.moleculesGroup = new THREE.Group();
     guiMicro.addMaterial("Material liaison atom", this.bondMaterial);
     guiMicro.addMaterial("Material atom", this.atomMaterial);
-    var list = ["cocaine", "kerosene"];
+    var list = [ "kerosene", 'cinnamoylcocaine', 'cocaine', 'benzoylecgonine', 'acide_sulfurique'];
     var listFull = [ "cocaine", "kerosene", "chaux",  "eau",  "acide_sulfurique",  "ammoniac",  "permanganate de potassium",  "hydroxyde d'amonium",  "ether",  "acetone",  "acide_chloridrique", "bicarbonate_de_soude" ]
     var guiMolecule = guiMicro.addFolder("Molecules");
     list.forEach(item => {
@@ -119,15 +122,7 @@ class MicroScale extends Scale {
       });
       guiMolecule.addObject3D(molecule.name, molecule.object3D);
       this.molecules.set(item, molecule);
-      
-      if(this.config.molecules[molecule.name]){
-        if( this.config.molecules[molecule.name].position ){
-          molecule.object3D.position.copy(this.config.molecules[molecule.name].position)
-        }
-        if(this.config.molecules[molecule.name].rotation ){
-          molecule.object3D.rotation.copy(this.config.molecules[molecule.name].rotation)
-        }
-      }
+      molecule.updateFromConfig(this.config.molecules[molecule.name]);
 
       this.moleculesGroup.add(molecule.object3D)
       
@@ -135,6 +130,7 @@ class MicroScale extends Scale {
     this.group.add(this.moleculesGroup);
 
     // Color plane
+    console.log('CONFIG', this.config.colorPlane);
     this.plane = new ColorPlane({ gui: guiMicro, config: this.config.colorPlane });
     this.plane.position.z = -100;
     guiMicro.addObject3D("Plane", this.plane)
@@ -157,13 +153,13 @@ class MicroScale extends Scale {
       this.clouds.render();
     }
 
-    this.moleculesGroup.children.forEach(molecule => {
-      var position = this.config.molecules[molecule.name].position; 
-      molecule.position.x = this.simplex.noise2D(position.x, time*0.0001);
-      molecule.position.y = this.simplex.noise2D(position.y, time*0.0001);
-      molecule.rotation.z = this.simplex.noise2D(position.x, time*0.0001);
-      molecule.rotation.y = this.simplex.noise2D(position.y, time*0.0001);
-    });
+    // this.moleculesGroup.children.forEach(molecule => {
+    //   var position = this.config.molecules[molecule.name].position; 
+    //   molecule.position.x = position.x + this.simplex.noise2D(position.x, time*0.0001)*0.5;
+    //   molecule.position.y = position.y + this.simplex.noise2D(position.y, time*0.0001)*0.5;
+    //   molecule.rotation.z = this.simplex.noise2D(position.x, time*0.00001);
+    //   molecule.rotation.y = this.simplex.noise2D(position.y, time*0.00001);
+    // });
     
     super.loop();
   }

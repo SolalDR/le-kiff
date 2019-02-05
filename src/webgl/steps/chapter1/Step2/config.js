@@ -44,5 +44,23 @@ export default baseConfig.extends({
     {
       name : "step_1_background_sound"
     }
-  ]
+  ],
+  micro: {
+    molecules: {
+      cocaine: {
+        position: new THREE.Vector3(-2, 0, 1),
+        scale: new THREE.Vector3(0.5, 0.5, 0.5)
+      },
+      benzoylecgonine: {
+        position: new THREE.Vector3(7, 1, 0),
+        scale: new THREE.Vector3(0.8, 0.8, 0.8)
+      },
+      cinnamoylcocaine: {
+        position: new THREE.Vector3(-7, 0, -3),
+        scale: new THREE.Vector3(1.2, 1.2, 1.2)
+      }
+    },
+    atomMaterial: { }
+  }
+
 })

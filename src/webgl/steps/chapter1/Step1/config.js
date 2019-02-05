@@ -1,4 +1,7 @@
 import baseConfig from "./../../config";
+import colorPlane from "./../../../components/ColorPlane/config";
+
+console.log(colorPlane);
 
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
@@ -29,9 +32,23 @@ export default baseConfig.extends({
     }
   ],
   micro: {
-    atomMaterial: {
-      // Test extends config step2
-      // color: new THREE.Color("rgb(172, 103, 29)")
-    }
+    colorPlane: colorPlane.extends({
+      color: new THREE.Color("rgb(199,73,21)")
+    }),
+    molecules: {
+      cocaine: {
+        position: new THREE.Vector3(-2, 0, 1),
+        scale: new THREE.Vector3(0.5, 0.5, 0.5)
+      },
+      benzoylecgonine: {
+        position: new THREE.Vector3(7, 1, 0),
+        scale: new THREE.Vector3(0.8, 0.8, 0.8)
+      },
+      cinnamoylcocaine: {
+        position: new THREE.Vector3(-7, 0, -3),
+        scale: new THREE.Vector3(1.2, 1.2, 1.2)
+      }
+    },
+    atomMaterial: { }
   }
 })

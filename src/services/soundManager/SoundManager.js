@@ -49,12 +49,16 @@ class SoundManager {
   play(soundNames, spriteName) {
     const play = (name, spriteName) => {
       let sound = this.getSound(name);
-      if(sound) {
+      
+      if(spriteName) {
         sound = this.getSpriteSound(name, spriteName);
+        console.log('- A -- get sprite sound', name, spriteName, sound);
+      } else {
+        console.log('- A -- get sound', name, sound);
       }
-      sound.volume(sound.defaultVolume);
+      sound.volume(sound.defaultVolume); 
       let id = sound.play();
-      this.playingSounds.set(name, id);
+      this.playingSounds.set(name, id); 
     }
     if(Array.isArray( soundNames )) {
       soundNames.forEach(sound => {
@@ -202,7 +206,7 @@ class SoundManager {
    * @param {Object} soundsData.options Howler sound options
    */
  add(soundsData){
-   const add = (data, sprite) => {
+   const add = (data) => {
     const soundObject = this.assignOptions(data.sound, data.options);
     this.sounds.set(data.name, soundObject);
    }
@@ -210,7 +214,8 @@ class SoundManager {
     soundsData.forEach((data) => {
       if( !this.sounds.get(data.name) ) {
         add(data);
-      } else if(data.sprite) {
+      } 
+      if(data.sprite) {
         this.addSpriteSound(data, data.sprite);
       }
     });
@@ -231,6 +236,7 @@ class SoundManager {
     console.log('add sprite', name);
     if(!this.sounds.has(name)) {
       const soundObject = this.assignOptions(data.sound, data.options);
+      console.log('- A -- add sprite sound', name, soundObject);
       this.sounds.set(name, soundObject);
     }
    });

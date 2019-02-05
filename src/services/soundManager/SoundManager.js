@@ -13,7 +13,7 @@ class SoundManager {
    */
   constructor(){
     this.sounds = new Map();
-    this.playingSounds = [];
+    this.playingSounds = new Map();
     this._volume = 0;
     this.defaultVolume = 0;
     this.howler = null;
@@ -44,17 +44,17 @@ class SoundManager {
   /**
    * 
    * @param {String[]|Array.<string[]>|String} soundNames Array of String or of String array for sprite id or String of sound names
-   * @param {String} sprite Sound sprite name
+   * @param {String} spriteName Sound sprite name
    */
-  play(soundNames, sprite) {
-    const play = (name, sprite) => {
-      const sound = this.getSound(name);
-      sound.volume(sound.defaultVolume);
-      if(sprite) {
-        sound.play(sprite);
-      } else {
-        sound.play();
+  play(soundNames, spriteName) {
+    const play = (name, spriteName) => {
+      let sound = this.getSound(name);
+      if(sound) {
+        sound = this.getSpriteSound(name, spriteName);
       }
+      sound.volume(sound.defaultVolume);
+      let id = sound.play();
+      this.playingSounds.set(name, id);
     }
     if(Array.isArray( soundNames )) {
       soundNames.forEach(sound => {
@@ -66,7 +66,7 @@ class SoundManager {
         }
       })
     } else {
-      play(soundNames, sprite);
+      play(soundNames, spriteName);
     }
   }
   
@@ -155,6 +155,10 @@ class SoundManager {
     }
   }
 
+  /**
+   * Update playback sounds with sprite management
+   * @param {*} soundsData 
+   */
   updatePlayBack(soundsData) {
     // add new sounds
     this.add(soundsData);
@@ -162,23 +166,32 @@ class SoundManager {
     // stop sounds not in sounds data
     this.sounds.forEach((sound, name) => {
       if(sound.playing()) {
-        if( !soundsData.find(soundData => soundData.name === name) ) {
+        // get sound data
+
+        // if not in sound stop
+        const tmpSound = soundsData.find(soundData => soundData.name === name);
+        if(!tmpSound) {
+          console.log('stop sound', name);
           this.stop(name, true);
+        } else if(tmpSound.sprite && JSON.stringify(tmpSound.sprite) !== JSON.stringify(sound.sprite)) {
+          this.stop(name, true);
+          console.log('stop sound with sprite', tmpSound.sprite);
         }
+        // if( !soundsData.find(soundData => soundData.name === name) ) {
+        //   this.stop(name, true);
+        // }
       }
     });
 
     // play added sounds
     soundsData.forEach(data => {
       if(data.sprite) {
-        console.log('data sprite', data.prite);
+        console.log('play', data.name, Object.keys(data.sprite)[0]);
         this.play(data.name, Object.keys(data.sprite)[0]);
       } else {
-        console.log('data sprite');
         this.play(data.name);
       }
     })
-    //this.play(soundsData.map(data => data.name))
   }
 
   /**
@@ -189,25 +202,47 @@ class SoundManager {
    * @param {Object} soundsData.options Howler sound options
    */
  add(soundsData){
-   const add = (data) => {
+   const add = (data, sprite) => {
     const soundObject = this.assignOptions(data.sound, data.options);
-
-    // set sprite
-    if(data.sprite) {
-      soundObject._sprite = data.sprite
-    }
-
     this.sounds.set(data.name, soundObject);
    }
    if( Array.isArray( soundsData )) {
     soundsData.forEach((data) => {
       if( !this.sounds.get(data.name) ) {
         add(data);
+      } else if(data.sprite) {
+        this.addSpriteSound(data, data.sprite);
       }
     });
    } else {
       add(soundsData);
    }
+ }
+
+ /**
+  * Add sound object from sprite
+  * # Sound Object name : soundName.spriteName
+  * @param {Object} data Object of sound datas 
+  * @param {Object} sprite Howler sprite object
+  */
+ addSpriteSound(data, sprite) {
+   Object.keys(sprite).forEach((key,index) => {
+    const name = data.name + '.' + key;
+    console.log('add sprite', name);
+    if(!this.sounds.has(name)) {
+      const soundObject = this.assignOptions(data.sound, data.options);
+      this.sounds.set(name, soundObject);
+    }
+   });
+ }
+
+  /**
+  * Add sprite to sound object
+  * @param {String} name sound name
+  * @param {String} spriteName sprite sound name
+  */
+ getSpriteSound(name, spriteName) {
+  return this.sounds.get(name + '.' + spriteName);
  }
 
   /**
@@ -237,10 +272,6 @@ class SoundManager {
         this.removeSound(name);
       }
     });
-  }
-
-  addSprite() {
-    
   }
 
   /**

@@ -53,9 +53,12 @@ class SoundManager {
       if(spriteName) {
         sound = this.getSpriteSound(name, spriteName);
         name = name + '.' + spriteName;
+        console.log('- A -- play', name, sound);
         id = sound.play(spriteName);
+        console.log('- A -- play id', id);
       } else {
         sound = this.getSound(name);
+        console.log('- A -- play', name);
         id = sound.play();
       }
       sound.volume(sound.defaultVolume); 
@@ -99,14 +102,16 @@ class SoundManager {
       
       if(spriteName) {
         sound = this.getSpriteSound(name, spriteName);
+        console.log('- A -- stop', name, spriteName);
       } else {
         sound = this.getSound(name);
+        console.log('- A -- stop', name);
       }
       if(fade) {
-        this.fade(sound, 'out');
-        sound.once('fade', sound.stop);
+        this.fade(sound, 'out', id);
+        sound.once('fade', () => sound.stop(id));
       } else {
-        sound.stop();
+        sound.stop(id);
       }
       if(spriteName) {
         this.playingSounds.delete(name + '.' + spriteName);  
@@ -193,11 +198,11 @@ class SoundManager {
             const tmpSoundData = soundsData.find(soundData => soundData.name === soundName[0]);
             if(soundName[1] && tmpSoundData) {
               if(Object.keys(tmpSoundData.sprite)[0] !== soundName[1]) {
-                this.stop(soundName[0], soundName[1], false);
+                this.stop(soundName[0], soundName[1], true);
               }
             }
-          } else {
-            this.stop(name, null, false);
+          } else { 
+            this.stop(name, null, true);
           }
         }
     })
@@ -210,6 +215,9 @@ class SoundManager {
         this.play(data.name);
       }
     })
+
+    console.log('- A -- sounds ', this.sounds);
+    console.log('- A -- playing sounds ', this.playingSounds);
   }
 
   /**
@@ -262,13 +270,13 @@ class SoundManager {
   * @param {String} name sound name
   * @param {String} spriteName sprite sound name
   */
- getSpriteSound(name, spriteName) {
-  return this.getSound(name + '.' + spriteName);
- }
+  getSpriteSound(name, spriteName) {
+    return this.getSound(name + '.' + spriteName);
+  }
 
- splitSpriteName(name) {
-  return name.split('.');
- }
+  splitSpriteName(name) {
+    return name.split('.');
+  }
 
   /**
    * Remove a sound by is name

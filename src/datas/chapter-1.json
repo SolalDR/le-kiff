@@ -7,12 +7,20 @@
       "path": "/chapter-1/step_1_human_leaf.glb"
     },
     {
+      "name": "singleLeaf",
+      "path": "/chapter-1/step_2_leaf.obj"
+    },
+    {
       "name": "background1",
       "path": "/ui/images/intro_background.png"
     },
     {
       "name": "background2",
       "path": "/chapter-1/chapitre_01_etape_02_background.png"
+    },
+    {
+      "name": "background3",
+      "path": "/chapter-1/chapitre_01_etape_03_background.jpg"
     },
     {
       "name": "background4",
@@ -51,6 +59,10 @@
         {
           "name": "alphaLeaf",
           "path": "/alpha.jpg"
+        },
+        {
+          "name": "alphaWaterLeaf",
+          "path": "/alpha_water.jpg"
         },
         {
           "name": "normalLeaf",

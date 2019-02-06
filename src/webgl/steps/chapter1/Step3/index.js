@@ -4,6 +4,8 @@ import config from "./config";
 import Water from "../../../components/Water";
 import Renderer from "~/webgl/rendering/Renderer"
 import ModelAnimationManager from "../../../manager/ModelAnimation";
+import AnimationManager, {Animation} from "../../../manager/Animation";
+import ParticleCloud from "~/webgl/components/ParticleCloud"
 
 /**
  * @constructor
@@ -11,7 +13,7 @@ import ModelAnimationManager from "../../../manager/ModelAnimation";
  */
 export default class extends Step {
   constructor(params){
-    super(params, ["background", "cube", "water", "leaf"]);
+    super(params, ["background", "leaf", "water", "leafCloud"]);
   }
   /**
    * This method initialize the step and 
@@ -32,16 +34,20 @@ export default class extends Step {
    * @param {*} event
    */
   displayHumanScale( ressources, previousStep ){
-    this.main = new THREE.Mesh( new THREE.BoxGeometry(), new THREE.MeshPhongMaterial({ color: 0xFF0000 }) );
-    this.main.name = "cube";
     this.leaf = ressources.step_1_human_leaf.result;
     this.leaf.name = config.modelAnimation.name;
-    this.main.name = "step_1_human_leaf"
-
+    this.leafClouds = previousStep.leafClouds;
+    
     this.water = new Water({ renderer: Renderer.renderer });
-    this.water.mesh.position.y = -5;
+    this.water.mesh.scale.x = 2;
+    this.water.mesh.position.y = -15;
     this.water.mesh.position.z = 7;
     this.water.mesh.name = "water-step-3";
+    this.water.drop(0, -5, 1)
+
+    this.background = previousStep.background;
+    this.particleCloud = new ParticleCloud({ gui: this.gui, config: this.config.particleConfig });
+    this.scene.humanScale.group.add(this.particleCloud.object3D)
 
     this.initGUI();
 
@@ -51,6 +57,78 @@ export default class extends Step {
 
     ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options)
     ModelAnimationManager.play('cut');
+    
+    setTimeout(()=>{
+      this.water.drop(0, -5, 1)
+    }, 300)
+
+    // Leaf clouds fall and water rise, hide leaf
+    var fromAperture = Renderer.getBokehAperture();
+    var fromPosition = this.leaf.scene.position.y;
+    AnimationManager.addAnimation(new Animation({
+      duration: 1500,
+      delay: 500,
+      timingFunction: "easeOutQuad"
+    }).on("progress", (event) => {
+      this.leafClouds.object3D.position.y = - event.advancement*20;
+      this.water.mesh.position.y = -15 + event.advancement*13;
+      this.particleCloud.object3D.position.y = -15 + event.advancement * 10;
+      this.leaf.scene.position.y = fromPosition - event.advancement*5
+
+      Renderer.setBokehAperture(fromAperture + event.advancement * 4)
+    }).on("end", (event)=>{
+      this.scene.humanScale.group.remove(this.leaf.scene);
+
+      // Hide leaf clouds
+      var fromColor = this.water.material.uniforms.diffuse.value.clone();
+      var toColor = new THREE.Color("rgb(100, 85, 14)");
+      AnimationManager.addAnimation(
+        new Animation({duration: 5000,delay: 0,timingFunction: "easeOutQuad"})
+          .on("progress", (event) => {
+            this.leafClouds.object3D.position.y = -20 - event.advancement*20;
+            this.leafClouds.object3D.material.opacity = 1 - event.advancement;
+            this.water.material.uniforms.diffuse.value = new THREE.Color(
+              fromColor.r + (toColor.r - fromColor.r)*event.advancement,
+              fromColor.g + (toColor.g - fromColor.g)*event.advancement,
+              fromColor.b + (toColor.b - fromColor.b)*event.advancement
+            );
+            this.particleCloud.material.uniforms.u_size.value = event.advancement * 7;
+          })
+          .on("end", (event)=>{
+            this.water.material.uniforms.diffuse.value = toColor;
+            this.scene.humanScale.group.remove(this.leafClouds.object3D);
+            this.scene.humanScale.group.add(this.particleCloud.object3D);
+          })
+      );
+    }));
+
+    // Leaf cloud disapear & replace
+    AnimationManager.addAnimation(new Animation({
+      duration: 750,
+      delay: 500,
+      timingFunction: "easeOutQuad"
+    }).on("progress", (event)=>{
+      this.leafClouds.object3D.material.opacity = 1. - event.advancement;
+    }).on("end", ()=>{
+      this.leafClouds.object3D.material.alphaMap = ressources.alphaWaterLeaf.result;
+      this.leafClouds.object3D.material.opacity = 0;
+      this.leafClouds.object3D.geometry.maxInstancedCount = 500;
+      this.leafClouds.config.speedPosition = 5;
+
+      AnimationManager.addAnimation(new Animation({
+        duration: 500,
+        timingFunction: "easeOutQuad"
+      }).on("progress", (event)=>{
+        this.leafClouds.object3D.material.opacity = event.advancement;
+      }).on("end", ()=>{
+        this.leafClouds.object3D.material.opacity = 1;
+      }))
+    }))
+
+    // Change backgrouund 
+    this.background.changeBackground(ressources.background3.result, 5000, 1000)
+
+
   }
 
 
@@ -85,8 +163,12 @@ export default class extends Step {
     super.hide(newStep);
   }
 
-  loop(){
+  loop(time){
     super.loop();
+    this.leafClouds.render(time * 0.01);
+    if( this.particleCloud ) {
+      this.particleCloud.render()
+    }
     this.water.render();
   }
 }

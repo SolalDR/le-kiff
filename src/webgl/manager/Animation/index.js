@@ -1,5 +1,6 @@
 import Event from "~/helpers/Event";
 import Animation from "./components/Animation"
+import Mixer from "./components/Mixer"
 
 class AnimationManager extends Event {
     
@@ -81,5 +82,5 @@ class AnimationManager extends Event {
 
 }
 
-export { Animation }
+export { Animation, Mixer }
 export default new AnimationManager();

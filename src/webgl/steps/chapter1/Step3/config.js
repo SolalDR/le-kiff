@@ -1,5 +1,6 @@
 import baseConfig from "./../../config";
 import colorPlane from "./../../../components/ColorPlane/config";
+import particleConfig from "~/webgl/components/ParticleCloud/config"
 
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
@@ -42,6 +43,7 @@ export default baseConfig.extends({
       name : "step_1_background_sound"
     }
   ],
+
   micro: {
     colorPlane: colorPlane.extends({
       color: new THREE.Color("rgb(248,155,47)")
@@ -55,5 +57,17 @@ export default baseConfig.extends({
         scale: new THREE.Vector3(0.8, 0.8, 0.8)
       },
     }
-  }
+  },
+
+  particleConfig: particleConfig.extends({
+    color: new THREE.Color("rgb(107,94,72)"),
+    count: 3000,
+    spread: 0.2,
+    amplitude: new THREE.Vector3(40, 10, 34),
+    noise_amplitude: new THREE.Vector3(40, -25, 20),
+    speed: 0.00005,
+    size: 0,
+    position: new THREE.Vector3(0, -15, 0)
+  })
+
 })

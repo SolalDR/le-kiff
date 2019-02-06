@@ -136,7 +136,7 @@ class MicroScale extends Scale {
     this.group.add(this.plane);
 
     // Clouds
-    this.clouds = new ParticleCloud({gui: guiMicro});
+    this.clouds = new ParticleCloud({gui: guiMicro, config: this.config.particleConfig});
     this.group.add(this.clouds.object3D);
 
     Bus.verbose("scale-micro:init", 2)

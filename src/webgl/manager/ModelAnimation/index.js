@@ -10,21 +10,27 @@ class ModelAnimationManager extends Event {
     this.activeModel = null;
   }
 
-  generateClips(model, clipsData, options = {}) {
+  generateClips(model, clipsData = null, options = {}) {
     
     const modelAnim = this._getModelAnim(model, options);
 
     // create clips from clips data
-    for (var i = 0; i < clipsData.length; i++) { 
-      const clipData = clipsData[i];
-      if(!modelAnim.clips.find(clip => clip.name === clipData.name)) {
-        const clip = this._createClip(modelAnim, clipData);
-        modelAnim.clips.push(clip);
+    if(clipsData) {
+      for (var i = 0; i < clipsData.length; i++) { 
+        const clipData = clipsData[i];
+        if(!modelAnim.clips.find(clip => clip.name === clipData.name)) {
+          const clip = this._createClip(modelAnim, clipData);
+          modelAnim.clips.push(clip);
+        }
       }
-    }
 
-    // set first clip has current action
-    modelAnim.currentAction = clipsData[0].animation;
+      // set first clip has current action
+      modelAnim.currentAction = clipsData[0].animation;
+
+    } else {
+      // set main model anim for currentAction
+      modelAnim.currentAction = modelAnim.mainClip.animation;
+    }
     
     // add modelAnim to list
     this.models.set(modelAnim.name, modelAnim);
@@ -61,15 +67,23 @@ class ModelAnimationManager extends Event {
     this.models.clear();
   }
 
-  playFrom(modelName, clipName) {
-    return this._play(modelName, clipName);
-  }
-
   play(clipName) {
     return this._play(this.activeModel.name, clipName);
   }
 
-  _play(modelName, clipName) {
+  playFrom(modelName, clipName) {
+    return this._play(modelName, clipName);
+  }
+
+  revert(clipName) {
+    return this._play(this.activeModel.name, clipName, -1);
+  }
+
+  revertFrom(modelName, clipName) {
+    return this._play(modelName, clipName, -1);
+  }
+
+  _play(modelName, clipName, timeScale = 1) { 
   
     var modelAnim = this.models.get(modelName);
     var lastAction = modelAnim.currentAction;
@@ -89,6 +103,7 @@ class ModelAnimationManager extends Event {
     }
 
     activeAction = activeAnimation.animation;
+    activeAction.timeScale = timeScale;
     mixer = activeAction.getMixer();
 
     if(activeAction === lastAction) {
@@ -108,6 +123,7 @@ class ModelAnimationManager extends Event {
       mixer.addEventListener(eventLabel, () => {
         // remove event listener if stop
         resolve();
+        activeAction.timeScale = 0;
         if (!isLooping) modelAnim.running = false;
       }, {once: true});
     });

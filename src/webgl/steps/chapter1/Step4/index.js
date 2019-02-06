@@ -4,6 +4,7 @@ import config from "./config";
 import Water from "../../../components/Water";
 import Renderer from "~/webgl/rendering/Renderer"
 import ModelAnimationManager from "../../../manager/ModelAnimation";
+import SimplexNoise from "simplex-noise";
 
 /**
  * @constructor
@@ -12,6 +13,8 @@ import ModelAnimationManager from "../../../manager/ModelAnimation";
 export default class extends Step {
   constructor(params){
     super(params, ["background", "water"]);
+    this.pastaRocks = [];
+    this.simplex = new SimplexNoise();
   }
   /**
    * This method initialize the step and 
@@ -32,9 +35,8 @@ export default class extends Step {
    * @param {*} event
    */
   displayHumanScale( ressources, previousStep ){
-    this.pasta = ressources.step_4_pasta.result;
-    this.pasta.name = config.modelAnimation.name;
 
+    // Water
     if(this.previousStep.water) {
       this.water = this.previousStep.water;
     } else {
@@ -44,13 +46,25 @@ export default class extends Step {
       this.water.mesh.name = "water-step-3";
     }
 
-    this.initGUI();
-
     this.scene.humanScale.group.add(this.water.mesh)
-    this.scene.humanScale.group.add(this.pasta.scene)
 
-    //ModelAnimationManager.generateClips(this.pasta, config.modelAnimation.clips, config.modelAnimation.options)
-    //ModelAnimationManager.play('cut');
+    // Pasta Rock
+    this.pasta = ressources.step_4_pasta.result;
+    this.pasta.name = config.modelAnimation.name;
+    this.pasta.scene.name = config.modelAnimation.name + '_scene';
+    this.pasta.scene.scale.set(2.4,2.4, 2.4);
+    this.pasta.scene.position.z = 1.32;
+
+    this.scene.humanScale.group.add(this.pasta.scene);
+
+    this.pastaRocks = this.pasta.scene.children[0].children;
+    this.pastaRocksPositions = this.pastaRocks.map(rock => rock.position.clone());
+    this.pastaRocksRotations = this.pastaRocks.map(rock => rock.rotation.clone());
+
+    ModelAnimationManager.generateClips(this.pasta, config.modelAnimation.clips, config.modelAnimation.options);
+    //ModelAnimationManager.play('main');
+    this.initGUI();
+    
   }
 
 
@@ -89,8 +103,24 @@ export default class extends Step {
     super.hide(newStep);
   }
 
-  loop(){
-    super.loop();
+  /**
+   * @override
+   * Raf
+   */
+  loop(time){
     this.water.render();
+
+    for (let i = 0; i < this.pastaRocks.length; i++) {
+      const rock = this.pastaRocks[i];
+      const position = this.pastaRocksPositions[i];
+      const rotation = this.pastaRocksRotations[i];
+      rock.position.x = position.x + this.simplex.noise2D(position.x, time*0.2);
+      rock.position.y = position.y + this.simplex.noise2D(position.y, time*0.2);
+      rock.position.z = position.z + this.simplex.noise2D(position.z, time*0.2);
+      rock.rotation.x = rotation.x + this.simplex.noise2D(rotation.y, time*0.05);
+      rock.rotation.y = rotation.y + this.simplex.noise2D(rotation.y, time*0.05);
+    };
+    
+    super.loop();
   }
 }

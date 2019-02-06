@@ -40,8 +40,11 @@ export default baseConfig.extends({
       sprite: {
         step_2: [
           24000,
-          39000
+          15000
         ],
+      },
+      options : {
+        volume: 0.9
       } 
     },
     {

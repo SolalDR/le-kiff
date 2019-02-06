@@ -31,6 +31,10 @@
       "path": "/sounds/chapter-1/chapter_1_main_voice.mp3"
     },
     {
+      "name": "step_1_main_sound",
+      "path": "/sounds/chapter-1/step_1_main.mp3"
+    },
+    {
       "name": "step_2_main_sound",
       "path": "/sounds/chapter-1/step_2_main.mp3"
     }

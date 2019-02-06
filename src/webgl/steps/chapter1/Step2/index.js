@@ -130,6 +130,11 @@ export default class extends Step {
     if ( toRemove.includes("background") ){
       this.scene.humanScale.group.remove(this.background.objec3D);
     }
+
+    if ( toRemove.includes("leafCloud") ){
+      this.scene.humanScale.group.remove(this.leafClouds.object3D);
+    }
+
     super.hide(newStep);
   }
 

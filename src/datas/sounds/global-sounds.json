@@ -1,22 +1,20 @@
-[
-  {
-    "name" :"toggle_infopoint_sound", 
-    "options": {
-      "volume": 0.2
-    }
+[{
+  "name": "ui_sounds",
+  "options": {
+    "volume": 0.3
   },
-  {
-    "name" : "toggle_default_sound", 
-    "sound" : "toggle_default.result",
-    "options": {
-      "volume": 0.2
-    }
-  },
-  {
-    "name" : "woosh_sound", 
-    "sound" : "woosh_sound.result",
-    "options": {
-      "volume": 0.4
-    }
+  "sprite": {
+    "toggle_default": [
+      0,
+      261.2244897959184
+    ],
+    "toggle_infopoint": [
+      2000,
+      1044.8979591836735
+    ],
+    "woosh": [
+      5000,
+      1786.4852607709754
+    ]
   }
-]
+}]

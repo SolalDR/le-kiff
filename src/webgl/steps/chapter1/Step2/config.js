@@ -36,10 +36,16 @@ export default baseConfig.extends({
   }, 
   sounds: [
     {
-      name : "step_2_main_sound", 
+      name : "chapter_1_main_voice",
+      sprite: {
+        step_2: [
+          24000,
+          15000
+        ],
+      },
       options : {
         volume: 0.9
-      }
+      } 
     },
     {
       name : "step_1_background_sound"

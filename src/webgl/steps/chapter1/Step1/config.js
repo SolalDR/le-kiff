@@ -22,10 +22,16 @@ export default baseConfig.extends({
       }
     },
     {
-      name : "step_1_main_sound",
+      name : "chapter_1_main_voice",
+      sprite: {
+        step_1: [
+          0,
+          24000
+        ],
+      },
       options : {
         volume: 0.9
-      }
+      } 
     }
   ],
   micro: {

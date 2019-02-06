@@ -10,7 +10,7 @@ class SoundLoader  {
 	load( url, onLoad, onProgress, onError ) {
     var sound = new Howl({
       src: url,
-      preload: true
+      //preload: true
     });
 
     sound.once('load', () => {

@@ -108,16 +108,8 @@
       "base": "/sounds/ui/",
       "files": [
         {
-          "name": "toggle_infopoint_sound", 
-          "path": "toggle_infopoint.mp3"
-        },
-        {
-          "name": "toggle_default_sound", 
-          "path": "toggle_default.mp3"
-        },
-        {
-          "name": "woosh_sound", 
-          "path": "woosh.mp3"
+          "name": "ui_sounds", 
+          "path": "ui_sounds.mp3"
         }
       ]
     }

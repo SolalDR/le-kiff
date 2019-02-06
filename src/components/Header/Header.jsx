@@ -18,7 +18,7 @@ class Header extends React.Component {
 
   handleToggleMenu = (e)=>{
     this.setState({menuOpen: !this.state.menuOpen});
-    SoundManager.play('toggle_default_sound');
+    SoundManager.play('ui_sounds', 'toggle_default'); 
   }
 
   initPos = (el) => {

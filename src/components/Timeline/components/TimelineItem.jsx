@@ -14,7 +14,7 @@ class TimelineItem extends React.Component {
   };
 
   handleClick = () => {
-    SoundManager.play('toggle_default_sound'); 
+    SoundManager.play('ui_sounds', 'toggle_default');
     this.props.onSelectCallback(this.props.rank);
   };
 

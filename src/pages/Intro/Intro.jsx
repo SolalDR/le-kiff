@@ -16,7 +16,7 @@ class Intro extends React.Component {
   constructor() {
     super();
     this.state = {
-      autoLoadChapter: true,
+      autoLoadChapter: false,
       reveal: false
     };
   }

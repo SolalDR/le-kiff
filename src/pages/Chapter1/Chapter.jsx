@@ -77,7 +77,7 @@ class Chapter extends React.Component {
     }
 
     onStepChange = rank => {
-      if (rank < this.props.chapter.steps.length) {
+      if (rank < this.props.chapter.steps.length + 1) {
         this.props._setCurrentStepRank(rank);
       } else {
         this.onChapterChange(this.props.chapter.rank + 1);

@@ -1,8 +1,6 @@
 import baseConfig from "./../../config";
 import colorPlane from "./../../../components/ColorPlane/config";
 
-console.log(colorPlane);
-
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
   assets: [

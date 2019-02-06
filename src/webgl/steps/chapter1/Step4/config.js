@@ -14,4 +14,18 @@ export default baseConfig.extends({
   modelAnimation: {
     name : 'step_4_pasta'
   },
+  sounds: [
+    {
+      name : "chapter_1_main_voice",
+      sprite: {
+        step_4: [
+          67000,
+          14000
+        ],
+      },
+      options : {
+        volume: 0.9
+      } 
+    }
+  ]
 })

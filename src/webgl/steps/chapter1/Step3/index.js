@@ -11,7 +11,7 @@ import ModelAnimationManager from "../../../manager/ModelAnimation";
  */
 export default class extends Step {
   constructor(params){
-    super(params, ["background", "cube", "water", "leaf"]);
+    super(params, ["background", "cube", "water", "leaf", "leafCloud"]);
   }
   /**
    * This method initialize the step and 
@@ -37,6 +37,8 @@ export default class extends Step {
     this.leaf = ressources.step_1_human_leaf.result;
     this.leaf.name = config.modelAnimation.name;
     this.main.name = "step_1_human_leaf"
+    console.log(previousStep.leafClouds);
+    this.leafClouds = previousStep.leafClouds;
 
     this.water = new Water({ renderer: Renderer.renderer });
     this.water.mesh.position.y = -5;
@@ -84,6 +86,10 @@ export default class extends Step {
 
     if ( toRemove.includes("leaf") ){
       this.scene.humanScale.group.remove(this.leaf.scene);
+    }
+
+    if ( toRemove.includes("leafCloud") ){
+      this.scene.humanScale.group.remove(this.leafClouds.object3D);
     }
 
     super.hide(newStep);

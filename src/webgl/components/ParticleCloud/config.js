@@ -10,3 +10,4 @@ export default c({
   size: 3,
   position: new THREE.Vector3(0, 0, -100)
 });
+

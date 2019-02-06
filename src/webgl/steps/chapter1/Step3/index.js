@@ -46,9 +46,8 @@ export default class extends Step {
     this.water.drop(0, -5, 1)
 
     this.background = previousStep.background;
-
-    this.particleCloud = new ParticleCloud({ gui: this.gui, config: config.particleCloud });
-    
+    this.particleCloud = new ParticleCloud({ gui: this.gui, config: this.config.particleConfig });
+    this.scene.humanScale.group.add(this.particleCloud.object3D)
 
     this.initGUI();
 
@@ -73,6 +72,7 @@ export default class extends Step {
     }).on("progress", (event) => {
       this.leafClouds.object3D.position.y = - event.advancement*20;
       this.water.mesh.position.y = -15 + event.advancement*13;
+      this.particleCloud.object3D.position.y = -15 + event.advancement * 10;
       this.leaf.scene.position.y = fromPosition - event.advancement*5
 
       Renderer.setBokehAperture(fromAperture + event.advancement * 4)
@@ -92,6 +92,7 @@ export default class extends Step {
               fromColor.g + (toColor.g - fromColor.g)*event.advancement,
               fromColor.b + (toColor.b - fromColor.b)*event.advancement
             );
+            this.particleCloud.material.uniforms.u_size.value = event.advancement * 7;
           })
           .on("end", (event)=>{
             this.water.material.uniforms.diffuse.value = toColor;

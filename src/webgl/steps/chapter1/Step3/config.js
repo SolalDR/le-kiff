@@ -27,14 +27,14 @@ export default baseConfig.extends({
   },
 
   particleConfig: particleConfig.extends({
-    color: new THREE.Color("rgb(53,29,0)"),
-    count: 30000,
-    spread: 1,
-    amplitude: new THREE.Vector3(20, 20, 40),
-    noise_amplitude: new THREE.Vector3(30),
-    speed: 0.00015,
-    size: 3,
-    position: new THREE.Vector3(0, 0, -10)
+    color: new THREE.Color("rgb(107,94,72)"),
+    count: 3000,
+    spread: 0.2,
+    amplitude: new THREE.Vector3(40, 10, 34),
+    noise_amplitude: new THREE.Vector3(40, -25, 20),
+    speed: 0.00005,
+    size: 0,
+    position: new THREE.Vector3(0, -15, 0)
   })
 
 })

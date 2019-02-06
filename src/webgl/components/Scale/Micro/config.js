@@ -42,7 +42,7 @@ export default baseConfig.extends({
     position: new THREE.Vector3(0, 0, -100)
   }),
 
-  particleCloud: particleConfig,
+  particleConfig: particleConfig,
 
   rendering: {
     toneMappingExposure: 0.7,

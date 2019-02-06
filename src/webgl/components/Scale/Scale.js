@@ -1,5 +1,5 @@
 import Event from "~/helpers/Event";
-import AnimationManager, {Animation} from "~/webgl/manager/Animation";
+import AnimationManager, {Animation, Mixer} from "~/webgl/manager/Animation";
 import renderer from "~/webgl/rendering/Renderer";
 import SoundManager from "~/services/soundManager/SoundManager";
 import Bus from "~/helpers/Bus";
@@ -88,7 +88,10 @@ class Scale extends Event {
     }
   }
 
-  updateRendering(){
+  updateRendering({
+    animate = false,
+    duration = 1000
+  } = {}){
     var c = this.config.rendering;
 
     this.scene.renderer.setToneMappingExposure(c.toneMappingExposure);
@@ -98,14 +101,54 @@ class Scale extends Event {
     this.scene.renderer.setBokehAperture(c.bokeh.aperture);
     this.scene.renderer.setBokehFocus(c.bokeh.focus);
     this.scene.renderer.setBokehMaxblur(c.bokeh.maxblur);
-  
-    this.scene.lightPrimary.position.copy(c.light.primary.position);
-    this.scene.lightSecondary.position.copy(c.light.secondary.position);
 
-    this.scene.lightPrimary.intensity = c.light.primary.intensity;
-    this.scene.lightSecondary.intensity = c.light.secondary.intensity;
-    this.scene.lightPrimary.color = c.light.primary.color;
-    this.scene.lightSecondary.color = c.light.secondary.color;
+    
+    if( !animate ) {
+      this.scene.lightPrimary.position.copy(c.light.primary.position);
+      this.scene.lightSecondary.position.copy(c.light.secondary.position);
+      this.scene.lightPrimary.intensity = c.light.primary.intensity;
+      this.scene.lightSecondary.intensity = c.light.secondary.intensity;
+      this.scene.lightPrimary.color = c.light.primary.color;
+      this.scene.lightSecondary.color = c.light.secondary.color;
+      return; 
+    }
+    
+    var animates = [];
+
+    // Light position
+    if(!this.scene.lightPrimary.position.equals(c.light.primary.position)) 
+      animates.push({ type: "vector3", object: this.scene.lightPrimary.position, from: this.scene.lightPrimary.position.clone(), to: c.light.primary.position });
+    if(!this.scene.lightSecondary.position.equals(c.light.secondary.position)) 
+      animates.push({ type: "vector3", object: this.scene.lightSecondary.position, from: this.scene.lightSecondary.position.clone(), to: c.light.secondary.position });
+    
+    // Light intensity
+    if(this.scene.lightSecondary.intensity !== c.light.secondary.intensity)
+      animates.push({ type: "float", attribute: "intensity", object: this.scene.lightSecondary, from: this.scene.lightSecondary.intensity, to: c.light.secondary.intensity });
+    if(this.scene.lightPrimary.intensity !== c.light.primary.intensity)
+      animates.push({ type: "float", attribute: "intensity", object: this.scene.lightPrimary, from: this.scene.lightPrimary.intensity, to: c.light.primary.intensity });
+
+    // Light color
+    if(!this.scene.lightSecondary.color.equals(c.light.secondary.color))
+      animates.push({ type: "color", object: this.scene.lightSecondary.color, from: this.scene.lightSecondary.color.clone(), to: c.light.secondary.color });
+    if(!this.scene.lightPrimary.color.equals(c.light.primary.color))
+      animates.push({ type: "color", object: this.scene.lightPrimary.color, from: this.scene.lightPrimary.color.clone(), to: c.light.primary.color });
+
+    console.log(animates);
+    AnimationManager.addAnimation(new Animation({duration})
+      .on("progress", (event) => {
+        animates.forEach(item => {
+          let value = (Mixer[item.type])(item.from, item.to, event.advancement, item.object)
+          if( item.attribute ){
+            item.object[item["attribute"]] = value;
+          }
+        })
+      })
+      .on("end", () => {
+        animates.forEach(item => {
+          (Mixer[item.type])(item.from, item.to, 1, item.object)
+        })
+      })
+    )
   }
 
   hideAnimate( config ){

@@ -49,7 +49,6 @@ export default class extends Step {
     this.background = previousStep.background;
     this.background.changeBackground(ressources.background2.result, 3000, 3000);
 
-
     // Leaf cloud creation
     this.leafClouds = new LeafCloud({
       map: ressources.mapLeaf.result,

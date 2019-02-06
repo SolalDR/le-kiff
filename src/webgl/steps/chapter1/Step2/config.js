@@ -1,4 +1,5 @@
 import baseConfig from "./../../config";
+import colorPlane from "./../../../components/ColorPlane/config";
 
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
@@ -50,5 +51,26 @@ export default baseConfig.extends({
     {
       name : "step_1_background_sound"
     }
-  ]
+  ],
+  micro: {
+    colorPlane: colorPlane.extends({
+      color: new THREE.Color("rgb(0,123,38)")
+    }),
+    molecules: {
+      cocaine: {
+        position: new THREE.Vector3(-1, 0, 2),
+        scale: new THREE.Vector3(0.4, 0.4, 0.4)
+      },
+      benzoylecgonine: {
+        position: new THREE.Vector3(7, 2, -5),
+        scale: new THREE.Vector3(1.2, 1.2, 1.2)
+      },
+      cinnamoylcocaine: {
+        position: new THREE.Vector3(-5, 1, -1),
+        scale: new THREE.Vector3(0.6, 0.6, 0.6)
+      }
+    },
+    atomMaterial: { }
+  }
+
 })

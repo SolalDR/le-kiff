@@ -15,7 +15,7 @@ class Water {
         mouseSize: 0.1, 
         viscosity: 0.0000001
       },
-      color: 0x2194ce
+      color: new THREE.Color("rgb(45, 82, 20)")
     }
     this.renderer = args.renderer; 
     this.heightmap = null;
@@ -77,7 +77,7 @@ class Water {
     this.material.uniforms.diffuse.value = this.material.color;
     this.material.uniforms.specular.value = this.material.specular;
     this.material.uniforms.shininess.value = Math.max( this.material.shininess, 1e-4 );
-    this.material.uniforms.opacity.value = 0.5;
+    this.material.uniforms.opacity.value = 0.7;
 
     this.material.defines.WIDTH = this.config.width.toFixed( 1 );
     this.material.defines.BOUNDS = this.config.bounds.toFixed( 1 );
@@ -109,6 +109,20 @@ class Water {
     var error = this.computationRenderer.init();
     if ( error !== null ) {
         console.error( error );
+    }
+
+    
+    this.heightmapVariable.material.uniforms.mousePos.value.set( 0, 0 ); 
+    this.heightmapVariable.material.uniforms.mouseSize.value = 2;
+
+    this.mesh.material.uniforms.heightmap.value = this.computationRenderer.getCurrentRenderTarget( this.heightmapVariable ).texture; 
+    this.computationRenderer.compute(); 
+
+    this.heightmapVariable.material.uniforms.mousePos.value.set( 10000, 10000 );
+
+    for(var i=0; i<2000; i++){
+      this.computationRenderer.getCurrentRenderTarget( this.heightmapVariable ); 
+      this.computationRenderer.compute();   
     }
   }
 
@@ -174,7 +188,7 @@ class Water {
           this.heightmapVariable.material.uniforms.mouseSize.value =  this.enqueueDrops[0][2] ; 
           this.enqueueDrops.shift();
         }
-       
+        
         this.mesh.material.uniforms.heightmap.value = this.computationRenderer.getCurrentRenderTarget( this.heightmapVariable ).texture; 
         this.computationRenderer.compute(); 
 

@@ -1,25 +1,23 @@
 import SimplexNoise from "simplex-noise";
+import config from "./config";
+import Configuration from "../../../../../helpers/Configuration";
 
 class LeafCloud {
   constructor({
     map = null,
     roughness = null,
     normal = null,
-    alpha = null
+    alpha = null,
+    alpha2 = null,
+    geometry = null
   } = {}){
-    this.config = {
-      speedRotation: 2.,
+    
+    this.config = new Configuration({
+      position: new THREE.Vector3(0, 0, -10),
+      speedRotation: 5.,
       speedPosition: 0.2,
       amplitude: 30
-    }
-    var boxGeometry = new THREE.PlaneBufferGeometry(2, 2, 5, 5);
-    boxGeometry.attributes.position.array.forEach((item, i) => {
-      if(i % 3 === 2){
-        item = (Math.cos(i) + 1)*10
-      }
-    })
-    boxGeometry.attributes.position.needsUpdate = true;
-    console.log(boxGeometry.attributes.position.array)
+    });
 
     var material = new THREE.MeshStandardMaterial({ 
       map, 
@@ -32,9 +30,8 @@ class LeafCloud {
       alphaTest: 0.01
     });
 
-    this.count = 100;
-
-    var cluster = new THREE.InstancedMesh(  boxGeometry, material, this.count, true, false );
+    this.count = 500;
+    var cluster = new THREE.InstancedMesh(  geometry, material, this.count, true, false );
 
     var _v3 = new THREE.Vector3();
     var _q = new THREE.Quaternion();
@@ -51,7 +48,7 @@ class LeafCloud {
     }
     this.noise = new SimplexNoise();
     this.object3D = cluster;
-    
+    this.object3D.geometry.maxInstancedCount = 100
   }
 
   render(time){

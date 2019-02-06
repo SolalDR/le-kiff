@@ -39,7 +39,7 @@ class Renderer {
   initPostprocess(){
     this.initBloom();
     this.initBokeh();
-  
+    
     var renderScene = new RenderPass( this.scene, this.camera );
     this.composer.addPass( renderScene );
     this.composer.addPass( this.bloomPass );
@@ -114,6 +114,9 @@ class Renderer {
       this.renderer.setSize( Viewport.width, Viewport.height );
     })
   }
+
+  getBokehFocus(){ return this.bokehPass.uniforms.focus.value; }
+  getBokehAperture(){ return this.bokehPass.uniforms.aperture.value; }
 
   /**
    * Postprocess setter bokeh

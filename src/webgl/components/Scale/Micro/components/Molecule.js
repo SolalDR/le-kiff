@@ -75,6 +75,12 @@ class Molecule extends Event {
     this.object3D.visible = true;
   }
 
+  updateFromConfig(config){
+    this.object3D.position.copy(config.position)
+    this.object3D.scale.copy(config.scale)
+    this.object3D.rotation.copy(config.rotation)
+  }
+
   detach(){
     this.info = null;
     this.object3D.visible = false;

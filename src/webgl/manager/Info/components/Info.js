@@ -24,6 +24,7 @@ class Info extends Event{
     if(info.attachment.gps_coordinates && (info.attachment.gps_coordinates.lat !== 0 || info.attachment.gps_coordinates.lon !== 0)){
       var geocoord = new GeoCoord(info.attachment.gps_coordinates.lat, info.attachment.gps_coordinates.lon);
       this.position = geocoord.getCartesianCoord(3);
+      console.log(this.position)
     }
     
 
@@ -32,6 +33,8 @@ class Info extends Event{
       previousVector: new THREE.Vector3(),
       opened: false
     };
+
+    this.basedMatrix = new THREE.Matrix4().fromArray([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]);
   }
 
   /**
@@ -58,14 +61,11 @@ class Info extends Event{
    * @param {THREE.Camera} camera
    */
   updateScreenCoordinate(camera) {
-    const vector = new THREE.Vector3();
-    if( this.object3D ) vector.setFromMatrixPosition(this.object3D.matrixWorld)
+    var vector = new THREE.Vector3().add(this.position);
+    var matrix = this.object3D ? this.object3D.matrixWorld : this.basedMatrix;
+    vector.applyMatrix4( matrix ).project(camera);
     
-    vector.add(this.position);
 
-    if( this.object3D ) vector.applyEuler(this.object3D.rotation)
-
-    vector.project(camera);
 
     Viewport.transformUnit(vector, this.state.screenPosition);
 

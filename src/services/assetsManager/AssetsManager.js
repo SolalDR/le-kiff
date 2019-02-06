@@ -6,6 +6,7 @@ import GLTFLoader from "./loaders/GLTFLoader";
 import DRACOLoader from "./loaders/DRACOLoader";
 import SoundLoader from "./loaders/SoundLoader";
 import VideoLoader from "./loaders/VideoLoader";
+import OBJLoader from "./loaders/OBJLoader";
 
 class AssetsManager {
   
@@ -23,6 +24,10 @@ class AssetsManager {
         {
           test: /\.(?:glb|gltf)/,
           loader: gltfLoader
+        },
+        {
+          test: /\.(?:obj)/,
+          loader: new OBJLoader()
         },
         {
           test: /\.(?:drc)/,

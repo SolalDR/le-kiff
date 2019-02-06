@@ -12,7 +12,18 @@ export default baseConfig.extends({
     }
   },
   modelAnimation: {
-    name : 'step_4_pasta'
+    name : 'step_4_pasta',
+    options: {
+      timeScale:0.0009
+    },
+    clips: [
+      {
+        name: 'main',
+        firstFrame: 0,
+        lastFrame: 28,
+        loop: THREE.LoopPingPong
+      }
+    ]
   },
   sounds: [
     {

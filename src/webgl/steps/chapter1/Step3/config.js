@@ -25,7 +25,6 @@ export default baseConfig.extends({
       }
     ]
   },
-<<<<<<< HEAD
   sounds: [
     {
       name : "chapter_1_main_voice",
@@ -42,8 +41,7 @@ export default baseConfig.extends({
     {
       name : "step_1_background_sound"
     }
-  ]
-=======
+  ],
   micro: {
     colorPlane: colorPlane.extends({
       color: new THREE.Color("rgb(248,155,47)")
@@ -58,5 +56,4 @@ export default baseConfig.extends({
       },
     }
   }
->>>>>>> feature/molecule
 })

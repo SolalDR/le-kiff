@@ -1,6 +1,6 @@
 import Event from "~/helpers/Event"; 
 import ClipAnimationUtils from "../../helpers/ClipAnimationUtils";
-import ModelAnimEntity from "./ModelAnimEntity";
+import ModelAnimation from "./components/ModelAnimation";
 
 class ModelAnimationManager extends Event {
     
@@ -37,6 +37,8 @@ class ModelAnimationManager extends Event {
 
     // set modelAnim to active
     this.activeModel = modelAnim;
+
+    return modelAnim;
   }
 
   _getModelAnim(model, options) {
@@ -45,7 +47,7 @@ class ModelAnimationManager extends Event {
 
     // if not create new modelAnim
     if(!modelAnim) {
-      modelAnim = new ModelAnimEntity({
+      modelAnim = new ModelAnimation({
         model,
         options
       })
@@ -67,6 +69,7 @@ class ModelAnimationManager extends Event {
     this.models.clear();
   }
 
+  // Remove and put in modelAnimation
   play(clipName) {
     return this._play(this.activeModel.name, clipName);
   }
@@ -81,6 +84,11 @@ class ModelAnimationManager extends Event {
 
   revertFrom(modelName, clipName) {
     return this._play(modelName, clipName, -1);
+  }
+
+  // TODO: remove
+  playNinja(){
+    this._play.call(arguments);
   }
 
   _play(modelName, clipName, timeScale = 1) { 

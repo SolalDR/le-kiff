@@ -4,6 +4,9 @@ export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
   human: {
     rendering: {
+      bokeh: {
+        aperture: 4
+      },
       light: {
         primary: {
           position: new THREE.Vector3(5, 15, 5)
@@ -38,5 +41,12 @@ export default baseConfig.extends({
         volume: 0.9
       } 
     }
-  ]
+  ],
+
+  // TODO extend config water
+  water: {
+    color: new THREE.Color("rgb(100, 85, 14)"),
+    position: new THREE.Vector3(0, -2, 7),
+    scale: new THREE.Vector3(2, 1, 1)
+  }
 })

@@ -5,6 +5,9 @@ import Water from "../../../components/Water";
 import Renderer from "~/webgl/rendering/Renderer"
 import ModelAnimationManager from "../../../manager/ModelAnimation";
 import SimplexNoise from "simplex-noise";
+import configStep3 from "./../Step3/config";
+import ParticleCloud from "~/webgl/components/ParticleCloud"
+import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 
 /**
  * @constructor
@@ -37,32 +40,80 @@ export default class extends Step {
   displayHumanScale( ressources, previousStep ){
 
     // Water
-    if(this.previousStep.water) {
+    if( previousStep.water) {
       this.water = this.previousStep.water;
     } else {
       this.water = new Water({ renderer: Renderer.renderer });
-      this.water.mesh.position.y = -3;
+      this.water.mesh.position.y = -2;
       this.water.mesh.position.z = 7;
+      this.water.mesh.scale.x = 2;
+      this.water.material.uniforms.diffuse.value = this.config.water.color
       this.water.mesh.name = "water-step-3";
+      this.scene.humanScale.group.add(this.water.mesh)
     }
 
-    this.scene.humanScale.group.add(this.water.mesh)
+    // Background
+    if( previousStep.background ){
+      this.background = previousStep.background;
+    }
+
+    // Particle cloud
+    if( previousStep.particleCloud ){
+      this.particleCloud = previousStep.particleCloud;  
+    } else {
+      this.particleCloud = new ParticleCloud({ gui: this.gui, config: configStep3.particleConfig });
+      this.scene.humanScale.group.add(this.particleCloud.object3D);
+    }
 
     // Pasta Rock
     this.pasta = ressources.step_4_pasta.result;
     this.pasta.name = config.modelAnimation.name;
     this.pasta.scene.name = config.modelAnimation.name + '_scene';
-    this.pasta.scene.scale.set(2.4,2.4, 2.4);
-    this.pasta.scene.position.z = 1.32;
 
     this.scene.humanScale.group.add(this.pasta.scene);
 
+    this.pasta.scene.position.copy(new THREE.Vector3(0, 0, 0))
+    this.pasta.scene.scale.copy(new THREE.Vector3(0.7, 0.7, 0.7))
+
     this.pastaRocks = this.pasta.scene.children[0].children;
+    this.pastaRocksDelay = this.pastaRocks.map(item => Math.random())
+    this.pastaRocksFinished = 0;
     this.pastaRocksPositions = this.pastaRocks.map(rock => rock.position.clone());
     this.pastaRocksRotations = this.pastaRocks.map(rock => rock.rotation.clone());
 
-    ModelAnimationManager.generateClips(this.pasta, config.modelAnimation.clips, config.modelAnimation.options);
-    //ModelAnimationManager.play('main');
+    var modelAnimPasta = ModelAnimationManager.generateClips(this.pasta, config.modelAnimation.clips, config.modelAnimation.options);
+    
+    this.animated = false;
+
+    var a = Date.now()
+    this.pastaRocks.forEach((rock, i) => {
+      rock.scale.copy(new THREE.Vector3())
+      AnimationManager.addAnimation(new Animation({
+        delay: 2000 + this.pastaRocksDelay[i] * 1000, 
+        timingFunction: "easeOutQuad",
+        duration: 2000
+      })
+        .on("start", ()=>{
+          var b = a - Date.now()
+          console.log(b)
+        })
+        .on("progress", (e)=>{
+          rock.scale.set(e.advancement, e.advancement, e.advancement)
+        })
+        .on("end", ()=>{
+          this.pastaRocksFinished++;
+          if( this.pastaRocksFinished === this.pastaRocks.length ){
+            setTimeout(()=>{
+              this.animated = true;
+              modelAnimPasta.play("main", {
+                timeScale: 1
+              })
+            }, 2000)
+          }
+        })  
+      )
+    })
+    
     this.initGUI();
     
   }
@@ -109,17 +160,21 @@ export default class extends Step {
    */
   loop(time){
     this.water.render();
+    this.particleCloud.render()
 
-    for (let i = 0; i < this.pastaRocks.length; i++) {
-      const rock = this.pastaRocks[i];
-      const position = this.pastaRocksPositions[i];
-      const rotation = this.pastaRocksRotations[i];
-      rock.position.x = position.x + this.simplex.noise2D(position.x, time*0.2);
-      rock.position.y = position.y + this.simplex.noise2D(position.y, time*0.2);
-      rock.position.z = position.z + this.simplex.noise2D(position.z, time*0.2);
-      rock.rotation.x = rotation.x + this.simplex.noise2D(rotation.y, time*0.05);
-      rock.rotation.y = rotation.y + this.simplex.noise2D(rotation.y, time*0.05);
-    };
+    if( !this.animated ){
+      for (let i = 0, l = this.pastaRocks.length; i < l; i++) {
+        const rock = this.pastaRocks[i];
+        const position = this.pastaRocksPositions[i];
+        const rotation = this.pastaRocksRotations[i];
+        rock.position.x = position.x + this.simplex.noise2D(position.x, time*0.2);
+        rock.position.y = position.y + this.simplex.noise2D(position.y, time*0.2);
+        rock.position.z = position.z + this.simplex.noise2D(position.z, time*0.2);
+        rock.rotation.x = rotation.x + this.simplex.noise2D(rotation.y, time*0.05);
+        rock.rotation.y = rotation.y + this.simplex.noise2D(rotation.y, time*0.05);
+      }
+    }
+   
     
     super.loop();
   }

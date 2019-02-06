@@ -65,9 +65,9 @@ export default baseConfig.extends({
 
   molecules: {
     cocaine: {
-      offset: new THREE.Vector3(-27, -10, 14),
+      offset: new THREE.Vector3(-27.3, -10.4, 18.3),
       position: new THREE.Vector3(),
-      rotation: new THREE.Euler(0, -1, 0),
+      rotation: new THREE.Euler(0, 0, 0),
       scale: new THREE.Vector3(1, 1, 1),
       visible: false
     },
@@ -80,43 +80,43 @@ export default baseConfig.extends({
       visible: false
     },
 
-    acide_chlorhydrique: {
-      position: new THREE.Vector3(-5, -1, 1),
+    acide_chlorydrique: {
+      position: new THREE.Vector3(-28, -10, 16),
       offset: new THREE.Vector3(),
-      scale: new THREE.Vector3(0.8),
-      rotation: new THREE.Euler(0, 0, 0),
+      scale: new THREE.Vector3(1, 1, 1),
+      rotation: new THREE.Euler(),
       visible: false
     },
 
     acide_sulfurique: {
-      offset: new THREE.Vector3(-2, 0, 0),
+      offset: new THREE.Vector3(-1, 0, 0),
       position: new THREE.Vector3(),
-      scale: new THREE.Vector3(0.8),
-      rotation: new THREE.Euler(0, -5, 0),
+      scale: new THREE.Vector3(1, 1, 1),
+      rotation: new THREE.Euler(0, 0, 0),
       visible: false
     },
 
     ether: {
-      offset: new THREE.Vector3(-1, 1, 0),
+      offset: new THREE.Vector3(-29, -10, 16),
       position: new THREE.Vector3(),
-      scale: new THREE.Vector3(0.8),
-      rotation: new THREE.Euler(2, -1, -5),
+      scale: new THREE.Vector3(1, 1, 1),
+      rotation: new THREE.Euler(),
       visible: false
     },
 
     water: {
-      offset: new THREE.Vector3(-1, .5, 0),
+      offset: new THREE.Vector3(-29, -9, 15),
       position: new THREE.Vector3(),
-      scale: new THREE.Vector3(0.8),
-      rotation: new THREE.Euler(0, -1, 0),
+      scale: new THREE.Vector3(1, 1, 1),
+      rotation: new THREE.Euler(0, 0, 0),
       visible: false
     },
 
-    ammoniac: {
-      offset: new THREE.Vector3(-2, 2, 0),
+    ether: {
+      offset: new THREE.Vector3(-30, -9, 15),
       position: new THREE.Vector3(),
-      scale: new THREE.Vector3(0.8),
-      rotation: new THREE.Euler(0, -1, 0),
+      scale: new THREE.Vector3(1, 1, 1),
+      rotation: new THREE.Euler(0, 0, 0),
       visible: false
     },
 
@@ -129,15 +129,15 @@ export default baseConfig.extends({
     },
 
     chaux_vive: {
-      offset: new THREE.Vector3(-3, 0, 1),
+      offset: new THREE.Vector3(-29, -10, 16),
       position: new THREE.Vector3(),
-      scale: new THREE.Vector3(0.8),
-      rotation: new THREE.Euler(0, -1, 0),
+      scale: new THREE.Vector3(1, 1, 1),
+      rotation: new THREE.Euler(),
       visible: false
     },
     
     cinnamoylcocaine: {
-      offset: new THREE.Vector3(-3, 0, -5),
+      offset: new THREE.Vector3(-2, -0.5, -4),
       position: new THREE.Vector3(),
       scale: new THREE.Vector3(1, 1, 1),
       rotation: new THREE.Euler(0, 0, 0),

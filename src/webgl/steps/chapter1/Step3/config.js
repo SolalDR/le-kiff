@@ -1,4 +1,5 @@
 import baseConfig from "./../../config";
+import colorPlane from "./../../../components/ColorPlane/config";
 
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
@@ -24,4 +25,18 @@ export default baseConfig.extends({
       }
     ]
   },
+  micro: {
+    colorPlane: colorPlane.extends({
+      color: new THREE.Color("rgb(248,155,47)")
+    }),
+    molecules: {
+      acide_sulfurique: {
+        position: new THREE.Vector3(4, 1, 1)
+      },
+      kerosene: {
+        position: new THREE.Vector3(-2, 0, 0),
+        scale: new THREE.Vector3(0.8, 0.8, 0.8)
+      },
+    }
+  }
 })

@@ -130,7 +130,6 @@ class MicroScale extends Scale {
     this.group.add(this.moleculesGroup);
 
     // Color plane
-    console.log('CONFIG', this.config.colorPlane);
     this.plane = new ColorPlane({ gui: guiMicro, config: this.config.colorPlane });
     this.plane.position.z = -100;
     guiMicro.addObject3D("Plane", this.plane)
@@ -153,13 +152,13 @@ class MicroScale extends Scale {
       this.clouds.render();
     }
 
-    // this.moleculesGroup.children.forEach(molecule => {
-    //   var position = this.config.molecules[molecule.name].position; 
-    //   molecule.position.x = position.x + this.simplex.noise2D(position.x, time*0.0001)*0.5;
-    //   molecule.position.y = position.y + this.simplex.noise2D(position.y, time*0.0001)*0.5;
-    //   molecule.rotation.z = this.simplex.noise2D(position.x, time*0.00001);
-    //   molecule.rotation.y = this.simplex.noise2D(position.y, time*0.00001);
-    // });
+    this.moleculesGroup.children.forEach(molecule => {
+      var position = this.config.molecules[molecule.name].position; 
+      molecule.position.x = position.x + this.simplex.noise2D(position.x, time*0.0001)*0.5;
+      molecule.position.y = position.y + this.simplex.noise2D(position.y, time*0.0001)*0.5;
+      molecule.rotation.z = this.simplex.noise2D(position.x, time*0.00001);
+      molecule.rotation.y = this.simplex.noise2D(position.y, time*0.00001);
+    });
     
     super.loop();
   }

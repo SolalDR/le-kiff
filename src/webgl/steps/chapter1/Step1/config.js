@@ -33,20 +33,20 @@ export default baseConfig.extends({
   ],
   micro: {
     colorPlane: colorPlane.extends({
-      color: new THREE.Color("rgb(199,73,21)")
+      color: new THREE.Color("rgb(0,123,38)")
     }),
     molecules: {
       cocaine: {
-        position: new THREE.Vector3(-2, 0, 1),
-        scale: new THREE.Vector3(0.5, 0.5, 0.5)
+        position: new THREE.Vector3(-1, 0, 2),
+        scale: new THREE.Vector3(0.4, 0.4, 0.4)
       },
       benzoylecgonine: {
-        position: new THREE.Vector3(7, 1, 0),
-        scale: new THREE.Vector3(0.8, 0.8, 0.8)
+        position: new THREE.Vector3(7, 2, -5),
+        scale: new THREE.Vector3(1.2, 1.2, 1.2)
       },
       cinnamoylcocaine: {
-        position: new THREE.Vector3(-7, 0, -3),
-        scale: new THREE.Vector3(1.2, 1.2, 1.2)
+        position: new THREE.Vector3(-5, 1, -1),
+        scale: new THREE.Vector3(0.6, 0.6, 0.6)
       }
     },
     atomMaterial: { }

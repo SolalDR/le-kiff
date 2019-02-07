@@ -32,7 +32,7 @@ class SoundButton extends React.Component {
 
   render(){
     return (
-      <div className="sound-button"
+      <div className={ `sound-button ${!this.state.active ? 'is-muted' : ''}` }
             onClick={this.handleClick}
             ref={(ref) => this.myRef = ref}> 
         <img src={logo} alt=""/>

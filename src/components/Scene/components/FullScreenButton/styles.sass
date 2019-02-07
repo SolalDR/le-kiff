@@ -1,28 +1,33 @@
 @import "~/styles/core.scss"
 
 .fullscreen-button
-  display: block
-  // width: 30px
-  height: 30px
+  display: flex
+  align-items: flex-end
   margin-left: $pos-s
   cursor: none
+  opacity: .5
   transform: scale(1)
   transition:
-    property: transform
+    property: transform, opacity
     duration: .4s
     timing-function: ease
 
   &:hover
-    transform: scale(1.3)
+    transform: scale(1.2)
+    opacity: 1
     
   img 
     height: 15px
     width: auto
     
   @include up-desktop()
+    margin-left: $pos-m
+
     img 
       height: 22px
 
   @include up-large-desktop()
+    margin-left: 50px
+
     img 
       height: 25px

@@ -120,7 +120,7 @@ class MicroScale extends Scale {
     this.moleculesGroup = new THREE.Group();
     guiMicro.addMaterial("Material liaison atom", this.bondMaterial);
     guiMicro.addMaterial("Material atom", this.atomMaterial);
-    var list = [ "kerosene", 'cinnamoylcocaine', 'cocaine', 'benzoylecgonine', 'acide_sulfurique'];
+    var list = [ "kerosene", 'cinnamoylcocaine', 'cocaine', 'benzoylecgonine', 'acide_sulfurique', 'ammoniac'];
     var listFull = [ "cocaine", "kerosene", "chaux",  "eau",  "acide_sulfurique",  "ammoniac",  "permanganate de potassium",  "hydroxyde d'amonium",  "ether",  "acetone",  "acide_chloridrique", "bicarbonate_de_soude" ]
     var guiMolecule = guiMicro.addFolder("Molecules");
     list.forEach(item => {
@@ -164,8 +164,6 @@ class MicroScale extends Scale {
     if( this.clouds ){
       this.clouds.render();
     }
-    
-
 
     this.moleculesGroup.children.forEach(molecule => {
       var position = this.config.molecules[molecule.name].position; 

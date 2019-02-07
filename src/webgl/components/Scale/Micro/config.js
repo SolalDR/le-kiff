@@ -46,6 +46,7 @@ export default baseConfig.extends({
 
   rendering: {
     toneMappingExposure: 0.7,
+    toneMappingWhitePoint: 1,
     light: {
       primary: {
         color: new THREE.Color(155, 220, 151)
@@ -137,6 +138,14 @@ export default baseConfig.extends({
     
     cinnamoylcocaine: {
       offset: new THREE.Vector3(-2, -0.5, -4),
+      position: new THREE.Vector3(),
+      scale: new THREE.Vector3(1, 1, 1),
+      rotation: new THREE.Euler(0, 0, 0),
+      visible: false
+    },
+
+    ammoniac: {
+      offset: new THREE.Vector3(0, 0, 0),
       position: new THREE.Vector3(),
       scale: new THREE.Vector3(1, 1, 1),
       rotation: new THREE.Euler(0, 0, 0),

@@ -77,14 +77,7 @@ export default baseConfig.extends({
       }
     },
     particleConfig: particleConfig.extends({
-      color: new THREE.Color("rgb(114,248,145)"),
-      count: 3000,
-      spread: 0.2,
-      amplitude: new THREE.Vector3(40, 10, 34),
-      noise_amplitude: new THREE.Vector3(40, -25, 20),
-      speed: 0.00005,
-      size: 2.9,
-      position: new THREE.Vector3(0, -15, 0)
+      color: new THREE.Color("rgb(114,248,145)")
     }),
     rendering: {
       toneMappingExposure: 0.7,

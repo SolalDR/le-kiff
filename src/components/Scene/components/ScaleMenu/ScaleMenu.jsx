@@ -37,7 +37,7 @@ class ScaleMenu extends React.Component {
    * @param {string} scale The scale represented
    */
   computeClassName(scale){
-    return (scale === this.props.scale && !this.state.revealed) ? 
+    return (scale === this.props.scale) ? 
       "scale-menu__item is-active" : 
       "scale-menu__item";
   }

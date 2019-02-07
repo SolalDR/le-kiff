@@ -32,7 +32,7 @@ export default baseConfig.extends({
         name: 'idle',
         firstFrame: 171,
         lastFrame: 213,
-        loop: THREE.LoopRepeat,
+        loop: THREE.LoopPingPong,
       }
     ]
   }, 

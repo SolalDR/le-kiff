@@ -52,13 +52,15 @@ class SoundManager {
       
       if(spriteName) {
         sound = this.getSpriteSound(name, spriteName);
-        name = name + '.' + spriteName;
+        name = this.getSpriteSoundName(name, spriteName);
         console.log('- A -- play', name, sound);
+        if(this.playingSounds.has(name)) return;
         id = sound.play(spriteName);
         console.log('- A -- play id', id);
       } else {
         sound = this.getSound(name);
         console.log('- A -- play', name);
+        if(this.playingSounds.has(name)) return;
         id = sound.play();
       }
       sound.volume(sound.defaultVolume); 
@@ -91,14 +93,17 @@ class SoundManager {
 
   /**
    * 
-   * @param {String[]|String} soundNames Array or String of sound names
+   * @param {String[]|Array.<string[]>|String} soundNames Array of String or of String array for sprite id or String of sound names
    * @param {String} spriteName String of sprite name
    * @param {Boolean} fade  Stop with fade
    */
   stop(soundNames, spriteName = null, fade) { 
     const stop = (name, spriteName) => {
-      var sound, 
-      id = this.playingSounds.get(name);
+      var sound;
+      var id = this.playingSounds.get(name);
+      if(spriteName) {
+        id = this.playingSounds.get(this.getSpriteSoundName(name, spriteName));
+      }
       
       if(spriteName) {
         sound = this.getSpriteSound(name, spriteName);
@@ -108,13 +113,16 @@ class SoundManager {
         console.log('- A -- stop', name);
       }
       if(fade) {
-        this.fade(sound, 'out', id);
-        sound.once('fade', () => sound.stop(id));
+        this.fade(sound, 'out', 1000, id);
+        sound.once('fade', () => {
+          console.log('- A -- on fade stop', id);
+          sound.stop(id)
+        });
       } else {
         sound.stop(id);
       }
       if(spriteName) {
-        this.playingSounds.delete(name + '.' + spriteName);  
+        this.playingSounds.delete(this.getSpriteSoundName(name, spriteName));  
       } else {
         this.playingSounds.delete(name);
       }
@@ -162,6 +170,7 @@ class SoundManager {
       console.error('define fade type "in" or "out"');
     }    
     if(id) {
+      console.log('fade out', id);
       sound.fade(from, to, duration, id)
     } else {
       sound.fade(from, to, duration)
@@ -198,6 +207,7 @@ class SoundManager {
             const tmpSoundData = soundsData.find(soundData => soundData.name === soundName[0]);
             if(soundName[1] && tmpSoundData) {
               if(Object.keys(tmpSoundData.sprite)[0] !== soundName[1]) {
+                console.log('- A -- call stop ', soundName[0], soundName[1]);
                 this.stop(soundName[0], soundName[1], true);
               }
             }
@@ -253,11 +263,11 @@ class SoundManager {
   */
  addSpriteSound(data, sprite) {
    Object.keys(sprite).forEach((key,index) => {
-    const name = data.name + '.' + key;
+    const name = this.getSpriteSoundName(data.name, key);
     if(!this.sounds.has(name)) {
       let soundObject = data.sound;
       if(data.options) {
-        soundObject = this.assignOptions(data.sound, data.options);
+        soundObject = this.assignOptions(soundObject, data.options);
       }
       soundObject._sprite[key] = sprite[key];
       this.sounds.set(name, soundObject);
@@ -271,11 +281,20 @@ class SoundManager {
   * @param {String} spriteName sprite sound name
   */
   getSpriteSound(name, spriteName) {
-    return this.getSound(name + '.' + spriteName);
+    return this.getSound(this.getSpriteSoundName(name, spriteName));
   }
 
   splitSpriteName(name) {
     return name.split('.');
+  }
+
+  /**
+   * Get sprite sound name 
+   * @param {String} name main sound name
+   * @param {String} spriteName sprite name in main sound 
+   */
+  getSpriteSoundName(name, spriteName) {
+    return name + '.' + spriteName;
   }
 
   /**

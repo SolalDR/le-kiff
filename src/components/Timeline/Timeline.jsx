@@ -18,7 +18,8 @@ class Timeline extends React.Component {
     super(props);
     this.state = {
       current: 0,
-      reveal: false
+      reveal: false,
+      hover: null
     };
   }
 
@@ -47,6 +48,12 @@ class Timeline extends React.Component {
     this.props.onStepChangeCallBack(rank);
     this.updateProgressBar(rank);
   };
+
+  onMouse = rank => {
+    this.setState({
+      hover: rank
+    });
+  }
 
   updateProgressBar(rank) {
     const offset = this.itemWidth * (rank - 1);
@@ -117,7 +124,9 @@ class Timeline extends React.Component {
             key={rank}
             title={this.props.steps[rank - 1].title}
             rank={rank}
+            hover={this.state.hover}
             onSelectCallback={this.onSelect}
+            onMouseCallback={this.onMouse}
             active={this.props.current === rank}
             isPassed={this.props.current > rank}
           />

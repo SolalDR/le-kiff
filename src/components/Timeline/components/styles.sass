@@ -26,6 +26,7 @@
       display: block
       padding: 10px
       z-index: 2
+      opacity: 0.5
       cursor: none
       pointer-events: all
       transform: translateY(-50%) translateX(-50%) scale(1)
@@ -62,6 +63,7 @@
       .timeline
         &__item__button
           transform: translateY(-50%) translateX(-50%) scale(1.3)
+          opacity: 1
 
           &:after
             background-color: $color-secondary
@@ -69,17 +71,32 @@
         &__item__title
           opacity: 1
           transform: translateY(0) translateX(-50%)
+
+      &.is-semi-hidden
+        .timeline__item__title
+          opacity: 0
+          transform: translateX(-50%) translateY(5px)
     
     &.is-passed
       .timeline
         &__item__button
           &:after
             background-color: $color-secondary
+            
 
     &:hover
-      .timeline__item__title
-        opacity: 1
-        transform: translateY(0) translateX(-50%)
+      .timeline__item
+        &__title
+          opacity: 1
+          transform: translateY(0) translateX(-50%)
+
+        &__button
+          opacity: 1
+
+          &:after
+            background-color: $color-secondary
+
+      
 
   //Responsive
   @include up-desktop()

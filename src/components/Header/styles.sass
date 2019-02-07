@@ -69,7 +69,6 @@
     opacity: 0
     color: $color-secondary
     text-decoration: none
-    pointer-events: none
     transition: 
       duration: $t-duration
       property: transform, opacity
@@ -81,7 +80,11 @@
       
     .header__link 
       transform: translateY(0)
-      opacity: 1
+      opacity: .5
+
+      &:hover
+        transform: scale(1.1)
+        opacity: 1
 
     .header__menu--close
       opacity: 1

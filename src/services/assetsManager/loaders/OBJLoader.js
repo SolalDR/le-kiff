@@ -406,7 +406,6 @@ var OBJLoader = ( function () {
 
 		parse: function ( text ) {
 
-			console.time( 'OBJLoader' );
 
 			var state = new ParserState();
 
@@ -783,8 +782,6 @@ var OBJLoader = ( function () {
 				container.add( mesh );
 
 			}
-
-			console.timeEnd( 'OBJLoader' );
 
 			return container;
 

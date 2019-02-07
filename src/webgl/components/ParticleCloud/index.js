@@ -27,8 +27,6 @@ class ParticleCloud {
       this.geometry.verticesNeedsUpdate = true;
     }
 
-    console.log(this.config)
-
     this.material = new THREE.ShaderMaterial({
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,

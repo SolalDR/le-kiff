@@ -66,7 +66,6 @@ export default class extends Step {
     // Animation leaf
     ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);
     ModelAnimationManager.play('hang-out').then((e) => {
-      SoundManager.play('chapter_1_trigger', 'step_2_02_h1_aie_ca_fait_mal');
 
       var mainPosition = this.leaf.scene.position.clone();
       var mainRotation = this.leaf.scene.rotation.toVector3();
@@ -88,6 +87,7 @@ export default class extends Step {
       }).on("end", () => {
         this.leafClouds.object3D.position.set(0, 0, -15);
         this.leafClouds.object3D.material.opacity = 1;
+        SoundManager.play('chapter_1_trigger', 'step_2_03_h1_celle_la_est_belle');
       }))
 
       

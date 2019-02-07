@@ -48,6 +48,10 @@ export default baseConfig.extends({
     {
       name: 'chapter_1_trigger',
       spriteName: 'step_2_01_feuille_arrachee'
+    },
+    {
+      name: 'chapter_1_trigger',
+      spriteName: 'step_2_02_h1_aie_ca_fait_mal'
     }
   ],
   micro: {

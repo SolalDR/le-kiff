@@ -12,8 +12,23 @@ class Header extends React.Component {
     super(props);
     this.state = {
       menuOpen: false,
-      menuPosY: 0
+      menuPosY: 0,
+      menuHovered: false
     }
+  }
+
+  onMouseOver = () => {
+    this.setState({
+      ...this.state,
+      menuHovered: true
+    })
+  }
+
+  onMouseOut = () => {
+    this.setState({
+      ...this.state,
+      menuHovered: false
+    })
   }
 
   handleToggleMenu = (e)=>{
@@ -29,7 +44,7 @@ class Header extends React.Component {
   }
   
   render () {
-    let menu = this.state.menuPosY > 0 ? <Menu open={this.state.menuOpen} menuPosY={this.state.menuPosY} closeCallback={this.handleToggleMenu} /> : null;
+  let menu = this.state.menuPosY > 0 ? <Menu open={this.state.menuOpen} menuPosY={this.state.menuPosY} closeCallback={this.handleToggleMenu} hover={this.state.menuHovered} /> : null;
     const headerClass = this.state.menuOpen ? "header is-active" : "header";
     return (
       <div className={headerClass}>
@@ -45,7 +60,7 @@ class Header extends React.Component {
                 </Link>
               </div>
 
-              <button className="header__menu" onClick={this.handleToggleMenu} ref={this.initPos}>
+            <button className="header__menu" onClick={this.handleToggleMenu} ref={this.initPos} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}>
                 <span className="header__menu--close"></span>
               </button> 
             </div>

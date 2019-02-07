@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import "./styles.sass";
 import { getChapters } from "../../services/stores/reducers/selectors";
 import PropTypes from 'prop-types';
-import LetterReveal from "~/components/LetterReveal/LetterReveal";
 
 class Menu extends React.PureComponent {
 
   static propTypes = {
     open: PropTypes.bool.isRequired,
-    menuPosY: PropTypes.number.isRequired
+    menuPosY: PropTypes.number.isRequired,
+    hover: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -26,15 +26,18 @@ class Menu extends React.PureComponent {
   }
 
   initPositions = (itemList) => {
+    
     [].forEach.call(itemList, (item, index) => {
       const expand = item.querySelector(".menu__item__expand");
       const content = item.querySelector(".menu__item__content");
       const posY = item.getBoundingClientRect().top;
+      const burgerPosY = (- (posY - this.props.menuPosY));
 
       this.sizes[index] = {
         height: expand.scrollHeight + content.scrollHeight * .5,
         posY: posY,
-        burgerPosY: (- (posY - this.props.menuPosY)) + this.gap * index
+        burgerPosY: burgerPosY + this.gap * index,
+        burgerPosYHover: burgerPosY + this.gap * 1.5 * index
       }
     });
     this.setState({
@@ -74,7 +77,8 @@ class Menu extends React.PureComponent {
   renderMenuItems() {
     return this.props.chapters.map((chapter, index) => {
       const size = this.sizes.length > 0 ? this.sizes[index] : null;
-      const transform = this.props.open || !size ? "translateX(0)" : `translateY(${size.burgerPosY}px)`;
+      let transform = this.props.open || !size ? "translateX(0)" : `translateY(${size.burgerPosY}px)`;
+      transform = size && this.props.hover ? `translateY(${size.burgerPosYHover}px)` : transform;
       const height = this.state.current === chapter.rank ? size.height : 0;
       const className = this.state.current === chapter.rank ? 'menu__item is-active' : 'menu__item';
 

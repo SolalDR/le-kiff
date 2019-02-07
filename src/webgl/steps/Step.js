@@ -39,7 +39,7 @@ class Step extends Event {
     }
 
     this.parentGUI = GUI["guiChapter"+this.chapter_rank];
-    this.gui = this.parentGUI.addFolder("Step "+this.rank);
+    this.gui = GUI.active ? this.parentGUI.addFolder("Step "+this.rank) : null;
   }
 
   getRemovableObject(step){

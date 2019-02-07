@@ -108,6 +108,7 @@ export default class extends Step {
   }
 
   initGUI(){
+    if( !this.gui ) return; 
     if( !this.folder.leafCloud ) {
       this.folder.leafCloud = this.gui.addFolder("Leaf Cloud");
       this.folder.leafCloud.addMesh("Mesh", this.leafClouds.object3D);

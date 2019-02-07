@@ -1,5 +1,6 @@
 import { MicroScale, HumanScale, MacroScale} from "./components/Scale/index";
 import {AnimationManager, ControllerManager, InfoManager} from "./manager";
+import AssetsManager from "~/services/assetsManager/AssetsManager";
 
 import * as THREE from "three";
 import Clock from "./helpers/Clock";
@@ -13,6 +14,7 @@ import Bus from "../helpers/Bus";
 import ConfigManager from "../services/ConfigManager";
 import defaultConfig from "./steps/config";
 import ModelAnimationManager from "./manager/ModelAnimation";
+import {init as initChapter1} from "./steps/chapter1"
 
 class WebGL {
 
@@ -121,7 +123,9 @@ class WebGL {
       this.step.hide( newStep );
       return;
     }
-
+    
+    
+    // .init(AssetsManager.loader.getFiles("chapter-1"), this.scene);
     // First step displayed
     this.step = new Step({
       scene: this,
@@ -129,7 +133,8 @@ class WebGL {
     });
     this.step.init();
     History.registerStep(this.step);
-    
+    initChapter1(AssetsManager.loader.getFiles("chapter-1"), this)
+
     this.humanScale.group.visible = true
     this.microScale.group.visible = true
     this.macroScale.group.visible = true

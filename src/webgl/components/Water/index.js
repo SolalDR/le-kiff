@@ -5,18 +5,30 @@ import smoothFragment from "./smoothFragment.glsl";
 import SimplexNoise from "simplex-noise";
 var waterShader = { fragment, vertex, smoothFragment };
 
+var config = {
+  width: 64, 
+  bounds: 15, 
+  boundsHalf: 16,
+  effects: {
+    mouseSize: 0.1, 
+    viscosity: 0.0000001
+  },
+  color: new THREE.Color("rgb(45, 82, 20)")
+}
+
+var geometry = new THREE.BoxBufferGeometry(
+  config.bounds, 
+  10,
+  config.bounds,
+  config.width - 1, 
+  config.width - 1,
+  config.width - 1
+);
+
 class Water {
+
   constructor(args = {}){
-    this.config = {
-      width: 64, 
-      bounds: 15, 
-      boundsHalf: 16,
-      effects: {
-        mouseSize: 0.1, 
-        viscosity: 0.0000001
-      },
-      color: new THREE.Color("rgb(45, 82, 20)")
-    }
+    this.config = config;
     this.renderer = args.renderer; 
     this.heightmap = null;
     this.mesh = null;
@@ -33,21 +45,7 @@ class Water {
   }
 
   init(){
-    this.geometry = new THREE.PlaneBufferGeometry( 
-      this.config.bounds,
-      this.config.bounds,
-      this.config.width - 1,
-      this.config.width - 1
-    );
-
-    this.geometry = new THREE.BoxBufferGeometry(
-      this.config.bounds, 
-      10,
-      this.config.bounds,
-      this.config.width - 1, 
-      this.config.width - 1,
-      this.config.width - 1
-    );
+    this.geometry = geometry;
 
     this.material = new THREE.ShaderMaterial({
       uniforms: THREE.UniformsUtils.merge( [
@@ -93,7 +91,6 @@ class Water {
   initGpuRenderer(){
     this.computationRenderer = new GPUComputationRenderer( this.config.width, this.config.width, this.renderer );
     var heightmap0 = this.computationRenderer.createTexture();
-
     this.fillTexture( heightmap0, false );
 
     this.heightmapVariable = this.computationRenderer.addVariable( "heightmap", waterShader.fragment, heightmap0 );
@@ -202,6 +199,5 @@ class Water {
     }
   }
 }
-
 
 export default Water;

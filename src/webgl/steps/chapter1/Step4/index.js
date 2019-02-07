@@ -43,7 +43,7 @@ export default class extends Step {
     if( previousStep.water) {
       this.water = this.previousStep.water;
     } else {
-      this.water = new Water({ renderer: Renderer.renderer });
+      this.water = this.water = Renderer.water;
       this.water.mesh.position.y = -2;
       this.water.mesh.position.z = 7;
       this.water.mesh.scale.x = 2;
@@ -62,11 +62,10 @@ export default class extends Step {
 
     // Particle cloud
     if( previousStep.particleCloud ){
-      this.particleCloud = previousStep.particleCloud;  
+      this.particleCloud = previousStep.particleCloud;
     } else {
       this.particleCloud = new ParticleCloud({ gui: this.gui, config: configStep3.particleConfig });
       this.scene.humanScale.group.add(this.particleCloud.object3D);
-      this.particleCloud.object3D.frustumCulled = false;
       this.particleCloud.object3D.position.y = -5;
       this.particleCloud.material.uniforms.u_size.value = 7;
     }
@@ -157,6 +156,7 @@ export default class extends Step {
 
 
   initGUI(){
+    if( !this.gui ) return; 
     if( !this.folder.water ){
       this.folder.water = this.gui.addFolder("Water");
       var a = { explode: () => { this.water.drop(0, -2.49, Math.random()*0.5 + 0.5) } }

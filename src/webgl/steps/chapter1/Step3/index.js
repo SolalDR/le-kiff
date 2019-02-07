@@ -39,7 +39,7 @@ export default class extends Step {
     this.leaf.name = config.modelAnimation.name;
     this.leafClouds = previousStep.leafClouds;
     
-    this.water = new Water({ renderer: Renderer.renderer });
+    this.water = Renderer.water;
     this.water.mesh.scale.x = 2;
     this.water.mesh.position.y = -15;
     this.water.mesh.position.z = 7;
@@ -134,6 +134,7 @@ export default class extends Step {
 
 
   initGUI(){
+    if( !this.gui ) return; 
     if( !this.folder.water ){
       this.folder.water = this.gui.addFolder("Water");
       var a = { explode: () => { this.water.drop(Math.random(), Math.random(), Math.random()*0.5 + 0.5) } }

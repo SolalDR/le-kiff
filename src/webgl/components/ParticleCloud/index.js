@@ -1,6 +1,7 @@
 import {Brownian} from "noisadelic";
 import vertexShader from "./vertex.glsl";
 import fragmentShader from "./fragment.glsl";
+import Renderer from "~/webgl/rendering/Renderer";
 
 class ParticleCloud {
 
@@ -8,14 +9,6 @@ class ParticleCloud {
     gui = null,
     config = null
   } = {}) {
-    var noise = new Brownian({rgb: true});
-    var texture = new THREE.Texture(noise.convertImage());
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.x = 512;
-    texture.repeat.y = 512;
-
-    texture.needsUpdate = true;
     this.config = config;
     this.geometry = new THREE.Geometry();
     for(var i=0; i < this.config.count; i++){
@@ -31,7 +24,7 @@ class ParticleCloud {
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       uniforms: {
-        u_texture: {type: "t", value: texture},
+        u_texture: {type: "t", value: Renderer.noise},
         u_noise_amplitude: {type: "v3", value: this.config.noise_amplitude},
         u_amplitude: {type: "v3", value: this.config.amplitude},
         u_time: {type: "f", value: 0},
@@ -42,6 +35,8 @@ class ParticleCloud {
     })
 
     this.object3D = new THREE.Points(this.geometry, this.material);
+    this.object3D.frustumCulled = false;
+
     this.object3D.position.copy(this.config.position);
     this.initGui(gui);
   }

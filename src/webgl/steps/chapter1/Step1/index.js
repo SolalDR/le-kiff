@@ -64,6 +64,7 @@ export default class extends Step {
   }
 
   initGUI(){
+    if( !this.gui ) return;
     // add leaf folder if doesn't exist
     if(!this.folder.leaf){
       this.folder.leaf = this.gui.addObject3D("Leaf",  this.leaf.scene, false);

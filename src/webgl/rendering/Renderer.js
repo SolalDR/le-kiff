@@ -1,9 +1,11 @@
-import EffectComposer, {RenderPass} from "@johh/three-effectcomposer"
+import EffectComposer, {RenderPass} from "@johh/three-effectcomposer";
 import UnrealBloomPass from "./Pass/UnrealBloomPass";
 import BokehPass from "./Pass/BokehPass";
 import {guiRendering} from "~/services/gui";
-import Viewport from "~/helpers/Viewport"
-import config from './config'
+import Viewport from "~/helpers/Viewport";
+import config from './config';
+import {Brownian} from "noisadelic";
+import Water from "../components/Water";
 
 class Renderer {
   constructor() {
@@ -29,11 +31,28 @@ class Renderer {
   } = {}){
     this.scene = scene;
     this.camera = camera;
+
+
     element.appendChild(this.renderer.domElement);
 
     //this.initLights();
     this.initPostprocess();
     this.initEvents();
+    this.initNoise();
+    this.initWater();
+  }
+
+  initWater(){
+    this.water = new Water({ renderer: this.renderer });
+  }
+
+  initNoise(){
+    this.noise = new THREE.Texture(new Brownian({rgb: true}).convertImage());
+    this.noise.wrapS = THREE.RepeatWrapping;
+    this.noise.wrapT = THREE.RepeatWrapping;
+    this.noise.repeat.x = 512;
+    this.noise.repeat.y = 512;
+    this.noise.needsUpdate = true;
   }
 
   initPostprocess(){

@@ -55,6 +55,8 @@ export default class extends Step {
     // Background
     if( previousStep.background ){
       this.background = previousStep.background;
+    }
+    if( previousStep.rank !== this.rank - 1){
       this.background.changeBackground(ressources.background3.result)
     }
 

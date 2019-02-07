@@ -64,7 +64,7 @@ class Water {
     this.material.lights = true;
 
     // Material attributes from MeshPhongMaterial
-    this.material.color = new THREE.Color( this.config.color );
+    this.material.color = this.config.color;
     this.material.specular = new THREE.Color( 0xFFFFFF );
     this.material.shininess = 100;
     this.material.transparent = true;

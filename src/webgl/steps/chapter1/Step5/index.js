@@ -1,6 +1,9 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import config from "./config";
+import SimplexNoise from "simplex-noise";
+import Renderer from "~/webgl/rendering/Renderer"
+import { AnimationManager, Animation } from "../../../manager";
 
 /**
  * @constructor
@@ -9,6 +12,7 @@ import config from "./config";
 export default class extends Step {
   constructor(params){
     super(params, ["background", "sphere"]);
+    this.simplex = new SimplexNoise();
   }
   /**
    * This method initialize the step and 
@@ -29,10 +33,29 @@ export default class extends Step {
    * @param {*} event
    */
   displayHumanScale( ressources, previousStep ){
-    this.main = new THREE.Mesh( new THREE.SphereGeometry(1,16,16), new THREE.MeshPhongMaterial({ color: 0x00FF00 }) );
-    this.main.name = "sphere";
-  
-    this.scene.humanScale.group.add(this.main);
+    if( previousStep.rank === this.rank - 1 ){
+      this.pasta = previousStep.pasta;
+      this.water = previousStep.water;
+      this.particleCloud = previousStep.particleCloud;
+    }
+
+    this.water.mesh.position.y = -10;
+    this.water.material.uniforms.diffuse.value = new THREE.Color("rgb(128, 128, 128)");
+    
+    this.scene.humanScale.group.add(this.water.mesh);
+
+
+    AnimationManager.addAnimation(
+      new Animation({ duration: 4000, delay: 2000 })
+        .on("progress", (event)=>{
+          this.water.mesh.position.y = -10 + 8*event.advancement;
+        })
+        .on("end", ()=>{
+          this.water.mesh.position.y = -2;
+        }) 
+    )
+
+    this.scene.humanScale.group.add(this.pasta.scene);
   }
 
   hide(newStep) {
@@ -45,7 +68,12 @@ export default class extends Step {
     super.hide(newStep);
   }
 
-  loop(){
+  loop(time){
+    this.water.render();
+    this.particleCloud.render()
+
+    this.pasta.render(time);
+
     super.loop();
   }
 }

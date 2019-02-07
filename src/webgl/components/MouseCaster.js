@@ -74,13 +74,13 @@ class MouseCaster extends Event {
   }
 
   render(){
-    // if( this.needIntersect ){
-    //   var intersect = this.intersect();
-    //   if( this.mouseClick ){
-    //     this.dispatch("click", intersect);
-    //   }
-    //   this.mouseClick = false;
-    // }
+    if( this.needIntersect ){
+      var intersect = this.intersect();
+      if( this.mouseClick ){
+        this.dispatch("click", intersect);
+      }
+      this.mouseClick = false;
+    }
   }
 
 }

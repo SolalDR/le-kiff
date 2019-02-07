@@ -42,5 +42,12 @@ export default baseConfig.extends({
         }
       }
     }
+  },
+
+  // TODO Extend config water
+  water: {
+    color: new THREE.Color("rgb(100, 85, 14)"),
+    position: new THREE.Vector3(0, -2, 7),
+    scale: new THREE.Vector3(2, 1, 1)
   }
 })

@@ -58,28 +58,36 @@ export default class extends Step {
     this.scene.humanScale.group.add(this.leaf.scene);
 
     // Add to config
-    var waterStartTime = 11000;
-    var leafCutStartTime = 9500;
+    var leafCutDelay = 11000;
+    var waterDelay = leafCutDelay + 1500;
 
     // Generate sound clips
-    ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options)
+    var modelAnimLeaf = ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options)
     
     setTimeout(() => {
         SoundManager.play('chapter_1_trigger', 'step_3_02_feuille_decoupe');
-        ModelAnimationManager.playFrom(this.leaf.name, 'cut');
-    }, leafCutStartTime);
+        modelAnimLeaf.play('cut');
+        //ModelAnimationManager.playFrom(this.leaf.name, 'cut');
+    }, leafCutDelay);
 
 
     setTimeout(()=>{
       this.water.drop(0, -5, 1)
-    }, waterStartTime + 300)
+      SoundManager.play('chapter_1_trigger', 'step_3_03_entree_eau');
+      setTimeout(() => {
+        SoundManager.addEffect('moogfilter');
+        console.log(SoundManager.soundEffectManager);
+        SoundManager.volume = 1;
+        SoundManager.play('chapter_1_trigger', 'step_3_04_ambiance_eau');
+      }, 500)
+    }, waterDelay + 300)
 
     // Leaf clouds fall and water rise, hide leaf
     var fromAperture = Renderer.getBokehAperture();
     var fromPosition = this.leaf.scene.position.y;
     AnimationManager.addAnimation(new Animation({
       duration: 1500,
-      delay: waterStartTime,
+      delay: waterDelay,
       timingFunction: "easeOutQuad"
     }).on("progress", (event) => {
       this.leafClouds.object3D.position.y = - event.advancement*20;
@@ -89,13 +97,19 @@ export default class extends Step {
 
       Renderer.setBokehAperture(fromAperture + event.advancement * 4)
     }).on("end", (event)=>{
+      setTimeout(() => {
+        SoundManager.play('chapter_1_trigger', 'step_3_05_h1_ajoute_le_kerosene', {
+          volume: 0.5
+        });
+      }, 3700)
+      
       this.scene.humanScale.group.remove(this.leaf.scene);
 
       // Hide leaf clouds
       var fromColor = this.water.material.uniforms.diffuse.value.clone();
       var toColor = configStep4.water.color;
       AnimationManager.addAnimation(
-        new Animation({duration: 5000,delay: 0,timingFunction: "easeOutQuad"})
+        new Animation({duration: 7000,delay: 4000,timingFunction: "easeOutQuad"})
           .on("progress", (event) => {
             this.leafClouds.object3D.position.y = -20 - event.advancement*20;
             this.leafClouds.object3D.material.opacity = 1 - event.advancement;
@@ -110,6 +124,14 @@ export default class extends Step {
             this.water.material.uniforms.diffuse.value = toColor;
             this.scene.humanScale.group.remove(this.leafClouds.object3D);
             this.scene.humanScale.group.add(this.particleCloud.object3D);
+
+            SoundManager.play('chapter_1_trigger', 'step_3_07_h2_c_est_bon').then(() => {
+              SoundManager.play('chapter_1_trigger', 'step_3_08_h1_on_est_bons').then(() => {
+                SoundManager.play('chapter_1_trigger', 'step_3_10_h2_ok').then(() => {
+                  SoundManager.play('chapter_1_trigger', 'step_3_11_draine');
+                })
+              })
+            })
           })
       );
     }));
@@ -117,7 +139,7 @@ export default class extends Step {
     // Leaf cloud disapear & replace
     AnimationManager.addAnimation(new Animation({
       duration: 750,
-      delay: 500,
+      delay: waterDelay,
       timingFunction: "easeOutQuad"
     }).on("progress", (event)=>{
       this.leafClouds.object3D.material.opacity = 1. - event.advancement;

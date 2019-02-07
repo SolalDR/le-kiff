@@ -6,8 +6,8 @@ export default {
     {
       name: 'MoogFilter',
       params: {
-        cutoff: 0.15,    //0 to 1
-        resonance: 3.2,   //0 to 4
+        cutoff: 0.5,    //0 to 1
+        resonance: 3,   //0 to 4
         bufferSize: 4096,  //256 to 16384,
         intensity: {
           value: 1,

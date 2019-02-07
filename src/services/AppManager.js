@@ -23,16 +23,16 @@ class AppManager {
     AssetsManager.loader.loadGroup("global");
     
     AssetsManager.loader.once("load:global", (event)=>{
+      this.addSoundsFrom(globalSoundsData, event);
       AssetsManager.loader.loadGroup("chapter-1");
       Bus.verbose("loader:global");
       store.dispatch(setLoadedAssets('global'));
-      this.addSoundsFrom(globalSoundsData, event);
     })
     
     AssetsManager.loader.on("load:chapter-1", (event) => {
+      this.addSoundsFrom(chapter1SoundDatas, event);
       Bus.verbose("loader:chapter-1");
       store.dispatch(setLoadedAssets('chapter-1'));
-      this.addSoundsFrom(chapter1SoundDatas, event);
     });
 
     this.unsubscribe = store.subscribe( () => {
@@ -59,6 +59,7 @@ class AppManager {
    * @param {Object} event 
    */ 
   addSoundsFrom(soundsData, event) {
+    console.log('--- add sounds from', soundsData, event);
     soundsData.forEach(data => {
       data.sound = event[data.name].result
       SoundManager.add(data);

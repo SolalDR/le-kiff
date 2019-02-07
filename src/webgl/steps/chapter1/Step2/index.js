@@ -71,13 +71,6 @@ export default class extends Step {
       var mainRotation = this.leaf.scene.rotation.toVector3();
       var targetRotation = new THREE.Vector3()
       const mainTransitionData = config.transitions.find(u => u.object === this.leaf.scene.name); 
-
-      // Sounds 
-      SoundManager.play('chapter_1_trigger', 'step_2_02_h1_aie_ca_fait_mal').then(() => {
-        SoundManager.play('chapter_1_trigger', 'step_2_03_h1_celle_la_est_belle').then(() => {
-          SoundManager.play('chapter_1_main_voice', 'step_2');
-        });
-      });
       
       AnimationManager.addAnimation(new Animation({
         duration: mainTransitionData.duration + 2000,
@@ -111,6 +104,15 @@ export default class extends Step {
         ModelAnimationManager.play('idle');
       });
     });
+
+    // Sounds
+    setTimeout(() => {
+      SoundManager.play('chapter_1_trigger', 'step_2_02_h1_aie_ca_fait_mal').then(() => {
+        SoundManager.play('chapter_1_trigger', 'step_2_03_h1_celle_la_est_belle').then(() => {
+          SoundManager.play('chapter_1_main_voice', 'step_2');
+        });
+      });
+    }, 500)
 
 
     

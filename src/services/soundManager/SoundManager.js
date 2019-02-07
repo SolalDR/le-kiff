@@ -46,21 +46,23 @@ class SoundManager {
    * We can pass a name or an array of names with sprite names
    * @param {Array.<string[]>|String} soundNames Array of Strings or String of sound names
    * @param {String} spriteName Sound sprite name
+   * @param {Object} options Sound play options apply once
+   * @param {Number} options.volume Volume from 0 to 1
+   * @param {Boolean} options.loop Sound looping
    * @return {Promise}
    */
-  play(soundNames, spriteName) {
+  play(soundNames, spriteName, options) {
     if(Array.isArray( soundNames )) {
       soundNames.forEach(sound => {
         // if sound sprite
         if(Array.isArray(sound)) {
-          this._play(sound[0], sound[1]);
+          this._play(sound[0], sound[1], options);
         } else {
-          this._play(sound);
+          this._play(sound, undefined, options);
         }
       })
     } else {
-      const playPromise = this._play(soundNames, spriteName);
-      return playPromise;
+      return this._play(soundNames, spriteName, options);
     }
   }
 
@@ -69,24 +71,28 @@ class SoundManager {
    * @private
    * @param {String} name main sound name
    * @param {String} spriteName sprite sound name
+   * @param {Object} options Sound play options apply once
+   * @param {Number} options.volume Volume from 0 to 1
+   * @param {Boolean} options.loop Sound looping
    * @return {Promise}
    */
-  _play(name, spriteName) {
+  _play(name, spriteName, options = {}) {
     var sound, id;
-      
+    var soundName = name;
     if(spriteName) {
-      sound = this.getSpriteSound(name, spriteName);
-      name = this.getSpriteSoundName(name, spriteName);
-      if(this.playingSounds.has(name)) return;
-      id = sound.play(spriteName);
-    } else {
-      sound = this.getSound(name);
-      if(this.playingSounds.has(name)) return;
-      id = sound.play();
+      soundName = this.getSpriteSoundName(name, spriteName);
     }
-    console.log('- A -- play', name, id, sound);
-    sound.volume(sound.defaultVolume); 
-    this.playingSounds.set(name, id); 
+    sound = this.getSound(soundName);
+    if(this.playingSounds.has(name)) return;
+    console.log('- A -- play', name, sound);
+    id = sound.play(spriteName ? spriteName : undefined);
+    
+    console.log('- A -- play', soundName, id, sound);
+    // set volume
+    sound.volume(options.volume ? options.volume : sound.defaultVolume); 
+    
+    // add name and id to playingSound
+    this.playingSounds.set(soundName, id);
 
     // return promise on sound ended
     return new Promise((resolve, reject) => {
@@ -271,6 +277,7 @@ class SoundManager {
       const soundObject = this.assignOptions(data.sound, data.options);
       this.sounds.set(data.name, soundObject);
     }
+    console.log('- A - Add sound', data.name, data);
    }
    if( Array.isArray( soundsData )) {
     soundsData.forEach((data) => {

@@ -1,7 +1,7 @@
 [{
   "name": "chapter_1_main_voice",
   "options": {
-    "volume": 0.9
+    "volume": 1
   },
   "sprite": {
     "step_1": [
@@ -66,7 +66,7 @@
 {
   "name": "chapter_1_trigger",
   "options": {
-    "volume": 0.7
+    "volume": 0.4
   },
   "sprite": {
     "step_2_01_feuille_arrachee": [

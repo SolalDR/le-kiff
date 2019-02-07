@@ -6,6 +6,7 @@ import Renderer from "~/webgl/rendering/Renderer"
 import ModelAnimationManager from "../../../manager/ModelAnimation";
 import AnimationManager, {Animation} from "../../../manager/Animation";
 import ParticleCloud from "~/webgl/components/ParticleCloud"
+import configStep4 from "./../Step4/config"
 
 /**
  * @constructor
@@ -81,7 +82,7 @@ export default class extends Step {
 
       // Hide leaf clouds
       var fromColor = this.water.material.uniforms.diffuse.value.clone();
-      var toColor = new THREE.Color("rgb(100, 85, 14)");
+      var toColor = configStep4.water.color;
       AnimationManager.addAnimation(
         new Animation({duration: 5000,delay: 0,timingFunction: "easeOutQuad"})
           .on("progress", (event) => {
@@ -158,6 +159,14 @@ export default class extends Step {
 
     if ( toRemove.includes("water") ){
       this.scene.humanScale.group.remove(this.water.mesh);
+    }
+
+    if ( toRemove.includes("leaf") ){
+      this.scene.humanScale.group.remove(this.leaf.scene);
+    }
+
+    if ( toRemove.includes("leafCloud") ){
+      this.scene.humanScale.group.remove(this.leafClouds.object3D);
     }
 
     super.hide(newStep);

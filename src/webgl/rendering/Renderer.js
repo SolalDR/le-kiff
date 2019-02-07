@@ -116,7 +116,7 @@ class Renderer {
   }
 
   getBokehFocus(){ return this.bokehPass.uniforms.focus.value; }
-  getBokehAperture(){ return this.bokehPass.uniforms.aperture.value; }
+  getBokehAperture(){ return this.bokehPass.uniforms.aperture.value / 0.00001; }
 
   /**
    * Postprocess setter bokeh

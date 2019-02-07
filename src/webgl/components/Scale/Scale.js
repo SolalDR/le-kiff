@@ -133,7 +133,6 @@ class Scale extends Event {
     if(!this.scene.lightPrimary.color.equals(c.light.primary.color))
       animates.push({ type: "color", object: this.scene.lightPrimary.color, from: this.scene.lightPrimary.color.clone(), to: c.light.primary.color });
 
-    console.log(animates);
     AnimationManager.addAnimation(new Animation({duration})
       .on("progress", (event) => {
         animates.forEach(item => {

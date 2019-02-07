@@ -43,7 +43,7 @@ class SoundManager {
 
   /**
    * 
-   * @param {String[]|Array.<string[]>|String} soundNames Array of String or of String array for sprite id or String of sound names
+   * @param {Array.<string[]>|String} soundNames Array of Strings or String of sound names
    * @param {String} spriteName Sound sprite name
    */
   play(soundNames, spriteName) {
@@ -53,18 +53,23 @@ class SoundManager {
       if(spriteName) {
         sound = this.getSpriteSound(name, spriteName);
         name = this.getSpriteSoundName(name, spriteName);
-        console.log('- A -- play', name, sound);
         if(this.playingSounds.has(name)) return;
         id = sound.play(spriteName);
-        console.log('- A -- play id', id);
       } else {
         sound = this.getSound(name);
-        console.log('- A -- play', name);
         if(this.playingSounds.has(name)) return;
         id = sound.play();
       }
+      console.log('- A -- play', name, id, sound);
       sound.volume(sound.defaultVolume); 
       this.playingSounds.set(name, id); 
+
+      // Remove from playing list when the sound finishes playing.
+      sound.on('end', () => {
+        if(this.playingSounds.has(name)) {
+          this.playingSounds.delete(name); 
+        }   
+      });
     }
     if(Array.isArray( soundNames )) {
       soundNames.forEach(sound => {
@@ -78,17 +83,6 @@ class SoundManager {
     } else {
       play(soundNames, spriteName);
     }
-  }
-  
-  /**
-   * Play all sounds from sounds[]
-   */
-  playAll() {
-    this.sounds.forEach((sound) => {
-      if(!sound.playing()) {
-        this.play(sound);
-      }
-    });
   }
 
   /**
@@ -142,15 +136,6 @@ class SoundManager {
   }
 
   /**
-   * stop all sounds
-   */
-  stopAll() {
-    this.sounds.forEach((sound) => {
-      this.stop(sound);
-    });
-  }
-
-  /**
    *
    * @param {Howler} sound Sound object to fade 
    * @param {Number} from Volume to fade from
@@ -192,13 +177,24 @@ class SoundManager {
   }
 
   /**
-   * Update playback sounds with sprite management
-   * @param {*} soundsData 
+   * Update currently playing sounds  
+   * @param {Object} soundsData soundsData to update from
    */
   updatePlayBack(soundsData) {
     // add new sounds
-    this.add(soundsData);
+    //this.add(soundsData);
+    // Assign new options
+    soundsData.forEach(data => {
+      if(data.options) {
+        let sound = this.getSound(data.name);
+        if(data.spriteName) {
+          sound = this.getSpriteSound(data.name, data.spriteName);
+        }
+        sound = this.assignOptions(sound, data.options);
+      }
+    })
 
+    // Stop sounds not playings
     this.playingSounds.forEach((id, name) => {
       
         if( !soundsData.find(soundData => soundData.name === name) ) {
@@ -206,7 +202,7 @@ class SoundManager {
           if(soundName[1]) {
             const tmpSoundData = soundsData.find(soundData => soundData.name === soundName[0]);
             if(soundName[1] && tmpSoundData) {
-              if(Object.keys(tmpSoundData.sprite)[0] !== soundName[1]) {
+              if(tmpSoundData.spriteName !== soundName[1]) {
                 console.log('- A -- call stop ', soundName[0], soundName[1]);
                 this.stop(soundName[0], soundName[1], true);
               }
@@ -219,8 +215,8 @@ class SoundManager {
 
     // play added sounds
     soundsData.forEach(data => {
-      if(data.sprite) {
-        this.play(data.name, Object.keys(data.sprite)[0]);
+      if(data.spriteName) {
+        this.play(data.name, data.spriteName);
       } else {
         this.play(data.name);
       }
@@ -297,6 +293,7 @@ class SoundManager {
     return name + '.' + spriteName;
   }
 
+  // TODO: unused
   /**
    * Remove a sound by is name
    * @param {string} name sound name 
@@ -310,6 +307,7 @@ class SoundManager {
     });
   }
 
+  // TODO: unused
   /**
    * Update sounds
    * @param {*} sounds 

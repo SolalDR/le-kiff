@@ -38,19 +38,16 @@ export default baseConfig.extends({
   }, 
   sounds: [
     {
-      name : "chapter_1_main_voice",
-      sprite: {
-        step_2: [
-          24000,
-          15000
-        ],
-      },
-      options : {
-        volume: 0.9
-      } 
+      name : 'chapter_1_main_voice',
+      spriteName: 'step_2'
     },
     {
-      name : "step_1_background_sound"
+      name : 'chapter_1_ambiance',
+      spriteName: 'step_2'
+    },
+    {
+      name: 'chapter_1_trigger',
+      spriteName: 'step_2_01_feuille_arrachee'
     }
   ],
   micro: {

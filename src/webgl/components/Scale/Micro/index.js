@@ -73,6 +73,8 @@ class MicroScale extends Scale {
 
   onUpdateConfig() {
     this.updateMoleculesMaterial();
+    this.updatePlaneMaterial();
+    this.updateParticleMaterial();
   }
 
   updateMoleculesMaterial(){
@@ -85,6 +87,14 @@ class MicroScale extends Scale {
     this.bondMaterial.emissive = this.config.bondMaterial.emissive;
     this.bondMaterial.envMapIntensity = this.config.bondMaterial.envMapIntensity; 
     this.bondMaterial.needsUpdate = true;
+  }
+
+  updatePlaneMaterial() {
+    this.plane.material.uniforms.u_color.value.set( this.config.colorPlane.color);
+  }
+
+  updateParticleMaterial() {
+    this.clouds.material.uniforms.u_color.value.set( this.config.particleConfig.color);
   }
 
   initMoleculeMaterial(mat){
@@ -131,6 +141,7 @@ class MicroScale extends Scale {
 
     // Color plane
     this.plane = new ColorPlane({ gui: guiMicro, config: this.config.colorPlane });
+
     this.plane.position.z = -100;
     guiMicro.addObject3D("Plane", this.plane)
     this.group.add(this.plane);
@@ -147,10 +158,14 @@ class MicroScale extends Scale {
    * Raf
    */
   loop(time){
-    if (this.plane ) {
-      this.plane.material.uniforms.u_time.value += 0.0005;
+    // if (this.plane ) {
+      // this.plane.material.uniforms.u_time.value += 0.0005;
+    // }
+    if( this.clouds ){
       this.clouds.render();
     }
+    
+
 
     this.moleculesGroup.children.forEach(molecule => {
       var position = this.config.molecules[molecule.name].position; 

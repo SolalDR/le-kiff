@@ -1,5 +1,6 @@
 import baseConfig from "./../../config";
 import colorPlane from "./../../../components/ColorPlane/config";
+import particleConfig from "~/webgl/components/ParticleCloud/config";
 
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
@@ -54,8 +55,13 @@ export default baseConfig.extends({
   ],
   micro: {
     colorPlane: colorPlane.extends({
-      color: new THREE.Color("rgb(0,123,38)")
+      color: new THREE.Color("rgb(28,75,30)")
     }),
+    bondMaterial: {
+      color: new THREE.Color("rgb(0, 158, 46)"),
+      emissive: new THREE.Color("rgb(51, 73, 59)"),
+      envMapIntensity: 1,
+    },
     molecules: {
       cocaine: {
         position: new THREE.Vector3(-1, 0, 2),
@@ -70,7 +76,33 @@ export default baseConfig.extends({
         scale: new THREE.Vector3(0.6, 0.6, 0.6)
       }
     },
-    atomMaterial: { }
+    particleConfig: particleConfig.extends({
+      color: new THREE.Color("rgb(114,248,145)"),
+      count: 3000,
+      spread: 0.2,
+      amplitude: new THREE.Vector3(40, 10, 34),
+      noise_amplitude: new THREE.Vector3(40, -25, 20),
+      speed: 0.00005,
+      size: 2.9,
+      position: new THREE.Vector3(0, -15, 0)
+    }),
+    rendering: {
+      toneMappingExposure: 0.7,
+      toneMappingWhitePoint: 1,
+      light: {
+        primary: {
+          intensity: 1,
+          decay: 1,
+          power: 13,
+          color: new THREE.Color("rgb(71, 183, 66)")
+        },
+        secondary: {
+          intensity: 1,
+          decay: 1,
+          power: 13,
+          color: new THREE.Color("rgb(155,220,151)")
+        }
+      }
+    }
   }
-
 })

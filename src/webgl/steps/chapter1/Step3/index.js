@@ -165,7 +165,9 @@ export default class extends Step {
 
   loop(time){
     super.loop();
-    this.leafClouds.render(time * 0.01);
+    if(this.leafClouds) {
+      this.leafClouds.render(time * 0.01);
+    }
     if( this.particleCloud ) {
       this.particleCloud.render()
     }

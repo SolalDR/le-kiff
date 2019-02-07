@@ -28,20 +28,17 @@ export default baseConfig.extends({
   },
   sounds: [
     {
-      name : "chapter_1_main_voice",
-      sprite: {
-        step_3: [
-          39000,
-          28000
-        ],
-      },
-      options : {
-        volume: 0.9
-      } 
+      name : 'chapter_1_main_voice',
+      spriteName: 'step_3'
     },
     {
-      name : "step_1_background_sound"
-    }
+      name : "chapter_1_ambiance",
+      spriteName: 'step_3'
+    },
+    {
+      name : 'chapter_1_trigger',
+      spriteName: 'step_3_01_h1_allez_c_est_parti'
+    },
   ],
   micro: {
     bondMaterial: {

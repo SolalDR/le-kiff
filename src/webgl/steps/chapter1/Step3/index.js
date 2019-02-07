@@ -7,6 +7,7 @@ import ModelAnimationManager from "../../../manager/ModelAnimation";
 import AnimationManager, {Animation} from "../../../manager/Animation";
 import ParticleCloud from "~/webgl/components/ParticleCloud"
 import configStep4 from "./../Step4/config"
+import SoundManager from "../../../../services/soundManager/SoundManager";
 
 /**
  * @constructor
@@ -56,19 +57,29 @@ export default class extends Step {
     this.scene.humanScale.group.add(this.main);
     this.scene.humanScale.group.add(this.leaf.scene);
 
+    // Add to config
+    var waterStartTime = 11000;
+    var leafCutStartTime = 9500;
+
+    // Generate sound clips
     ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options)
-    ModelAnimationManager.play('cut');
     
+    setTimeout(() => {
+        SoundManager.play('chapter_1_trigger', 'step_3_02_feuille_decoupe');
+        ModelAnimationManager.playFrom(this.leaf.name, 'cut');
+    }, leafCutStartTime);
+
+
     setTimeout(()=>{
       this.water.drop(0, -5, 1)
-    }, 300)
+    }, waterStartTime + 300)
 
     // Leaf clouds fall and water rise, hide leaf
     var fromAperture = Renderer.getBokehAperture();
     var fromPosition = this.leaf.scene.position.y;
     AnimationManager.addAnimation(new Animation({
       duration: 1500,
-      delay: 500,
+      delay: waterStartTime,
       timingFunction: "easeOutQuad"
     }).on("progress", (event) => {
       this.leafClouds.object3D.position.y = - event.advancement*20;

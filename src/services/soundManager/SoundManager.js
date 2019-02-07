@@ -46,6 +46,7 @@ class SoundManager {
    * We can pass a name or an array of names with sprite names
    * @param {Array.<string[]>|String} soundNames Array of Strings or String of sound names
    * @param {String} spriteName Sound sprite name
+   * @return {Promise}
    */
   play(soundNames, spriteName) {
     if(Array.isArray( soundNames )) {
@@ -58,7 +59,8 @@ class SoundManager {
         }
       })
     } else {
-      this._play(soundNames, spriteName);
+      const playPromise = this._play(soundNames, spriteName);
+      return playPromise;
     }
   }
 
@@ -67,6 +69,7 @@ class SoundManager {
    * @private
    * @param {String} name main sound name
    * @param {String} spriteName sprite sound name
+   * @return {Promise}
    */
   _play(name, spriteName) {
     var sound, id;
@@ -85,11 +88,15 @@ class SoundManager {
     sound.volume(sound.defaultVolume); 
     this.playingSounds.set(name, id); 
 
-    // Remove from playing list when the sound finishes playing.
-    sound.on('end', () => {
-      if(this.playingSounds.has(name)) {
-        this.playingSounds.delete(name); 
-      }   
+    // return promise on sound ended
+    return new Promise((resolve, reject) => {
+      sound.on('end', () => {
+        resolve({name, id, sound});
+        // Remove from playing list when the sound finishes playing.
+        if(this.playingSounds.has(name)) {
+          this.playingSounds.delete(name); 
+        }   
+      }, id);
     });
   }
 
@@ -214,17 +221,21 @@ class SoundManager {
     })
 
     // Stop sounds not playings
-    this.playingSounds.forEach((id, name) => {
-      
+    this.playingSounds.forEach((id, name) => {  
+        
+      // If playing sound not in input sound datas
         if( !soundsData.find(soundData => soundData.name === name) ) {
           const soundName = this.splitSpriteName(name);
+          console.log('- A -- sound to stop', soundName);
+          
+          // if is sprite sound
           if(soundName[1]) {
+            // find sprite sound from input data
             const tmpSoundData = soundsData.find(soundData => soundData.name === soundName[0]);
-            if(soundName[1] && tmpSoundData) {
-              if(tmpSoundData.spriteName !== soundName[1]) {
-                console.log('- A -- call stop ', soundName[0], soundName[1]);
-                this.stop(soundName[0], soundName[1], true);
-              }
+            // if main sound found compare spritenames and stop if differents
+            if(!tmpSoundData || tmpSoundData.spriteName !== soundName[1]) {
+              console.log('- A -- call stop ', soundName[0], soundName[1]);
+              this.stop(soundName[0], soundName[1], true);
             }
           } else { 
             this.stop(name, null, true);

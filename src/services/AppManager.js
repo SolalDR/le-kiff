@@ -59,8 +59,6 @@ class AppManager {
    * @param {Object} event 
    */ 
   addSoundsFrom(soundsData, event) {
-    console.log(event);
-    console.log(soundsData);
     soundsData.forEach(data => {
       data.sound = event[data.name].result
       SoundManager.add(data);

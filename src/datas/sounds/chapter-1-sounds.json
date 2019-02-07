@@ -33,7 +33,7 @@
 {
   "name": "chapter_1_ambiance",
   "options": {
-    "volume": 0.3,
+    "volume": 0.5,
     "loop": true
   },
   "sprite": {
@@ -66,7 +66,7 @@
 {
   "name": "chapter_1_trigger",
   "options": {
-    "volume": 0.3
+    "volume": 0.7
   },
   "sprite": {
     "step_2_01_feuille_arrachee": [

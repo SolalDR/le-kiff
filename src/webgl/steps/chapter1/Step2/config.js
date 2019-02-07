@@ -38,21 +38,13 @@ export default baseConfig.extends({
   }, 
   sounds: [
     {
-      name : 'chapter_1_main_voice',
-      spriteName: 'step_2'
-    },
-    {
       name : 'chapter_1_ambiance',
       spriteName: 'step_2'
     },
     {
-      name: 'chapter_1_trigger',
+      name : 'chapter_1_trigger',
       spriteName: 'step_2_01_feuille_arrachee'
     },
-    {
-      name: 'chapter_1_trigger',
-      spriteName: 'step_2_02_h1_aie_ca_fait_mal'
-    }
   ],
   micro: {
     colorPlane: colorPlane.extends({

@@ -1,6 +1,6 @@
 export default {
 
-  globalVolume: 0.5,
+  globalVolume: 0.7,
   // Full list here : https://github.com/Theodeus/tuna/wiki
   effects: [
     {

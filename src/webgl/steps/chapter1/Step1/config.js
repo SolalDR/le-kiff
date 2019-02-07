@@ -18,7 +18,7 @@ export default baseConfig.extends({
   ],
   sounds: [
     {
-      name : "chapter_1_main_voice",
+      name : 'chapter_1_main_voice',
       spriteName: 'step_1'
     },
     {

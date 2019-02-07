@@ -87,6 +87,7 @@
       property: background, transform, opacity
       duration: $t-duration
       timing-function: $t-timing-function
+
     &:before,
     &:after
       content: ""
@@ -96,11 +97,18 @@
       height: 2px
       background: currentColor
       transform-origin: center
+
     &:before
       transform: rotate(90deg)
+
     &:hover
-      opacity: .5
-      transform: scale(1.25)
+      transform: scale(1.2) rotate(45deg)
+      background: currentColor
+
+      &:before,
+      &:after
+        background: #CCCCCC
+
 
   &--visible
     display: block
@@ -109,22 +117,22 @@
     &:before
       opacity: 1
       transform: scale(1) rotate(-45deg)
+
     #{$self}__content
       visibility: visible
       opacity: 1
+
     #{$self}__title
       &:after
         opacity: 1
         transform: scale(1)
+
     #{$self}__pointer
       background: currentColor
-      transform: rotate(45deg)
+      transform: rotate(45deg) scale(1.3)
       &:before,
       &:after
         background: #CCCCCC
-      &:hover
-        opacity: 1
-        transform: scale(1)
 
   //Responsive
   @include up-desktop()

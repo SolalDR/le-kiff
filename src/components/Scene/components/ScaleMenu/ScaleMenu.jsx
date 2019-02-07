@@ -37,7 +37,7 @@ class ScaleMenu extends React.Component {
    * @param {string} scale The scale represented
    */
   computeClassName(scale){
-    return scale === this.props.scale ? 
+    return (scale === this.props.scale && !this.state.revealed) ? 
       "scale-menu__item is-active" : 
       "scale-menu__item";
   }
@@ -63,7 +63,7 @@ class ScaleMenu extends React.Component {
         onMouseOver={() => this.onMouseOver(rank)}
         onMouseOut={this.onMouseOut.bind(this)}
         onClick={this.handleClick.bind(this, item.scale)}>
-          <LetterReveal text={item.title} class={'scale-menu__text heading-8'} duration={0.15} delay={0.025} reveal={(this.state.revealed === rank) || (this.props.scale == item.scale) ? true : false} />
+          <LetterReveal text={item.title} class={'scale-menu__text heading-8'} duration={0.3} delay={0.015} reveal={(this.state.revealed === rank) || (this.props.scale == item.scale && !this.state.revealed ) ? true : false} />
       </button>)
     })
   }

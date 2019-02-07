@@ -27,12 +27,13 @@ $border-width: 2px
       position: absolute
       top: 50%
       left: 0
+      opacity: 0.5
       border: $border-width solid white
       transform: translateY(-50%)
       border-radius: 100%
       box-sizing: border-box
       transition:
-        property: background
+        property: background, transform
         duration: .4s
         timing-function: ease-out
 
@@ -64,21 +65,28 @@ $border-width: 2px
     &.is-active
       &::before
         background-color: white
+        opacity: 1
 
       .scale-menu__text
         opacity: 1
+
+    &:hover
+      &::before
+        background-color: white
+        opacity: 1
+        transform: translateY(-50%) scale(1.2)
 
   &__text
     top: 50%
     transform: translateY(-50%)
     pointer-events: none
     transition:
-      property: opacity
+      property: opacity, transform
       duration: $t-duration
       timing-function: ease-out
 
     .letter-reveal__item
-      top: 10px
+      top: 15px
       padding-right: 2.2px
       width: auto
 

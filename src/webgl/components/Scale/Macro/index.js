@@ -137,7 +137,7 @@ class MacroScale extends Scale {
    */
   updateFromStep(step){
     var infos = step.infos.filter(info => info.scale === "macro");
-    
+
     var zoningInfos = infos.filter(info => {
       if( info.attachment && info.attachment.type === "zoning" ) return true;
     });

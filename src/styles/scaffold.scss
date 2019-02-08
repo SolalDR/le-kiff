@@ -180,13 +180,11 @@ body {
 .teasing-3 {
   font-family: $font-secondary;
   font-weight: 400;
-  font-style: italic;
   font-size: 16px;
-  line-height: 18px;
+  line-height: 20px;
 
   &--bold {
     font-weight: 800;
-    font-style: normal;
   }
 
   @include desktop {

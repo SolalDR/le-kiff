@@ -1,7 +1,8 @@
 import React from "react";
 import "./styles.sass";
 import SoundManager from "~/services/soundManager/SoundManager";
-import InfoManager from "~/webgl/manager/Info"
+import InfoManager from "~/webgl/manager/Info";
+import InfoRange from '~/components/Scene/components/Info/InfoRange';
 
 class InfoPoint extends React.Component {
 
@@ -30,7 +31,7 @@ class InfoPoint extends React.Component {
     this.webGLInfo = InfoManager.findInfo(this.props.info.id);
   }
 
-  computedClassModifier(){
+  computedClassModifier() {
     return "info-point "
       + (this.state.visible ? "info-point--visible" : "info-point--hidden")
       + " "
@@ -51,16 +52,26 @@ class InfoPoint extends React.Component {
     });
   };
 
+  renderContent() {
+    switch (this.props.info.type) {
+      case 'question':
+        return <InfoRange rangeInfo={this.props.info.popin.range} answer={this.props.info.content} />
+        break;
+      default:
+        return  <div className="info-point__text teasing-3" dangerouslySetInnerHTML={{__html: this.props.info.content}}/>
+        break;
+    }
+  }
+
   render(){
     return (
       <div className={this.computedClassModifier()}
             style={this.computedStyle()}
-            onClick={this.handleClick}
             ref={(ref) => this.myRef = ref}> 
-        <div className="info-point__pointer"/>
+        <div className="info-point__pointer" onClick={this.handleClick}/>
         <div className="info-point__content">
           <h3 className="info-point__title heading-4">{this.props.info.title}</h3>
-          <div className="info-point__text teasing-3" dangerouslySetInnerHTML={{__html: this.props.info.content}}/>
+          {this.renderContent()}
         </div>
       </div>
     )

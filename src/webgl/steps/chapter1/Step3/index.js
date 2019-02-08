@@ -54,7 +54,6 @@ export default class extends Step {
     this.initGUI();
 
     this.scene.humanScale.group.add(this.water.mesh)
-    this.scene.humanScale.group.add(this.main);
     this.scene.humanScale.group.add(this.leaf.scene);
 
     // Generate sound clips
@@ -179,9 +178,6 @@ export default class extends Step {
 
   hide(newStep) {
     var toRemove = this.getRemovableObject(newStep);
-    if ( toRemove.includes("cube") ){
-      this.scene.humanScale.group.remove(this.main);
-    }
 
     if ( toRemove.includes("background") ){
       this.scene.humanScale.group.remove(this.background);

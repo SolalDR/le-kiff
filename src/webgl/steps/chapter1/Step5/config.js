@@ -43,6 +43,7 @@ export default baseConfig.extends({
       }
     }
   },
+<<<<<<< HEAD
   sounds: [
     {
       name : "chapter_1_ambiance",
@@ -56,4 +57,28 @@ export default baseConfig.extends({
       spriteName: 'step_5_01_h1_corriger_ph'
     },
   ],
+=======
+
+  human: {
+    rendering: {
+      light: {
+        primary: {
+          position: new THREE.Vector3(-5, 15, 0),
+          color: new THREE.Color("rgb(255, 255, 255)")
+        },
+        secondary: {
+          position: new THREE.Vector3(5, -10, 0),
+          color: new THREE.Color("rgb(255, 255, 255)")
+        }
+      }
+    }
+  },
+
+  // TODO Extend config water
+  water: {
+    color: new THREE.Color("rgb(128, 128, 200)"),
+    position: new THREE.Vector3(0, -2, 7),
+    scale: new THREE.Vector3(2, 1, 1)
+  }
+>>>>>>> step-5
 })

@@ -3,12 +3,12 @@ import AssetsManager from "~/services/assetsManager/AssetsManager"
 import config from "./config";
 import Water from "../../../components/Water";
 import Renderer from "~/webgl/rendering/Renderer"
-import ModelAnimationManager from "../../../manager/ModelAnimation";
 import SimplexNoise from "simplex-noise";
 import configStep3 from "./../Step3/config";
 import ParticleCloud from "~/webgl/components/ParticleCloud"
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import SoundManager from "../../../../services/soundManager/SoundManager";
+import Pasta from "./../components/Pasta"
 
 /**
  * @constructor
@@ -17,7 +17,6 @@ import SoundManager from "../../../../services/soundManager/SoundManager";
 export default class extends Step {
   constructor(params){
     super(params, ["background", "water"]);
-    this.pastaRocks = [];
     this.simplex = new SimplexNoise();
   }
   /**
@@ -80,54 +79,44 @@ export default class extends Step {
     }
 
     // Pasta Rock
-    this.pasta = ressources.step_4_pasta.result;
-    this.pasta.name = config.modelAnimation.name;
-    this.pasta.scene.name = config.modelAnimation.name + '_scene';
+    this.pasta = new Pasta({
+      object: ressources.step_4_pasta.result,
+      noise: this.simplex
+    })
+    this.pasta.noiseRocksIntensity = 3;
     this.scene.humanScale.group.add(this.pasta.scene);
-
-    this.pasta.scene.position.copy(new THREE.Vector3(0, 0, 0))
-    this.pasta.scene.scale.copy(new THREE.Vector3(0.7, 0.7, 0.7))
-
-    this.pastaRocks = this.pasta.scene.children[0].children;
-    this.pastaRocksDelay = this.pastaRocks.map(item => Math.random())
-    this.pastaRocksFinished = 0;
-    this.pastaRocksPositions = this.pastaRocks.map(rock => rock.position.clone());
-    this.pastaRocksRotations = this.pastaRocks.map(rock => rock.rotation.clone());
-    this.singleRockIntensity = 10;
-    this.rockIntensity = 2;
-
-    var modelAnimPasta = ModelAnimationManager.generateClips(this.pasta, config.modelAnimation.clips, config.modelAnimation.options);
     
-    this.animated = false;
-
     // Wait and rocks appear
+    this.pastaRocksFinished = 0;
     this.background.changeBackground(ressources.background4.result, 3000, 2000)
-    this.pastaRocks.forEach((rock, i) => {
+    this.pasta.state.animated = false;
+    this.pasta.rocks.forEach((rock, i) => {
       rock.scale.copy(new THREE.Vector3())
-      AnimationManager.addAnimation(new Animation({
-        delay: 3000 + this.pastaRocksDelay[i] * 2000, 
-        timingFunction: "easeOutQuad",
-        duration: 2000
-      })
-        .on("progress", (e)=>{
-          let scale = e.advancement/2;
+      AnimationManager.addAnimation(new Animation({ delay: 3000 + this.pasta.delays[i] * 2000,  timingFunction: "easeOutQuad", duration: 2000 })
+        .on("progress", (event)=>{
+          let scale = event.advancement/2;
           rock.scale.set(scale, scale, scale)
         })
         .on("end", ()=>{
           this.pastaRocksFinished++;
-          if( this.pastaRocksFinished === this.pastaRocks.length ){
-
+          if( this.pastaRocksFinished === this.pasta.rocks.length ){
             AnimationManager.addAnimation(new Animation({
-              duration: 4000
+              duration: 4000,
+              timingFunction: "easeOutQuad"
             }).on("progress", (event) => {
-              this.singleRockIntensity = 10 - 10*event.advancement
+              this.pasta.noiseRocksIntensity = 3 - 3*event.advancement
             }).on("end", ()=>{
+<<<<<<< HEAD
               this.animated = true;
 
               // TODO: animate pasta scale to 1.75
 
               // play pasta animation merge
               modelAnimPasta.play("main", {
+=======
+              this.pasta.state.animated = true;
+              this.pasta.modelAnimation.play("main", {
+>>>>>>> step-5
                 timeScale: 0.4
               }).then(() => {
                 // play sound main voice
@@ -187,7 +176,7 @@ export default class extends Step {
     if( !this.gui ) return; 
     if( !this.folder.water ){
       this.folder.water = this.gui.addFolder("Water");
-      var a = { explode: () => { this.water.drop(0, -2.49, Math.random()*0.5 + 0.5) } }
+      var a = { explode: () => { this.water.drop(0, -3, 0.2) } }
 
       this.folder.water.addMesh("Water mesh", this.water.mesh);
       this.folder.water.add(this.water.heightmapVariable.material.uniforms.mouseSize, "value", 0, 0.5).name("Size")
@@ -227,25 +216,8 @@ export default class extends Step {
     this.water.render();
     this.particleCloud.render()
 
-    if( !this.animated ){
-      for (let i = 0, l = this.pastaRocks.length; i < l; i++) {
-        const rock = this.pastaRocks[i];
-        const position = this.pastaRocksPositions[i];
-        const rotation = this.pastaRocksRotations[i];
-        rock.position.x = position.x + this.simplex.noise2D(position.x, time*0.2)*this.singleRockIntensity;
-        rock.position.y = position.y + this.simplex.noise2D(position.y, time*0.2)*this.singleRockIntensity;
-        rock.position.z = position.z + this.simplex.noise2D(position.z, time*0.2)*this.singleRockIntensity;
-        rock.rotation.x = rotation.x + this.simplex.noise2D(rotation.y, time*0.05)*this.singleRockIntensity*0.5;
-        rock.rotation.y = rotation.y + this.simplex.noise2D(rotation.y, time*0.05)*this.singleRockIntensity*0.5;
-      }
-    }
-    
-    if( this.rockIntensity ){
-      this.pasta.scene.position.y = this.simplex.noise2D(0, time*0.2)*this.rockIntensity * 0.15;
-      this.pasta.scene.rotation.y = this.simplex.noise2D(0.2, time*0.2)*this.rockIntensity * 0.5;
+    this.pasta.render(time);
 
-    }
-    
     super.loop();
   }
 }

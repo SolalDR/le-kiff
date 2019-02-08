@@ -33,6 +33,8 @@ class ParticleCloud {
         u_size: {type: "f", value: this.config.size}
       }
     })
+    
+    
 
     this.object3D = new THREE.Points(this.geometry, this.material);
     this.object3D.frustumCulled = false;

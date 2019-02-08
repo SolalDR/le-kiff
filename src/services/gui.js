@@ -23,6 +23,6 @@ export const guiMacro = gui.addFolder("Macro");
 export const guiMuman = gui.addFolder("Human");
 export const guiRendering = gui.addFolder("Rendering");
 export const guiChapter1 = gui.addFolder("Chapter 1");
-export const active = false
+export const active = true
 
 export default gui; 

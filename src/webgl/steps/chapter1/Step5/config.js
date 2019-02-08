@@ -43,7 +43,6 @@ export default baseConfig.extends({
       }
     }
   },
-<<<<<<< HEAD
   sounds: [
     {
       name : "chapter_1_ambiance",
@@ -57,7 +56,6 @@ export default baseConfig.extends({
       spriteName: 'step_5_01_h1_corriger_ph'
     },
   ],
-=======
 
   human: {
     rendering: {
@@ -80,5 +78,4 @@ export default baseConfig.extends({
     position: new THREE.Vector3(0, -2, 7),
     scale: new THREE.Vector3(2, 1, 1)
   }
->>>>>>> step-5
 })

@@ -106,17 +106,8 @@ export default class extends Step {
             }).on("progress", (event) => {
               this.pasta.noiseRocksIntensity = 3 - 3*event.advancement
             }).on("end", ()=>{
-<<<<<<< HEAD
-              this.animated = true;
-
-              // TODO: animate pasta scale to 1.75
-
-              // play pasta animation merge
-              modelAnimPasta.play("main", {
-=======
               this.pasta.state.animated = true;
               this.pasta.modelAnimation.play("main", {
->>>>>>> step-5
                 timeScale: 0.4
               }).then(() => {
                 // play sound main voice

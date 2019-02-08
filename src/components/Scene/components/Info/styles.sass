@@ -164,3 +164,163 @@
       left: 6px
       top: -16px
       width: 117px
+
+.info__range
+  $self: &
+  position: relative
+
+  &__answer,
+  &__question
+    position: absolute
+    left: 0
+    right: 0
+    transition:
+      property: opacity, visibility
+      duration: $t-duration * 1.5
+      timing-fucntion: $t-timing-function
+      
+  &__answer
+    opacity: 0
+    visibility: hidden
+
+  &__text
+    margin-top: 15px
+    opacity: 0
+    transform: translateY(30px)
+    transition: 
+      property: transform, opacity
+      duration: $t-duration * 2
+      timing-function: $t-timing-function
+
+    //States
+    &.is-visible
+      transform: translateY(0)
+      opacity: 1
+
+  &__wrapper
+    position: relative
+    width: 100%
+    margin-top: 10px
+    padding: 14px 0
+    display: flex
+    align-items: center
+    color: $color-secondary
+    pointer-events: all
+    cursor: none
+
+  &__slider
+    position: relative
+    width: 100%
+    padding: ($space-xs / 2) 0 
+    border-left: 1px solid $color-secondary
+    border-right: 1px solid $color-secondary
+    pointer-events: none
+
+    &:before
+      content: ''
+      position: absolute
+      left: 0
+      right: 0
+      height: 1px
+      background: $color-secondary
+      pointer-events: none
+
+  &__slide
+    position: absolute
+    top: -4px
+    left: 50%
+    transform: translateX(-50%)
+    display: flex
+    flex-direction: column
+    align-items: center
+    pointer-events: none
+    transition: 
+      property: all
+      duration: $t-duration
+      timing-function: $t-timing-function
+
+
+    &__button
+      display: block
+      width: 12px
+      height:  12px
+      border-radius: 10px
+      border: none
+      background: $color-secondary
+    
+    &__text
+      margin-top: 6px
+      font-family: $font-secondary
+      font-size: 14px
+      font-style: italic
+      font-weight: 600
+      color: $color-secondary
+
+  &__value
+    position: absolute
+    top: $space-s
+    font-family: $font-primary
+    font-size: 14px
+    font-weight: bold
+    opacity: 0
+    transition: 
+      property: opacity, transform
+      duration: $t-duration
+      timing-function: $t-timing-function
+
+    //States
+    &.is-visible
+      opacity: 1
+
+    &--min
+      left: 0
+      transform: translateX(-50%) translateY(10px)
+
+      //States
+      &.is-visible
+        transform: translateX(-50%) translateY(0)
+
+    &--max
+      right: 0
+      transform: translateX(50%)  translateY(10px)
+
+      //States
+      &.is-visible
+        transform: translateX(50%) translateY(0)
+
+  &__btn
+    width: 140px
+    margin-top: 70px
+    padding: 7px 0
+    border-radius: 4px
+    border: 1px solid $color-secondary 
+    text-align: center
+    color: $color-secondary
+    letter-spacing: 1px
+    transition:
+      property: all
+      duration: $t-duration
+      timing-function: $t-timing-function
+
+    &:hover
+      letter-spacing: 6px
+
+  &__number
+    transform: skewY(20deg) translateY(70px)
+    transition:
+      property: transform
+      duration: $t-duration * 2
+      timing-function: $t-timing-function
+
+
+  &.is-answered
+    #{$self}__question
+      opacity: 0
+      visibility: hidden
+
+    #{$self}__answer
+      opacity: 1
+      visibility: visible
+
+    #{$self}__number
+      transform: skewY(0) translateY(0)

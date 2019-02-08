@@ -3,6 +3,12 @@ import baseConfig from "./../config";
 export default baseConfig.extends({
   transitions: {
 
+    all: {
+      sound: {
+        volume: 0.1
+      } 
+    },
+
     micro: {
       position: {
         from: new THREE.Vector3(0, 0, 0)
@@ -13,10 +19,7 @@ export default baseConfig.extends({
             from: 2.5
           }
         }
-      },
-      sound: {
-        volume: 0.5
-      } 
+      }
     },
 
     macro: {
@@ -35,10 +38,7 @@ export default baseConfig.extends({
             from: 2.5
           }
         }
-      },
-      sound: {
-        volume: 0.5
-      } 
+      }
     }
   },
   rendering: {

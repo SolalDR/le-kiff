@@ -42,6 +42,13 @@ class SoundManager {
   }
 
   /**
+   * Set volume to its default value
+   */
+  setDefaultVolume() {
+    this.volume = this.defaultVolume;
+  }
+
+  /**
    * Play sounds
    * We can pass a name or an array of names with sprite names
    * @param {Array.<string[]>|String} soundNames Array of Strings or String of sound names
@@ -74,9 +81,12 @@ class SoundManager {
    * @param {Object} options Sound play options apply once
    * @param {Number} options.volume Volume from 0 to 1
    * @param {Boolean} options.loop Sound looping
+   * @param {Number} options.delay play delay in seconds
    * @return {Promise}
    */
-  _play(name, spriteName, options = {}) {
+  _play(name, spriteName, options = {
+    delay: 0
+  }) {
     var sound, id;
     var soundName = name;
     if(spriteName) {
@@ -84,15 +94,18 @@ class SoundManager {
     }
     sound = this.getSound(soundName);
     if(this.playingSounds.has(name)) return;
-    console.log('- A -- play', name, sound);
-    id = sound.play(spriteName ? spriteName : undefined);
     
-    console.log('- A -- play', soundName, id, sound);
-    // set volume
-    sound.volume(options.volume ? options.volume : sound.defaultVolume); 
+    setTimeout(() => {
+      // get idd
+      id = sound.play(spriteName ? spriteName : undefined);
     
-    // add name and id to playingSound
-    this.playingSounds.set(soundName, id);
+      console.log('- A -- play', soundName, id, sound);
+      // set volume
+      sound.volume(options.volume ? options.volume : sound.defaultVolume); 
+      
+      // add name and id to playingSound
+      this.playingSounds.set(soundName, id);
+    }, options.delay * 1000)
 
     // return promise on sound ended
     return new Promise((resolve, reject) => {

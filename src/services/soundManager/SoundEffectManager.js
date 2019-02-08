@@ -29,6 +29,7 @@ class SoundEffectManager {
    * @param {String} name Effect name
    */
   addEffect(name) {
+    if(this.activeEffects.has(name)) return;
     Howler.addEffect(this.effects[name].effect);
     this.activeEffects.set(name, this.effects[name]);
   }
@@ -38,6 +39,7 @@ class SoundEffectManager {
    * @param {String} name 
    */
   removeEffect(name) {
+    if(!this.activeEffects.has(name)) return; 
     Howler.removeEffect(this.effects[name].effect);
     this.activeEffects.delete(name);
   }

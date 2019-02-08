@@ -33,7 +33,7 @@
 {
   "name": "chapter_1_ambiance",
   "options": {
-    "volume": 0.5,
+    "volume": 0.4,
     "loop": true
   },
   "sprite": {

@@ -143,6 +143,8 @@ class Step extends Event {
       })
       return;
     }
+
+
     Bus.dispatch("step:hide", this);
     this.dispatch("hide");
   }

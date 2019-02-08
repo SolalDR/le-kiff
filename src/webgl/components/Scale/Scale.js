@@ -205,8 +205,6 @@ class Scale extends Event {
     // if no sounds in config return
     if(!config.sound) return;
 
-    console.log('updateSound', config.sound);
-
     // set volume
     if(config.sound.volume) {
         SoundManager.volume = config.sound.volume;
@@ -221,7 +219,6 @@ class Scale extends Event {
         SoundManager[methodName](effectName);
       });
     } else if(transitionType === 'hide') {
-      console.log('SoundManager remove all', SoundManager);
       SoundManager.removeAllEffects();
     }
   }

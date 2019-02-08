@@ -40,6 +40,10 @@ export default baseConfig.extends({
       spriteName: 'step_3_01_h1_allez_c_est_parti'
     },
   ],
+  timecodes: {
+    cut: 11000,
+    water: 12500,
+  },
   micro: {
     bondMaterial: {
       color: new THREE.Color("rgb(0, 0, 0)"),

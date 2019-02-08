@@ -75,12 +75,13 @@ export default class extends Step {
       object: ressources.step_4_pasta.result,
       noise: this.simplex
     })
+    this.pasta.noiseRocksIntensity = 3;
     this.scene.humanScale.group.add(this.pasta.scene);
     
     // Wait and rocks appear
     this.pastaRocksFinished = 0;
     this.background.changeBackground(ressources.background4.result, 3000, 2000)
-    this.pasta.animated = false;
+    this.pasta.state.animated = false;
     this.pasta.rocks.forEach((rock, i) => {
       rock.scale.copy(new THREE.Vector3())
       AnimationManager.addAnimation(new Animation({ delay: 3000 + this.pasta.delays[i] * 2000,  timingFunction: "easeOutQuad", duration: 2000 })
@@ -92,11 +93,12 @@ export default class extends Step {
           this.pastaRocksFinished++;
           if( this.pastaRocksFinished === this.pasta.rocks.length ){
             AnimationManager.addAnimation(new Animation({
-              duration: 4000
+              duration: 4000,
+              timingFunction: "easeOutQuad"
             }).on("progress", (event) => {
-              this.pasta.noiseRocksIntensity = 10 - 10*event.advancement
+              this.pasta.noiseRocksIntensity = 3 - 3*event.advancement
             }).on("end", ()=>{
-              this.pasta.animated = true;
+              this.pasta.state.animated = true;
               this.pasta.modelAnimation.play("main", {
                 timeScale: 0.4
               })
@@ -142,7 +144,7 @@ export default class extends Step {
     if( !this.gui ) return; 
     if( !this.folder.water ){
       this.folder.water = this.gui.addFolder("Water");
-      var a = { explode: () => { this.water.drop(0, -2.49, Math.random()*0.5 + 0.5) } }
+      var a = { explode: () => { this.water.drop(0, -3, 0.2) } }
 
       this.folder.water.addMesh("Water mesh", this.water.mesh);
       this.folder.water.add(this.water.heightmapVariable.material.uniforms.mouseSize, "value", 0, 0.5).name("Size")

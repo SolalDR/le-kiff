@@ -17,27 +17,39 @@ class ModelAnimEntity {
   }
 
   play(clipName = this.mainClip.name, {
-    loop = false,
-    timeScale = 0.5
+    loop = THREE.LoopOnce,
+    timeScale = 0.5,
+    restart = true
   } = {}){
-
+    
     var action = this.clips.find(u => u.name === clipName);
     if( !action ) return;
     this.running = true;
     var animation = action.animation;
     
     animation.timeScale = timeScale;
+    console.log('animation.timeScale', animation.timeScale)
     var mixer = animation.getMixer();
 
-    animation.loop = loop ? THREE.LoopRepeat : THREE.LoopOnce;
-
+    animation.loop = loop;
     animation.play();
+    if( restart ){
+      if( timeScale < 0 ){
+        animation.time  = animation.getClip().duration;
+      } else {
+        animation.time = 0;
+      }
+    }
+    animation.paused = false;
+    
+    console.log(animation);
     this.currentAction = action;
     
     return new Promise((resolve, reject) => {
       mixer.addEventListener(
-        loop ? 'loop' : 'finished', 
+        (loop === THREE.LoopRepeat) ? 'loop' : 'finished', 
         _ => {
+          console.log("End")
           resolve();
           animation.timeScale = 0;
           if (!loop) this.running = false;

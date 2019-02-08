@@ -13,7 +13,7 @@ class Pasta {
     this.noise = noise;
     this.rocks = this.object.scene.children[0].children;
     this.delays = this.rocks.map(_ => Math.random())
-
+    this.material = this.scene.children[0].children[0].material;
     this.positions = this.rocks.map(rock => rock.position.clone());
     this.rotations = this.rocks.map(rock => rock.rotation.clone());
 
@@ -54,11 +54,11 @@ class Pasta {
         const position = this.positions[i];
         const rotation = this.rotations[i];
 
-        rock.position.x = position.x + this.noise.noise2D(position.x, time*0.2)*this.config.rocks.noiseIntensity;
-        rock.position.y = position.y + this.noise.noise2D(position.y, time*0.2)*this.config.rocks.noiseIntensity;
-        rock.position.z = position.z + this.noise.noise2D(position.z, time*0.2)*this.config.rocks.noiseIntensity;
-        rock.rotation.x = rotation.x + this.noise.noise2D(rotation.y, time*0.05)*this.config.rocks.noiseIntensity*0.5;
-        rock.rotation.y = rotation.y + this.noise.noise2D(rotation.y, time*0.05)*this.config.rocks.noiseIntensity*0.5;
+        rock.position.x = position.x + this.noise.noise2D(position.x + i*0.1, time*0.2)*this.config.rocks.noiseIntensity*50;
+        rock.position.y = position.y + this.noise.noise2D(position.y + i*0.1, time*0.2)*this.config.rocks.noiseIntensity*50;
+        rock.position.z = position.z + this.noise.noise2D(position.z + i*0.1, time*0.2)*this.config.rocks.noiseIntensity*50;
+        rock.rotation.x = rotation.x + this.noise.noise2D(rotation.y + i*0.1, time*0.05)*this.config.rocks.noiseIntensity*0.5;
+        rock.rotation.y = rotation.y + this.noise.noise2D(rotation.y + i*0.1, time*0.05)*this.config.rocks.noiseIntensity*0.5;
       }
     }
     

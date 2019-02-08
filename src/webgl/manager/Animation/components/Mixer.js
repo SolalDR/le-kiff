@@ -1,4 +1,11 @@
 export default {
+  /**
+   * Mix a color
+   * @param {THREE.Color} from
+   * @param {THREE.Color} to
+   * @param {float} mix
+   * @param {THREE.Color} object
+   */
   color: (from, to, mix, object = new THREE.Color()) => {
     object.r = from.r + (to.r - from.r)*mix;
     object.g = from.g + (to.g - from.g)*mix;

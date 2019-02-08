@@ -44,9 +44,24 @@ export default baseConfig.extends({
     }
   },
 
+  human: {
+    rendering: {
+      light: {
+        primary: {
+          position: new THREE.Vector3(-5, 15, 0),
+          color: new THREE.Color("rgb(255, 255, 255)")
+        },
+        secondary: {
+          position: new THREE.Vector3(5, -10, 0),
+          color: new THREE.Color("rgb(255, 255, 255)")
+        }
+      }
+    }
+  },
+
   // TODO Extend config water
   water: {
-    color: new THREE.Color("rgb(100, 85, 14)"),
+    color: new THREE.Color("rgb(128, 128, 200)"),
     position: new THREE.Vector3(0, -2, 7),
     scale: new THREE.Vector3(2, 1, 1)
   }

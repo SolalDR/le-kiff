@@ -5,6 +5,7 @@ import config from "./config";
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import leafCloudConfig from "./../components/LeafCloud/config";
 import ModelAnimationManager from "../../../manager/ModelAnimation";
+import SoundManager from "../../../../services/soundManager/SoundManager";
 
 /**
  * @constructor
@@ -65,6 +66,7 @@ export default class extends Step {
     // Animation leaf
     ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);
     ModelAnimationManager.play('hang-out').then((e) => {
+
       var mainPosition = this.leaf.scene.position.clone();
       var mainRotation = this.leaf.scene.rotation.toVector3();
       var targetRotation = new THREE.Vector3()
@@ -102,6 +104,17 @@ export default class extends Step {
         ModelAnimationManager.play('idle');
       });
     });
+
+    // Sounds
+    setTimeout(() => {
+      SoundManager.play('chapter_1_trigger', 'step_2_02_h1_aie_ca_fait_mal').then(() => {
+        SoundManager.play('chapter_1_trigger', 'step_2_03_h1_celle_la_est_belle').then(() => {
+          SoundManager.play('chapter_1_main_voice', 'step_2');
+        });
+      });
+    }, 500)
+
+
     
     this.initGUI();
 

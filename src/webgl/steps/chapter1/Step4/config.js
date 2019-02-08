@@ -72,17 +72,16 @@ export default baseConfig.extends({
   },
   sounds: [
     {
-      name : "chapter_1_main_voice",
-      sprite: {
-        step_4: [
-          67000,
-          14000
-        ],
-      },
-      options : {
-        volume: 0.9
-      } 
-    }
+      name : "chapter_1_ambiance",
+      spriteName: 'step_4',
+      options: {
+        volume: 0.3
+      }
+    },
+    {
+      name : "chapter_1_trigger",
+      spriteName: 'step_4_01_h1_ajoute_ammoniac'
+    },
   ],
 
   // TODO extend config water

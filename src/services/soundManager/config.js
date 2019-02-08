@@ -1,12 +1,12 @@
 export default {
 
-  globalVolume: 0.5,
+  globalVolume: 0.7,
   // Full list here : https://github.com/Theodeus/tuna/wiki
   effects: [
     {
       name: 'MoogFilter',
       params: {
-        cutoff: 0.15,    //0 to 1
+        cutoff: 0.6,    //0 to 1
         resonance: 3.2,   //0 to 4
         bufferSize: 4096,  //256 to 16384,
         intensity: {

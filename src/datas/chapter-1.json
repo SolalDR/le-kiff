@@ -33,22 +33,6 @@
     {
       "name": "background6",
       "path": "/chapter-1/chapitre_01_etape_06_background.png"
-    },
-    {
-      "name": "step_1_background_sound",
-      "path": "/sounds/chapter-1/background_forest.mp3"
-    },
-    {
-      "name": "chapter_1_main_voice",
-      "path": "/sounds/chapter-1/chapter_1_main_voice.mp3"
-    },
-    {
-      "name": "step_1_main_sound",
-      "path": "/sounds/chapter-1/step_1_main.mp3"
-    },
-    {
-      "name": "step_2_main_sound",
-      "path": "/sounds/chapter-1/step_2_main.mp3"
     }
   ],
   "groups": [
@@ -77,6 +61,32 @@
           "path": "/roughness.jpg"
         }
       ] 
+    },
+    {
+      "name": "sounds", 
+      "base": "/chapter-1/sounds",
+      "files": [
+        {
+          "name": "chapter_1_main_voice",
+          "path": "/chapter_1_main_voice.mp3"
+        },
+        {
+          "name": "chapter_1_ambiance",
+          "path": "/chapter_1_ambiances.mp3"
+        },
+        {
+          "name": "chapter_1_trigger",
+          "path": "/chapter_1_trigger.mp3"
+        },
+        {
+          "name": "step_1_main_sound",
+          "path": "/step_1_main.mp3"
+        },
+        {
+          "name": "step_2_main_sound",
+          "path": "/step_2_main.mp3"
+        }
+      ]
     }
   ]
 }

@@ -42,5 +42,18 @@ export default baseConfig.extends({
         }
       }
     }
-  }
+  },
+  sounds: [
+    {
+      name : "chapter_1_ambiance",
+      spriteName: 'step_5',
+      options: {
+        volume: 0.3
+      }
+    },
+    {
+      name : "chapter_1_trigger",
+      spriteName: 'step_5_01_h1_corriger_ph'
+    },
+  ],
 })

@@ -6,6 +6,7 @@ import Api from "./Api";
 import globalDatas from "./../datas/global.json";
 import chapter1Datas from "./../datas/chapter-1.json";
 import globalSoundsData from "./../datas/sounds/global-sounds.json";
+import chapter1SoundDatas from "./../datas/sounds/chapter-1-sounds.json";
 import Bus from "~/helpers/Bus";
 import SoundManager from "./soundManager/SoundManager";
 import { c } from "../helpers/Configuration";
@@ -21,19 +22,18 @@ class AppManager {
 
     AssetsManager.loader.loadGroup("global");
     
-    AssetsManager.loader.once("load:global", ()=>{
+    AssetsManager.loader.once("load:global", (event)=>{
+      this.addSoundsFrom(globalSoundsData, event);
       AssetsManager.loader.loadGroup("chapter-1");
       Bus.verbose("loader:global");
       store.dispatch(setLoadedAssets('global'));
     })
     
-    AssetsManager.loader.on("load:chapter-1", () => {
+    AssetsManager.loader.on("load:chapter-1", (event) => {
+      this.addSoundsFrom(chapter1SoundDatas, event);
       Bus.verbose("loader:chapter-1");
       store.dispatch(setLoadedAssets('chapter-1'));
     });
-    
-
-    this.addSounds();
 
     this.unsubscribe = store.subscribe( () => {
       this.executeWaitingRequests();
@@ -54,17 +54,15 @@ class AppManager {
   }
 
   /**
-   * add Global App Sounds 
-   */
-  addSounds() {
-    AssetsManager.loader.once("load:global", (event) => {
-      const soundsData = [];
-      globalSoundsData.forEach(data => {
-        data.sound = event[data.name].result
-        soundsData.push(data);
-      });
-      SoundManager.add(soundsData);
-    })
+   * 
+   * @param {Object} soundsData 
+   * @param {Object} event 
+   */ 
+  addSoundsFrom(soundsData, event) {
+    soundsData.forEach(data => {
+      data.sound = event[data.name].result
+      SoundManager.add(data);
+    });
   }
 
   /**

@@ -1,6 +1,7 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import config from "./config";
+import SoundManager from "../../../../services/soundManager/SoundManager";
 
 /**
  * @constructor
@@ -31,7 +32,12 @@ export default class extends Step {
   displayHumanScale( ressources, previousStep ){
     this.main = new THREE.Mesh( new THREE.SphereGeometry(1,16,16), new THREE.MeshPhongMaterial({ color: 0x00FF00 }) );
     this.main.name = "sphere";
-  
+    
+    // play sound voiceover
+    SoundManager.play('chapter_1_main_voice', 'step_5', {
+      delay: 1
+    })
+
     this.scene.humanScale.group.add(this.main);
   }
 

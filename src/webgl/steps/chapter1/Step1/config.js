@@ -18,23 +18,12 @@ export default baseConfig.extends({
   ],
   sounds: [
     {
-      name : "step_1_background_sound",
-      options : {
-        loop: true,
-        volume: 0.3
-      }
+      name : 'chapter_1_main_voice',
+      spriteName: 'step_1'
     },
     {
-      name : "chapter_1_main_voice",
-      sprite: {
-        step_1: [
-          0,
-          24000
-        ],
-      },
-      options : {
-        volume: 0.9
-      } 
+      name : "chapter_1_ambiance",
+      spriteName: 'step_1'
     }
   ],
   micro: {

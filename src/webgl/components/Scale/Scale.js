@@ -202,17 +202,24 @@ class Scale extends Event {
    * @param {String} transitionType Can be 'display' or 'hide' - control sound on transition  
    */
   updateSound( config, transitionType ) {
+    // if no sounds in config return
     if(!config.sound) return;
+
+    // set volume
     if(config.sound.volume) {
         SoundManager.volume = config.sound.volume;
     } else {
         SoundManager.volume = SoundManager.defaultVolume;
     }
+
+    // set sound effect
     if(config.sound.effect) {
       const methodName = transitionType === 'display' ? 'addEffect' : transitionType === 'hide' ? 'removeEffect' : null;
       config.sound.effect.list.forEach(effectName => {
         SoundManager[methodName](effectName);
       });
+    } else if(transitionType === 'hide') {
+      SoundManager.removeAllEffects();
     }
   }
 

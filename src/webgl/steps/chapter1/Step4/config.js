@@ -75,7 +75,7 @@ export default baseConfig.extends({
       name : "chapter_1_ambiance",
       spriteName: 'step_4',
       options: {
-        volume: 0.1
+        volume: 0.3
       }
     },
     {

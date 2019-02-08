@@ -73,8 +73,6 @@ export default class extends Step {
         SoundManager.addEffect('moogfilter');
         // TODO: update config effect to re-enable when going back from scale
         //this.config.transitions.all.sound.effect.list = ['moogfilter'];
-        console.log(this.config);
-        console.log(SoundManager.soundEffectManager);
         SoundManager.volume = 1;
         SoundManager.play('chapter_1_trigger', 'step_3_04_ambiance_eau');
       }, 500)

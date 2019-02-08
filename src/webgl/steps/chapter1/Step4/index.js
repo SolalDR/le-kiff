@@ -135,7 +135,7 @@ export default class extends Step {
               })
               // play sound pasta merging
               SoundManager.play('chapter_1_trigger', 'step_4_04_merge_pasta', {
-                delay: 0.38    
+                delay: 0.42    
               });
 
             }));
@@ -166,7 +166,6 @@ export default class extends Step {
         Renderer.setBokehAperture(4.1 - event.advancement * 4)
         // remove underwater effect when
         if(event.advancement > 0.4 && !waterSoundEffectRemoved) {
-          console.log(event.advancement);
           waterSoundEffectRemoved = true;
           SoundManager.removeAllEffects();
           SoundManager.setDefaultVolume();

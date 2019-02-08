@@ -129,6 +129,8 @@ class Step extends Event {
           this.dispatch("hide");
         })
       );
+      // remove all sounds effects
+      SoundManager.removeAllEffects();
 
       return; 
     } 

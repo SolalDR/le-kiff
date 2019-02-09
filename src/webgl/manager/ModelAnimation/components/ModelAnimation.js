@@ -19,20 +19,25 @@ class ModelAnimEntity {
   play(clipName = this.mainClip.name, {
     loop = THREE.LoopOnce,
     timeScale = 0.5,
-    restart = true
+    restart = true,
+    chain = false,
   } = {}){
-    
+    var looping = (loop === THREE.LoopRepeat);
+    var lastAnimation = this.currentAction.animation;
     var action = this.clips.find(u => u.name === clipName);
     if( !action ) return;
     this.running = true;
     var animation = action.animation;
     
     animation.timeScale = timeScale;
-    console.log('animation.timeScale', animation.timeScale)
     var mixer = animation.getMixer();
-
     animation.loop = loop;
-    animation.play();
+    if(chain) {
+      animation.play();
+      lastAnimation.stop();
+    } else {
+      animation.play();
+    }
     if( restart ){
       if( timeScale < 0 ){
         animation.time  = animation.getClip().duration;
@@ -42,17 +47,17 @@ class ModelAnimEntity {
     }
     animation.paused = false;
     
-    console.log(animation);
     this.currentAction = action;
     
     return new Promise((resolve, reject) => {
       mixer.addEventListener(
-        (loop === THREE.LoopRepeat) ? 'loop' : 'finished', 
+        looping ? 'loop' : 'finished', 
         _ => {
-          console.log("End")
           resolve();
-          animation.timeScale = 0;
-          if (!loop) this.running = false;
+          if (!looping) {
+             this.running = false;
+             animation.timeScale = 0;
+          }
         }, 
         {
           once: true

@@ -64,8 +64,8 @@ export default class extends Step {
     this.scene.humanScale.group.add(this.leafClouds.object3D);
 
     // Animation leaf
-    ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);
-    ModelAnimationManager.play('hang-out').then((e) => {
+    var modelAnimLeaf = ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);
+    modelAnimLeaf.play('hang-out', {timeScale: 1, delay: 0}).then((e) => {
 
       var mainPosition = this.leaf.scene.position.clone();
       var mainRotation = this.leaf.scene.rotation.toVector3();
@@ -100,8 +100,15 @@ export default class extends Step {
         this.leaf.scene.rotation.setFromVector3(targetRotation);
       }));
       
-      ModelAnimationManager.play('move-in-wind').then(() => {
-        ModelAnimationManager.play('idle');
+      modelAnimLeaf.play('move-in-wind', {
+        timeScale: 1, 
+        chain: true
+      }).then(() => {
+        modelAnimLeaf.play('idle', {
+          timeScale: 0.2, 
+          loop: THREE.LoopRepeat,
+          chain: true
+        });
       });
     });
 

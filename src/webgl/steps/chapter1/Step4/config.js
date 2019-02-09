@@ -64,11 +64,7 @@ export default baseConfig.extends({
       options: {
         volume: 0.3
       }
-    },
-    {
-      name : "chapter_1_trigger",
-      spriteName: 'step_4_01_h1_ajoute_ammoniac'
-    },
+    }
   ],
 
   // TODO extend config water

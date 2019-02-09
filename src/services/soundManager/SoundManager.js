@@ -151,10 +151,11 @@ class SoundManager {
    * @param {Boolean} fade  Stop with fade
    */
   _stop (name, spriteName, fade) {
-    var sound;
-    var id = this.playingSounds.get(name);
+    var sound, id;
     if(spriteName) {
       id = this.playingSounds.get(this.getSpriteSoundName(name, spriteName));
+    } else {
+      id = this.playingSounds.get(name);
     }
     
     if(spriteName) {
@@ -230,11 +231,13 @@ class SoundManager {
     // Assign new options
     soundsData.forEach(data => {
       if(data.options) {
-        let sound = this.getSound(data.name);
+        var sound;
         if(data.spriteName) {
           sound = this.getSpriteSound(data.name, data.spriteName);
+        } else {
+          sound = this.getSound(data.name);
         }
-        sound = this.assignOptions(sound, data.options);
+        this.assignOptions(sound, data.options);
       }
     })
 

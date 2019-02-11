@@ -33,6 +33,7 @@ export default class extends Step {
    * @param {object} ressources 
    */
   display( previousStep = null, ressources ) {
+    super.beforeDisplay( ressources, previousStep );
     this.displayHumanScale( ressources, previousStep );
     super.display( ressources );
   }

@@ -6,6 +6,7 @@ import SoundManager from "~/services/soundManager/SoundManager";
 import {AnimationManager} from "~/webgl/manager";
 import {Animation} from "~/webgl/manager/Animation";
 import ModelAnimationManager from "../manager/ModelAnimation";
+import AbilitiesManager from "../../services/AbilitiesManager";
 
 /**
  * @class
@@ -97,6 +98,10 @@ class Step extends Event {
     }
   }
 
+  beforeDisplay(){
+    AbilitiesManager.can("all", false);
+  }
+
   display(event) {
     ConfigManager.updateConfig(this.config);
     this.scene.microScale.updateFromStep(this);
@@ -109,6 +114,7 @@ class Step extends Event {
     Bus.dispatch("step:display", this);
     this.dispatch("display");
   }
+  
 
   hide( nextStep ){
     

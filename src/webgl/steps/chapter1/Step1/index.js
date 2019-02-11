@@ -84,6 +84,7 @@ export default class extends Step {
   }
 
   hide( newStep ) {
+    super.beforeHide( newStep );
     var toRemove = this.getRemovableObject(newStep);
 
     if ( toRemove.includes("leaf") ){

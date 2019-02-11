@@ -43,6 +43,11 @@ class Step extends Event {
     this.gui = GUI.active ? this.parentGUI.addFolder("Step "+this.rank) : null;
   }
 
+  /**
+   * Return the list of object to remove
+   * @param {Step} step 
+   * @return {[string]}
+   */
   getRemovableObject(step){
     var toRemove = [];
     this.persistentObjects.forEach(name => {
@@ -53,6 +58,11 @@ class Step extends Event {
     return toRemove;
   }
 
+  /**
+   * Return the list of object to add
+   * @param {Step} step 
+   * @return {[string]}
+   */
   getMissingObject(step){
     var toAdd = [];
     step.persistentObjects.forEach(name => {
@@ -63,20 +73,6 @@ class Step extends Event {
     return toAdd;
   }
 
-  manageInfos(infos){
-
-  }
-
-  updateSoundsPlayBack(e) {
-    if(this.config.sounds) {
-      const soundsDatas = [];
-      this.config.sounds.forEach(data => {
-        data.sound = e[data.name].result
-        soundsDatas.push(data);
-      });
-      SoundManager.updatePlayBack(soundsDatas);
-    }
-  }
 
   // if not next step reset all anims
   resetModelAnimation() {
@@ -98,10 +94,35 @@ class Step extends Event {
     }
   }
 
-  beforeDisplay(){
+  /**
+   * Call before display
+   * @param {Obejct} ressources 
+   * @param {Step} previousStep 
+   */
+  beforeDisplay(ressources, previousStep){
+    // Bloc all interaction
     AbilitiesManager.can("all", false);
+    if( previousStep && previousStep.rank === this.rank - 1 ){
+      this.beforeDisplayFollow(ressources, previousStep)
+    } else {
+      this.beforeDisplayMessy(ressources, previousStep)
+    }
   }
 
+  /**
+   * Called when the next step follow the previous step in chronological order
+   */
+  beforeDisplayFollow(){}
+
+  /**
+   * Called when the next step isn't following the previous step
+   */
+  beforeDisplayMessy(){}
+
+  /**
+   * Called after displayHumanScale to notice the all application a new step is displayed
+   * @param {Object} event 
+   */
   display(event) {
     ConfigManager.updateConfig(this.config);
     this.scene.microScale.updateFromStep(this);
@@ -114,7 +135,57 @@ class Step extends Event {
     Bus.dispatch("step:display", this);
     this.dispatch("display");
   }
+
+  /**
+   * Update the sounds when a new step is displayed
+   * @param {Object} e 
+   */
+  updateSoundsPlayBack(e) {
+    if(this.config.sounds) {
+      const soundsDatas = [];
+      this.config.sounds.forEach(data => {
+        data.sound = e[data.name].result
+        soundsDatas.push(data);
+      });
+      SoundManager.updatePlayBack(soundsDatas);
+    }
+  }
   
+  /**
+   * Called when the next step follow the previous step in chronological order
+   */
+  beforeDisplayFollow(){}
+
+  /**
+   * Called when the next step isn't following the previous step
+   */
+  beforeDisplayMessy(){}
+
+
+  /**
+   * Call before hide
+   * @param {Step} nextStep 
+   */
+  beforeHide(nextStep){
+    if( nextStep.rank === this.rank + 1 ){
+      this.beforeDisplayFollow(nextStep)
+    } else {
+      this.beforeDisplayMessy(nextStep)
+    }
+  }
+
+  /**
+   * Called when the next step follow the current step in chronological order
+   */
+  beforeHideFollow(){}
+
+  /**
+   * Called when the next step isn't following the previous step
+   */
+  beforeHideMessy(){}
+
+
+
 
   hide( nextStep ){
     

@@ -202,17 +202,5 @@
       1104.0136054421907
     ]
   }
-},
-{
-  "name": "step_1_main_sound",
-  "options": {
-    "volume": 0.3
-  }
-},
-{
-  "name": "step_2_main_sound",
-  "options": {
-    "volume": 0.3
-  }
 }
 ]

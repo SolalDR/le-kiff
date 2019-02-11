@@ -4,6 +4,7 @@ import config from "./config";
 import { AnimationManager, Animation } from "../../../manager";
 import Pasta from "./../components/Pasta"
 import SimplexNoise from "simplex-noise"
+import SoundManager from "../../../../services/soundManager/SoundManager";
 
 /**
  * @constructor
@@ -49,6 +50,10 @@ export default class extends Step {
     this.brick.scene.name = "step_6_brick";
     this.brickMaterial = this.brick.scene.children[0].material;
 
+    // Background
+    this.background = previousStep.background;
+    this.background.changeBackground(ressources.background6.result, 3000, 3000);
+
     // Morph group pasta/brick
     this.morphGroup = new THREE.Group();
     this.morphGroup.name = 'morph_group';
@@ -56,6 +61,7 @@ export default class extends Step {
 
     // Brick transforms
     var brickStartScale = new THREE.Vector3(0.001, 0.001, 0.001);
+    var brickStartPosition = new THREE.Vector3(0, 0.004, 0);
     this.brick.scene.scale.copy(brickStartScale);
     this.brick.scene.position.set(0, 0.04, 0);
 
@@ -71,28 +77,51 @@ export default class extends Step {
     this.pasta.modelAnimation.startAtClip('explode');
     this.pasta.state.animated = true;
 
-    // Delay pasta morph
+    // Hydraulic press animation
     setTimeout(() => {
 
-      // Pasta explode
-      this.pasta.modelAnimation.play("explode", {timeScale: 1}).then(()=>{
-        //console.log(this.pasta);
-      })
+      // Press Sound
+      SoundManager.play('chapter_1_trigger', 'step_6_01_presse_hydrau', {
+        volume: 1,
+        delay: 0
+      }).then(() => {
+        SoundManager.play('chapter_1_trigger', 'step_6_02_h1_elle_est_pour_qui').then(() => {
+          SoundManager.play('chapter_1_trigger', 'step_6_03_h2_che');
+        });
+      });      
+      
+      setTimeout(() => {
+        // Pasta explode
+        this.pasta.modelAnimation.play("explode", {timeScale: 1}).then(()=>{
+          //console.log(this.pasta);
+        })
 
-      // Brick appear
-      var brickTargetScale = new THREE.Vector3(0.0088, 0.0088, 0.0088)
-      AnimationManager.addAnimation(
-        new Animation({ duration: 300, delay: 200, timingFunction: "easeInOutQuad" })
+        // Brick appear
+        var brickTargetScale = new THREE.Vector3(0.0088, 0.0088, 0.0088)
+        AnimationManager.addAnimation(
+          new Animation({ duration: 300, delay: 200, timingFunction: "easeInOutQuad" })
+            .on("progress", (event)=>{ 
+              this.brick.scene.scale.lerpVectors(brickStartScale, brickTargetScale, event.advancement);
+              this.brickMaterial.opacity = event.advancement;
+            })
+            .on("end", ()=>{
+              
+            })
+        )   
+
+        // Group press movement
+        AnimationManager.addAnimation(
+          new Animation({ duration: 700, delay: 150, timingFunction: "easeOutCubic" })
           .on("progress", (event)=>{ 
-            this.brick.scene.scale.lerpVectors(brickStartScale, brickTargetScale, event.advancement);
-            this.brickMaterial.opacity = event.advancement;
+            this.morphGroup.position.y = (- 1 + ( Math.cos(event.advancement * Math.PI * 2 ) + 1 ) / 2) / 2;
           })
           .on("end", ()=>{
             
           })
-      )
+        )
+      }, 270);
 
-    }, 3000)
+    }, this.config.timecodes.press)
   
 
     // add objects to group

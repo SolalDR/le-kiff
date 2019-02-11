@@ -9,6 +9,8 @@ import Timeline from "~/components/Timeline/Timeline";
 import Loading from "~/components/Loading/Loading";
 import "./styles.sass";
 import Bus from "../../helpers/Bus";
+import AbilitiesManager from "~/services/AbilitiesManager";
+
 
 class Chapter extends React.Component {
     
@@ -77,6 +79,7 @@ class Chapter extends React.Component {
     }
 
     onStepChange = rank => {
+      if( !AbilitiesManager.can("changeStep") ) return;
       if (rank < this.props.chapter.steps.length + 1) {
         this.props._setCurrentStepRank(rank);
       } else {

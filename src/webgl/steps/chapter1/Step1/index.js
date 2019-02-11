@@ -4,6 +4,7 @@ import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
 import config from "./config";
 import { c } from "../../../../helpers/Configuration";
 import { InteractivePlane } from "../../../components";
+import AbilitiesManager from "~/services/AbilitiesManager";
 
 /**
  * @constructor
@@ -14,6 +15,7 @@ export default class extends Step {
   constructor(params){
     super(params, [ "leaf", "background" ]);
   }
+
   /**
    * This method initialize the step and 
    * @param {Step} previousStep previous step in History
@@ -29,6 +31,7 @@ export default class extends Step {
    * @param {object} ressources 
    */
   display( previousStep = null, ressources ) {
+    super.beforeDisplay( ressources, previousStep );
     this.displayHumanScale( ressources, previousStep );
     super.display( ressources );
   }
@@ -52,7 +55,6 @@ export default class extends Step {
     leafScene.position.copy(mainTransformConfig.position);
     leafScene.rotation.copy(mainTransformConfig.rotation);
     this.scene.humanScale.group.add(leafScene);
-  
 
     // main transform
 
@@ -60,7 +62,7 @@ export default class extends Step {
  
     // Add background
     this.scene.humanScale.group.add(this.background.object3D);
-    
+    AbilitiesManager.can("all", true);
   }
 
   initGUI(){

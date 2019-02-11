@@ -9,6 +9,7 @@ import ParticleCloud from "~/webgl/components/ParticleCloud"
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import SoundManager from "../../../../services/soundManager/SoundManager";
 import Pasta from "./../components/Pasta"
+import AbilitiesManager from "../../../../services/AbilitiesManager";
 
 /**
  * @constructor
@@ -29,6 +30,7 @@ export default class extends Step {
   }
 
   display( previousStep = null, ressources ) {
+    super.beforeDisplay( ressources, previousStep );
     this.displayHumanScale( ressources, previousStep );
     super.display( ressources );
   }
@@ -106,6 +108,7 @@ export default class extends Step {
             }).on("progress", (event) => {
               this.pasta.noiseRocksIntensity = 3 - 3*event.advancement
             }).on("end", ()=>{
+              AbilitiesManager.can("all", true);
               this.pasta.state.animated = true;
               this.pasta.modelAnimation.play("main", {
                 timeScale: 0.4

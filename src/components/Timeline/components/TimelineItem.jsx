@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import SoundManager from "~/services/soundManager/SoundManager";
 import "./styles.sass";
+import AbilitiesManager from "~/services/AbilitiesManager";
 
 class TimelineItem extends React.Component {
   
@@ -16,6 +17,7 @@ class TimelineItem extends React.Component {
   };
 
   handleClick = () => {
+    if( !AbilitiesManager.can("changeStep") ) return;
     SoundManager.play('ui_sounds', 'toggle_default');
     this.props.onSelectCallback(this.props.rank);
   };

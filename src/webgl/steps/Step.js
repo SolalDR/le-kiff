@@ -6,6 +6,7 @@ import SoundManager from "~/services/soundManager/SoundManager";
 import {AnimationManager} from "~/webgl/manager";
 import {Animation} from "~/webgl/manager/Animation";
 import ModelAnimationManager from "../manager/ModelAnimation";
+import AbilitiesManager from "../../services/AbilitiesManager";
 
 /**
  * @class
@@ -93,8 +94,12 @@ class Step extends Event {
 
     if( this.state.initialised ){
       Bus.dispatch("step:init", this);
-      this.dispatch("init"); 
+      this.dispatch("init");
     }
+  }
+
+  beforeDisplay(){
+    AbilitiesManager.can("all", false);
   }
 
   display(event) {
@@ -109,6 +114,7 @@ class Step extends Event {
     Bus.dispatch("step:display", this);
     this.dispatch("display");
   }
+  
 
   hide( nextStep ){
     

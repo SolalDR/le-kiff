@@ -7,7 +7,6 @@ function withCursor(WrappedComponent) {
     constructor(props) {
       super(props);
       this.cursorDelay = 5000;
-      this.isHoldAllowed = false;
       this.state = {
         isHoldAllowed: false,
         isLoading: false

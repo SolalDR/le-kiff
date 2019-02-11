@@ -23,7 +23,7 @@ class Cursor extends React.Component {
     this.bulletWidth = 0;
 
     this.counter = 0;
-    this.holdDuration = 70;
+    this.holdDuration = 20;
     this.isHoldComplete = false;
     this.cursorNotMovingTimeout = null;
     this.target = {
@@ -76,6 +76,11 @@ class Cursor extends React.Component {
     }
   }
 
+  // Events
+
+  /**
+   * Triggered when the hold animation is finished 
+   */
   onCursorTransitionEnd() {
     if (this.isHoldComplete) {
       this.cursor.current.classList.remove('is-hold');
@@ -83,6 +88,69 @@ class Cursor extends React.Component {
     }
   }
 
+  onMouseDown = (e) => {
+    if (e.which != 3 && this.props.isHoldAllowed) {
+      this.setState({ isHolding: true })
+      this.cursor.current.classList.add('is-hold');
+      e.preventDefault();
+      requestAnimationFrame(this.timer);
+    }
+  }
+
+  onMouseMove = throttle(e => {
+    if (this.state.isCursorStill) {
+      this.setState({
+        isCursorStill: false
+      })
+    }
+
+    var cursorNotMovingCallback = _ => this.setState({ isCursorStill: true });
+    clearTimeout(this.cursorNotMovingTimeout);
+    this.cursorNotMovingTimeout = setTimeout(cursorNotMovingCallback, 1500);
+
+    this.target = {
+      x: e.clientX,
+      y: e.clientY
+    };
+  }, 15);
+
+  onMouseUp = () => { 
+    this.resetHolding();
+    this.counter = 0;
+  }
+
+
+  onHoldComplete(){
+    Bus.verbose("cursor:click");
+    // this.isHoldComplete = true;
+    // this.resetHolding();
+    this.props.onHoldComplete();
+  }
+
+  timer = () => {
+    if (this.counter < this.holdDuration) {
+      this.counter++;
+      if( this.state.isHolding ){
+        this.timerRAF = requestAnimationFrame(this.timer);
+      }
+      return;
+    }
+
+    this.onHoldComplete();
+    
+  }
+
+  resetHolding(){
+    this.setState({ isHolding: false })
+    if (this.cursor.current) {
+      this.cursor.current.classList.remove('is-hold');
+    }
+  }
+
+
+  /**
+   * Raf method for displacement animation
+   */
   update = () => {
     window.requestAnimationFrame(this.update);
 
@@ -101,69 +169,6 @@ class Cursor extends React.Component {
         this.position.x
       }px, ${this.position.y}px,0)`;
     }
-  };
-  
-  onMouseMove = throttle(e => {
-    if (this.state.isCursorStill) {
-      this.setState({
-        isCursorStill: false
-      })
-    }
-
-    clearTimeout(this.cursorNotMovingTimeout);
-    this.cursorNotMovingTimeout = setTimeout(this.onCursorNotMoving.bind(this), 1500);
-
-    this.target = {
-      x: e.clientX,
-      y: e.clientY
-    };
-  }, 15);
-
-  onMouseDown = (e) => {
-    if (e.which != 3 && this.props.isHoldAllowed) {
-      this.setState({ isHolding: true })
-      this.cursor.current.classList.add('is-hold');
-      e.preventDefault();
-      requestAnimationFrame(this.timer);
-    }
-  }
-
-  timer = () => {
-    if (this.counter < this.holdDuration) {
-      this.counter++;
-      if( this.state.isHolding ){
-        this.timerRAF = requestAnimationFrame(this.timer);
-      }
-      return;
-    }
-
-    this.onHoldComplete();
-    
-  }
-
-  onHoldComplete(){
-    Bus.verbose("cursor:click");
-    // this.isHoldComplete = true;
-    // this.resetHolding();
-    this.props.onHoldComplete();
-  }
-
-  resetHolding(){
-    this.setState({ isHolding: false })
-    if (this.cursor.current) {
-      this.cursor.current.classList.remove('is-hold');
-    }
-  }
-
-  onMouseUp = () => { 
-    this.resetHolding();
-    this.counter = 0;
-  }
-
-  onCursorNotMoving() {
-    this.setState({
-      isCursorStill: true
-    })
   }
 
   render() {

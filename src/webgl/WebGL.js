@@ -15,6 +15,7 @@ import ConfigManager from "../services/ConfigManager";
 import defaultConfig from "./steps/config";
 import ModelAnimationManager from "./manager/ModelAnimation";
 import {init as initChapter1} from "./steps/chapter1"
+import AbilitiesManager from "../services/AbilitiesManager";
 
 class WebGL {
 
@@ -66,6 +67,7 @@ class WebGL {
     this.render();
 
     window.addEventListener("mousewheel", (event)=>{
+      if (!AbilitiesManager.can("changeScale")) return;
       if( this.state.scaleWheelChanging ) return;
       if( Math.abs(event.deltaY) < 50 ) {
         this.state.targetRadius = this.state.baseRadius + event.deltaY*0.1

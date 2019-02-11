@@ -2,6 +2,7 @@ import React from "react";
 import LetterReveal from '~/components/LetterReveal/LetterReveal';
 import "./styles.sass";
 import SoundManager from "~/services/soundManager/SoundManager";
+import AbilitiesManager from "../../../../services/AbilitiesManager";
 
 class ScaleMenu extends React.Component {
   
@@ -23,12 +24,12 @@ class ScaleMenu extends React.Component {
    * Callback to parent
    */
   handleClick = (scaleName) => {
+    if( !AbilitiesManager.can("changeScale")) return;
     //SoundManager.play(['toggle_default_sound', 'woosh_sound']); 
     SoundManager.play([
       ['ui_sounds', 'toggle_default'], 
       ['ui_sounds', 'woosh'], 
     ]); 
-    
     
     this.props.onSelectCallback(scaleName);
   }

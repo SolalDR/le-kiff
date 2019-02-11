@@ -65,7 +65,7 @@ export default class extends Step {
 
     // Animation leaf
     var modelAnimLeaf = ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);
-    modelAnimLeaf.play('hang-out', {timeScale: 1, delay: 0}).then((e) => {
+    modelAnimLeaf.play('hang-out', {timeScale: 1}).then((e) => {
 
       var mainPosition = this.leaf.scene.position.clone();
       var mainRotation = this.leaf.scene.rotation.toVector3();

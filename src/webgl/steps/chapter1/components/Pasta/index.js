@@ -23,6 +23,7 @@ class Pasta {
 
     this.updateFromConfig(config);
     this.modelAnimation = ModelAnimationManager.generateClips(this.object, this.config.modelAnimation.clips, this.config.modelAnimation.options);
+    
   }
 
   updateFromConfig(config){

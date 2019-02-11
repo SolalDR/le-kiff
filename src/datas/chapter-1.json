@@ -8,7 +8,11 @@
     },
     {
       "name": "step_4_pasta",
-      "path": "/chapter-1/chapitre_01_etape_04_05_pasta.glb"
+      "path": "/chapter-1/chapitre_01_etape_04_pasta.glb"
+    },
+    {
+      "name": "step_6_plaquette",
+      "path": "/chapter-1/chapitre_01_etape_06_plaquette.glb"
     },
     {
       "name": "singleLeaf",

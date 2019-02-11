@@ -43,6 +43,22 @@ export default baseConfig.extends({
       }
     }
   },
+  human: {
+    rendering: {
+      light: {
+        primary: {
+          intensity: 0.9,
+          color: new THREE.Color("rgb(255, 253, 238)"),
+          position: new THREE.Vector3(15, 15, 20)
+        },
+        secondary: {
+          intensity: 0.8,
+          color: new THREE.Color("rgb(255, 255, 255)"),
+          position: new THREE.Vector3(-3, 0, 1)
+        }
+      }
+    }
+  },
   sounds: [
     {
       name : "chapter_1_ambiance",

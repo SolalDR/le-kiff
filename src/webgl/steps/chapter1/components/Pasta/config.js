@@ -10,14 +10,18 @@ export default c({
   modelAnimation: {
     name : 'step_4_pasta',
     options: {
-      timeScale:0.0009
+      timeScale: 0.0009
     },
     clips: [
       {
-        name: 'main',
+        name: 'merge',
         firstFrame: 0,
-        lastFrame: 28,
-        loop: THREE.LoopPingPong
+        lastFrame: 23
+      },
+      {
+        name: 'explode',
+        firstFrame: 25,
+        lastFrame: 40
       }
     ]
   }

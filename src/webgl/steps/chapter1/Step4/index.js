@@ -110,7 +110,7 @@ export default class extends Step {
             }).on("end", ()=>{
               AbilitiesManager.can("all", true);
               this.pasta.state.animated = true;
-              this.pasta.modelAnimation.play("main", {
+              this.pasta.modelAnimation.play("merge", {
                 timeScale: 0.4
               }).then(() => {
                 // play sound main voice

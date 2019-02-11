@@ -105,7 +105,7 @@ export default class extends Step {
             })
           )
 
-          this.pasta.modelAnimation.play("main", {
+          this.pasta.modelAnimation.play("merge", {
             timeScale: -0.2
           }).then(()=>{
             // Reactivate noise  and animate diffuse
@@ -139,7 +139,7 @@ export default class extends Step {
                       this.pasta.noiseRocksIntensity = 0;
                       this.pasta.state.animated = true;
                       Renderer.setBokehAperture(fromAperture);
-                      this.pasta.modelAnimation.play("main", {
+                      this.pasta.modelAnimation.play("merge", {
                         timeScale: 0.4
                       });
                     })

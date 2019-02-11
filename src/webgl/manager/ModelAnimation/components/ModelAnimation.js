@@ -13,6 +13,8 @@ class ModelAnimEntity {
     this.running= false;
     this.uid = Math.random (Math.random * 10);
 
+    console.log(this);
+
     this.init();
   }
 
@@ -34,7 +36,7 @@ class ModelAnimEntity {
     animation.loop = loop;
     if(chain) {
       animation.play();
-      lastAnimation.stop();
+      if(lastAnimation) lastAnimation.stop();
     } else {
       animation.play();
     }
@@ -66,6 +68,23 @@ class ModelAnimEntity {
     });
   }
 
+  startAtClip(clipName = this.mainClip.name) {
+    this.play(clipName);
+    this.pause(clipName);
+  }
+
+  stop(clipName = this.mainClip.name) {
+    var action = this.clips.find(u => u.name === clipName);
+    action.animation.stop();
+    this.running = false;
+  }
+
+  pause(clipName = this.mainClip.name) {
+    var action = this.clips.find(u => u.name === clipName);
+    action.animation.paused = true;
+    //this.running = false;
+  }
+
   init() {
     this.setOptions();
     this.setMainClip();
@@ -80,6 +99,8 @@ class ModelAnimEntity {
       name: 'main',
       animation : this.mixer.clipAction( this.model.animations[0] )
     }
+    this.clips.push((this.mainClip));
+    this.currentAction = this.mainClip;
   }
 
 }

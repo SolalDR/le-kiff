@@ -81,14 +81,6 @@
         {
           "name": "chapter_1_trigger",
           "path": "/chapter_1_trigger.mp3"
-        },
-        {
-          "name": "step_1_main_sound",
-          "path": "/step_1_main.mp3"
-        },
-        {
-          "name": "step_2_main_sound",
-          "path": "/step_2_main.mp3"
         }
       ]
     }

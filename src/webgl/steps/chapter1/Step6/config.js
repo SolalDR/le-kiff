@@ -64,7 +64,7 @@ export default baseConfig.extends({
       name : "chapter_1_ambiance",
       spriteName: 'step_6',
       options: {
-        volume: 0.1
+        volume: 0.3
       }
     },
     {
@@ -72,4 +72,8 @@ export default baseConfig.extends({
       spriteName: 'step_6'
     },
   ],
+  timecodes: {
+    press: 6000,
+    microWave: 9000
+  }
 })

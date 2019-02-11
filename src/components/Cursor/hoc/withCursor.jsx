@@ -50,8 +50,8 @@ function withCursor(WrappedComponent) {
     render() {
       return <>
         <Cursor onHoldComplete={this.onHoldComplete.bind(this)} isHoldAllowed={this.state.isHoldAllowed} isLoading={this.state.isLoading} />
-        <WrappedComponent {...this.props} onRef={ref => (this.child = ref)} onStepChange={this.onStepChange.bind(this)} onLoad={this.onLoad.bind(this)} onHoldAllowed={this.onHoldAllowed.bind(this)} />;
-        </>;
+        <WrappedComponent {...this.props} onRef={ref => (this.child = ref)} onStepChange={this.onStepChange.bind(this)} onLoad={this.onLoad.bind(this)} onHoldAllowed={this.onHoldAllowed.bind(this)} />
+        </>
     }
   };
 }

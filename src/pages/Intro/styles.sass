@@ -8,15 +8,25 @@
   display: flex
   justify-content: center
   align-items: center
+  opacity: 1
+  transition: opacity 1s
+  z-index: 8
+
+  &.is-hidden
+    opacity: 0
+
+    .intro__inner
+      transform: translateY(-50%)
+      opacity: 0
 
   &__inner
     position: absolute
     top: 29%
     bottom: 20%
     max-width: between(580px, 640px)
-    // width: 40%
     display: flex
     flex-direction: column
+    transition: transform 1s, opacity 1s
     color: $color-secondary
     text-align: center
     z-index: 2

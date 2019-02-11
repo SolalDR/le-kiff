@@ -112,7 +112,7 @@ class Chapter extends React.Component {
 
       if (this.state.isReady) {
         return (
-            <div className="chapter chapter-1">
+            <div className={`chapter chapter-1 ${this.state.isReady ? 'is-ready' : ''} `}>
                {this.renderSteps()}
               <Timeline 
                 length={this.props.chapter.steps.length} 

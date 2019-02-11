@@ -10,11 +10,23 @@ body {
   font-size: 144px;
   line-height: 130px;
 
+  &--svg {
+    font-size: 30px;
+  }
+
   @include desktop {
     font-size: 170px;
+
+    &--svg {
+      font-size: 34px;
+    }
   }
   @include up-large-desktop {
     font-size: 200px;
+
+    &--svg {
+      font-size: 50px;
+    }
   }
 }
 
@@ -293,4 +305,16 @@ body {
 
 .static-page {
   overflow: scroll;
+}
+
+
+/** TRANSITIONS **/  
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity $t-duration ease-in;
 }

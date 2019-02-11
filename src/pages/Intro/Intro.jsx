@@ -16,7 +16,7 @@ class Intro extends React.Component {
   constructor() {
     super();
     this.state = {
-      autoLoadChapter: true,
+      autoLoadChapter: false,
       reveal: false
     };
   }
@@ -71,19 +71,28 @@ class Intro extends React.Component {
     const videoSrc = this.video ? this.video.getAttribute("src") : '';
 
     return (
-      <div className="intro">
+      <div className="intro" >
         <video muted autoPlay className="intro__video" src={videoSrc} />
         <div className="intro__inner">
+          <div className="intro__inner__layer"></div>
           <div className="intro__inner__content">
-            <LetterReveal
-              text="Le Kiff"
-              class={"intro__title heading-1"}
-              duration={0.09}
-              delay={0.07}
-              globalDelay={1}
-              reveal={this.state.reveal}
-              options={{ filter: "blur(0)" }}
-            />
+            {/* <svg viewBox={'0 0 140 50'}>
+              <filter id="displace">
+                <feTurbulence type="fractalNoise" baseFrequency="0" numOctaves="8" result="turbulence" />
+                <feDisplacementMap scale="4" xChannelSelector="R" yChannelSelector="G" in="SourceGraphic" in2="turbulence" />
+              </filter> */}
+              {/* <g id="target" filter="url(#displace)" fill="#fff"> */}
+                <LetterReveal
+                    text="Le Kiff"
+                    class={"intro__title heading-1"}
+                    duration={0.09}
+                    delay={0.07}
+                    globalDelay={1}
+                    reveal={this.state.reveal}
+                    options={{ filter: "blur(0)" }}
+                  />
+                {/* </g>
+              </svg> */}
             <LetterReveal
               text="Stories of disappearances"
               class={"intro__subtitle heading-2"}
@@ -99,6 +108,7 @@ class Intro extends React.Component {
               <span className="intro__teasing__item">from its birth in Colombia to its consumption in Paris.</span>
             </p>
           </div>
+
           <div className="intro__inner__bottom">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" className={`intro__sound ${this.state.reveal ? 'is-revealed' : ''}`}>
               <g

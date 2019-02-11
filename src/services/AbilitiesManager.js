@@ -29,7 +29,10 @@ class AbilitiesManager {
         }
         abilities[n] = this.abilities[n];
       })
-      Bus.dispatch("abilities:update", this.abilities);
+
+      if( value !== null ){
+        Bus.dispatch("abilities:update", this.abilities);
+      }
       return abilities
     
     } else {
@@ -40,8 +43,10 @@ class AbilitiesManager {
 
       if( value !== null ){
         this.abilities[name] = value;
+        Bus.dispatch(`abilities-${name}:update`, this.abilities[name]);
+        Bus.dispatch("abilities:update", this.abilities);
       }
-      Bus.dispatch("abilities:update", this.abilities);
+
       return this.abilities[name]
 
     }

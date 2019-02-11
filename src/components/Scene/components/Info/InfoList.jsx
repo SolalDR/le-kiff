@@ -3,6 +3,7 @@ import "./styles.sass";
 import InfoManager from "~/webgl/manager/Info";
 import Info from "./Info";
 import Bus from "~/helpers/Bus";
+import AbilitiesManager from "../../../../services/AbilitiesManager";
 
 class InfoList extends React.Component {
 
@@ -21,15 +22,28 @@ class InfoList extends React.Component {
    * @param {Map} infosPosition A Map with infos id as keys
    */
   onInfosUpdatePosition(infosPosition){
-    this.infos.forEach((info)=>{
-      if( !info.ref.current ) return;
-      
-      // If position has been modified, update directly state
-      var screenPosition = infosPosition.get(info.props.info.id);
-      if( screenPosition ){
-        info.ref.current.setState({ screenPosition })
-      }
-    })
+    var callback = _ => {
+      this.infos.forEach((info)=>{
+        if( !info.ref.current ) return;
+        
+        // If position has been modified, update directly state
+        var screenPosition = infosPosition.get(info.props.info.id);
+        if( screenPosition ){
+          info.ref.current.setState({ screenPosition })
+        }
+      })
+    }
+ 
+    if( !AbilitiesManager.can("selectInfo") ) {
+      Bus.once("abilities-selectInfo:update", (value)=>{
+        if( value === true ){
+          callback();
+        }
+      })
+    } else {
+      callback();
+    }
+    
   }
 
   handleClick = (event) => {

@@ -43,10 +43,13 @@ export default class extends Step {
       this.particleCloud = previousStep.particleCloud;
     }
 
-    // play sound voiceover
+    // Start sounds
     SoundManager.play('chapter_1_main_voice', 'step_5', {
-      delay: 1
+      delay: 2
     })
+    SoundManager.play('chapter_1_trigger', 'step_5_02_h1_ajout_acide', {
+      delay: 1
+    })    
 
     // Pasta
     this.pasta.noiseRocksIntensity = 0;
@@ -67,12 +70,19 @@ export default class extends Step {
     // Wait and drop a water
     setTimeout(()=>{
       this.water.drop(0, -3, 0.3);
-    }, 2600);
+
+      // water drop sound
+      SoundManager.play('chapter_1_trigger', 'step_3_03_entree_eau').then(() => {
+        SoundManager.addEffect('moogfiltergit ');
+        SoundManager.play('chapter_1_trigger', 'step_5_03_reaction_chimique')      
+        SoundManager.play('chapter_1_trigger', 'step_3_04_ambiance_eau')      
+      })
+    }, 1600);
 
     // Start diving in water
     var fromAperture = Renderer.getBokehAperture();
     AnimationManager.addAnimation(
-      new Animation({ duration: 2000, delay: 2000, timingFunction: "easeOutQuad" })
+      new Animation({ duration: 1000, delay: 2000, timingFunction: "easeOutQuad" })
         .on("progress", (event)=>{
           this.water.mesh.position.y = -10 + 8*event.advancement;
           this.particleCloud.object3D.position.y = -20 + 17*event.advancement;
@@ -110,7 +120,7 @@ export default class extends Step {
           }).then(()=>{
             // Reactivate noise  and animate diffuse
             this.pasta.state.animated = false;
-            AnimationManager.addAnimation(new Animation({duration: 4000})
+            AnimationManager.addAnimation(new Animation({duration: 2000})
               .on("progress", (event)=>{
                 this.pasta.material.uniforms.u_base_color.value = Mixer.color(new THREE.Color(0, 0, 0), new THREE.Color(1, 1, 1), event.advancement);
                 this.pasta.noiseRocksIntensity = event.advancement*4;
@@ -144,7 +154,7 @@ export default class extends Step {
                       });
                     })
                   )
-                }, 6000)
+                }, 4000)
 
               })
             )

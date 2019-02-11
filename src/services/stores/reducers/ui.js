@@ -3,7 +3,8 @@ import {
   SET_CURRENT_INFOS,
   SET_CURRENT_STEP,
   SET_CURRENT_SCALE,
-  SET_CURRENT_STEP_RANK
+  SET_CURRENT_STEP_RANK,
+  SET_TUTORIAL_DONE
 } from '../actionTypes';
 
 const initialState = {
@@ -18,7 +19,8 @@ const initialState = {
 
   //Current infos
   infos: [],
-  scale: 'human'
+  scale: 'human',
+  tutorialDone: false
 };
 
 const ui = (state = initialState, action) => {
@@ -65,6 +67,11 @@ const ui = (state = initialState, action) => {
         return state;
       } 
       
+    case SET_TUTORIAL_DONE:
+      return {
+        ...state,
+        tutorialDone: true
+      }
 
     default:
       return state;

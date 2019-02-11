@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import withCursor from '~/components/Cursor/hoc/withCursor';
 import PropTypes from 'prop-types';
 import { getWholeChapter, getChapter, getStep, getIsChapterReady } from "~/services/stores/reducers/selectors";
-import { setCurrentChapterData, setCurrentStepRank } from "~/services/stores/actions";
+import { setCurrentChapterData, setCurrentStepRank, setTutorialDone } from "~/services/stores/actions";
 import Scene from "~/components/Scene/Scene";
 import Timeline from "~/components/Timeline/Timeline";
 import Loading from "~/components/Loading/Loading";
@@ -148,7 +148,8 @@ const mapDispatchToProps = dispatch => {
     }, 
     _setCurrentStepRank: rank => {
       dispatch(setCurrentStepRank(rank));
-    }};
+    }
+  };
 };
 
 export default withCursor(connect(mapStateToProps, mapDispatchToProps)(Chapter));

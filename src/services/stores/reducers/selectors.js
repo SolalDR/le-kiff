@@ -10,6 +10,7 @@ export const getStep = (state) => state.ui.step;
 export const getChapters = (state) => state.entities.chapters;
 export const getIsChapterReady = (state, rank) => state.entities.chaptersReady.indexOf(`chapter-${rank}`) >= 0;
 export const getIsAssetLoaded = (state, type) => state.entities.assetsLoaded.indexOf(type) >= 0;
+export const getIsTutorialDone = (state) => state.ui.tutorialDone;
 
 export const getStepsForChapter = (state, rank) => {
   const chapter = getChapter(state, rank);

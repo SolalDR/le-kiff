@@ -1,15 +1,28 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
 import LetterReveal from '~/components/LetterReveal/LetterReveal';
 import "./styles.sass";
 import SoundManager from "~/services/soundManager/SoundManager";
 
 class ScaleMenu extends React.Component {
-  
+
+  static propTypes = {
+    step: PropTypes.shape({
+      scale: PropTypes.number,
+      chapter_id: PropTypes.string,
+      onSelectCallback: PropTypes.func,
+      showTutorial: PropTypes.bool
+    })
+  }
+
+
   constructor(props){
     super(props);
     this.state = {
       scale: props.scale,
-      revealed: null
+      revealed: null,
+      showTutorial: props.showTutorial
     };
 
     this.infos = [
@@ -28,7 +41,6 @@ class ScaleMenu extends React.Component {
       ['ui_sounds', 'toggle_default'], 
       ['ui_sounds', 'woosh'], 
     ]); 
-    
     
     this.props.onSelectCallback(scaleName);
   }
@@ -72,6 +84,9 @@ class ScaleMenu extends React.Component {
     return (
       <div className="scale-menu">
         {this.renderScaleItem()}
+        <div className={`scale-menu__tutorial ${this.state.showTutorial ? '' : 'is-hidden'}`}>
+          <p className="teasing-3"><span className="scale-menu__tutorial__item">Feel free to switch point of views</span> <span className="scale-menu__tutorial__item">to look beyond or to go deeper, at </span><span className="scale-menu__tutorial__item">any time.</span> </p>
+        </div>
       </div>
     )
   }

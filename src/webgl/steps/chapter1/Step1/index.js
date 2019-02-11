@@ -55,7 +55,6 @@ export default class extends Step {
     leafScene.position.copy(mainTransformConfig.position);
     leafScene.rotation.copy(mainTransformConfig.rotation);
     this.scene.humanScale.group.add(leafScene);
-  
 
     // main transform
 
@@ -63,7 +62,7 @@ export default class extends Step {
  
     // Add background
     this.scene.humanScale.group.add(this.background.object3D);
-    
+    AbilitiesManager.can("all", true);
   }
 
   initGUI(){

@@ -23,7 +23,7 @@ class Cursor extends React.Component {
     this.bulletWidth = 0;
 
     this.counter = 0;
-    this.holdDuration = 20;
+    this.holdDuration = 70;
     this.isHoldComplete = false;
     this.cursorNotMovingTimeout = null;
     this.target = {
@@ -67,13 +67,13 @@ class Cursor extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isHoldAllowed !== this.props.isHoldAllowed) {
-        if (nextProps.isHoldAllowed) {
-          Bus.verbose("cursor:click&hold-allowed", 3);
-        } else {
-          Bus.verbose("cursor:click&hold-not-allowed", 3);
-        }
-    }
+    // if (nextProps.isHoldAllowed !== this.props.isHoldAllowed) {
+    //     if (nextProps.isHoldAllowed) {
+    //       Bus.verbose("cursor:click&hold-allowed", 3);
+    //     } else {
+    //       Bus.verbose("cursor:click&hold-not-allowed", 3);
+    //     }
+    // }
   }
 
   // Events
@@ -89,7 +89,7 @@ class Cursor extends React.Component {
   }
 
   onMouseDown = (e) => {
-    if (e.which != 3 && this.props.isHoldAllowed) {
+    if (e.which != 3) {
       this.setState({ isHolding: true })
       this.cursor.current.classList.add('is-hold');
       e.preventDefault();
@@ -182,7 +182,7 @@ class Cursor extends React.Component {
             </svg>
           </div>
           <LetterReveal text="Loading" class={'cursor__text cursor__loading small'} duration={0.3} delay={0.025} globalDelay={4} reveal={this.props.isLoading} start={{top: 15}} />
-          <LetterReveal text="Hold to continue" class={'cursor__text cursor__hold small'} duration={0.15} delay={0.025} reveal={!this.props.isLoading && this.state.isCursorStill && this.props.isHoldAllowed} />
+          <LetterReveal text="Hold to continue" class={'cursor__text cursor__hold small'} duration={0.15} delay={0.025} reveal={!this.props.isLoading && this.state.isCursorStill} />
       </div>
     )
   }

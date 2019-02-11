@@ -6,6 +6,7 @@ import SimplexNoise from "simplex-noise";
 import Renderer from "~/webgl/rendering/Renderer"
 import { AnimationManager, Animation } from "../../../manager";
 import { Mixer } from "../../../manager/Animation";
+import AbilitiesManager from "../../../../services/AbilitiesManager";
 
 /**
  * @constructor
@@ -132,6 +133,7 @@ export default class extends Step {
                       }
                     })
                     .on("end", ()=>{
+                      AbilitiesManager.can("all", true);
                       this.water.mesh.position.y = -17;
                       this.particleCloud.object3D.position.y = -20;
                       this.pasta.noiseRocksIntensity = 0;

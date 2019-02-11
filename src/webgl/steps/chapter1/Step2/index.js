@@ -6,6 +6,7 @@ import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import leafCloudConfig from "./../components/LeafCloud/config";
 import ModelAnimationManager from "../../../manager/ModelAnimation";
 import SoundManager from "../../../../services/soundManager/SoundManager";
+import AbilitiesManager from "../../../../services/AbilitiesManager";
 
 /**
  * @constructor
@@ -105,6 +106,7 @@ export default class extends Step {
         timeScale: 1, 
         chain: true
       }).then(() => {
+        AbilitiesManager.can("all", true);
         modelAnimLeaf.play('idle', {
           timeScale: 0.2, 
           loop: THREE.LoopRepeat,

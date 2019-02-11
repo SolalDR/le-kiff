@@ -8,6 +8,7 @@ import AnimationManager, {Animation} from "../../../manager/Animation";
 import ParticleCloud from "~/webgl/components/ParticleCloud"
 import configStep4 from "./../Step4/config"
 import SoundManager from "../../../../services/soundManager/SoundManager";
+import AbilitiesManager from "../../../../services/AbilitiesManager";
 
 /**
  * @constructor
@@ -117,6 +118,7 @@ export default class extends Step {
             this.particleCloud.material.uniforms.u_size.value = event.advancement * 7;
           })
           .on("end", (event)=>{
+            AbilitiesManager.can("all", true);
             this.water.material.uniforms.diffuse.value = toColor;
             this.scene.humanScale.group.remove(this.leafClouds.object3D);
             this.scene.humanScale.group.add(this.particleCloud.object3D);

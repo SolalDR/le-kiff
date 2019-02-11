@@ -77,19 +77,20 @@ export default class extends Step {
     this.pasta.modelAnimation.startAtClip('explode');
     this.pasta.state.animated = true;
 
-    // Hydraulic press animation
+    // Hydraulic press phase
     setTimeout(() => {
 
       // Press Sound
       SoundManager.play('chapter_1_trigger', 'step_6_01_presse_hydrau', {
-        volume: 1,
-        delay: 0
+        volume: 1
+      });    
+      SoundManager.play('chapter_1_trigger', 'step_6_02_h1_elle_est_pour_qui', {
+        delay: 2
       }).then(() => {
-        SoundManager.play('chapter_1_trigger', 'step_6_02_h1_elle_est_pour_qui').then(() => {
-          SoundManager.play('chapter_1_trigger', 'step_6_03_h2_che');
-        });
-      });      
+        SoundManager.play('chapter_1_trigger', 'step_6_03_h2_che');
+      });
       
+      // Press animation
       setTimeout(() => {
         // Pasta explode
         this.pasta.modelAnimation.play("explode", {timeScale: 1}).then(()=>{
@@ -99,29 +100,63 @@ export default class extends Step {
         // Brick appear
         var brickTargetScale = new THREE.Vector3(0.0088, 0.0088, 0.0088)
         AnimationManager.addAnimation(
-          new Animation({ duration: 300, delay: 200, timingFunction: "easeInOutQuad" })
+          new Animation({ duration: 300, delay: 150, timingFunction: "easeInOutQuad" })
             .on("progress", (event)=>{ 
               this.brick.scene.scale.lerpVectors(brickStartScale, brickTargetScale, event.advancement);
               this.brickMaterial.opacity = event.advancement;
-            })
-            .on("end", ()=>{
-              
             })
         )   
 
         // Group press movement
         AnimationManager.addAnimation(
-          new Animation({ duration: 700, delay: 150, timingFunction: "easeOutCubic" })
+          new Animation({ duration: 400, timingFunction: "easeInCubic" })
           .on("progress", (event)=>{ 
-            this.morphGroup.position.y = (- 1 + ( Math.cos(event.advancement * Math.PI * 2 ) + 1 ) / 2) / 2;
+            //this.morphGroup.position.y = (- 1 + ( Math.cos(event.advancement * Math.PI * 2 ) + 1 ) / 2) / 2;
+            this.morphGroup.position.y = -event.advancement * 0.5;
           })
           .on("end", ()=>{
-            
+            AnimationManager.addAnimation(
+              new Animation({ duration: 700, timingFunction: "easeOutCubic" })
+              .on("progress", (event)=>{ 
+                //this.morphGroup.position.y = (- 1 + ( Math.cos(event.advancement * Math.PI * 2 ) + 1 ) / 2) / 2;
+                this.morphGroup.position.y = event.advancement * 0.5;
+              })
+            )
           })
         )
-      }, 270);
+      }, 300);
 
     }, this.config.timecodes.press)
+
+    // Mico wave
+    setTimeout(() => {
+      // Roation animation
+      AnimationManager.addAnimation(
+        new Animation({ 
+          duration: 6000, 
+          from: 0, 
+          to: Math.PI * 2,
+          delay: 2000,
+          timingFunction: "easeInOutQuad" 
+        }).on("progress", (event)=>{ 
+          this.morphGroup.rotation.y = 0.62 + event.value;
+        })
+        .on("end", ()=>{
+          SoundManager.play('chapter_1_trigger', 'step_6_06_h1_snif_bon_comme_ca').then(() => {
+            SoundManager.play('chapter_1_trigger', 'step_6_07_h1_bien_un_kilo').then(() => {
+              SoundManager.play('chapter_1_trigger', 'step_6_08_h2_oui');
+            });
+          });
+        })
+      )   
+      
+      // Micro Wave sounds
+      SoundManager.play('chapter_1_trigger', 'step_6_04_h1_mets_la_une_minute');
+      SoundManager.play('chapter_1_trigger', 'step_6_05_micro_onde', {
+        delay: 2
+      });
+
+    }, this.config.timecodes.microWave)
   
 
     // add objects to group

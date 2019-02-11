@@ -1,9 +1,10 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
-import LeafCloud from "../components/LeafCloud";
 import config from "./config";
-import AnimationManager, {Animation} from "~/webgl/manager/Animation";
+import configStep1 from "./../Step1/config"
+import LeafCloud from "../components/LeafCloud";
 import leafCloudConfig from "./../components/LeafCloud/config";
+import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import ModelAnimationManager from "../../../manager/ModelAnimation";
 import SoundManager from "../../../../services/soundManager/SoundManager";
 import AbilitiesManager from "../../../../services/AbilitiesManager";
@@ -39,16 +40,25 @@ export default class extends Step {
     super.display( ressources );
   }
 
+  beforeDisplayFollow(ressources, previousStep){
+    this.leaf = previousStep.leaf;
+    this.leaf.name = config.modelAnimation.name;  
+  }
+
+  beforeDisplayMessy(ressources, previousStep){
+    this.leaf = ressources.step_1_human_leaf.result;
+    var leafScene = this.leaf.scene;
+    leafScene.name = 'step_1_human_leaf_scene';
+    var mainTransformConfig = configStep1.transforms.find(transform => transform.asset === leafScene.name);
+    leafScene.position.copy(mainTransformConfig.position);
+    leafScene.rotation.copy(mainTransformConfig.rotation);
+  }
+
   /**
    * Display human scale scene 
    * @param {*} ressources
    */
   displayHumanScale( ressources, previousStep ){
-    // TODO: previousStep.leaf;
-    this.leaf = previousStep.leaf || ressources.step_1_human_leaf.result;
-    this.leaf.name = config.modelAnimation.name;
-    
-    // Background
     this.background = previousStep.background;
     this.background.changeBackground(ressources.background2.result, 3000, 3000);
 
@@ -63,6 +73,8 @@ export default class extends Step {
     });
     this.leafClouds.object3D.position.z = leafCloudConfig.hidden.position.z;
     this.leafClouds.object3D.material.opacity = 0;
+
+
     this.scene.humanScale.group.add(this.leafClouds.object3D);
 
     // Animation leaf
@@ -87,8 +99,8 @@ export default class extends Step {
         this.leafClouds.object3D.position.y = 11 - event.advancement * 11;
 
       }).on("end", () => {
-        this.leafClouds.object3D.position.set(0, 0, -15);
-        this.leafClouds.object3D.material.opacity = 1;
+        this.leafClouds.object3D.position.set(0, 0, -15); // Todo put in config
+        this.leafClouds.object3D.material.opacity = 1;    // Todo put in config
       }))
 
       
@@ -101,7 +113,7 @@ export default class extends Step {
         targetRotation.lerpVectors(mainRotation, mainTransitionData.rotation, a);
         this.leaf.scene.rotation.setFromVector3(targetRotation);
       }));
-      
+
       modelAnimLeaf.play('move-in-wind', {
         timeScale: 1, 
         chain: true
@@ -165,7 +177,7 @@ export default class extends Step {
    * Raf
    */
   loop(time){
-    this.leafClouds.render(time * 0.01);
+    this.leafClouds.render();
     super.loop();
   }
 }

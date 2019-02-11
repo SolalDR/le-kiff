@@ -35,29 +35,35 @@ export default class extends Step {
     this.displayHumanScale( ressources, previousStep );
     super.display( ressources );
   }
+  
+  beforeDisplayMessy(ressources, previousStep){
+    if(previousStep && previousStep.background) {
+      this.background = previousStep.background;
+    } else {
+      this.background = new InteractivePlane({
+        front: ressources.background1.result, 
+        back: ressources.background2.result,
+        size: 500,
+        gui: this.gui
+      });
+      this.background.object3D.name = "background";
+      this.background.object3D.position.z = -100;    
+    }
 
-  displayHumanScale( ressources, previousStep ){
-    
-    this.background = new InteractivePlane({
-      front: ressources.background1.result, 
-      back: ressources.background2.result,
-      size: 450,
-      gui: this.gui
-    });
-    this.background.object3D.name = "background";
-    this.background.object3D.position.z = -100;
-
+    this.background.changeBackground(ressources.background1.result, 0, 0);
 
     this.leaf = ressources.step_1_human_leaf.result;
     var leafScene = this.leaf.scene;
     leafScene.name = 'step_1_human_leaf_scene';
+    
     var mainTransformConfig = config.transforms.find(transform => transform.asset === leafScene.name);
     leafScene.position.copy(mainTransformConfig.position);
     leafScene.rotation.copy(mainTransformConfig.rotation);
     this.scene.humanScale.group.add(leafScene);
+  }
 
+  displayHumanScale( ressources, previousStep ){
     // main transform
-
     this.initGUI();
  
     // Add background

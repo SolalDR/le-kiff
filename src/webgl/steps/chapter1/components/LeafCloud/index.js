@@ -46,25 +46,28 @@ class LeafCloud {
       cluster.setPositionAt( i , this.items[i].position );
       cluster.setScaleAt( i , _v3.set(1,1,1) );
     }
+
+    this.timeRotation = 0;
+    this.timePosition = 0;
     this.noise = new SimplexNoise();
     this.object3D = cluster;
     this.object3D.geometry.maxInstancedCount = 100
   }
 
   render(time){
-    var timeRotation = time * this.config.speedRotation;
-    var timePosition = time * this.config.speedPosition;
+    this.timeRotation += this.config.speedRotation*0.0001;
+    this.timePosition += this.config.speedPosition*0.0001;
     this.items.forEach((item, i) => {
       this.object3D.setQuaternionAt( i , new THREE.Quaternion(
-        this.noise.noise2D(item.rotation.x + i*0.5, timeRotation),
-        this.noise.noise2D(item.rotation.y + i*0.5, timeRotation),
-        this.noise.noise2D(item.rotation.z + i*0.5, timeRotation),
-        this.noise.noise2D(item.rotation.w + i*0.5, timeRotation)
+        this.noise.noise2D(item.rotation.x + i*0.5, this.timeRotation),
+        this.noise.noise2D(item.rotation.y + i*0.5, this.timeRotation),
+        this.noise.noise2D(item.rotation.z + i*0.5, this.timeRotation),
+        this.noise.noise2D(item.rotation.w + i*0.5, this.timeRotation)
       ).normalize() );
       this.object3D.setPositionAt( i , new THREE.Vector3(
-        this.noise.noise2D(item.position.x + i*0.5, timePosition) * this.config.amplitude,
-        this.noise.noise2D(item.position.y + i*0.5, timePosition) * this.config.amplitude,
-        this.noise.noise2D(item.position.z + i*0.5, timePosition) * this.config.amplitude*0.5
+        this.noise.noise2D(item.position.x + i*0.5, this.timePosition) * this.config.amplitude,
+        this.noise.noise2D(item.position.y + i*0.5, this.timePosition) * this.config.amplitude,
+        this.noise.noise2D(item.position.z + i*0.5, this.timePosition) * this.config.amplitude*0.5
       ) );
       
     })

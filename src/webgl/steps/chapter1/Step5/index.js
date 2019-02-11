@@ -1,12 +1,16 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import config from "./config";
+import configStep3 from "./../Step3/config";
 import SoundManager from "../../../../services/soundManager/SoundManager";
 import SimplexNoise from "simplex-noise";
 import Renderer from "~/webgl/rendering/Renderer"
 import { AnimationManager, Animation } from "../../../manager";
 import { Mixer } from "../../../manager/Animation";
 import AbilitiesManager from "../../../../services/AbilitiesManager";
+import Pasta from "./../components/Pasta"
+import ParticleCloud from "~/webgl/components/ParticleCloud"
+
 
 /**
  * @constructor
@@ -30,6 +34,29 @@ export default class extends Step {
     super.beforeDisplay( ressources, previousStep );
     this.displayHumanScale( ressources, previousStep );
     super.display( ressources );
+  }
+
+  beforeDisplayMessy(ressources, previousStep){
+    // Pasta
+    this.pasta = new Pasta({
+      object: ressources.step_4_pasta.result,
+      noise: this.simplex
+    })
+    this.pasta.noiseRocksIntensity = 3;
+    this.scene.humanScale.group.add(this.pasta.scene);
+
+    // Water
+    this.water = this.water = Renderer.water;
+    this.water.mesh.position.y = -2;
+    this.water.mesh.position.z = 7;
+    this.water.mesh.scale.x = 2;
+    this.water.material.uniforms.diffuse.value = this.config.water.color
+    this.water.mesh.name = "water-step-3";
+    this.scene.humanScale.group.add(this.water.mesh)
+
+    // particle
+    this.particleCloud = new ParticleCloud({ gui: this.gui, config: configStep3.particleConfig });
+    this.scene.humanScale.group.add(this.particleCloud.object3D);
   }
 
   /**

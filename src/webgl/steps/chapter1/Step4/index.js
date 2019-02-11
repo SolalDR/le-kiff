@@ -17,7 +17,7 @@ import AbilitiesManager from "../../../../services/AbilitiesManager";
  */
 export default class extends Step {
   constructor(params){
-    super(params, ["background", "water"]);
+    super(params, ["background", "water", "pasta", "particle"]);
     this.simplex = new SimplexNoise();
   }
   /**

@@ -168,9 +168,9 @@ class Step extends Event {
    */
   beforeHide(nextStep){
     if( nextStep.rank === this.rank + 1 ){
-      this.beforeDisplayFollow(nextStep)
+      this.beforeHideFollow(nextStep)
     } else {
-      this.beforeDisplayMessy(nextStep)
+      this.beforeHideMessy(nextStep)
     }
   }
 

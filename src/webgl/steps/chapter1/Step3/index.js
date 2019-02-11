@@ -1,7 +1,9 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import config from "./config";
-import Water from "../../../components/Water";
+import LeafCloud from "../components/LeafCloud";
+import leafCloudConfig from "./../components/LeafCloud/config";
+import configStep2 from "./../Step2/config";
 import Renderer from "~/webgl/rendering/Renderer"
 import ModelAnimationManager from "../../../manager/ModelAnimation";
 import AnimationManager, {Animation} from "../../../manager/Animation";
@@ -16,7 +18,7 @@ import AbilitiesManager from "../../../../services/AbilitiesManager";
  */
 export default class extends Step {
   constructor(params){
-    super(params, ["background", "leaf", "water", "leafCloud"]);
+    super(params, ["background", "leaf", "water", "leafCloud", "particleCloud"]);
   }
   /**
    * This method initialize the step and 
@@ -33,14 +35,64 @@ export default class extends Step {
     super.display( ressources );
   }
 
+  beforeDisplayFollow(ressources, previousStep){
+    // Leaf
+    this.leaf = ressources.step_1_human_leaf.result;
+    this.leaf.name = config.modelAnimation.name;
+
+    // Leaf cloud
+    this.leafClouds = previousStep.leafClouds;
+    
+    // Background
+    this.background = previousStep.background;
+
+    // Particle cloud
+    this.particleCloud = new ParticleCloud({ gui: this.gui, config: this.config.particleConfig });
+    this.scene.humanScale.group.add(this.particleCloud.object3D)
+  }
+
+  beforeDisplayMessy(ressources, previousStep){
+    // Leaf
+    this.leaf = ressources.step_1_human_leaf.result;
+    this.leaf.scene.position.set(-30, 1.76, 0.96);
+    this.leaf.scene.rotation.set(0.46, 0.2, -0.18);
+    var modelAnimLeaf = ModelAnimationManager.generateClips(this.leaf, configStep2.modelAnimation.clips, configStep2.modelAnimation.options);
+    modelAnimLeaf.play('move-in-wind');
+    modelAnimLeaf.currentAction.animation.time = modelAnimLeaf.currentAction.animation.getClip().duration
+
+    this.leaf.name = config.modelAnimation.name;
+    this.scene.humanScale.group.add(this.leaf.scene);
+
+    // Background
+    this.background = previousStep.background;
+    this.background.changeBackground(ressources.background2.result, 0, 0)
+
+    // Leaf cloud creation
+    this.leafClouds = new LeafCloud({
+      map: ressources.mapLeaf.result,
+      alpha: ressources.alphaLeaf.result,
+      normal: ressources.normalLeaf.result,
+      roughness: ressources.roughnessLeaf.result,
+      transparent: true,
+      geometry: ressources.singleLeaf.result.children[0].geometry
+    });
+    this.leafClouds.object3D.position.set(0, 0, -15); // Todo put in config
+    this.leafClouds.object3D.material.opacity = 1;    // Todo put in config
+    this.scene.humanScale.group.add(this.leafClouds.object3D);
+
+    // Particle cloud
+
+    this.particleCloud = new ParticleCloud({ gui: this.gui, config: this.config.particleConfig });
+    this.scene.humanScale.group.add(this.particleCloud.object3D);
+  }
+
+
   /**
    * Init human scale scene 
    * @param {*} event
    */
   displayHumanScale( ressources, previousStep ){
-    this.leaf = ressources.step_1_human_leaf.result;
-    this.leaf.name = config.modelAnimation.name;
-    this.leafClouds = previousStep.leafClouds;
+   
     
     this.water = Renderer.water;
     this.water.mesh.scale.x = 2;
@@ -48,15 +100,11 @@ export default class extends Step {
     this.water.mesh.position.z = 7;
     this.water.mesh.name = "water-step-3";
     this.water.drop(0, -5, 1)
+    this.scene.humanScale.group.add(this.water.mesh)
 
-    this.background = previousStep.background;
-    this.particleCloud = new ParticleCloud({ gui: this.gui, config: this.config.particleConfig });
-    this.scene.humanScale.group.add(this.particleCloud.object3D)
 
     this.initGUI();
 
-    this.scene.humanScale.group.add(this.water.mesh)
-    this.scene.humanScale.group.add(this.leaf.scene);
 
     // Generate sound clips
     var modelAnimLeaf = ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options)
@@ -94,6 +142,7 @@ export default class extends Step {
 
       Renderer.setBokehAperture(fromAperture + event.advancement * 4)
     }).on("end", (event)=>{
+      this.config.human.rendering.bokeh.aperture = 4;
       setTimeout(() => {
         SoundManager.play('chapter_1_trigger', 'step_3_05_h1_ajoute_le_kerosene', {
           volume: 0.5
@@ -197,6 +246,10 @@ export default class extends Step {
 
     if ( toRemove.includes("leafCloud") ){
       this.scene.humanScale.group.remove(this.leafClouds.object3D);
+    }
+
+    if ( toRemove.includes("particleCloud") ){
+      this.scene.humanScale.group.remove(this.particleCloud.object3D);
     }
 
     super.hide(newStep);

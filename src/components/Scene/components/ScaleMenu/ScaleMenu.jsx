@@ -1,16 +1,29 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
 import LetterReveal from '~/components/LetterReveal/LetterReveal';
 import "./styles.sass";
 import SoundManager from "~/services/soundManager/SoundManager";
 import AbilitiesManager from "../../../../services/AbilitiesManager";
 
 class ScaleMenu extends React.Component {
-  
+
+  static propTypes = {
+    step: PropTypes.shape({
+      scale: PropTypes.number,
+      chapter_id: PropTypes.string,
+      onSelectCallback: PropTypes.func,
+      showTutorial: PropTypes.bool
+    })
+  }
+
+
   constructor(props){
     super(props);
     this.state = {
       scale: props.scale,
-      revealed: null
+      revealed: null,
+      showTutorial: props.showTutorial
     };
 
     this.infos = [
@@ -73,6 +86,17 @@ class ScaleMenu extends React.Component {
     return (
       <div className="scale-menu">
         {this.renderScaleItem()}
+        <div className={`scale-menu__tutorial ${this.state.showTutorial ? '' : 'is-hidden'}`}>
+          <p className="teasing-3"><span className="scale-menu__tutorial__item">Feel free to switch point of views</span> <span className="scale-menu__tutorial__item">to look beyond or to go deeper, at </span><span className="scale-menu__tutorial__item">any time.</span> </p>
+          <svg width="29" height="50" xmlns="http://www.w3.org/2000/svg" className="scale-menu__tutorial__icon">
+            <g fill="none" fillRule="evenodd">
+              <rect stroke="#FFF" x=".5" y=".5" width="28" height="49" rx="14"/>
+              <g className="scale-menu__tutorial__icon__circle">
+                <circle fill="#FFF" cx="15" cy="10" r="3"/>
+              </g>
+            </g>
+          </svg>
+        </div>
       </div>
     )
   }

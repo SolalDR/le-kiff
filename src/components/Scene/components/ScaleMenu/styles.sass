@@ -94,6 +94,66 @@ $border-width: 2px
       padding-right: 2.2px
       width: auto
 
+  &__tutorial
+    color: $color-secondary
+    font-style: italic
+    position: absolute
+    left: 140px
+    top: 50%
+    transform: translateX(-5%) translateY(-50%)
+    width: 220px
+    animation:
+      name: wobbleUp
+      delay: 2s
+      duration: 6s
+      timing-function: $t-timing-function
+      fill-mode: forwards
+
+    &.is-hidden
+      animation: none
+      display: none
+
+    &__icon
+      position: absolute
+      right: -50px
+      top: 50%
+      transform: translateY(-50%)
+      opacity: 0
+      visibility: hidden
+      animation:
+        name: goUpFromMiddle
+        delay: 2s
+        duration: 7s
+        timing-function: $t-timing-function
+        fill-mode: forwards
+
+      &__circle
+        position: relative
+        animation:
+          name: goDown
+          delay: 2s
+          duration: 1s
+          direction: alternate-reverse
+          timing-function: $t-timing-function
+          fill-mode: forwards
+          iteration-count: infinite
+
+    &__item
+      display: inline-block
+      position: relative
+      top: 10%
+      opacity: 0
+      visibility: hidden
+
+      @for $i from 0 to 4
+        &:nth-of-type(#{$i})
+          animation:
+            name: goUp
+            delay: 2s + ($i * 0.5)
+            duration: 7s - ($i * 0.75)
+            timing-function: $t-timing-function
+            fill-mode: forwards
+
   //Responsive
   @include desktop()
     left: $pos-m
@@ -152,3 +212,80 @@ $border-width: 2px
         &:before
           width: $space-m - ($border-width * 2)
           height: $space-m - ($border-width * 2)
+
+  @keyframes wobbleUp
+    0%
+      transform: translateX(-5%) translateY(-50%)
+
+    10%
+      transform: translateX(0) translateY(-50%)
+
+    32.5%
+      transform: translateX(-10%)  translateY(-50%)
+
+    55%
+      transform: translateX(0)  translateY(-50%)
+
+    77.5%
+      transform: translateX(-10%)  translateY(-50%)
+
+    100%
+      transform: translateX(0) translateY(-50%)
+
+  @keyframes goUp
+    0%
+      transform: translateY(50px)
+      opacity: 0
+
+    20%
+      opacity: 1
+      visibility: visible
+
+    30%
+      transform: translateY(0)
+      opacity: 1
+      visibility: visible
+
+    80%
+      transform: translateY(0)
+      opacity: 1
+      visibility: visible
+
+    100%
+      transform: translateY(20px)
+      opacity: 0
+      visibility: hidden
+
+  @keyframes goDown
+    0%
+      transform: translateY(0)
+      opacity: 1
+
+    100% 
+      transform: translateY(2px)
+      opacity: .25
+
+
+  @keyframes goUpFromMiddle
+    0%
+      transform: translateY(0)
+      opacity: 0
+
+    20%
+      opacity: 1
+      visibility: visible
+
+    30%
+      transform: translateY(-50%)
+      opacity: 1
+      visibility: visible
+
+    80%
+      transform: translateY(-50%)
+      opacity: 1
+      visibility: visible
+
+    100%
+      transform: translateY(0)
+      opacity: 0
+      visibility: hidden

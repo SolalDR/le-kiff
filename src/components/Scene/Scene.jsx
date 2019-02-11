@@ -1,16 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setCurrentScale } from '~/services/stores/actions';
+import PropTypes from 'prop-types';
+
 import ScaleMenu from "./components/ScaleMenu/ScaleMenu";
 import SoundButton from "./components/SoundButton/SoundButton";
 import FullScreenButton from "./components/FullScreenButton/FullScreenButton";
-import WebGL from "~/webgl/WebGL";
-import PropTypes from 'prop-types';
-import { getCurrentScale } from '~/services/stores/reducers/selectors';
 import InfoList from "./components/Info/InfoList";
+
+import WebGL from "~/webgl/WebGL";
+
+import { setCurrentScale } from '~/services/stores/actions';
+import { getCurrentScale, getIsTutorialDone, getIsChapterReady, getIsAssetLoaded } from '~/services/stores/reducers/selectors';
+import { setTutorialDone } from "~/services/stores/actions";
+
 import {InfoManager} from "~/webgl/manager"
 import Bus from "~/helpers/Bus"
-import { getIsChapterReady, getIsAssetLoaded } from '../../services/stores/reducers/selectors';
 import "./style.sass"
 
 class Scene extends React.Component {
@@ -50,6 +54,13 @@ class Scene extends React.Component {
       })
     }
   }
+
+  componentWillMount() {
+    if (!this.props.isTutorialDone) {
+      this.props._setTutorialDone();
+    }
+  }
+
 
   initScene(){
     this.webgl = new WebGL({
@@ -92,7 +103,7 @@ class Scene extends React.Component {
   render(){
     return (
       <div ref={(this.sceneElement)} className="scene">
-          <ScaleMenu scale={this.props.currentScale} onSelectCallback={this.selectScale} />
+          <ScaleMenu scale={this.props.currentScale} onSelectCallback={this.selectScale} showTutorial={!this.props.isTutorialDone} />
           <InfoList infos={this.webgl ? this.updateInfos() : []}></InfoList>
           <div className="scene__bottom-right-nav">
             <SoundButton />
@@ -107,7 +118,8 @@ const mapStateToProps = state => {
   return {
     currentScale: getCurrentScale(state),
     isChapterReady: getIsChapterReady(state, state.ui.chapter.rank),
-    isAssetLoaded: getIsAssetLoaded(state, 'global')
+    isAssetLoaded: getIsAssetLoaded(state, 'global'),
+    isTutorialDone: getIsTutorialDone(state)
   }
 }
 
@@ -115,6 +127,9 @@ const mapDispatchToProps = dispatch => {
   return { 
     _setCurrentScale: scale => {
       dispatch(setCurrentScale(scale));
+    },
+    _setTutorialDone: () => {
+      dispatch(setTutorialDone());
     }
   }
 };

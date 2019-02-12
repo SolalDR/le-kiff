@@ -172,6 +172,7 @@ class Cursor extends React.Component {
   }
 
   render() {
+    console.log("render")
     const isLoading = this.props.isLoading ? 'is-loading' : '';
     return (
       <div className={`cursor ${isLoading}`} ref={this.cursor}>

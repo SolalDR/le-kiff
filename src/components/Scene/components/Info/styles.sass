@@ -11,8 +11,12 @@
   transform: scale(1)
   transition: 
     property: opacity
-    duration: 0.3s
+    duration: .5s
     timing-function: ease
+  
+  @for $i from 1 to 5
+    &:nth-child(#{$i})
+      transition-delay: $i*.1s
 
   &--hidden
     transform: scale(0.5)

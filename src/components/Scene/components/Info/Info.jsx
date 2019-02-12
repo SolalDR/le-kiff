@@ -3,23 +3,19 @@ import "./styles.sass";
 import SoundManager from "~/services/soundManager/SoundManager";
 import InfoManager from "~/webgl/manager/Info";
 import InfoRange from '~/components/Scene/components/Info/InfoRange';
+import AbilitiesManager from "../../../../services/AbilitiesManager";
 
 class InfoPoint extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
-      visible: false,
       screenPosition: {x: 0, y: 0}
     }
     this.webGLInfo = null;
   }
 
   componentWillReceiveProps(nextProps, previousProps){
-    if( nextProps.currentScale !== previousProps.currentScale ){
-      this.setState({visible: nextProps.currentScale === this.props.info.scale })
-    }
-
     if(nextProps.opened !== previousProps.opened) {
       if (this.webGLInfo) {
         this.webGLInfo.click(nextProps.opened);
@@ -33,7 +29,7 @@ class InfoPoint extends React.Component {
 
   computedClassModifier() {
     return "info-point "
-      + (this.state.visible ? "info-point--visible" : "info-point--hidden")
+      + (this.props.visible ? "info-point--visible" : "info-point--hidden")
       + " "
       + ((this.props.opened) ? "info-point--opened" : "");
   }
@@ -46,6 +42,7 @@ class InfoPoint extends React.Component {
 
 
   handleClick = () => {
+    if( !AbilitiesManager.can( "selectInfo" ) ) return; 
     SoundManager.play('ui_sounds', 'toggle_infopoint');
     if (this.props.onClick) this.props.onClick({
       id: this.props.info.id

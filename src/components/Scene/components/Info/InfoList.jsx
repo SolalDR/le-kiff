@@ -11,9 +11,23 @@ class InfoList extends React.Component {
     super(props);
     this.infos = [];
     this.state = {
-      visibleId: null
+      visibleId: null,
+      visible: false
     }
-
+    
+    Bus.on("abilities:update", (abilities) => {
+      if( abilities.selectInfo === true ){
+        setTimeout(()=>{
+          this.setState({
+            visible: abilities.selectInfo
+          })
+        }, 1000)
+      } else {
+        this.setState({
+          visible: abilities.selectInfo
+        })
+      }
+    })
     InfoManager.on("infos:update", this.onInfosUpdatePosition.bind(this));
   }
 
@@ -34,16 +48,19 @@ class InfoList extends React.Component {
       })
     }
  
-    if( !AbilitiesManager.can("selectInfo") ) {
-      Bus.once("abilities-selectInfo:update", (value)=>{
-        if( value === true ){
-          callback();
-        }
-      })
-    } else {
-      callback();
-    }
-    
+    callback();    
+  }
+
+  display(){
+    this.setState({
+      visible: true
+    })
+  }
+
+  hide(){
+    this.setState({
+      visible: false
+    })
   }
 
   handleClick = (event) => {
@@ -55,7 +72,7 @@ class InfoList extends React.Component {
   render(){
     this.infos = this.props.infos.map(info => {
       Bus.verbose("infos-react:update")
-      return <Info ref={React.createRef()} key={info.id} info={info} opened={this.state.visibleId === info.id} onClick={this.handleClick}/>
+      return <Info ref={React.createRef()} key={info.id} info={info} opened={this.state.visibleId === info.id} onClick={this.handleClick} visible={this.state.visible}/>
     });
 
     return (

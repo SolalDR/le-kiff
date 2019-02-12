@@ -4,6 +4,7 @@ import renderer from "~/webgl/rendering/Renderer";
 import SoundManager from "~/services/soundManager/SoundManager";
 import Bus from "~/helpers/Bus";
 import ConfigManager from "~/services/ConfigManager";
+import AbilitiesManager from "../../../services/AbilitiesManager";
 
 class Scale extends Event {
 
@@ -79,7 +80,8 @@ class Scale extends Event {
     }).on("end", () => {
       this.dispatch("display", { transition: config });
       Bus.dispatch("scale:display", this, 1)
-      Bus.verbose("scale-" + this.name + ":display", 2)
+      Bus.verbose("scale-" + this.name + ":display", 2);
+      AbilitiesManager.can("all", true);
     }));
 
     return {
@@ -188,6 +190,7 @@ class Scale extends Event {
   }
 
   hide( config, animate = true ){
+    AbilitiesManager.can("all", false);
     Bus.dispatch("scale:hidding", this);
     if( animate ){
       this.hideAnimate(config);

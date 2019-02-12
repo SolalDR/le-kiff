@@ -1,12 +1,20 @@
 import React from "react";
 import { connect } from 'react-redux';
 import withCursor from '~/components/Cursor/hoc/withCursor';
+
+import { TimelineLite } from 'gsap';
+
 import PropTypes from 'prop-types';
 import { getWholeChapter, getChapter, getStep, getIsChapterReady } from "~/services/stores/reducers/selectors";
 import { setCurrentChapterData, setCurrentStepRank } from "~/services/stores/actions";
+
+import AssetsManager from "~/services/assetsManager/AssetsManager";
+
 import Scene from "~/components/Scene/Scene";
 import Timeline from "~/components/Timeline/Timeline";
+import LetterReveal from '~/components/LetterReveal/LetterReveal';
 import Loading from "~/components/Loading/Loading";
+
 import "./styles.sass";
 import Bus from "../../helpers/Bus";
 
@@ -36,13 +44,24 @@ class Chapter extends React.Component {
 
         this.state = {
           isReady: false,
-          stepId: 1
+          reveal: false,
+          hideTitle: false,
+          stepId: 1,
         };
+
+        this.video = null;
+        this.videoRef = React.createRef();
     }
 
     componentWillMount() {
       if (!this.props.isChapterReady) {
         this.props.history.push("");
+      }
+
+      const assets = AssetsManager.loader.getFiles("chapter-1");
+
+      if (assets && assets.chapter_title_reveal) {
+        this.video = assets.chapter_title_reveal.result;
       }
     }
 
@@ -63,6 +82,13 @@ class Chapter extends React.Component {
           infos: this.props.chapter.steps[this.state.stepId - 1].infos,
           scale: "human"
         });
+
+        setTimeout(() => {
+          this.videoRef.current.play()
+          this.setState({
+            reveal: true
+          });
+        }, 5000)
       }
 
     }
@@ -89,6 +115,39 @@ class Chapter extends React.Component {
 
     }
 
+    onEnded = () => {
+      const timeline = new TimelineLite();
+      
+      const ui = {
+        svgFilter: document.querySelector('#displaceChapter1'),
+        svgFilterTurbulence: document.querySelector('#displaceChapter1 feTurbulence'),
+        svgFilterDisplacement: document.querySelector('#displaceChapter1 feDisplacementMap')
+      }
+
+      const filters = {
+        entry: {
+          baseFrequency: 0,
+          numOctaves: 1,
+          scale: 4,
+        },
+        output: {
+          baseFrequency: 0.05,
+          numOctaves: 3,
+          scale: 70,
+        }
+      }
+
+      timeline.to(filters.entry, 3, { baseFrequency: filters.output.baseFrequency, numOctaves: filters.output.numOctaves, scale: filters.output.scale, roundProps:"numOctaves", onUpdate: () => {
+        ui.svgFilterTurbulence.setAttribute('numOctaves', filters.entry.numOctaves);
+        ui.svgFilterTurbulence.setAttribute('baseFrequency', filters.entry.baseFrequency);
+        ui.svgFilterDisplacement.setAttribute('scale', filters.entry.scale);
+      }});
+
+      this.setState({
+        hideTitle: true
+      })
+    }
+
     renderSteps () {
       return this.props.chapter.steps.map((item, rank) => {
         let newDate = new Date();
@@ -97,7 +156,7 @@ class Chapter extends React.Component {
         
         return (
           <div className={`chapter__text ${item.rank == (this.props.step.rank) ? 'is-active' : ''}`} key={`chapter-text-${rank}`}>
-            <h1 className="chapter__title heading-5">{item.place} - {newDate.toLocaleDateString('fr', {
+            <h1 className="chapter__step__title heading-5">{item.place} - {newDate.toLocaleDateString('fr', {
                 weekday: "long", year: "numeric", month: "long", day: "numeric"
               })}
             </h1>
@@ -109,11 +168,35 @@ class Chapter extends React.Component {
 
     render () {
       if( !this.props.step.rank ) return null;
+      const videoSrc = this.video ? this.video.getAttribute("src") : '';
 
       if (this.state.isReady) {
         return (
             <div className={`chapter chapter-1 ${this.state.isReady ? 'is-ready' : ''} `}>
-               {this.renderSteps()}
+                {this.renderSteps()}
+
+              <video muted className="chapter__video" src={videoSrc} ref={this.videoRef} onEnded={this.onEnded} />
+              <div className={`chapter__title ${this.state.hideTitle ? 'is-hidden' : ''}`}>
+                <svg viewBox={'0 0 150 80'} className="chapter__title__svg">
+                  <filter id="displaceChapter1">
+                    <feTurbulence type="fractalNoise" baseFrequency="0" numOctaves="1" result="turbulence" />
+                    <feDisplacementMap scale="4" xChannelSelector="R" yChannelSelector="G" in="SourceGraphic" in2="turbulence" />
+                  </filter>
+                  <g id="target" filter="url(#displaceChapter1)" fill="#fff">
+                    <LetterReveal
+                        text={this.props.chapter.title}
+                        class={"intro__title heading-1 heading-1--svg "}
+                        duration={0.09}
+                        delay={0.08}
+                        globalDelay={0.5}
+                        svg={true}
+                        positionSvg={{textX: 20, spanY: 50}}
+                        reveal={this.state.reveal}
+                        options={{ filter: "blur(0)" }}
+                      />
+                    </g>
+                  </svg>
+              </div>
               <Timeline 
                 length={this.props.chapter.steps.length} 
                 previousChapter={this.props.previousChapter} 

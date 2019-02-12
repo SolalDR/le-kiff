@@ -9,6 +9,20 @@ $border-width: 2px
   flex-direction: column
   z-index: 1
   transform: translateY(-50%)
+  z-index: 7
+
+  //States
+  &.is-shown
+    .scale-menu__item
+      &:before
+        transform: translateY(-50%) scale(1)
+        transition-duration: .3s
+        transition-delay: 0s
+
+    .scale-menu__text
+      opacity: 1
+      visibility: visible
+      transform: translateY(-50%) translateX(0)
 
   &__item
     text-align: left
@@ -29,12 +43,13 @@ $border-width: 2px
       left: 0
       opacity: 0.5
       border: $border-width solid white
-      transform: translateY(-50%)
+      transform: translateY(-50%) scale(0)
       border-radius: 100%
       box-sizing: border-box
       transition:
         property: background, transform
-        duration: .4s
+        duration: .7s
+        delay: .3s
         timing-function: ease-out
 
     &:nth-child(1)
@@ -82,10 +97,12 @@ $border-width: 2px
 
   &__text
     top: 50%
-    transform: translateY(-50%)
+    transform: translateY(-50%) translateX(20px)
     pointer-events: none
+    opacity: 0
+    visibility: hidden
     transition:
-      property: opacity, transform
+      property: opacity, transform, visibility
       duration: $t-duration
       timing-function: ease-out
 

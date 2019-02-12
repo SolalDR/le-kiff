@@ -34,9 +34,11 @@ class Timeline extends React.Component {
   }
 
   progress = el => {
-    this.width = el.clientWidth;
-    this.itemWidth = this.width / this.props.length;
-    this.itemDemiWidth = this.itemWidth / 2;
+    if (el) {
+      this.width = el.clientWidth;
+      this.itemWidth = this.width / this.props.length;
+      this.itemDemiWidth = this.itemWidth / 2;
+    }
   };
 
   onSelect = rank => {
@@ -136,7 +138,9 @@ class Timeline extends React.Component {
   }
 
   render() {
-    return <div className={`timeline ${this.state.reveal ? "is-active" : ""}`} onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)}>
+    return (
+    <div className={`timeline`} onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)}>
+      <div className={`timeline__wrapper ${this.state.reveal ? "is-active" : ""}`}>
         {/* Conditional rendering for previous chapter */}
         {this.renderPreviousChapter()}
 
@@ -149,7 +153,8 @@ class Timeline extends React.Component {
 
         {/* Conditional rendering for next chapter */}
         {this.renderNextChapter()}
-      </div>;
+      </div>
+    </div>);
   }
 }
 

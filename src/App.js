@@ -2,9 +2,14 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { Transition, TransitionGroup, CSSTransition } from 'react-transition-group';
+import { Transition, TransitionGroup } from 'react-transition-group';
 
 import AppManagerHydrator from './components/AppManagerHydrator/AppManagerHydrator';
+
+//Transitions
+import { exitIntro } from './pages/Intro/transitions';
+import { enterChapter, exitChapter } from './pages/Chapter1/transitions';
+import { enterStatic, exitStatic } from './pages/transitions';
 
 //Components
 import Chapter1 from "./pages/Chapter1/Chapter";
@@ -47,24 +52,59 @@ class App extends Component {
     } 
   }
 
-  onEntering = () => {
+  componentDidMount() {
+    console.log('COMPOENNT DID MOUNT', this.props)
+  }
+  onEntering = (location) => {
     const intro = document.querySelector('.intro');
+    const chapter = document.querySelector('.chapter');
+    const staticPage = document.querySelectorAll('.static-page');
 
-    if (intro) {
-      intro.classList.add('is-hidden');
+    console.log(staticPage);
+    if (intro && location.pathname != '/') {
+      exitIntro(intro);
+    }
+
+    if (chapter && location.pathname.indexOf('chapter') > 0) {
+      enterChapter(chapter);
+    }
+
+    if (chapter && !(location.pathname.indexOf('chapter') > 0)) {
+      exitChapter(chapter);
+    }
+
+    if (staticPage.length) {
+      console.log(staticPage);
+      if (staticPage.length > 1) {
+        for (let i = 1; i < staticPage.length; i++) {
+          exitStatic(staticPage[i]);
+        }
+        enterStatic(staticPage[0]);
+      } else {
+        enterStatic(staticPage[0]);
+      }
     }
   }
 
-  onExit = () => {
-    const intro = document.querySelector('.intro');
+  onExit = (location) => {
+    this.handleEnter(location.pathname);
+  }
 
-    if (intro) {
+  handleEnter(path) {
+    const intro = document.querySelector('.intro');
+    const staticPage = document.querySelectorAll('.static-page');
+
+    if (intro && path == '/') {
       intro.classList.remove('is-hidden');
     }
   }
 
-  handleRouteChange = (path) => {
+  handleRouteChange = (path, nbChangeRoute) => {
     this.manager.loadFromPath(path);
+
+    if (nbChangeRoute === 0) {
+      this.handleEnter(path);
+    }
   }
 
   renderEnterTransition = (key, dom) => {
@@ -87,7 +127,7 @@ class App extends Component {
               <Header />
               <div className="app__content">
                 <TransitionGroup >
-                  <Transition key={location.key} classNames="fade" timeout={3000} onEntering={this.onEntering} onExit={this.onExit} exitDone={() => console.log('exxit done')} enterDone={() => console.log('enter done')}>
+                  <Transition key={location.key} classNames="fade" timeout={1500} onEntering={() => this.onEntering(location)} onExit={() => this.onExit(location)} exitDone={() => console.log('exxit done')} enterDone={() => console.log('enter done')}>
                     <Switch location={location}>
                       <Route exact path="/" component={ Intro } />
                       <Route exact path="/chapter-1" component={ Chapter1 } />
@@ -97,32 +137,6 @@ class App extends Component {
                       <Route exact path="/credits" component={Credits} /> 
                     </Switch>
                   </Transition>
-                  
-                {/* </TransitionGroup>
-                <Transition in={location.pathname == '/'} key={'intro'} timeout={2000} onExit={(dom) => this.renderExitTransition('intro', dom)} onEnter={(dom) => this.renderEnterTransition('intro', dom)}>
-                </Transition>
-                <Transition in={location.pathname.indexOf('chapter-1') > 0}  key={'chapter-1'} timeout={2000} onExit={(dom) => this.renderExitTransition('chapter', dom)} onEnter={(dom) => this.renderEnterTransition('chapter', dom)}>
-                  
-                </Transition>
-                <Transition in={location.pathname.indexOf('about') > 0} key={'about'} timeout={2000} onExit={() => this.renderExitTransition('default')} onEnter={() => this.renderEnterTransition('default')}>
-                  <Route exact path="/about" component={ About } />
-                </Transition>
-                <Transition in={location.pathname.indexOf('outro') > 0} key={'outro'} timeout={2000} onExit={() => this.renderExitTransition('default')} onEnter={() => this.renderEnterTransition('default')}>
-                  <Route exact path="/outro" component={ Outro } />
-                </Transition>
-                <Transition in={location.pathname.indexOf('credits') > 0} key={'credits'} timeout={2000} onExit={() => this.renderExitTransition('default')} onEnter={() => this.renderEnterTransition('default')}>
-                  <Route exact path="/credits" component={ Credits } />
-                </Transition>
-                      */}
-                                        
-                                        
-                      {/* <Route exact path="/chapter-1" component={ Chapter1 } />
-                      <Route exact path="/chapter-2" component={ Chapter2 } />
-                      <Route exact path="/outro" component={Outro} />
-                      <Route exact path="/about" component={About} />
-                      <Route exact path="/credits" component={Credits} /> 
-                    </Switch> */}
-                  {/* </Transition>*/}*/}
                </TransitionGroup>
               </div>
             </div>

@@ -76,23 +76,25 @@ class Intro extends React.Component {
         <div className="intro__inner">
           <div className="intro__inner__layer"></div>
           <div className="intro__inner__content">
-            {/* <svg viewBox={'0 0 140 50'}>
-              <filter id="displace">
-                <feTurbulence type="fractalNoise" baseFrequency="0" numOctaves="8" result="turbulence" />
+            <svg viewBox={'0 0 150 80'} className="intro__inner__svg">
+              <filter id="displaceIntro">
+                <feTurbulence type="fractalNoise" baseFrequency="0" numOctaves="1" result="turbulence" />
                 <feDisplacementMap scale="4" xChannelSelector="R" yChannelSelector="G" in="SourceGraphic" in2="turbulence" />
-              </filter> */}
-              {/* <g id="target" filter="url(#displace)" fill="#fff"> */}
+              </filter>
+              <g id="target" filter="url(#displaceIntro)" fill="#fff">
                 <LetterReveal
                     text="Le Kiff"
-                    class={"intro__title heading-1"}
+                    class={"intro__title heading-1 heading-1--svg "}
                     duration={0.09}
                     delay={0.07}
                     globalDelay={1}
+                    svg={true}
+                    positionSvg={{textX: 20, spanY: 50}}
                     reveal={this.state.reveal}
                     options={{ filter: "blur(0)" }}
                   />
-                {/* </g>
-              </svg> */}
+                </g>
+              </svg>
             <LetterReveal
               text="Stories of disappearances"
               class={"intro__subtitle heading-2"}

@@ -69,10 +69,7 @@ class WebGL {
     window.addEventListener("mousewheel", (event)=>{
       if (!AbilitiesManager.can("changeScale")) return;
       if( this.state.scaleWheelChanging ) return;
-      if( Math.abs(event.deltaY) < 50 ) {
-        this.state.targetRadius = this.state.baseRadius + event.deltaY*0.1
-        return;
-      }
+      if( Math.abs(event.deltaY) < 50 ) { return; }
       
       if( event.deltaY > 0 && this.state.currentScale !== "macro"){
         this.selectScale((this.state.currentScale === "micro" ? "human" : "macro"));
@@ -186,21 +183,6 @@ class WebGL {
   }
 
   loop = () => {
-
-    var currentRadius = this.controllerManager.state.controller.radius; 
-    if( currentRadius !== this.state.baseRadius ) {
-      // Easing target 
-      if( Math.abs(this.state.baseRadius - this.state.targetRadius) < 0.1 ){
-        this.state.targetRadius = this.state.baseRadius; 
-      }
-
-      var radius = currentRadius + (this.state.targetRadius - currentRadius) * 0.05
-      if(Math.abs(this.state.targetRadius - radius) < 0.01) {
-        radius = this.state.targetRadius;
-      }
-      this.controllerManager.state.controller.radius = radius;
-    }
-
     this.clock.update();
 
     this[this.state.currentScale+"Scale"].loop(this.clock.elapsed);

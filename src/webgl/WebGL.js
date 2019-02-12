@@ -16,6 +16,7 @@ import defaultConfig from "./steps/config";
 import ModelAnimationManager from "./manager/ModelAnimation";
 import {init as initChapter1} from "./steps/chapter1"
 import AbilitiesManager from "../services/AbilitiesManager";
+import SoundManager from "./../services/soundManager/SoundManager"
 
 class WebGL {
 
@@ -86,6 +87,15 @@ class WebGL {
         return;
       }
     })
+
+    Bus.on("scale:hidding", ()=>{
+      SoundManager.play([
+        ['ui_sounds', 'toggle_default'], 
+        ['ui_sounds', 'woosh'], 
+      ]); 
+    })
+  
+    
 
     window.scene = this.threeScene;
   }

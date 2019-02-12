@@ -38,12 +38,7 @@ class ScaleMenu extends React.Component {
    */
   handleClick = (scaleName) => {
     if( !AbilitiesManager.can("changeScale")) return;
-    //SoundManager.play(['toggle_default_sound', 'woosh_sound']); 
-    SoundManager.play([
-      ['ui_sounds', 'toggle_default'], 
-      ['ui_sounds', 'woosh'], 
-    ]); 
-    
+    //SoundManager.play(['toggle_default_sound', 'woosh_sound']);
     this.props.onSelectCallback(scaleName);
   }
 

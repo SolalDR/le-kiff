@@ -12,6 +12,10 @@ export default c({
       position: new THREE.Vector3(-5, -5, -5),
       intensity: 1,
       color: new THREE.Color(0xffffff)
+    },
+    ambient: {
+      intensity: 0,
+      color: new THREE.Color(0xffffff)
     }
   },
   postprocess: {

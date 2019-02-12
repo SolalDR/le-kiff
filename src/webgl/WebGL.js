@@ -165,20 +165,24 @@ class WebGL {
   }
 
   render(){
-    this.lightPrimary = new THREE.PointLight(0xffffff, 1.3);
+    this.lightPrimary = new THREE.PointLight(0xffffff, 1);
     this.lightPrimary.position.x = 5;
     this.lightPrimary.position.z = 5;
     this.lightPrimary.position.y = 5;
     this.threeScene.add(this.lightPrimary);
 
-    this.lightSecondary = new THREE.PointLight(0xffffff, 1);
+    this.lightSecondary = new THREE.PointLight(0xffffff, 0.5);
     this.lightSecondary.position.x = -5;
     this.lightSecondary.position.z = -5;
     this.lightSecondary.position.y = -5;
     this.threeScene.add(this.lightSecondary);
 
+    this.lightAmbient = new THREE.AmbientLight(0xffffff, 1);
+    this.threeScene.add(this.lightAmbient);
+
     guiRendering.addLight("Light Primary", this.lightPrimary);
     guiRendering.addLight("Light Secondary", this.lightSecondary);
+    guiRendering.addLight("Light Ambient", this.lightAmbient);
   }
 
   loop = () => {

@@ -108,8 +108,10 @@ class Scale extends Event {
       this.scene.lightSecondary.position.copy(c.light.secondary.position);
       this.scene.lightPrimary.intensity = c.light.primary.intensity;
       this.scene.lightSecondary.intensity = c.light.secondary.intensity;
+      this.scene.lightAmbient.intensity = c.light.ambient.intensity;
       this.scene.lightPrimary.color = c.light.primary.color;
       this.scene.lightSecondary.color = c.light.secondary.color;
+      this.scene.lightAmbient.color = c.light.ambient.color;
       return; 
     }
     
@@ -126,12 +128,17 @@ class Scale extends Event {
       animates.push({ type: "float", attribute: "intensity", object: this.scene.lightSecondary, from: this.scene.lightSecondary.intensity, to: c.light.secondary.intensity });
     if(this.scene.lightPrimary.intensity !== c.light.primary.intensity)
       animates.push({ type: "float", attribute: "intensity", object: this.scene.lightPrimary, from: this.scene.lightPrimary.intensity, to: c.light.primary.intensity });
+    if(this.scene.lightAmbient.intensity !== c.light.ambient.intensity)
+      animates.push({ type: "float", attribute: "intensity", object: this.scene.lightAmbient, from: this.scene.lightAmbient.intensity, to: c.light.ambient.intensity });
 
     // Light color
     if(!this.scene.lightSecondary.color.equals(c.light.secondary.color))
       animates.push({ type: "color", object: this.scene.lightSecondary.color, from: this.scene.lightSecondary.color.clone(), to: c.light.secondary.color });
     if(!this.scene.lightPrimary.color.equals(c.light.primary.color))
       animates.push({ type: "color", object: this.scene.lightPrimary.color, from: this.scene.lightPrimary.color.clone(), to: c.light.primary.color });
+    if(!this.scene.lightAmbient.color.equals(c.light.ambient.color))
+      animates.push({ type: "color", object: this.scene.lightAmbient.color, from: this.scene.lightAmbient.color.clone(), to: c.light.ambient.color });
+
 
     AnimationManager.addAnimation(new Animation({duration})
       .on("progress", (event) => {

@@ -27,7 +27,10 @@ class LeafCloud {
       transparent: true, 
       opacity: 1,
       side: THREE.DoubleSide,
-      alphaTest: 0.01
+      alphaTest: 0.01,
+      roughness: 1,
+      metalness: 0.1,
+      color: new THREE.Color(0.5, 0.5, 0.5)
     });
 
     this.count = 500;

@@ -82,6 +82,8 @@ export default class extends Step {
     // Leaf clouds fall and water rise, hide leaf
     var fromAperture = Renderer.getBokehAperture();
     var fromPosition = this.leaf.scene.position.y;
+    var fromLightPosition = this.scene.lightPrimary.position.clone();
+    var fromLightAmbientIntensity = this.scene.lightAmbient.intensity;
     AnimationManager.addAnimation(new Animation({
       duration: 1500,
       delay: this.config.timecodes.water,
@@ -92,8 +94,23 @@ export default class extends Step {
       this.particleCloud.object3D.position.y = -15 + event.advancement * 10;
       this.leaf.scene.position.y = fromPosition - event.advancement*5
 
+      this.scene.lightAmbient.intensity = fromLightAmbientIntensity - event.advancement
+      this.scene.lightPrimary.position.copy(
+        fromLightPosition
+          .clone()
+          .add(
+            new THREE.Vector3(5, 15, 5)
+              .sub(fromLightPosition)
+              .multiplyScalar(event.advancement)
+          )
+      )
+
       Renderer.setBokehAperture(fromAperture + event.advancement * 4)
     }).on("end", (event)=>{
+      this.scene.lightPrimary.position.copy(new THREE.Vector3(5, 15, 5))
+      this.config.human.rendering.light.primary.position.copy(this.scene.lightPrimary.position)
+      this.config.human.rendering.light.ambient.intensity = 0.5;
+      this.config.human.rendering.bokeh.aperture = 4
       setTimeout(() => {
         SoundManager.play('chapter_1_trigger', 'step_3_05_h1_ajoute_le_kerosene', {
           volume: 0.5

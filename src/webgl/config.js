@@ -5,6 +5,8 @@ export default c({
     primary: {
       position: new THREE.Vector3(5, 5, 5)
     },
-    secondary: {}
+    secondary: {
+      
+    }
   }
 });

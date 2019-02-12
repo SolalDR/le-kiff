@@ -26,15 +26,18 @@ export default baseConfig.extends({
       spriteName: 'step_1'
     }
   ],
+
   micro: {
     colorPlane: colorPlane.extends({
       color: new THREE.Color("rgb(28,75,30)")
     }),
+    
     bondMaterial: {
       color: new THREE.Color("rgb(0, 158, 46)"),
       emissive: new THREE.Color("rgb(51, 73, 59)"),
       envMapIntensity: 1,
     },
+
     molecules: {
       cocaine: {
         position: new THREE.Vector3(-1, 0, 2),
@@ -49,9 +52,11 @@ export default baseConfig.extends({
         scale: new THREE.Vector3(0.6, 0.6, 0.6)
       }
     },
+    
     particleConfig: particleConfig.extends({
       color: new THREE.Color("rgb(114,248,145)")
     }),
+    
     rendering: {
       toneMappingExposure: 0.7,
       toneMappingWhitePoint: 1,
@@ -67,6 +72,22 @@ export default baseConfig.extends({
           decay: 1,
           power: 13,
           color: new THREE.Color("rgb(155,220,151)")
+        }
+      }
+    }
+  },
+
+  human: {
+    rendering: {
+      light: {
+        primary: {
+          intensity: 1
+        },
+        secondary: {
+          intensity: 0.5
+        },
+        ambient: {
+          intensity: 1.5
         }
       }
     }

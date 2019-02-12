@@ -46,6 +46,9 @@ export default baseConfig.extends({
       primary: {
         position: new THREE.Vector3(-4, -3, 10),
         intensity: 2.4
+      },
+      ambient: {
+        intensity: 0.2
       }
     }
   }

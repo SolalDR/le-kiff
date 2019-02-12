@@ -10,7 +10,7 @@ class InfoPoint extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      screenPosition: {x: 0, y: 0}
+      // screenPosition: {x: 0, y: 0}
     }
     this.webGLInfo = null;
   }
@@ -34,11 +34,11 @@ class InfoPoint extends React.Component {
       + ((this.props.opened) ? "info-point--opened" : "");
   }
 
-  computedStyle(){
-    return {
-      transform: `translate3d(${this.state.screenPosition.x}px, ${this.state.screenPosition.y}px, 0)`
-    }
-  }
+  // computedStyle(){
+  //   return {
+  //     transform: `translate3d(${this.state.screenPosition.x}px, ${this.state.screenPosition.y}px, 0)`
+  //   }
+  // }
 
 
   handleClick = () => {
@@ -63,7 +63,6 @@ class InfoPoint extends React.Component {
   render(){
     return (
       <div className={this.computedClassModifier()}
-            style={this.computedStyle()}
             ref={(ref) => this.myRef = ref}> 
         <div className="info-point__pointer" onClick={this.handleClick}/>
         <div className="info-point__content">

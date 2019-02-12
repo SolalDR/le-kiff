@@ -5,7 +5,8 @@ import Bus from "../../helpers/Bus";
 class MouseCaster extends Event {
   constructor({
     root = null,
-    camera = null
+    camera = null,
+    casting = true
   } = {}){
     super();
 
@@ -18,7 +19,8 @@ class MouseCaster extends Event {
       mouseDown: false,
       mouseDrag: false, 
       mouseClick: false,
-      needIntersect: false
+      needIntersect: false,
+      enableRaycasting: casting
     }
 
     this.initEvents();
@@ -39,6 +41,7 @@ class MouseCaster extends Event {
   }
 
   intersect(){
+    if( !this.state.enableRaycasting ) return;
     var intersections = this.raycaster.intersectObjects(this.root.children, true);
     var intersect = intersections.find(intersection => intersection.object.castable ? true : false);
     this.dispatch("cast", intersect);
@@ -64,7 +67,7 @@ class MouseCaster extends Event {
   }
 
   onMouseUp(event){
-    if( !this.mouseDrag ) {
+    if( !this.mouseDrag ) {
       this.mouseClick = true;
     }
 

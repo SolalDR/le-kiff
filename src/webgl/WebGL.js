@@ -41,7 +41,8 @@ class WebGL {
     });
     
     this.mouseCaster = new MouseCaster({
-      root: this.threeScene
+      root: this.threeScene,
+      casting: false
     });
 
     this.controllerManager = new ControllerManager({

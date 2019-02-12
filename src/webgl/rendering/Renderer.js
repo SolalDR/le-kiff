@@ -70,7 +70,7 @@ class Renderer {
 
   initBloom(){
     this.bloomPass = new UnrealBloomPass( new THREE.Vector2( Viewport.width, Viewport.height ));
-    this.bloomPass.setSize(Viewport.width*2, window.innerHeight*2);
+    this.bloomPass.setSize(Viewport.width*2, Viewport.height*2);
     this.bloomPass.threshold = 0;
     this.bloomPass.strength = 0.3;
     this.bloomPass.radius = 0;
@@ -131,6 +131,8 @@ class Renderer {
       this.camera.aspect = Viewport.ratio;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize( Viewport.width, Viewport.height );
+      this.bokehPass.setSize( Viewport.width, Viewport.height );
+      this.composer.setSize( Viewport.width, Viewport.height );
     })
   }
 

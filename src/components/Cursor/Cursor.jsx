@@ -119,7 +119,6 @@ class Cursor extends React.Component {
     this.counter = 0;
   }
 
-
   onHoldComplete(){
     Bus.verbose("cursor:click");
     // this.isHoldComplete = true;

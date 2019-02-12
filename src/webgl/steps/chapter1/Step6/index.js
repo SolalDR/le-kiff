@@ -45,11 +45,39 @@ export default class extends Step {
       })
     }
     
-
     // Get brick
     this.brick = ressources.step_6_plaquette.result;
     this.brick.scene.name = "step_6_brick";
     this.brickMaterial = this.brick.scene.children[0].material;
+
+    // Setup init state objects
+    this.setupSceneObjects(ressources, previousStep);
+
+    // Hydraulic
+    this.pressAnimation(this.config.timecodes.press);
+
+    // Mark reveal
+    this.markRevealAnimation(this.config.timecodes.mark);
+    
+    // Mico wave
+    this.microWavePhaseAnimation(this.config.timecodes.microWave);
+
+    // add objects to group
+    this.morphGroup.add(this.pasta.scene);
+    this.morphGroup.add(this.brick.scene);
+
+    // add objects to scene
+    this.scene.humanScale.group.add(this.morphGroup);
+
+    this.initGUI();
+  }
+
+  /**
+   * Setup state and transforms for objects in scene
+   * @param {*} ressources 
+   * @param {*} previousStep 
+   */
+  setupSceneObjects(ressources, previousStep) {
 
     // Background
     if( previousStep.background ){
@@ -60,40 +88,54 @@ export default class extends Step {
     }    
 
     // Morph group pasta/brick
-    var morphGroupRotation = new THREE.Euler(-2.78, 2.10, 0)
+    this.morphGroupRotation = new THREE.Euler(-2.78, 2.10, 0)
     this.morphGroup = new THREE.Group();
     this.morphGroup.name = 'morph_group';
-    this.morphGroup.rotation.copy(morphGroupRotation);    
-
-    // Reset pasta position
-    this.pasta.scene.position.set(0, 0, 0);
+    this.morphGroup.rotation.copy(this.morphGroupRotation);    
 
     // Brick transforms
-    var brickStartScale = new THREE.Vector3(0.001, 0.001, 0.001);
-    var brickStartPosition = new THREE.Vector3(0, 0.004, 0);
-    this.brick.scene.scale.copy(brickStartScale);
-    this.brick.scene.position.set(0, 0.04, 0);
+    this.brickStartScale = new THREE.Vector3(0.0005, 0.0005, 0.0005);
+    this.brickStartPosition = new THREE.Vector3(0, 0.04, -0.06);
+    this.brick.scene.scale.copy(this.brickStartScale);
+    this.brick.scene.position.copy(this.brickStartPosition);
 
     // Hide brick
     this.brickMaterial.transparent = true;
     this.brickMaterial.opacity = 1;
     
     // Pasta state 
-    this.pasta.noisePastaIntensity = 3;
     this.pasta.material.uniforms.u_base_color.value = new THREE.Color(1, 1, 1);
 
     // Pasta animation state merged
-    var chainPasta = true;
+    this.chainPasta = true;
     if( previousStep.rank !== this.rank - 1 ){
       this.pasta.modelAnimation.startAtClip('explode');
-      chainPasta = false;
+      this.chainPasta = false;
       //this.pasta.modelAnimation.currentAction.animation.time = this.pasta.modelAnimation.currentAction.animation.getClip().duration;
       //this.pasta.modelAnimation.currentAction.animation.paused = false;
     }
-    this.pasta.state.animated = true;
 
-    // Hydraulic press phase
-    setTimeout(() => {
+  }
+
+  /**
+   * Hydraulic press phase animations
+   * @param {*} timecode 
+   */
+  pressAnimation(timecode) {
+       
+    // Group press movement
+    var pastaStartPosition = new THREE.Vector3(0, 0, 0);
+    var pastaPositionResetDuration = 3000;
+    AnimationManager.addAnimation(
+      new Animation({ 
+        duration: pastaPositionResetDuration, 
+        delay: timecode - pastaPositionResetDuration,
+        timingFunction: "easeInOutQuart" 
+      }).on("progress", (event) => {
+        this.pasta.noisePastaIntensity = 3 - 3 * event.advancement;
+        this.pasta.scene.position.lerp(pastaStartPosition, event.advancement );
+      })
+      .on("end", () => {
 
         // Press Sound
         SoundManager.play('chapter_1_trigger', 'step_6_01_presse_hydrau', {
@@ -109,17 +151,13 @@ export default class extends Step {
         AnimationManager.addAnimation(
           new Animation({ duration: 1000, from:0, to: -1, timingFunction: "easeInQuint" })
           .on("progress", (event)=>{ 
-            //this.morphGroup.position.y = (- 1 + ( Math.cos(event.advancement * Math.PI * 2 ) + 1 ) / 2) / 2;
             this.morphGroup.position.y = event.value;
-            console.log('-event.value', -event.value)
           })
           .on("end", ()=>{
             AnimationManager.addAnimation(
               new Animation({ duration: 800, from: -1, to: 0, timingFunction: "easeOutQuint" })
               .on("progress", (event)=>{ 
-                //this.morphGroup.position.y = (- 1 + ( Math.cos(event.advancement * Math.PI * 2 ) + 1 ) / 2) / 2;
                 this.morphGroup.position.y = event.value;
-                console.log('event.value', event.value)
               })
             )
           })
@@ -127,44 +165,52 @@ export default class extends Step {
 
         // Morph Pasta to Brick
         setTimeout(() => {
+          
           // Pasta explode
-          this.pasta.modelAnimation.play("explode", {timeScale: 0.9, chain: chainPasta}).then(()=>{
+          this.pasta.state.animated = true;
+          this.pasta.modelAnimation.play("explode", {timeScale: 0.9, chain: this.chainPasta}).then(()=>{
             //console.log(this.pasta);
           })
         
           // Brick appear
-          var brickTargetScale = new THREE.Vector3(0.0088, 0.0088, 0.0088)
+          var brickTargetScale = new THREE.Vector3(0.0086, 0.0086, 0.0086)
           AnimationManager.addAnimation(
-            new Animation({ duration: 400, delay: 200, timingFunction: "easeInOutQuad" })
+            new Animation({ duration: 400, delay: 150, timingFunction: "easeInOutQuad" })
               .on("progress", (event)=>{ 
-                this.brick.scene.scale.lerpVectors(brickStartScale, brickTargetScale, event.advancement);
-                this.brickMaterial.opacity = event.advancement;
+                this.brick.scene.scale.lerpVectors(this.brickStartScale, brickTargetScale, event.advancement);
+                this.brickMaterial.opacity = event.advancement*2 < 1 ? event.advancement*2 : 1;
               })
           )   
-        }, 400)
+        }, 400)            
 
-    }, this.config.timecodes.press)
+      })
+    );
+  }
 
-    // Mark reveal
+  markRevealAnimation(timecode) {
     var morpphGroupTargetRotation = new THREE.Euler(-5.90, 0.8, 0);
     setTimeout(() => {
-      // Roation animation
+      // Rotation animation
       AnimationManager.addAnimation(
         new Animation({ 
           duration: 2000, 
           timingFunction: "easeInOutQuad" 
         }).on("progress", (event)=>{ 
           var a = event.advancement;
-          this.morphGroup.rotation.x = THREE.Math.lerp(morphGroupRotation.x, morpphGroupTargetRotation.x, a);
-          this.morphGroup.rotation.y = THREE.Math.lerp(morphGroupRotation.y, morpphGroupTargetRotation.y, a);
+          this.morphGroup.rotation.x = THREE.Math.lerp(this.morphGroupRotation.x, morpphGroupTargetRotation.x, a);
+          this.morphGroup.rotation.y = THREE.Math.lerp(this.morphGroupRotation.y, morpphGroupTargetRotation.y, a);
         }).on("end", () => {
-          morphGroupRotation.copy(this.morphGroup.rotation)
+          this.morphGroupRotation.copy(this.morphGroup.rotation)
         })
       )   
+    }, timecode);
+  }
 
-    }, this.config.timecodes.mark)       
-
-    // Mico wave
+  /**
+   * Micro Wave Animation
+   * @param {*} timecode 
+   */
+  microWavePhaseAnimation(timecode) {
     setTimeout(() => {
       // Roation animation
       AnimationManager.addAnimation(
@@ -175,7 +221,7 @@ export default class extends Step {
           delay: 1000,
           timingFunction: "easeInOutQuad" 
         }).on("progress", (event)=>{ 
-          this.morphGroup.rotation.y = morphGroupRotation.y + event.value;
+          this.morphGroup.rotation.y = this.morphGroupRotation.y + event.value;
         })
         .on("end", ()=>{
           SoundManager.play('chapter_1_trigger', 'step_6_06_h1_snif_bon_comme_ca').then(() => {
@@ -189,19 +235,19 @@ export default class extends Step {
       // Micro Wave sounds
       SoundManager.play('chapter_1_trigger', 'step_6_04_h1_mets_la_une_minute', {volume: 0.6});
       SoundManager.play('chapter_1_trigger', 'step_6_05_micro_onde', {
+        volume: 0.6,
         delay: 2
       });
 
-    }, this.config.timecodes.microWave)
+    }, timecode)
+  }
 
-    // add objects to group
-    this.morphGroup.add(this.pasta.scene);
-    this.morphGroup.add(this.brick.scene);
-
-    // add objects to scene
-    this.scene.humanScale.group.add(this.morphGroup);
-
-    this.initGUI();
+  initGUI(){
+    if( !this.gui ) return; 
+    if(!this.folder.brick){
+      this.folder.brick = this.gui.addObject3D('Brick',  this.brick.scene, false);
+      this.folder.brick.addMaterial('Material', this.brickMaterial);         
+    }
   }
 
   hide(newStep) {
@@ -212,14 +258,6 @@ export default class extends Step {
     }
 
     super.hide(newStep);
-  }
-
-  initGUI(){
-    if( !this.gui ) return; 
-    if(!this.folder.brick){
-      this.folder.brick = this.gui.addObject3D('Brick',  this.brick.scene, false);
-      this.folder.brick.addMaterial('Material', this.brickMaterial);         
-    }
   }
 
   loop(time){

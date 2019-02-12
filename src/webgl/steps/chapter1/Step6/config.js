@@ -47,7 +47,7 @@ export default baseConfig.extends({
     rendering: {
       light: {
         primary: {
-          intensity: 0.9,
+          intensity: 0.6,
           color: new THREE.Color("rgb(255, 253, 238)"),
           position: new THREE.Vector3(15, 15, 20)
         },
@@ -74,7 +74,7 @@ export default baseConfig.extends({
   ],
   timecodes: {
     press: 6000,
-    mark: 10000,
-    microWave: 15000, 
+    mark: 11000,
+    microWave: 14000, 
   }
 })

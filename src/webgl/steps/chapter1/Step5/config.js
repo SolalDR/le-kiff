@@ -29,7 +29,7 @@ export default baseConfig.extends({
       toneMappingWhitePoint: 1,
       light: {
         primary: {
-          intensity: 0.4,
+          intensity: 0.5,
           decay: 1,
           power: 25,
           color: new THREE.Color("rgb(56, 56, 70)")

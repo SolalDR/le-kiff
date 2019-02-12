@@ -53,7 +53,10 @@ export default baseConfig.extends({
     },
     {
       name : "chapter_1_trigger",
-      spriteName: 'step_5_01_h1_corriger_ph'
+      spriteName: 'step_5_01_h1_corriger_ph',
+      options: {
+        volume: 0.2
+      }
     },
   ],
 

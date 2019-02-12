@@ -74,6 +74,7 @@ export default baseConfig.extends({
   ],
   timecodes: {
     press: 6000,
-    microWave: 12000
+    mark: 10000,
+    microWave: 15000, 
   }
 })

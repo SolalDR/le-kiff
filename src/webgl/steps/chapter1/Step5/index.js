@@ -41,6 +41,8 @@ export default class extends Step {
       this.pasta = previousStep.pasta;
       this.water = previousStep.water;
       this.particleCloud = previousStep.particleCloud;
+    } else {
+      SoundManager.removeEffect('moogfilter');
     }
 
     // Start sounds
@@ -49,6 +51,7 @@ export default class extends Step {
     })
     SoundManager.play('chapter_1_trigger', 'step_5_02_h1_ajout_acide', {
       delay: 1
+    }).then(() => {
     })    
 
     // Pasta
@@ -73,9 +76,18 @@ export default class extends Step {
 
       // water drop sound
       SoundManager.play('chapter_1_trigger', 'step_3_03_entree_eau').then(() => {
-        SoundManager.addEffect('moogfiltergit ');
-        SoundManager.play('chapter_1_trigger', 'step_5_03_reaction_chimique')      
-        SoundManager.play('chapter_1_trigger', 'step_3_04_ambiance_eau')      
+        SoundManager.addEffect('moogfilter');
+        console.log(SoundManager.soundEffectManager);
+        SoundManager.play('chapter_1_trigger', 'step_5_03_reaction_chimique', {
+          delay: 1
+        }).then(() => {
+          SoundManager.play('chapter_1_trigger', 'step_5_04_h2_pouah_odeur').then(() => {
+            SoundManager.play('chapter_1_trigger', 'step_5_05_h1_toux');
+          });
+        })      
+        SoundManager.play('chapter_1_trigger', 'step_3_04_ambiance_eau', {
+          delay: 1
+        })      
       })
     }, 1600);
 
@@ -115,8 +127,9 @@ export default class extends Step {
             })
           )
 
+          // Merge pasta to coca
           this.pasta.modelAnimation.play("merge", {
-            timeScale: -0.2
+            timeScale: -0.15
           }).then(()=>{
             // Reactivate noise  and animate diffuse
             this.pasta.state.animated = false;
@@ -130,8 +143,9 @@ export default class extends Step {
                 this.pasta.noiseRocksIntensity = 4;
 
                 // Out of water
+                var waterSoundEffectRemoved = false;
                 setTimeout(()=>{
-                  AnimationManager.addAnimation(new Animation({duration: 4000, timingFunction: "easeOutQuad"})
+                  AnimationManager.addAnimation(new Animation({duration: 3500, timingFunction: "easeInOutCubic"})
                     .on("progress", (event)=>{
                       this.water.mesh.position.y = -2 - 15*event.advancement;
                       this.particleCloud.object3D.position.y = -3 - 17*event.advancement;
@@ -140,6 +154,11 @@ export default class extends Step {
                       if( event.advancement > 0.5 ){
                         var a = (event.advancement - 0.5) * 2;
                         Renderer.setBokehAperture(4 - (4 - fromAperture)*a);
+                      }
+                      if(event.advancement > 0.35 && !waterSoundEffectRemoved) {
+                        waterSoundEffectRemoved = true;
+                        SoundManager.removeAllEffects();
+                        SoundManager.setDefaultVolume();
                       }
                     })
                     .on("end", ()=>{
@@ -150,11 +169,21 @@ export default class extends Step {
                       this.pasta.state.animated = true;
                       Renderer.setBokehAperture(fromAperture);
                       this.pasta.modelAnimation.play("merge", {
-                        timeScale: 0.4
+                        timeScale: 0.5
                       });
+
+                      // play sound pasta merging
+                      SoundManager.play('chapter_1_trigger', 'step_4_04_merge_pasta', {
+                        delay: 0.5
+                      });                      
                     })
                   )
-                }, 4000)
+                }, 1000)
+
+                // Spanish Voices
+                SoundManager.play('chapter_1_trigger', 'step_5_06_h1_salut_a').then(() => {
+                  SoundManager.play('chapter_1_trigger', 'step_5_07_h2_salut');
+                })                
 
               })
             )

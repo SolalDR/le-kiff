@@ -41,7 +41,12 @@ export default class extends Step {
    */
   displayHumanScale( ressources, previousStep ){
 
-    // Trigger sounds
+    // Start sound effect
+    if( previousStep.rank !== this.rank - 1){
+      SoundManager.addEffect('moogfilter');
+    }
+
+    // Start sound
     SoundManager.play('chapter_1_trigger', 'step_4_01_h1_ajoute_ammoniac').then(() => {
       SoundManager.play('chapter_1_trigger', 'step_4_02_ajout_ammoniac').then(() => {
         SoundManager.play('chapter_1_trigger', 'step_4_03_h1_comme_ca_c_est_bien');
@@ -94,7 +99,7 @@ export default class extends Step {
     this.pasta.state.animated = false;
     this.pasta.rocks.forEach((rock, i) => {
       rock.scale.copy(new THREE.Vector3())
-      AnimationManager.addAnimation(new Animation({ delay: 3000 + this.pasta.delays[i] * 2000,  timingFunction: "easeOutQuad", duration: 2000 })
+      AnimationManager.addAnimation(new Animation({ delay: 1500 + this.pasta.delays[i] * 2000,  timingFunction: "easeOutQuad", duration: 2000 })
         .on("progress", (event)=>{
           let scale = event.advancement/2;
           rock.scale.set(scale, scale, scale)
@@ -118,7 +123,7 @@ export default class extends Step {
               })
               // play sound pasta merging
               SoundManager.play('chapter_1_trigger', 'step_4_04_merge_pasta', {
-                delay: 0.42    
+                delay: 0.4
               });
 
             }));
@@ -140,7 +145,7 @@ export default class extends Step {
     var fromWater = this.water.mesh.position.y;
     var waterSoundEffectRemoved = false;
     Renderer.setBokehAperture(4);
-    AnimationManager.addAnimation(new Animation({ duration: 8000, delay: 4000 })
+    AnimationManager.addAnimation(new Animation({ duration: 8000, delay: 5000 })
       .on("progress", (event) => {
         this.water.mesh.position.y =  -2 -9*event.advancement;
         this.particleCloud.config.speed = fromParticleSpeed + 0.0001*event.advancement;
@@ -148,7 +153,7 @@ export default class extends Step {
         this.particleCloud.material.uniforms.u_size.value = fromParticleSize - fromParticleSize*event.advancement;
         Renderer.setBokehAperture(4.1 - event.advancement * 4)
         // remove underwater effect when
-        if(event.advancement > 0.4 && !waterSoundEffectRemoved) {
+        if(event.advancement > 0.35 && !waterSoundEffectRemoved) {
           waterSoundEffectRemoved = true;
           SoundManager.removeAllEffects();
           SoundManager.setDefaultVolume();

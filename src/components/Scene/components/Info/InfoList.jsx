@@ -51,6 +51,14 @@ class InfoList extends React.Component {
     callback();    
   }
 
+  componentWillReceiveProps(nextProps){
+    if( nextProps.infos !== this.props.infos ){
+      this.setState({
+        visibleId: null
+      })
+    }
+  }
+
   display(){
     this.setState({
       visible: true

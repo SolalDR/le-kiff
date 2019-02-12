@@ -168,9 +168,7 @@ export default class extends Step {
           
           // Pasta explode
           this.pasta.state.animated = true;
-          this.pasta.modelAnimation.play("explode", {timeScale: 0.9, chain: this.chainPasta}).then(()=>{
-            //console.log(this.pasta);
-          })
+          this.pasta.modelAnimation.play("explode", {timeScale: 0.9, chain: this.chainPasta})
         
           // Brick appear
           var brickTargetScale = new THREE.Vector3(0.0086, 0.0086, 0.0086)

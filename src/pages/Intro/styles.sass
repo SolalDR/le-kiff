@@ -11,15 +11,19 @@
 
   &__inner
     position: absolute
-    top: 29%
+    top: 20%
     bottom: 20%
-    max-width: between(580px, 640px)
-    // width: 40%
+    width: 650px
     display: flex
     flex-direction: column
     color: $color-secondary
     text-align: center
     z-index: 2
+
+    &__content
+      position: relative
+      display: flex
+      flex-direction: column
     
     &__bottom
       margin-top: auto
@@ -30,20 +34,21 @@
 
     .letter-reveal__item
       filter: blur(2px)
+      margin-left: -2px
 
     .letter-reveal__space
       width: 35px
+      
 
 
   &__subtitle
     position: relative 
-    left: 50%
-    transform: translateX(-50%)
-    margin: 24px 0 $space-m
+    width: 100%
+    margin: 40px 0 $space-m
 
     .letter-reveal
       &__item
-        margin-right: 8.3px
+        margin-right: 4px
         transform: scale(0.1) translateX(30px)
 
       &__space
@@ -54,6 +59,7 @@
     margin-bottom: $space-m
     padding-left: 90px
     padding-right: 90px
+    font-style: italic
     
     &__item
       display: inline-block
@@ -67,8 +73,9 @@
       @for $i from 1 to 3
         &:nth-of-type(#{$i})
           transition: 
-            delay: 3 + $t-duration * $i * .5
-            duration: $t-duration * 2
+            delay: 3 + $t-duration * $i * .15
+            duration: $t-duration * 1.5
+            timing-function: $t-timing-function
 
     &.is-revealed
       .intro__teasing__item
@@ -82,14 +89,15 @@
     opacity: 0
     transform: translateY(50px)
     transition: 
-      delay: 3 + $t-duration * .5
+      delay: 3 + $t-duration * .1
       duration: $t-duration * 2
+      timing-function: $t-timing-function
 
     &.is-revealed
       opacity: 1
       transform: translateY(0)
       animation: 
-        delay: 3 + $t-duration * .5
+        delay: 3 + $t-duration * .1
         name: wobble
         direction: alternate-reverse
         duration: $t-duration * 3
@@ -97,12 +105,12 @@
         fill-mode: forwards
 
   &__sound
-    margin-top: $space-l
+    margin-top: $space-m
     display: inline-block
     opacity: 0
     transition: 
-      delay: 3 + $t-duration * .5
-      duration: $t-duration * 2
+      delay: 3 + $t-duration * .1
+      duration: $t-duration * 1.5
 
     &.is-revealed
       opacity: 1
@@ -122,11 +130,9 @@
 
   //Responsive
   @include up-desktop()
-    &__subtitle
-      margin-top: 34px
-      .letter-reveal
-        &__item
-          margin-right: 10px
+
+    &__inner
+      top: 29%
 
     &__teasing
       margin-top: $pos-s
@@ -135,11 +141,6 @@
       margin-top: $space-l * 2
 
   @include up-large-desktop()
-    &__subtitle
-      margin-top: 44px
-      .letter-reveal
-        &__item
-          margin-right: 11px
 
     &__teasing
       margin-top: 70px

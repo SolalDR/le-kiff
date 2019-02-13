@@ -11,11 +11,20 @@ function withCursor(WrappedComponent) {
         isHoldAllowed: false,
         isLoading: false
       }
+
+      console.log(props);
     }
 
     componentWillUnmount() {
       if (this.holdTimeout) {
         clearTimeout(this.holdTimeout);
+      }
+    }
+
+    onUpdate(cursorState) {
+
+      if (this.child.onCursorUpdate && typeof this.child.onCursorUpdate !== undefined) {
+        this.child.onCursorUpdate(cursorState);
       }
     }
 
@@ -40,16 +49,24 @@ function withCursor(WrappedComponent) {
       }) 
     }
 
+    onHoldNotAllowed(e) {
+      this.setState({
+        isHoldAllowed: false
+      }) 
+    }
+
     onLoad(value) {
       this.setState({
         isLoading: value
       });
+
+      
     }
 
     render() {
       return <>
-        <Cursor onHoldComplete={this.onHoldComplete.bind(this)} isHoldAllowed={this.state.isHoldAllowed} isLoading={this.state.isLoading} />
-        <WrappedComponent {...this.props} onRef={ref => (this.child = ref)} onStepChange={this.onStepChange.bind(this)} onLoad={this.onLoad.bind(this)} onHoldAllowed={this.onHoldAllowed.bind(this)} />;
+        <Cursor onHoldComplete={this.onHoldComplete.bind(this)} isHoldAllowed={this.state.isHoldAllowed} isLoading={this.state.isLoading}  onUpdate={(cursorState) => {this.onUpdate(cursorState)}} isIntro={this.props.location.pathname === '/'} />
+        <WrappedComponent {...this.props} onRef={ref => (this.child = ref)} onStepChange={this.onStepChange.bind(this)} onLoad={this.onLoad.bind(this)} onHoldAllowed={this.onHoldAllowed.bind(this)} onHoldNotAllowed={this.onHoldNotAllowed.bind(this)} />;
         </>;
     }
   };

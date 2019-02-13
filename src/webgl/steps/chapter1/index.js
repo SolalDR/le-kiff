@@ -47,6 +47,13 @@ export const init = (ressources, main) => {
   main.renderer.renderer.setTexture2D(ressources.background3.result);
   main.renderer.renderer.setTexture2D(ressources.background4.result);
   main.renderer.renderer.setTexture2D(ressources.background6.result);
+  
+  main.renderer.renderer.setTexture2D(ressources.mapLeaf.result);
+  main.renderer.renderer.setTexture2D(ressources.alphaLeaf.result);
+  main.renderer.renderer.setTexture2D(ressources.alphaWaterLeaf.result);
+  main.renderer.renderer.setTexture2D(ressources.normalLeaf.result);
+  main.renderer.renderer.setTexture2D(ressources.roughnessLeaf.result);
+
   main.renderer.renderer.render(main.threeScene, main.camera);
 
   main.threeScene.remove(ressources.step_4_pasta.result.scene);

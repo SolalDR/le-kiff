@@ -70,13 +70,14 @@ export default class extends Step {
 
     // Animation leaf 
     var modelAnimLeaf = ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);
+    setTimeout(() => {
     modelAnimLeaf.play('hang-out', {timeScale: 1}).then((e) => {
 
       var mainPosition = this.leaf.scene.position.clone();
       var mainRotation = this.leaf.scene.rotation.toVector3();
       var targetRotation = new THREE.Vector3()
       const mainTransitionData = config.transitions.find(u => u.object === this.leaf.scene.name); 
-      
+
       AnimationManager.addAnimation(new Animation({
         duration: mainTransitionData.duration + 2000,
         timingFunction: "easeInOutQuad"
@@ -116,25 +117,19 @@ export default class extends Step {
         targetRotation.lerpVectors(mainRotation, mainTransitionData.rotation, event.advancement);
         this.leaf.scene.rotation.setFromVector3(targetRotation);
       }));
-      
+
       modelAnimLeaf.play('move-in-wind', {
         timeScale: 1, 
         chain: true
       }).then(() => {
-        AbilitiesManager.can("all", true);
-        modelAnimLeaf.play('idle', {
-          timeScale: 0.2, 
-          loop: THREE.LoopRepeat,
-          chain: true
-        }).then(() => {
           AbilitiesManager.can("all", true);
           modelAnimLeaf.play('idle', {
-            timeScale: 0.001, 
+            timeScale: 0.2, 
             loop: THREE.LoopRepeat,
             chain: true
-          });
+          })
         });
-      });
+      })
     }, 400)
 
     // Sounds

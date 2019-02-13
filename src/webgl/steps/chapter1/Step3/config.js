@@ -35,8 +35,8 @@ export default baseConfig.extends({
     clips: [
       {
         name: 'cut',
-        firstFrame: 213,
-        lastFrame: 264,
+        firstFrame: 284,
+        lastFrame: 313,
       }
     ]
   },
@@ -56,7 +56,7 @@ export default baseConfig.extends({
   ],
   timecodes: {
     cut: 11000,
-    water: 12500,
+    water: 11400,
   },
   micro: {
     bondMaterial: {

@@ -7,7 +7,7 @@ export default baseConfig.extends({
   human: {
     rendering: {
       bokeh: {
-        aperture: 4
+        focus: -1
       },
       light: {
         primary: {

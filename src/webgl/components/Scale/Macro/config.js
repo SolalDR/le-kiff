@@ -45,9 +45,9 @@ export default baseConfig.extends({
       }
     },
     bokeh: {
-      focus: 450,
-      aperture: 0.5,
-      maxblur: 3
+      focus: 0,
+      aperture: 0.08,
+      maxblur: 0.085
     },
     bloom: {
       // threshold: 0.99,

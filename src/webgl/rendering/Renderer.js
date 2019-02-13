@@ -89,17 +89,17 @@ class Renderer {
 
   initBokeh(){
     this.bokehPass = new BokehPass( this.scene, this.camera, {
-      focus: 500,
-      aperture:	0.3*0.00001,
-      maxblur:	1,
+      focus: 0,
+      aperture:	0,
+      maxblur: 0,
       width: Viewport.width,
       height: Viewport.height
     });
 
     var bokehFolder = guiRendering.addFolder("Bokeh");
-    bokehFolder.add(this.bokehPass, "focus", -1, 1, 0.01)
-    bokehFolder.add(this.bokehPass, "aperture", 0, 1, 0.01)
-    bokehFolder.add(this.bokehPass, "maxblur", 0.0, 10.0, 0.025)
+    bokehFolder.add(this.bokehPass, "focus", -1, 1, 0.001)
+    bokehFolder.add(this.bokehPass, "aperture", 0, 1, 0.001)
+    bokehFolder.add(this.bokehPass, "maxblur", 0.0, 10.0, 0.001)
 
   }
 

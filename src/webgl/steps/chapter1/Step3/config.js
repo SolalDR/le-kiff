@@ -112,6 +112,14 @@ export default baseConfig.extends({
     speed: 0.00005,
     size: 0,
     position: new THREE.Vector3(0, -15, 0)
-  })
+  }),
+  
+  air: {
+    focus: 0,
+  },
+
+  water: {
+    focus: -0.2,
+  }
 
 })

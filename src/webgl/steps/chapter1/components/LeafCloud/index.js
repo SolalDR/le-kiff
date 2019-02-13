@@ -13,7 +13,8 @@ class LeafCloud {
   } = {}){
     
     this.config = new Configuration({
-      position: new THREE.Vector3(0, 0, -10),
+      position: new THREE.Vector3(0, 0, -75),
+      scale: new THREE.Vector3(3, 3, 3),
       speedRotation: 5.,
       speedPosition: 0.2,
       amplitude: 30

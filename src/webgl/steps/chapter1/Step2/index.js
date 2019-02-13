@@ -61,6 +61,7 @@ export default class extends Step {
       transparent: true,
       geometry: ressources.singleLeaf.result.children[0].geometry
     });
+    this.leafClouds.object3D.scale.copy(leafCloudConfig.hidden.scale)
     this.leafClouds.object3D.position.z = leafCloudConfig.hidden.position.z;
     this.leafClouds.object3D.material.opacity = 0;
     this.scene.humanScale.group.add(this.leafClouds.object3D);
@@ -80,25 +81,35 @@ export default class extends Step {
       }).on("progress", (event) => {
 
         this.leafClouds.object3D.material.opacity = event.advancement;
-        this.leafClouds.config.speedRotation = 5 - 3 * event.advancement;
-        this.leafClouds.config.amplitude = 10 + 20 * event.advancement;
-        
-        this.leafClouds.object3D.position.x = -10 + event.advancement * 10;
-        this.leafClouds.object3D.position.y = 11 - event.advancement * 11;
+        this.leafClouds.config.speedRotation = THREE.Math.lerp(
+          leafCloudConfig.hidden.speedRotation, 
+          leafCloudConfig.air.speedRotation,
+          event.advancement
+        );
+
+        this.leafClouds.config.amplitude = THREE.Math.lerp(
+          leafCloudConfig.hidden.amplitude, 
+          leafCloudConfig.air.amplitude,
+          event.advancement
+        );
+
+        this.leafClouds.object3D.position.lerpVectors(
+          leafCloudConfig.hidden.position,
+          leafCloudConfig.air.position,
+          event.advancement
+        );
 
       }).on("end", () => {
-        this.leafClouds.object3D.position.set(0, 0, -15);
+        this.leafClouds.object3D.position.copy(leafCloudConfig.air.position)
         this.leafClouds.object3D.material.opacity = 1;
       }))
 
-      
       AnimationManager.addAnimation(new Animation({
         duration: mainTransitionData.duration, 
         timingFunction: "easeInOutQuad"
       }).on("progress", ( event ) => {
-        var a = event.advancement;
-        this.leaf.scene.position.lerpVectors(mainPosition, mainTransitionData.position, a);
-        targetRotation.lerpVectors(mainRotation, mainTransitionData.rotation, a);
+        this.leaf.scene.position.lerpVectors(mainPosition, mainTransitionData.position, event.advancement);
+        targetRotation.lerpVectors(mainRotation, mainTransitionData.rotation, event.advancement);
         this.leaf.scene.rotation.setFromVector3(targetRotation);
       }));
       

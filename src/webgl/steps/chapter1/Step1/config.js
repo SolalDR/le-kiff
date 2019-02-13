@@ -16,6 +16,19 @@ export default baseConfig.extends({
       rotation: new THREE.Euler(-0.16, 0.1, -0.38)
     }
   ],
+  modelAnimation: {
+    name : 'step_1_human_leaf',
+    options: {
+      timeScale: 0.0009
+    },
+    clips: [
+      {
+        name: 'wiggle-branch',
+        firstFrame: 0,
+        lastFrame: 70,
+      }
+    ]
+  },
   sounds: [
     {
       name : 'chapter_1_main_voice',

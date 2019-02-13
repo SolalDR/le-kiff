@@ -65,55 +65,62 @@ export default class extends Step {
     this.leafClouds.object3D.material.opacity = 0;
     this.scene.humanScale.group.add(this.leafClouds.object3D);
 
-    // Animation leaf
+    // Animation leaf 
     var modelAnimLeaf = ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);
-    modelAnimLeaf.play('hang-out', {timeScale: 1}).then((e) => {
 
-      var mainPosition = this.leaf.scene.position.clone();
-      var mainRotation = this.leaf.scene.rotation.toVector3();
-      var targetRotation = new THREE.Vector3()
-      const mainTransitionData = config.transitions.find(u => u.object === this.leaf.scene.name); 
-      
-      AnimationManager.addAnimation(new Animation({
-        duration: mainTransitionData.duration + 2000,
-        timingFunction: "easeInOutQuad"
-      }).on("progress", (event) => {
+    // Leaf hang out
+    // Note: little delay to prevent step init lag
+    setTimeout(() => {
+      modelAnimLeaf.play('hang-out', {timeScale: 1, chain: true}).then((e) => {
 
-        this.leafClouds.object3D.material.opacity = event.advancement;
-        this.leafClouds.config.speedRotation = 5 - 3 * event.advancement;
-        this.leafClouds.config.amplitude = 10 + 20 * event.advancement;
+        var mainPosition = this.leaf.scene.position.clone();
+        var mainRotation = this.leaf.scene.rotation.toVector3();
+        var targetRotation = new THREE.Vector3()
+        const mainTransitionData = config.transitions.find(u => u.object === this.leaf.scene.name); 
         
-        this.leafClouds.object3D.position.x = -10 + event.advancement * 10;
-        this.leafClouds.object3D.position.y = 11 - event.advancement * 11;
-
-      }).on("end", () => {
-        this.leafClouds.object3D.position.set(0, 0, -15);
-        this.leafClouds.object3D.material.opacity = 1;
-      }))
-
-      
-      AnimationManager.addAnimation(new Animation({
-        duration: mainTransitionData.duration, 
-        timingFunction: "easeInOutQuad"
-      }).on("progress", ( event ) => {
-        var a = event.advancement;
-        this.leaf.scene.position.lerpVectors(mainPosition, mainTransitionData.position, a);
-        targetRotation.lerpVectors(mainRotation, mainTransitionData.rotation, a);
-        this.leaf.scene.rotation.setFromVector3(targetRotation);
-      }));
-      
-      modelAnimLeaf.play('move-in-wind', {
-        timeScale: 1, 
-        chain: true
-      }).then(() => {
-        AbilitiesManager.can("all", true);
-        modelAnimLeaf.play('idle', {
-          timeScale: 0.2, 
-          loop: THREE.LoopRepeat,
+        // Leaf Cloud Reveal
+        AnimationManager.addAnimation(new Animation({
+          duration: mainTransitionData.duration + 2000,
+          timingFunction: "easeInOutQuad"
+        }).on("progress", (event) => {
+  
+          this.leafClouds.object3D.material.opacity = event.advancement;
+          this.leafClouds.config.speedRotation = 5 - 3 * event.advancement;
+          this.leafClouds.config.amplitude = 10 + 20 * event.advancement;
+          
+          this.leafClouds.object3D.position.x = -10 + event.advancement * 10;
+          this.leafClouds.object3D.position.y = 11 - event.advancement * 11;
+  
+        }).on("end", () => {
+          this.leafClouds.object3D.position.set(0, 0, -15);
+          this.leafClouds.object3D.material.opacity = 1;
+        }))
+  
+        // Branch Translate to single leaf position  
+        AnimationManager.addAnimation(new Animation({
+          duration: mainTransitionData.duration,
+          timingFunction: "easeInOutQuad"
+        }).on("progress", ( event ) => {
+          var a = event.advancement;
+          this.leaf.scene.position.lerpVectors(mainPosition, mainTransitionData.position, a);
+          targetRotation.lerpVectors(mainRotation, mainTransitionData.rotation, a);
+          this.leaf.scene.rotation.setFromVector3(targetRotation);
+        }));
+        
+        // Leaf Idle Animation
+        modelAnimLeaf.play('move-in-wind', {
+          timeScale: 1, 
           chain: true
+        }).then(() => {
+          AbilitiesManager.can("all", true);
+          modelAnimLeaf.play('idle', {
+            timeScale: 0.001, 
+            loop: THREE.LoopRepeat,
+            chain: true
+          });
         });
       });
-    });
+    }, 400)
 
     // Sounds
     setTimeout(() => {

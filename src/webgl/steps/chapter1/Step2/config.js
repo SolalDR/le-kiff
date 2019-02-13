@@ -7,7 +7,7 @@ export default baseConfig.extends({
   transitions: [
     {
       object: 'step_1_human_leaf_scene',
-      duration: 3600,
+      duration: 3300,
       position: new THREE.Vector3(-30, 1.76, 0.96),
       rotation: new THREE.Euler(0.46, 0.2, -0.18)
     }
@@ -20,18 +20,18 @@ export default baseConfig.extends({
     clips: [
       {
         name: 'hang-out',
-        firstFrame: 0,
-        lastFrame: 70,
+        firstFrame: 70,
+        lastFrame: 140,
       },
       {
         name: 'move-in-wind',
-        firstFrame: 70,
-        lastFrame: 171,
+        firstFrame: 140,
+        lastFrame: 236,
       },
       {
         name: 'idle',
-        firstFrame: 171,
-        lastFrame: 212
+        firstFrame: 242,
+        lastFrame: 284
       }
     ]
   }, 

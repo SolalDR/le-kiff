@@ -5,6 +5,7 @@ import config from "./config";
 import { c } from "../../../../helpers/Configuration";
 import { InteractivePlane } from "../../../components";
 import AbilitiesManager from "~/services/AbilitiesManager";
+import ModelAnimationManager from "../../../manager/ModelAnimation";
 
 /**
  * @constructor
@@ -49,14 +50,21 @@ export default class extends Step {
 
 
     this.leaf = ressources.step_1_human_leaf.result;
-    var leafScene = this.leaf.scene;
-    leafScene.name = 'step_1_human_leaf_scene';
-    var mainTransformConfig = config.transforms.find(transform => transform.asset === leafScene.name);
-    leafScene.position.copy(mainTransformConfig.position);
-    leafScene.rotation.copy(mainTransformConfig.rotation);
-    this.scene.humanScale.group.add(leafScene);
+    this.leafScene = this.leaf.scene;
+    console.log(this.leafScene);
+    this.leafSceneMaterial = this.leaf.scene.children[0].children[0].children[0].children[0].material
+    this.leafScene.name = 'step_1_human_leaf_scene';
+    var mainTransformConfig = config.transforms.find(transform => transform.asset === this.leafScene.name);
+    this.leafScene.position.copy(mainTransformConfig.position);
+    this.leafScene.rotation.copy(mainTransformConfig.rotation);
+    this.scene.humanScale.group.add(this.leafScene);
 
-    // main transform
+    // Idle Animation
+    var modelAnimLeaf = ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);
+    modelAnimLeaf.play('wiggle-branch', {
+      timeScale: 0.6, 
+      loop: THREE.LoopRepeat
+    });
 
     this.initGUI();
  
@@ -70,8 +78,8 @@ export default class extends Step {
     // add leaf folder if doesn't exist
     if(!this.folder.leaf){
       this.folder.leaf = this.gui.addObject3D("Leaf",  this.leaf.scene, false);
-      this.folder.leaf.addMaterial('Leaf detached', this.leaf.scene.children[0].children[0].material); 
-      this.folder.leaf.addMaterial('Leaf', this.leaf.scene.children[2].material);   
+      this.folder.leaf.addMaterial('Leaf detached', this.leafSceneMaterial); 
+      this.folder.leaf.addMaterial('Leaf', this.leaf.scene.children[0].children[1].material);  
     }
 
     if(!this.folder.background ){

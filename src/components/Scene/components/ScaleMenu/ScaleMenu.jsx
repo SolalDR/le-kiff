@@ -72,7 +72,7 @@ class ScaleMenu extends React.Component {
         onMouseOver={() => this.onMouseOver(rank)}
         onMouseOut={this.onMouseOut.bind(this)}
         onClick={this.handleClick.bind(this, item.scale)}>
-          <LetterReveal text={item.title} class={'scale-menu__text heading-8'} duration={0.3} delay={0.015} reveal={(this.state.revealed === rank) || (this.props.scale == item.scale && !this.state.revealed ) ? true : false} />
+          <LetterReveal text={item.title} class={'scale-menu__text heading-8'} duration={0.2} delay={0.015} reveal={(this.state.revealed === rank) || (this.props.scale == item.scale && !this.state.revealed ) ? true : false} from={{opacity: 0, top: 15}} to={{opacity: 1, top: 0}} />
       </button>)
     })
   }

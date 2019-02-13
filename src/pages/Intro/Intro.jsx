@@ -64,6 +64,7 @@ class Intro extends React.Component {
 
   onHoldComplete() {
     //Do smth
+    
     this.props.history.push("/chapter-1");
   }
 
@@ -82,17 +83,18 @@ class Intro extends React.Component {
               delay={0.07}
               globalDelay={1}
               reveal={this.state.reveal}
-              options={{ filter: "blur(0)" }}
+              from={{ opacity: 1, filter: "blur(3)" }}
+              to={{ opacity: 1, filter: "blur(0)" }}
             />
             <LetterReveal
-              text="Stories of disappearances"
+              text="Story of disappearances"
               class={"intro__subtitle heading-2"}
               duration={0.09}
               delay={-0.05}
               globalDelay={1.5}
               reveal={this.state.reveal}
-              options={{ scale: 1, left: 0, x: 0 }}
-              start={{ opacity: 0, x: 50, scale: 0.5 }}
+              from={{ opacity: 0, x: 50, scale: 0.5 }}
+              to={{ opacity: 1, x: 0, scale: 1 }}
             />
             <p className={`intro__teasing teasing-3 ${this.state.reveal ? 'is-revealed' : ''}`}>
               <span className="intro__teasing__item">Discover the story of a crack rock,</span> 

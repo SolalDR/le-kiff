@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import { TimelineLite } from 'gsap';
+import { TimelineLite, Expo } from 'gsap';
 import "./styles.sass";
 
 class LetterReveal extends React.Component {
@@ -12,8 +12,8 @@ class LetterReveal extends React.Component {
     globalDelay: PropTypes.number,
     reveal: PropTypes.bool.isRequired,
     class: PropTypes.string,
-    options: PropTypes.object,
-    start: PropTypes.object
+    from: PropTypes.object,
+    to: PropTypes.object
   };
 
   static defaultProps = {
@@ -22,8 +22,9 @@ class LetterReveal extends React.Component {
     delay: 0.05,
     globalDelay: 0,
     reveal: false,
-    options: {},
-    start: {}
+    class: '',
+    from: {},
+    to: {}
   }
 
 
@@ -33,8 +34,10 @@ class LetterReveal extends React.Component {
     this.lettersArray = props.text.split("");
     this.elements = React.createRef();
     this.letterEls = [];
+
     this.isRevealed = false;
     this.isAnimating = false;
+    
     this.timeline = null;
   }
 
@@ -54,12 +57,8 @@ class LetterReveal extends React.Component {
 
   initReveal() {
     if (!this.timeline) {
-      this.timeline = new TimelineLite({paused: true, delay:this.props.globalDelay, onReverseComplete: this.offAnimation.bind(this), onComplete: this.offAnimation.bind(this) });
-      this.timeline.set(this.letterEls, this.props.start);
-      this.timeline.staggerTo(this.letterEls,
-        this.props.duration,
-        { opacity: 1, top: 0, ...this.props.options, },
-        this.props.delay);
+      this.timeline = new TimelineLite({paused: true, delay: this.props.globalDelay, onReverseComplete: this.offAnimation.bind(this), onComplete: this.offAnimation.bind(this) });
+      this.timeline.set(this.letterEls, this.props.from);
     }
     if (this.props.reveal) {
       this.reveal();
@@ -68,19 +67,25 @@ class LetterReveal extends React.Component {
 
   offAnimation() {
     this.isAnimating = false;
+    this.timeline.pause();
   }
 
   reveal() {
     if (!this.isAnimating) {
       this.isAnimating = true;
+    
+      this.timeline.staggerTo(this.letterEls, this.props.duration, { ease: Expo.easeIn, ...this.props.to }, this.props.delay);
       this.timeline.play();
+
+
       this.isRevealed = true;
     }
   }
 
   unReveal() {
     this.isAnimating = true;
-    this.timeline.reverse();
+    this.timeline.play();
+    this.timeline.staggerTo(this.letterEls, this.props.duration, { ease: Expo.easeOut, ...this.props.from }, -(this.props.delay));
     this.isRevealed = false;
   }
 

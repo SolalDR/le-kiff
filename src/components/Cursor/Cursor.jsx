@@ -180,8 +180,8 @@ class Cursor extends React.Component {
               <circle strokeWidth="1" fill="none" r="24.6" cx="25.6" cy="25.6"></circle>
             </svg>
           </div>
-          <LetterReveal text="Loading" class={'cursor__text cursor__loading small'} duration={0.3} delay={0.025} globalDelay={4} reveal={this.props.isLoading} start={{top: 15}} />
-          <LetterReveal text="Hold to continue" class={'cursor__text cursor__hold small'} duration={0.15} delay={0.025} reveal={!this.props.isLoading && this.state.isCursorStill} />
+          <LetterReveal text="Loading" class={'cursor__text cursor__loading small'} duration={0.2} delay={0.015} globalDelay={4} reveal={this.props.isLoading} from={{y: 15, opacity: 0}} to ={{y: 0, opacity: 1}} />
+          <LetterReveal text="Hold to continue" class={'cursor__text cursor__hold small'} duration={0.2} delay={0.015} reveal={!this.props.isLoading && this.state.isCursorStill} from={{y: 15, opacity: 0}} to ={{y: 0, opacity: 1}} />
       </div>
     )
   }

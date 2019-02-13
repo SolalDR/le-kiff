@@ -72,7 +72,7 @@ class ScaleMenu extends React.Component {
         onMouseOver={() => this.onMouseOver(rank)}
         onMouseOut={this.onMouseOut.bind(this)}
         onClick={this.handleClick.bind(this, item.scale)}>
-          <LetterReveal text={item.title} class={'scale-menu__text heading-8'} duration={0.3} delay={0.015} reveal={(this.state.revealed === rank) || (this.props.scale == item.scale && !this.state.revealed ) ? true : false} />
+          <LetterReveal text={item.title} class={'scale-menu__text heading-8'} duration={0.2} delay={0.015} reveal={(this.state.revealed === rank) || (this.props.scale == item.scale && !this.state.revealed ) ? true : false} from={{opacity: 0, top: 15}} to={{opacity: 1, top: 0}} />
       </button>)
     })
   }
@@ -82,7 +82,7 @@ class ScaleMenu extends React.Component {
       <div className="scale-menu">
         {this.renderScaleItem()}
         <div className={`scale-menu__tutorial ${this.state.showTutorial ? '' : 'is-hidden'}`}>
-          <p className="teasing-3"><span className="scale-menu__tutorial__item">Feel free to switch point of views</span> <span className="scale-menu__tutorial__item">to look beyond or to go deeper, at </span><span className="scale-menu__tutorial__item">any time.</span> </p>
+          <p className="teasing-3"><span className="scale-menu__tutorial__item">Feel free to switch point of views</span> <span className="scale-menu__tutorial__item">to look beyond or to go deeper,</span><span className="scale-menu__tutorial__item">at any time.</span> </p>
           <svg width="29" height="50" xmlns="http://www.w3.org/2000/svg" className="scale-menu__tutorial__icon">
             <g fill="none" fillRule="evenodd">
               <rect stroke="#FFF" x=".5" y=".5" width="28" height="49" rx="14"/>

@@ -1,6 +1,8 @@
 import React from "react";
 import "./styles.sass";
-import logo from "./logo.svg"
+import full_screen_1366 from "./ui/full_screen_1366.svg";
+import full_screen_1920 from "./ui/full_screen_1920.svg";
+import full_screen_2560 from "./ui/full_screen_2560.svg";
 
 class FullScreenButton extends React.Component {
 
@@ -35,7 +37,11 @@ class FullScreenButton extends React.Component {
       <div className="fullscreen-button"
             onClick={this.handleClick}
             ref={(ref) => this.myRef = ref}> 
-        <img src={logo} alt=""/>
+        <picture>
+          <source media="(max-width: 2100px)" srcset={full_screen_2560} />
+          <source media="(min-width: 1600px)" srcset={full_screen_1920} />
+          <img src={full_screen_1366} alt="" />
+        </picture>
       </div>
     )
   }

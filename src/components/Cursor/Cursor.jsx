@@ -23,7 +23,7 @@ class Cursor extends React.Component {
     this.bulletWidth = 0;
 
     this.counter = 0;
-    this.holdDuration = 65;
+    this.holdDuration = 63;
     this.isHoldComplete = false;
     this.cursorNotMovingTimeout = null;
     this.target = {

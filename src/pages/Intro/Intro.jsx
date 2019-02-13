@@ -98,7 +98,7 @@ class Intro extends React.Component {
               delay={0.07}
               globalDelay={1}
               reveal={this.state.reveal}
-              from={{ opacity: 1, filter: "blur(3)" }}
+              from={{ opacity: 0, filter: "blur(3)" }}
               to={{ opacity: 1, filter: "blur(0)" }}
             />
             <LetterReveal

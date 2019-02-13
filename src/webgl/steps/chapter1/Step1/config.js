@@ -44,7 +44,7 @@ export default baseConfig.extends({
     colorPlane: colorPlane.extends({
       color: new THREE.Color("rgb(28,75,30)")
     }),
-    
+
     bondMaterial: {
       color: new THREE.Color("rgb(0, 158, 46)"),
       emissive: new THREE.Color("rgb(51, 73, 59)"),
@@ -65,11 +65,11 @@ export default baseConfig.extends({
         scale: new THREE.Vector3(0.6, 0.6, 0.6)
       }
     },
-    
+
     particleConfig: particleConfig.extends({
       color: new THREE.Color("rgb(114,248,145)")
     }),
-    
+
     rendering: {
       toneMappingExposure: 0.7,
       toneMappingWhitePoint: 1,
@@ -94,14 +94,23 @@ export default baseConfig.extends({
     rendering: {
       light: {
         primary: {
-          intensity: 1
+          position: new THREE.Vector3(1, 4, 1),
+          color: new THREE.Color("rgb(255,211,105)"),
+          intensity: 0.7,
+          decay: 1,
+          power: 2,
         },
         secondary: {
-          intensity: 0.5
+          position: new THREE.Vector3(-3, 16, 15),
+          color: new THREE.Color("rgb(255,225,170)"),
+          intensity: 0.22,
+          decay: 1,
+          power : 4.2,
         },
         ambient: {
-          intensity: 1.5
-        }
+          color: new THREE.Color("rgb(255,224,180)"),
+          intensity: 1.6,
+        },
       }
     }
   }

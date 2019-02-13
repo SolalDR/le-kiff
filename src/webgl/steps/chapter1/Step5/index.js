@@ -14,7 +14,7 @@ import AbilitiesManager from "../../../../services/AbilitiesManager";
  */
 export default class extends Step {
   constructor(params){
-    super(params, ["background", "sphere"]);
+    super(params, ["background"]);
     this.simplex = new SimplexNoise();
   }
   /**
@@ -198,10 +198,6 @@ export default class extends Step {
 
   hide(newStep) {
     var toRemove = this.getRemovableObject(newStep);
-
-    if ( toRemove.includes("sphere") ){
-      this.scene.humanScale.group.remove(this.main);
-    }
 
     super.hide(newStep);
   }

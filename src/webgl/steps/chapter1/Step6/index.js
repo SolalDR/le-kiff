@@ -12,7 +12,7 @@ import SoundManager from "../../../../services/soundManager/SoundManager";
  */
 export default class extends Step {
   constructor(params){
-    super(params, ["background", "torus"]);
+    super(params, ["background"]);
     this.simplex = new SimplexNoise();
   }
   /**
@@ -35,6 +35,7 @@ export default class extends Step {
    * @param {*} event
    */
   displayHumanScale( ressources, previousStep ){
+
     // Get pasta
     if( previousStep.rank === this.rank - 1 ){
       this.pasta = previousStep.pasta;
@@ -82,10 +83,8 @@ export default class extends Step {
     // Background
     if( previousStep.background ){
       this.background = previousStep.background;
+      this.background.changeBackground(ressources.background6.result)
     }
-    if( previousStep.rank !== this.rank - 1){
-      this.background.changeBackground(ressources.background6.result, 3000, 3000);
-    }    
 
     // Morph group pasta/brick
     this.morphGroupRotation = new THREE.Euler(-2.78, 2.10, 0)
@@ -250,10 +249,6 @@ export default class extends Step {
 
   hide(newStep) {
     var toRemove = this.getRemovableObject(newStep);
-
-    if ( toRemove.includes("torus") ){
-      this.scene.humanScale.group.remove(this.main);
-    }
 
     super.hide(newStep);
   }

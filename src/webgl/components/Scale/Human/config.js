@@ -50,6 +50,11 @@ export default baseConfig.extends({
       ambient: {
         intensity: 0.2
       }
-    }
+    },
+    bokeh: {
+      focus: 0,
+      aperture: 0.02,
+      maxblur: 0.1
+    },
   }
 });

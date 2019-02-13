@@ -82,6 +82,11 @@ export default baseConfig.extends({
           intensity: 0.7,
         },
       }
+    },
+    water: {
+      bokeh: {
+        focus: -0.2
+      }
     }
   },
 

@@ -109,6 +109,14 @@ export default baseConfig.extends({
         ambient: {
           intensity: 1.5
         }
+      },
+      bokeh: {
+        aperture: 0.15 // Animate to 0 in js
+      }
+    },
+    air: {
+      bokeh: {
+        aperture: 0
       }
     }
   }

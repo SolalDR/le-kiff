@@ -9,6 +9,7 @@ import ParticleCloud from "~/webgl/components/ParticleCloud"
 import configStep4 from "./../Step4/config"
 import SoundManager from "../../../../services/soundManager/SoundManager";
 import AbilitiesManager from "../../../../services/AbilitiesManager";
+import configLeafCloud from "./../components/LeafCloud/config";
 
 /**
  * @constructor
@@ -80,7 +81,6 @@ export default class extends Step {
     }, this.config.timecodes.water + 300)
 
     // Leaf clouds fall and water rise, hide leaf
-    var fromAperture = Renderer.getBokehAperture();
     var fromPosition = this.leaf.scene.position.y;
     var fromLightPosition = this.scene.lightPrimary.position.clone();
     var fromLightAmbientIntensity = this.scene.lightAmbient.intensity;
@@ -105,12 +105,13 @@ export default class extends Step {
           )
       )
 
-      Renderer.setBokehAperture(fromAperture + event.advancement * 4)
+      Renderer.setBokehFocus(THREE.Math.lerp(config.human.air.focus, config.human.water.focus, event.advancement));
+    
     }).on("end", (event)=>{
       this.scene.lightPrimary.position.copy(new THREE.Vector3(5, 15, 5))
       this.config.human.rendering.light.primary.position.copy(this.scene.lightPrimary.position)
       this.config.human.rendering.light.ambient.intensity = 0.5;
-      this.config.human.rendering.bokeh.aperture = 4
+      this.config.human.rendering.bokeh.focus = this.config.human.water.focus;
       setTimeout(() => {
         SoundManager.play('chapter_1_trigger', 'step_3_05_h1_ajoute_le_kerosene', {
           volume: 0.5
@@ -176,10 +177,8 @@ export default class extends Step {
 
     // Change backgrouund 
     this.background.changeBackground(ressources.background3.result, 5000, this.config.timecodes.water)
-
-
   }
-
+  
 
   initGUI(){
     if( !this.gui ) return; 

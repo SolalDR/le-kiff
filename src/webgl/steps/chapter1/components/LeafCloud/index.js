@@ -13,9 +13,10 @@ class LeafCloud {
   } = {}){
     
     this.config = new Configuration({
-      position: new THREE.Vector3(0, 0, -10),
-      speedRotation: 5.,
-      speedPosition: 0.2,
+      position: new THREE.Vector3(0, 0, -75),
+      scale: new THREE.Vector3(3, 3, 3),
+      speedRotation: 5. * 0.0001,
+      speedPosition: 0.2 * 0.0001,
       amplitude: 30
     });
 
@@ -32,6 +33,9 @@ class LeafCloud {
       metalness: 0.1,
       color: new THREE.Color(0.5, 0.5, 0.5)
     });
+
+    this.timeRotation = 0
+    this.timePosition = 0
 
     this.count = 500;
     var cluster = new THREE.InstancedMesh(  geometry, material, this.count, true, false );
@@ -55,19 +59,19 @@ class LeafCloud {
   }
 
   render(time){
-    var timeRotation = time * this.config.speedRotation;
-    var timePosition = time * this.config.speedPosition;
+    this.timeRotation += this.config.speedRotation;
+    this.timePosition += this.config.speedPosition;
     this.items.forEach((item, i) => {
       this.object3D.setQuaternionAt( i , new THREE.Quaternion(
-        this.noise.noise2D(item.rotation.x + i*0.5, timeRotation),
-        this.noise.noise2D(item.rotation.y + i*0.5, timeRotation),
-        this.noise.noise2D(item.rotation.z + i*0.5, timeRotation),
-        this.noise.noise2D(item.rotation.w + i*0.5, timeRotation)
+        this.noise.noise2D(item.rotation.x + i*0.5, this.timeRotation),
+        this.noise.noise2D(item.rotation.y + i*0.5, this.timeRotation),
+        this.noise.noise2D(item.rotation.z + i*0.5, this.timeRotation),
+        this.noise.noise2D(item.rotation.w + i*0.5, this.timeRotation)
       ).normalize() );
       this.object3D.setPositionAt( i , new THREE.Vector3(
-        this.noise.noise2D(item.position.x + i*0.5, timePosition) * this.config.amplitude,
-        this.noise.noise2D(item.position.y + i*0.5, timePosition) * this.config.amplitude,
-        this.noise.noise2D(item.position.z + i*0.5, timePosition) * this.config.amplitude*0.5
+        this.noise.noise2D(item.position.x + i*0.5, this.timePosition) * this.config.amplitude,
+        this.noise.noise2D(item.position.y + i*0.5, this.timePosition) * this.config.amplitude,
+        this.noise.noise2D(item.position.z + i*0.5, this.timePosition) * this.config.amplitude*0.5
       ) );
       
     })

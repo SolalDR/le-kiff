@@ -90,7 +90,6 @@ export default class extends Step {
     this.morphGroupRotation = new THREE.Euler(-2.78, 2.10, 0)
     this.morphGroup = new THREE.Group();
     this.morphGroup.name = 'morph_group';
-    this.morphGroup.rotation.copy(this.morphGroupRotation);    
 
     // Brick transforms
     this.brickStartScale = new THREE.Vector3(0.0005, 0.0005, 0.0005);
@@ -129,9 +128,9 @@ export default class extends Step {
       new Animation({ 
         duration: pastaPositionResetDuration, 
         delay: timecode - pastaPositionResetDuration,
-        timingFunction: "easeInOutQuart" 
+        timingFunction: "easeInOutQuart"
       }).on("progress", (event) => {
-        this.pasta.noisePastaIntensity = 3 - 3 * event.advancement;
+        this.pasta.noisePastaIntensity = 2 - 2 * event.advancement;
         this.pasta.scene.position.lerp(pastaStartPosition, event.advancement );
       })
       .on("end", () => {

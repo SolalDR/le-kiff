@@ -33,7 +33,7 @@ class Info extends Event{
       opened: false
     };
 
-    this.basedMatrix = new THREE.Matrix4().fromArray([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]);
+    this.basedMatrix = new THREE.Matrix4();
   }
 
   /**
@@ -64,8 +64,6 @@ class Info extends Event{
     var matrix = this.object3D ? this.object3D.matrixWorld : this.basedMatrix;
     vector.applyMatrix4( matrix ).project(camera);
     
-
-
     Viewport.transformUnit(vector, this.state.screenPosition);
 
     if(!this.state.previousVector.equals(vector)) {

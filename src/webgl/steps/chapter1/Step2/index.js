@@ -141,10 +141,7 @@ export default class extends Step {
       });
     }, 500)
 
-
-    
     this.initGUI();
-
   }
 
   initGUI(){

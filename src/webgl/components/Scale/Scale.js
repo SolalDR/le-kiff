@@ -92,7 +92,7 @@ class Scale extends Event {
 
   updateRendering({
     animate = false,
-    duration = 1000
+    duration = 3000
   } = {}){
     var c = this.config.rendering;
 

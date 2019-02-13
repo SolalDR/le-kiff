@@ -91,10 +91,11 @@ class Scale extends Event {
   }
 
   updateRendering({
+    config = this.config.rendering,
     animate = false,
     duration = 3000
   } = {}){
-    var c = this.config.rendering;
+    var c = config;
 
     this.scene.renderer.setToneMappingExposure(c.toneMappingExposure);
     this.scene.renderer.setBloomRadius(c.bloom.radius);

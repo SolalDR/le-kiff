@@ -120,6 +120,14 @@ export default class extends Step {
               }).then(() => {
                 // play sound main voice
                 SoundManager.play('chapter_1_main_voice', 'step_4');
+                // Update lights at animation end            
+                AnimationManager.addAnimation(new Animation({ duration: 4000 })
+                  .on("progress", (event) => {
+                    this.updateLights(this.config.human.endState.rendering.light, event.advancement);
+                  }).on("end", () => {
+                    this.config.human.rendering.light = this.updateLights(this.config.human.endState.rendering.light);
+                  })
+                )                
               })
               // play sound pasta merging
               SoundManager.play('chapter_1_trigger', 'step_4_04_merge_pasta', {

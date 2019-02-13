@@ -5,29 +5,45 @@ import particleConfig from "~/webgl/components/ParticleCloud/config";
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
   human: {
-    light: {
-      primary: {
-        position: new THREE.Vector3(10, 23, 19),
-        intensity: 2.9,
-        decay: 1,
-        power: 9,
-        color: new THREE.Color("rgb(250,225,189)")
+    rendering: {
+      light: {
+        primary: {
+          position: new THREE.Vector3(0, 15, 0),
+          intensity: 1
+        },
+        secondary: {
+          intensity: 0.5
+        },
+        ambient: {
+          intensity: 1
+        }
       },
-      secondary: {
-        position: new THREE.Vector3(-13, 13, -1),
-        color: new THREE.Color("rgb(255,182,100)"),
-        intensity: 0.45,
-        decay: 1,
-        power: 11.3,
-      },
-      ambient: {
-        color: new THREE.Color("rgb(255, 224, 180)"),
-        intensity: 1,
+      air: {
+        bokeh: {
+          focus: 0
+        }
       },
     },
-    air: {
-      bokeh: {
-        focus: 0
+    endState: {
+      rendering: {
+        light: {
+          primary: {
+            position: new THREE.Vector3(10, 23, 19),
+            intensity: 3.9,
+            //power: 9,
+            color: new THREE.Color("rgb(250,225,189)")
+          },
+          secondary: {
+            position: new THREE.Vector3(-13, 13, -1),
+            color: new THREE.Color("rgb(255,182,100)"),
+            intensity: 0.45,
+            //power: 11.3,
+          },
+          ambient: {
+            color: new THREE.Color("rgb(255, 224, 180)"),
+            intensity: 1,
+          },
+        }
       }
     }
   },

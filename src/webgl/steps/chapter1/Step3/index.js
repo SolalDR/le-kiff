@@ -176,10 +176,8 @@ export default class extends Step {
 
     // Change backgrouund 
     this.background.changeBackground(ressources.background3.result, 5000, this.config.timecodes.water)
-
-
   }
-
+  
 
   initGUI(){
     if( !this.gui ) return; 

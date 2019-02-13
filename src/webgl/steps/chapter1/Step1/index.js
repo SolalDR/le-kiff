@@ -51,7 +51,6 @@ export default class extends Step {
 
     this.leaf = ressources.step_1_human_leaf.result;
     this.leafScene = this.leaf.scene;
-    console.log(this.leafScene);
     this.leafSceneMaterial = this.leaf.scene.children[0].children[0].children[0].children[0].material
     this.leafScene.name = 'step_1_human_leaf_scene';
     var mainTransformConfig = config.transforms.find(transform => transform.asset === this.leafScene.name);

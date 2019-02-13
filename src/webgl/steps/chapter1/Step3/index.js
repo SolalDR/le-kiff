@@ -163,7 +163,7 @@ export default class extends Step {
       this.leafClouds.object3D.material.alphaMap = ressources.alphaWaterLeaf.result;
       this.leafClouds.object3D.material.opacity = 0;
       this.leafClouds.object3D.geometry.maxInstancedCount = 500;
-      this.leafClouds.config.speedPosition = 5;
+      this.leafClouds.config.speedPosition = 5*0.0001;
 
       AnimationManager.addAnimation(new Animation({
         duration: 500,

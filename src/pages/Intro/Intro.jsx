@@ -17,6 +17,7 @@ class Intro extends React.Component {
     super();
     this.state = {
       autoLoadChapter: false,
+      introDone: false,
       reveal: false
     };
   }
@@ -62,10 +63,24 @@ class Intro extends React.Component {
     }
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.introDone !== nextState.introDone && nextState.introDone) {
+      this.props.onLoad(true);
+      this.props.onHoldNotAllowed();
+    }
+  }
+
+  onCursorUpdate(cursorState) {
+    if (this.state.introDone && cursorState.isLoading) {
+      this.props.history.push("/chapter-1");
+    }
+  }
+
   onHoldComplete() {
     //Do smth
-    
-    this.props.history.push("/chapter-1");
+    this.setState({
+      introDone: true
+    });
   }
 
   render() {

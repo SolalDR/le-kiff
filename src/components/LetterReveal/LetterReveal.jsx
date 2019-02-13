@@ -37,7 +37,7 @@ class LetterReveal extends React.Component {
 
     this.isRevealed = false;
     this.isAnimating = false;
-    
+
     this.timeline = null;
   }
 
@@ -46,13 +46,11 @@ class LetterReveal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.reveal !== this.props.reveal) {
       if (this.isRevealed && !nextProps.reveal) {
         this.unReveal();
       } else if (!this.isRevealed && nextProps.reveal) {
         this.reveal();
       }
-    }
   }
 
   initReveal() {

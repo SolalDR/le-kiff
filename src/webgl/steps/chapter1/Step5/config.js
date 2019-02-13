@@ -64,13 +64,23 @@ export default baseConfig.extends({
     rendering: {
       light: {
         primary: {
-          position: new THREE.Vector3(-5, 15, 0),
-          color: new THREE.Color("rgb(255, 255, 255)")
+          position: new THREE.Vector3(4, 4, 1),
+          color: new THREE.Color("rgb(255, 255, 255)"),
+          intensity: 0.3,
+          decay: 0.6,
+          power:3,
         },
         secondary: {
-          position: new THREE.Vector3(5, -10, 0),
-          color: new THREE.Color("rgb(255, 255, 255)")
-        }
+          position: new THREE.Vector3(17, -12, -7),
+          color: new THREE.Color("rgb(255, 255, 255)"),
+          intensity: 0.28,
+          decay: 1,
+          power: 1,
+        },
+        ambient: {
+          color: new THREE.Color("rgb(255, 255, 255)"),
+          intensity: 0.7,
+        },
       }
     }
   },

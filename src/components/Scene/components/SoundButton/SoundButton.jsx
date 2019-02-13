@@ -38,8 +38,7 @@ class SoundButton extends React.Component {
             onClick={this.handleClick}
             ref={(ref) => this.myRef = ref}> 
              <picture>
-              {/* <source media="(max-width: 2100px)" srcset={son_2560} /> */}
-
+              <source media="(max-width: 2100px)" srcset={son_2560} />
               <source media="(min-width: 1600px)" srcset={son_1920} />
               <img src={son_1366} alt="" />
             </picture>

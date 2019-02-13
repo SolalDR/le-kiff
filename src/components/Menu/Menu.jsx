@@ -78,7 +78,7 @@ class Menu extends React.PureComponent {
     return this.props.chapters.map((chapter, index) => {
       const size = this.sizes.length > 0 ? this.sizes[index] : null;
       let transform = this.props.open || !size ? "translateX(0)" : `translateY(${size.burgerPosY}px)`;
-      transform = size && this.props.hover && !this.props.open ? `translateY(${size.burgerPosYHover}px)` : transform;
+      transform = size && this.props.hover ? `translateY(${size.burgerPosYHover}px)` : transform;
       const height = this.state.current === chapter.rank ? size.height : 0;
       const className = this.state.current === chapter.rank ? 'menu__item is-active' : 'menu__item';
 

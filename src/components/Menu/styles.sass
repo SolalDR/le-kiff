@@ -20,7 +20,7 @@
   &__item 
     flex: 1
     display: block
-    margin-bottom: 15px
+    padding-bottom: 50px
     padding-right: 64px
     text-align: right
     color: $color-secondary
@@ -28,6 +28,7 @@
       duration: $t-duration * 1.5
       property: transform, opacity
       timing-function: $t-timing-function
+
     @for $i from 0 to 5
       &:nth-of-type(#{$i})
         .menu__item__title
@@ -43,13 +44,13 @@
       display: block
       width: 100%
       position: relative
-      margin-bottom: 20px
+      padding-bottom: 20px
       opacity: 0
       transform: translateY(-100%)
       transition: 
-          duration: $t-duration
-          property: opacity, transform
-          timing-function: $t-timing-function
+        duration: $t-duration
+        property: opacity, transform
+        timing-function: $t-timing-function
 
     &__burger
       position: absolute
@@ -72,6 +73,7 @@
       &__icon
         opacity: 0
         transition: 
+          delay: .3s
           duration: $t-duration * 1.5
           property: opacity
           timing-function: $t-timing-function
@@ -81,6 +83,7 @@
         opacity: 0
         transform: translateX(15%)
         transition: 
+          delay: .3s
           duration: $t-duration * 1.5
           property: opacity, transform
           timing-function: $t-timing-function
@@ -91,6 +94,7 @@
       transform: skewX(10deg) translateX(10%)
       opacity: 0
       transition: 
+        delay: .3s
         duration: $t-duration * 1.5
         property: transform
         timing-function: $t-timing-function
@@ -101,6 +105,7 @@
       margin-right: -($space-l)
       overflow: hidden
       transition: 
+        delay: .3s
         duration: $t-duration * 1.5
         property: height, opacity
         timing-function: $t-timing-function
@@ -110,8 +115,9 @@
       padding-right: $space-l
       transform: skewX(10deg) translateX(10%)
       transition: 
+        delay: .3s
         duration: $t-duration * 1.5
-        property: transform
+        property: transform, opacity
         timing-function: $t-timing-function
 
     //States
@@ -119,16 +125,26 @@
       .menu__item
         &__content,
         &__available
+          transition-delay: 0s
           opacity: 1
           transform: skewX(0) translateX(0)
 
         &__time
           &__value
+            transition-delay: 0s
             opacity: 1
             transform: translateX(0)
 
           &__icon
+              transition-delay: 0s
               opacity: 1
+
+        &__expand
+          transition: 
+            delay: 0s
+            duration: $t-duration * 1.5
+            property: height, opacity
+            timing-function: $t-timing-function
 
       &.is-unvailable
         .menu__item
@@ -162,7 +178,7 @@
     top: 120px
 
     &__item
-      margin-bottom: 15px
+      margin-padding: 15px
 
       &__burger
         width: $pos-s

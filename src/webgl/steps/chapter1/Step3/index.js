@@ -105,13 +105,13 @@ export default class extends Step {
           )
       )
 
-      Renderer.setBokehFocus(THREE.Math.lerp(this.config.air.focus, this.config.water.focus, event.advancement));
+      Renderer.setBokehFocus(THREE.Math.lerp(config.human.air.focus, config.human.water.focus, event.advancement));
     
     }).on("end", (event)=>{
       this.scene.lightPrimary.position.copy(new THREE.Vector3(5, 15, 5))
       this.config.human.rendering.light.primary.position.copy(this.scene.lightPrimary.position)
       this.config.human.rendering.light.ambient.intensity = 0.5;
-      this.config.human.rendering.bokeh.focus = this.config.water.focus;
+      this.config.human.rendering.bokeh.focus = this.config.human.water.focus;
       setTimeout(() => {
         SoundManager.play('chapter_1_trigger', 'step_3_05_h1_ajoute_le_kerosene', {
           volume: 0.5

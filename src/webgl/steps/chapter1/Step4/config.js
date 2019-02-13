@@ -6,13 +6,18 @@ export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
   human: {
     rendering: {
-      bokeh: {
-        focus: -1
-      },
       light: {
         primary: {
           position: new THREE.Vector3(5, 15, 5)
         }
+      },
+      bokeh: {
+        focus: -0.2
+      }
+    },
+    air: {
+      bokeh: {
+        focus: 0
       }
     }
   },

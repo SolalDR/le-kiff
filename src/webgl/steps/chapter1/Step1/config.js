@@ -89,6 +89,9 @@ export default baseConfig.extends({
         ambient: {
           intensity: 1.5
         }
+      },
+      bokeh: {
+        aperture: 0.15
       }
     }
   }

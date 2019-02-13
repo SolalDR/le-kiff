@@ -7,6 +7,8 @@ import leafCloudConfig from "./../components/LeafCloud/config";
 import ModelAnimationManager from "../../../manager/ModelAnimation";
 import SoundManager from "../../../../services/soundManager/SoundManager";
 import AbilitiesManager from "../../../../services/AbilitiesManager";
+import Renderer from "~/webgl/rendering/Renderer"
+
 
 /**
  * @constructor
@@ -79,6 +81,8 @@ export default class extends Step {
         duration: mainTransitionData.duration + 2000,
         timingFunction: "easeInOutQuad"
       }).on("progress", (event) => {
+
+        Renderer.setBokehAperture(THREE.Math.lerp(config.human.rendering.bokeh.aperture, config.human.air.bokeh.aperture, event.advancement));
 
         this.leafClouds.object3D.material.opacity = event.advancement;
         this.leafClouds.config.speedRotation = THREE.Math.lerp(

@@ -69,6 +69,11 @@ export default baseConfig.extends({
           color: new THREE.Color("rgb(255, 255, 255)")
         }
       }
+    },
+    water: {
+      bokeh: {
+        focus: -0.2
+      }
     }
   },
 

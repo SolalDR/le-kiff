@@ -70,7 +70,6 @@ export default class extends Step {
     }, 2600);
 
     // Start diving in water
-    var fromAperture = Renderer.getBokehAperture();
     AnimationManager.addAnimation(
       new Animation({ duration: 2000, delay: 2000, timingFunction: "easeOutQuad" })
         .on("progress", (event)=>{
@@ -78,14 +77,18 @@ export default class extends Step {
           this.particleCloud.object3D.position.y = -20 + 17*event.advancement;
           this.particleCloud.object3D.material.uniforms.u_size.value = 5*event.advancement;
           if( event.advancement > 0.5 ){
-            var a = (event.advancement - 0.5) * 2;
-            Renderer.setBokehAperture(fromAperture + (4 - fromAperture)*a);
+            console.log(config)
+            Renderer.setBokehFocus(
+              THREE.Math.lerp(
+                config.human.rendering.bokeh.focus, 
+                config.human.water.bokeh.focus, 
+                (event.advancement - 0.5) * 2));
           }
         })
         .on("end", ()=>{
           this.water.mesh.position.y = -2;
           this.particleCloud.object3D.position.y = -3;
-          Renderer.setBokehAperture(4);
+          Renderer.setBokehFocus(config.human.water.bokeh.focus);
 
           // explode pasta
           this.pasta.modelAnimation.currentAction.animation.time = this.pasta.modelAnimation.currentAction.animation.getClip().duration;
@@ -126,10 +129,14 @@ export default class extends Step {
                       this.water.mesh.position.y = -2 - 15*event.advancement;
                       this.particleCloud.object3D.position.y = -3 - 17*event.advancement;
                       this.particleCloud.object3D.material.uniforms.u_size.value = 5*(1. - event.advancement);
-                      this.pasta.noiseRocksIntensity = 4 - 4*event.advancement;
+                      this.pasta.noiseRocksIntensity = THREE.Math.lerp(4, 0, event.advancement);
+
+                      // Bokeh
                       if( event.advancement > 0.5 ){
-                        var a = (event.advancement - 0.5) * 2;
-                        Renderer.setBokehAperture(4 - (4 - fromAperture)*a);
+                        Renderer.setBokehFocus(THREE.Math.lerp(
+                          config.human.water.bokeh.focus,
+                          config.human.rendering.bokeh.focus, 
+                          (event.advancement - 0.5) * 2));
                       }
                     })
                     .on("end", ()=>{
@@ -138,7 +145,7 @@ export default class extends Step {
                       this.particleCloud.object3D.position.y = -20;
                       this.pasta.noiseRocksIntensity = 0;
                       this.pasta.state.animated = true;
-                      Renderer.setBokehAperture(fromAperture);
+                      Renderer.setBokehFocus(config.human.rendering.bokeh.focus);
                       this.pasta.modelAnimation.play("merge", {
                         timeScale: 0.4
                       });

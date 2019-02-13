@@ -62,11 +62,15 @@ class InfoPoint extends React.Component {
 
   render(){
     return (
-      <div className={this.computedClassModifier()}
+      <div className={`info-point ${this.props.visible ? 'info-point--visible' : 'info-point--hidden'} ${this.props.opened ? 'info-point--opened' : ''}`}
             ref={(ref) => this.myRef = ref}> 
         <div className="info-point__pointer" onClick={this.handleClick}/>
         <div className="info-point__content">
-          <h3 className="info-point__title heading-4">{this.props.info.title}</h3>
+          <h3 className="info-point__title heading-4">
+            <span class="info-point__title__wrapper">
+            {this.props.info.title}
+            </span>
+          </h3>
           {this.renderContent()}
         </div>
       </div>

@@ -42,6 +42,7 @@ export default baseConfig.extends({
     }
   },
   rendering: {
+    toneMappingExposure: 1,
     light: {
       primary: {
         position: new THREE.Vector3(-4, -3, 10),

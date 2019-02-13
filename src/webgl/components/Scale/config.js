@@ -20,7 +20,7 @@ var transitionConfig = c({
     bloom: {
       strength: { // Animated
         from: 10,
-        to: 0.1
+        to: 0
       },
       radius: {
         from: 0,

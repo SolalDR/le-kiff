@@ -105,6 +105,7 @@ export default class extends Step {
         );
 
       }).on("end", () => {
+        this.config.human.rendering.bokeh.aperture = Renderer.getBokehAperture()
         this.leafClouds.object3D.position.copy(leafCloudConfig.air.position)
         this.leafClouds.object3D.material.opacity = 1;
       }))
@@ -140,8 +141,9 @@ export default class extends Step {
         });
       });
     }, 500)
-
+    
     this.initGUI();
+
   }
 
   initGUI(){

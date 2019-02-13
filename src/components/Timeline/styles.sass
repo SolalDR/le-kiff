@@ -19,12 +19,20 @@ $animation-duration: .2s
       &__indicator
         opacity: .25
         transform: translateY(0)
-        transition: transform $animation-duration ease-out, opacity $animation-duration ease-out
+        transition:
+          property: transform, opacity
+          delay: 0
+          duration: $animation-duration
+          timing-function: $t-timing-function
 
       &__title
         opacity: .5
         transform: translateY(0)
-        transition: $animation-duration transform $animation-duration ease-out, $animation-duration opacity $animation-duration ease-out
+        transition:
+          property: transform, opacity
+          delay: 0.1s
+          duration: $animation-duration
+          timing-function: $t-timing-function
 
   &__inner
     position: relative
@@ -76,11 +84,18 @@ $animation-duration: .2s
       display: flex
       flex-direction: column
       text-align: center
+      transition:
+        property: transform
+        duration: .4s
+        timing-function: $t-timing-function
 
     &__indicator
       opacity: 0
       transform: translateY(10px)
-      transition: $animation-duration transform $animation-duration, $animation-duration opacity $animation-duration
+      transition:
+        property: transform, opacity
+        delay: .025s
+        duration: $animation-duration
 
     &__title
       margin-top: 5px
@@ -91,6 +106,9 @@ $animation-duration: .2s
     //State
     &:hover
       .timeline__chapter
+        &__inner
+          transform: scale(1.1)
+
         &__control
           opacity: 1
 
@@ -120,6 +138,7 @@ $animation-duration: .2s
 
     &:after
       right: 0
+      opacity: .5
 
   &__progress
     position: absolute

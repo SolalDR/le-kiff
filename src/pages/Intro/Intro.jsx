@@ -96,7 +96,7 @@ class Intro extends React.Component {
                 </g>
               </svg>
             <LetterReveal
-              text="Stories of disappearances"
+              text="Story of disappearances"
               class={"intro__subtitle heading-2"}
               duration={0.09}
               delay={-0.05}

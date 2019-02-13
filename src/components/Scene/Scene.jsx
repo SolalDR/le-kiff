@@ -41,17 +41,25 @@ class Scene extends React.Component {
   }
 
   componentDidMount(){
-    if (this.props.isChapterReady && this.props.isAssetLoaded) {
-      this.initScene();
-      Bus.on("scale:display", (scale)=>{
-        if( this.props.currentScale !== scale.name ){
-          this.props._setCurrentScale(scale.name);
-        }
-      })
-    }
+    // if (this.props.isChapterReady && this.props.isAssetLoaded) {
+    //   this.initScene();
+    //   Bus.on("scale:display", (scale) => {
+    //     if( this.props.currentScale !== scale.name ){
+    //       this.props._setCurrentScale(scale.name);
+    //     }
+    //   })
+    // }
   }
 
+  
+  animateEnter(){
+    // return new Promise(resolve => {
+    //   resolve('yeay');
+    // })
+  }
+  
   initScene(){
+    // await this.animateEnter();
     this.webgl = new WebGL({
       element: this.sceneElement.current
     });
@@ -62,7 +70,19 @@ class Scene extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.step.rank !== nextProps.step.rank) {
+
+    console.log('will receive props', nextProps);
+    if (this.props.isChapterReady && this.props.isAssetLoaded) {
+      if (this.props.isReady != nextProps.isReady && nextProps.isReady) {
+        this.initScene();
+        Bus.on("scale:display", (scale) => {
+          if( this.props.currentScale !== scale.name ){
+            this.props._setCurrentScale(scale.name);
+          }
+        })
+      }
+    }
+    if (this.props.step.rank !== nextProps.step.rank) { 
       /**
        * Before scene component is rendered, update current step in the webgl scene
        * new Step is created and is ready to receive infos

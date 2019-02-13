@@ -47,6 +47,7 @@ class Chapter extends React.Component {
           reveal: false,
           hideTitle: false,
           stepId: 1,
+          isChapterIntroReady: false
         };
 
         this.video = null;
@@ -116,35 +117,38 @@ class Chapter extends React.Component {
     }
 
     onEnded = () => {
-      const timeline = new TimelineLite();
+      // const timeline = new TimelineLite();
       
-      const ui = {
-        svgFilter: document.querySelector('#displaceChapter1'),
-        svgFilterTurbulence: document.querySelector('#displaceChapter1 feTurbulence'),
-        svgFilterDisplacement: document.querySelector('#displaceChapter1 feDisplacementMap')
-      }
+      // const ui = {
+      //   svgFilter: document.querySelector('#displaceChapter1'),
+      //   svgFilterTurbulence: document.querySelector('#displaceChapter1 feTurbulence'),
+      //   svgFilterDisplacement: document.querySelector('#displaceChapter1 feDisplacementMap')
+      // }
 
-      const filters = {
-        entry: {
-          baseFrequency: 0,
-          numOctaves: 1,
-          scale: 4,
-        },
-        output: {
-          baseFrequency: 0.05,
-          numOctaves: 3,
-          scale: 70,
-        }
-      }
+      // const filters = {
+      //   entry: {
+      //     baseFrequency: 0,
+      //     numOctaves: 1,
+      //     scale: 4,
+      //   },
+      //   output: {
+      //     baseFrequency: 0.05,
+      //     numOctaves: 3,
+      //     scale: 70,
+      //   }
+      // }
 
-      timeline.to(filters.entry, 3, { baseFrequency: filters.output.baseFrequency, numOctaves: filters.output.numOctaves, scale: filters.output.scale, roundProps:"numOctaves", onUpdate: () => {
-        ui.svgFilterTurbulence.setAttribute('numOctaves', filters.entry.numOctaves);
-        ui.svgFilterTurbulence.setAttribute('baseFrequency', filters.entry.baseFrequency);
-        ui.svgFilterDisplacement.setAttribute('scale', filters.entry.scale);
-      }});
+      // timeline.to(filters.entry, 3, { baseFrequency: filters.output.baseFrequency, numOctaves: filters.output.numOctaves, scale: filters.output.scale, roundProps:"numOctaves", onUpdate: () => {
+      //   ui.svgFilterTurbulence.setAttribute('numOctaves', filters.entry.numOctaves);
+      //   ui.svgFilterTurbulence.setAttribute('baseFrequency', filters.entry.baseFrequency);
+      //   ui.svgFilterDisplacement.setAttribute('scale', filters.entry.scale);
+      // }});
 
+      // this.setState({
+      //   hideTitle: true
+      // })
       this.setState({
-        hideTitle: true
+        isChapterIntroReady: true
       })
     }
 
@@ -206,7 +210,7 @@ class Chapter extends React.Component {
                 chapter={this.props.chapter.rank} 
                 onStepChangeCallBack={this.onStepChange} />
 
-              <Scene step={this.props.step} />
+              <Scene step={this.props.step} isReady={this.state.isChapterIntroReady} />
             </div>
         )
       }

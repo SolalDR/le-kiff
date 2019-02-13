@@ -20,7 +20,7 @@
   &__item 
     flex: 1
     display: block
-    padding-bottom: 50px
+    padding-bottom: 20px
     padding-right: 64px
     text-align: right
     color: $color-secondary
@@ -33,6 +33,9 @@
       &:nth-of-type(#{$i})
         .menu__item__title
           transition-delay: #{$i*0.05s}
+
+    &:last-child
+      padding-bottom: 200px
 
     &__link
       position: relative
@@ -69,11 +72,14 @@
     &__time
       padding-bottom: 20px
       padding-right: $space-l
+      display: flex
+      align-items: center
+      justify-content: flex-end
 
       &__icon
         opacity: 0
         transition: 
-          delay: .3s
+          // delay: .3s
           duration: $t-duration * 1.5
           property: opacity
           timing-function: $t-timing-function
@@ -83,7 +89,7 @@
         opacity: 0
         transform: translateX(15%)
         transition: 
-          delay: .3s
+          // delay: .3s
           duration: $t-duration * 1.5
           property: opacity, transform
           timing-function: $t-timing-function
@@ -94,7 +100,7 @@
       transform: skewX(10deg) translateX(10%)
       opacity: 0
       transition: 
-        delay: .3s
+        // delay: .3s
         duration: $t-duration * 1.5
         property: transform
         timing-function: $t-timing-function
@@ -105,7 +111,7 @@
       margin-right: -($space-l)
       overflow: hidden
       transition: 
-        delay: .3s
+        // delay: .3s
         duration: $t-duration * 1.5
         property: height, opacity
         timing-function: $t-timing-function
@@ -115,7 +121,7 @@
       padding-right: $space-l
       transform: skewX(10deg) translateX(10%)
       transition: 
-        delay: .3s
+        // delay: .3s
         duration: $t-duration * 1.5
         property: transform, opacity
         timing-function: $t-timing-function

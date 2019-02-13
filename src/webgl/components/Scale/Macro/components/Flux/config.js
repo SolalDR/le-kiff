@@ -25,8 +25,8 @@ export default c({
     toneMappingExposure: 1,
   
     bokeh: {
-      focus: 500,
-      aperture: 0.3*0.00001,
+      focus: 0,
+      aperture: 0,
       maxblur: 1
     },
     

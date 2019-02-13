@@ -111,6 +111,10 @@ export default baseConfig.extends({
           color: new THREE.Color("rgb(255,224,180)"),
           intensity: 1.6,
         },
+
+      },
+      bokeh: {
+        aperture: 0.15
       }
     }
   }

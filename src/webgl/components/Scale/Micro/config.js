@@ -56,9 +56,9 @@ export default baseConfig.extends({
       }
     },
     bokeh: {
-      focus: 10,
-      aperture: 10,
-      maxblur: 1.55
+      focus: -0.073,
+      aperture: 0.031,
+      maxblur: 0.11
     }
   },
 

@@ -52,7 +52,7 @@ export default class extends Step {
         SoundManager.play('chapter_1_trigger', 'step_4_03_h1_comme_ca_c_est_bien');
       });
     })
-    
+  
 
     // Water
     if( previousStep.water) {
@@ -92,7 +92,7 @@ export default class extends Step {
     })
     this.pasta.noiseRocksIntensity = 3;
     this.scene.humanScale.group.add(this.pasta.scene);
-    
+  
     // Wait and rocks appear
     this.pastaRocksFinished = 0;
     this.background.changeBackground(ressources.background4.result, 3000, 2000)
@@ -142,16 +142,14 @@ export default class extends Step {
     var fromParticleSize = this.particleCloud.material.uniforms.u_size.value;
 
     // Water disapear
-    var fromWater = this.water.mesh.position.y;
     var waterSoundEffectRemoved = false;
-    Renderer.setBokehAperture(4);
     AnimationManager.addAnimation(new Animation({ duration: 8000, delay: 5000 })
       .on("progress", (event) => {
         this.water.mesh.position.y =  -2 -9*event.advancement;
         this.particleCloud.config.speed = fromParticleSpeed + 0.0001*event.advancement;
         this.particleCloud.object3D.position.y = fromParticlePosition - 10*event.advancement;
         this.particleCloud.material.uniforms.u_size.value = fromParticleSize - fromParticleSize*event.advancement;
-        Renderer.setBokehAperture(4.1 - event.advancement * 4)
+        Renderer.setBokehFocus(THREE.Math.lerp(config.human.rendering.bokeh.focus, config.human.air.bokeh.focus, event.advancement));
         // remove underwater effect when
         if(event.advancement > 0.35 && !waterSoundEffectRemoved) {
           waterSoundEffectRemoved = true;
@@ -160,7 +158,7 @@ export default class extends Step {
         }
       })
       .on("end", () => {
-        this.config.human.rendering.bokeh.aperture = 0.1;
+        config.human.rendering.bokeh.focus = Renderer.getBokehFocus()
         this.scene.humanScale.group.remove(this.water.mesh);
         this.scene.humanScale.group.remove(this.particleCloud.object3D);
       })

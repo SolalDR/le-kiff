@@ -5,14 +5,6 @@ import particleConfig from "~/webgl/components/ParticleCloud/config";
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
   human: {
-    // rendering: {
-    //   light: {
-    //     primary: {
-    //       position: new THREE.Vector3(5, 15, 5)
-    //     }
-    //   }
-      
-    // }
     rendering: {
       light: {
         primary: {
@@ -25,6 +17,14 @@ export default baseConfig.extends({
           intensity: 1.5
         }
       }
+    },
+
+    air: {
+      focus: 0,
+    },
+
+    water: {
+      focus: -0.2,
     }
   },
   modelAnimation: {
@@ -112,6 +112,6 @@ export default baseConfig.extends({
     speed: 0.00005,
     size: 0,
     position: new THREE.Vector3(0, -15, 0)
-  })
+  }),
 
 })

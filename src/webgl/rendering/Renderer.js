@@ -1,6 +1,6 @@
 import EffectComposer, {RenderPass} from "@johh/three-effectcomposer";
 import UnrealBloomPass from "./Pass/UnrealBloomPass";
-import BokehPass from "./Pass/BokehPass";
+import BokehPass from "./Pass/bokeh";
 import {guiRendering} from "~/services/gui";
 import Viewport from "~/helpers/Viewport";
 import config from './config';
@@ -31,6 +31,12 @@ class Renderer {
   } = {}){
     this.scene = scene;
     this.camera = camera;
+    guiRendering.add(this.camera, "far").min(0).max(1000).onChange(() => {
+      this.camera.updateProjectionMatrix ()
+    })
+    guiRendering.add(this.camera, "near").min(0).max(1000).onChange(() => {
+      this.camera.updateProjectionMatrix ()
+    })
 
 
     element.appendChild(this.renderer.domElement);
@@ -83,19 +89,17 @@ class Renderer {
 
   initBokeh(){
     this.bokehPass = new BokehPass( this.scene, this.camera, {
-      focus: 500,
-      aperture:	0.3*0.00001,
-      maxblur:	1,
+      focus: 0,
+      aperture:	0,
+      maxblur: 0,
       width: Viewport.width,
       height: Viewport.height
     });
 
     var bokehFolder = guiRendering.addFolder("Bokeh");
-    bokehFolder.add(this.bokehPass.uniforms.focus, "value", 10, 3000, 10).name("Focus")
-    bokehFolder.add({aperture: 0.1}, "aperture", 0, 10, 0.01).name("Aperture").onChange((value)=>{
-      this.bokehPass.uniforms.aperture.value = value * 0.00001
-    })
-    bokehFolder.add(this.bokehPass.uniforms.maxblur, "value", 0.0, 3.0, 0.025).name("Maxblur")
+    bokehFolder.add(this.bokehPass, "focus", -1, 1, 0.001)
+    bokehFolder.add(this.bokehPass, "aperture", 0, 1, 0.001)
+    bokehFolder.add(this.bokehPass, "maxblur", 0.0, 10.0, 0.001)
 
   }
 
@@ -136,15 +140,15 @@ class Renderer {
     })
   }
 
-  getBokehFocus(){ return this.bokehPass.uniforms.focus.value; }
-  getBokehAperture(){ return this.bokehPass.uniforms.aperture.value / 0.00001; }
+  getBokehFocus(){ return this.bokehPass.focus; }
+  getBokehAperture(){ return this.bokehPass.aperture; }
 
   /**
    * Postprocess setter bokeh
    * @param {Number} value 
    */
   setBokehFocus(value){
-    this.bokehPass.uniforms.focus.value = value;
+    this.bokehPass.focus = value;
   }
 
   /**
@@ -152,7 +156,7 @@ class Renderer {
    * @param {Number} value 
    */
   setBokehAperture(value) {
-    this.bokehPass.uniforms.aperture.value = value * 0.00001;
+    this.bokehPass.aperture = value;
   }
 
   /**
@@ -160,7 +164,7 @@ class Renderer {
    * @param {Number} value 
    */
   setBokehMaxblur(value) {
-    this.bokehPass.uniforms.maxblur.value = value;
+    this.bokehPass.maxblur = value;
   }
 
   /**

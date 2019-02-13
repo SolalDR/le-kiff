@@ -3,7 +3,8 @@ import { c } from "../../../../../helpers/Configuration";
 export default c({
   // When Leaf cloud is hide
   hidden: {
-    position: new THREE.Vector3(-10, -11, -15),
+    position: new THREE.Vector3(-50, -11, -75),
+    scale: new THREE.Vector3(3, 3, 3),
     speedRotation: 5.,
     speedPosition: 0.2,
     amplitude: 10
@@ -11,7 +12,8 @@ export default c({
 
   // When Leaf cloud is floating in the air (Step2)
   air: {
-    position: new THREE.Vector3(0, 0, 0),
+    position: new THREE.Vector3(0, 0, -75),
+    scale: new THREE.Vector3(3, 3, 3),
     speedRotation: 2.,
     speedPosition: 0.2,
     amplitude: 30
@@ -20,6 +22,7 @@ export default c({
   // When Leaf cloud is floating in water (Step3)
   water: {
     position: new THREE.Vector3(0, -10, 0),
+    scale: new THREE.Vector3(1, 1, 1),
     speedRotation: 2.,
     speedPosition: 0.2,
     amplitude: 10

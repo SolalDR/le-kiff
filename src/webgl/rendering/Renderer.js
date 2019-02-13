@@ -78,7 +78,7 @@ class Renderer {
     this.bloomPass = new UnrealBloomPass( new THREE.Vector2( Viewport.width, Viewport.height ));
     this.bloomPass.setSize(Viewport.width*2, Viewport.height*2);
     this.bloomPass.threshold = 0;
-    this.bloomPass.strength = 0.3;
+    this.bloomPass.strength = 0;
     this.bloomPass.radius = 0;
 
     var bloomFolder = guiRendering.addFolder("Bloom");

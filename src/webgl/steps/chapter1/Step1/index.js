@@ -133,7 +133,18 @@ export default class extends Step {
 
 
     if ( toRemove.includes("leafbacks") ){
-        this.scene.humanScale.group.remove(this.leafBackGroup);
+      AnimationManager.addAnimation(
+        new Animation({ 
+          duration: 6000, 
+          timingFunction: "easeOutQuad" 
+        }).on("progress", (event)=>{
+          this.leafBacks.forEach(leafBack => {
+            leafBack.object3D.position.x += Math.sign(leafBack.object3D.position.x) * event.advancement*5;
+          }) 
+        }).on("end", () => {
+          this.scene.humanScale.group.remove(this.leafBackGroup);
+        })
+      )
     }
     
     super.hide(newStep);

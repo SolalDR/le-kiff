@@ -15,7 +15,8 @@ class LetterReveal extends React.Component {
     options: PropTypes.object,
     start: PropTypes.object,
     svg: PropTypes.bool,
-    positionSvg: PropTypes.object
+    positionSvg: PropTypes.object,
+    onCompleteReveal: PropTypes.func
   };
 
   static defaultProps = {
@@ -25,7 +26,8 @@ class LetterReveal extends React.Component {
     globalDelay: 0,
     reveal: false,
     options: {},
-    start: {}
+    start: {},
+    onCompleteReveal: () => {}
   }
 
 
@@ -70,6 +72,10 @@ class LetterReveal extends React.Component {
 
   offAnimation() {
     this.isAnimating = false;
+
+    if (this.props.onCompleteReveal) {
+      this.props.onCompleteReveal();
+    }
   }
 
   reveal() {

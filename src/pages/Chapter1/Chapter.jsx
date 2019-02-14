@@ -73,13 +73,19 @@ class Chapter extends React.Component {
 
   componentDidMount() {
     Bus.verbose("chapter-1:mounted");
-    this.props.onRef(this);
 
-    if (this.props.isChapterReady) {
+    Bus.on("intro:text:disappear", () => {
+      const video = document.querySelector('.chapter__video');
+      video.play();
       this.setState({
         reveal: true
       });
+    });
 
+    this.props.onRef(this);
+
+    if (this.props.isChapterReady) {
+  
       this.props.onStepChange(); //Allow cursor
       this.setState({
         isReady: true
@@ -195,7 +201,7 @@ class Chapter extends React.Component {
         <div className={`chapter chapter-1 ${this.state.isReady ? 'is-ready' : ''} ${this.state.isWebglReady ? 'is-shown' : ''}`}>
           {this.renderSteps()}
 
-          <video muted autoPlay className="chapter__video" src={videoSrc} ref={this.videoRef} onEnded={this.onEnded} />
+          <video muted className="chapter__video" src={videoSrc} ref={this.videoRef} onEnded={this.onEnded} />
           <div className={`chapter__title ${this.state.hideTitle ? 'is-hidden' : ''}`}>
             <svg viewBox={'0 0 150 80'} className="chapter__title__svg">
               <filter id="displaceChapter1">
@@ -217,15 +223,16 @@ class Chapter extends React.Component {
                 </g>
               </svg>
           </div>
-          <Timeline 
-            show={this.state.isWebglReady}
+          {this.state.isWebglReady && <Timeline 
+            show={true}
             length={this.props.chapter.steps.length} 
             previousChapter={this.props.previousChapter} 
             nextChapter={this.props.nextChapter} 
             current={this.props.step.rank}
             steps={this.props.chapter.steps} 
             chapter={this.props.chapter.rank} 
-            onStepChangeCallBack={this.onStepChange} />
+            onStepChangeCallBack={this.onStepChange} />}
+          
 
           <Scene step={this.props.step} isReady={this.state.isChapterIntroReady} showElements={this.state.isWebglReady} />
         </div>

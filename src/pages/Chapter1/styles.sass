@@ -14,14 +14,13 @@
     background-image: url('/images/intro_background.png')
     background-size: cover
     background-repeat: no-repeat
-    opacity: 0
+    opacity: 1
     transition: opacity .5s
     pointer-events: none
 
   &.is-shown
     &:after
       opacity: 0
-
   
   .chapter__text
     &.is-visible
@@ -88,7 +87,7 @@
     height: 100vh
     object-fit: cover
     mix-blend-mode: screen
-    z-index: 1
+    z-index: 99999999999
     pointer-events: none
 
   .chapter__step__title

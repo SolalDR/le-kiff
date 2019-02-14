@@ -17,7 +17,8 @@ class Intro extends React.Component {
     super();
     this.state = {
       autoLoadChapter: false,
-      reveal: false
+      reveal: false,
+      videoEnded: false
     };
   }
 
@@ -67,12 +68,20 @@ class Intro extends React.Component {
     this.props.history.push("/chapter-1");
   }
 
+  onVideoEnded = () => {
+    this.setState({
+      videoEnded: true
+    })
+  }
+
   render() {
     const videoSrc = this.video ? this.video.getAttribute("src") : '';
 
     return (
       <div className="intro" >
-        <video muted autoPlay className="intro__video" src={videoSrc} />
+        { !this.state.videoEnded && 
+          <video muted autoPlay className="intro__video" src={videoSrc} onEnded={this.onVideoEnded}/>
+        }
         <div className="intro__inner">
           <div className="intro__inner__layer"></div>
           <div className="intro__inner__content">

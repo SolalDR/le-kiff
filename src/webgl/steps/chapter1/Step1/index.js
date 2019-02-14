@@ -57,16 +57,16 @@ export default class extends Step {
     this.scene.humanScale.group.add(leafScene);
   
     //Leaf reveal 
-    AnimationManager.addAnimation(new Animation({
-      duration: 3000,
-      timingFunction: "easeOutQuad",
-      delay: 3000,
-      from: mainTransformConfig.position.y,
-      to: -1.18
-    }).on("progress", (event) => {
-      leafScene.position.y = event.value;
-      this.background.object3D.position.y = -10 * (1 - event.advancement);
-    }));
+    // AnimationManager.addAnimation(new Animation({
+    //   duration: 3000,
+    //   timingFunction: "easeOutQuad",
+    //   delay: 4000,
+    //   from: mainTransformConfig.position.y,
+    //   to: -1.18
+    // }).on("progress", (event) => {
+      // leafScene.position.y = event.value;
+      // this.background.object3D.position.y = -10 * (1 - event.advancement);
+    // }));
 
     // main transform
 

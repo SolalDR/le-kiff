@@ -5,6 +5,7 @@ import { AnimationManager, Animation } from "../../../manager";
 import Pasta from "./../components/Pasta"
 import SimplexNoise from "simplex-noise"
 import SoundManager from "../../../../services/soundManager/SoundManager";
+import AbilitiesManager from "../../../../services/AbilitiesManager";
 
 /**
  * @constructor
@@ -89,7 +90,7 @@ export default class extends Step {
     // Morph group pasta/brick
     this.morphGroupRotation = new THREE.Euler(0.40, 0.64, 0)
     this.morphGroup = new THREE.Group();
-    this.morphGroup.name = 'morph_group';
+    this.morphGroup.name = 'step_6_morph_group';
     // Rotation animation
     AnimationManager.addAnimation(
       new Animation({ 
@@ -214,6 +215,8 @@ export default class extends Step {
         }).on("progress", (event)=>{ 
           var a = event.advancement;
           this.brick.scene.rotation.x = this.brickStartRotation.x * (1 - a);
+        }).on("end", () => {
+          AbilitiesManager.can("all", true);
         })
       )   
     }, timecode);

@@ -226,15 +226,15 @@ class Chapter extends React.Component {
                 </g>
               </svg>
           </div>
-          {this.state.isWebglReady && <Timeline 
-            show={true}
+          <Timeline 
+            show={this.state.isWebglReady}
             length={this.props.chapter.steps.length} 
             previousChapter={this.props.previousChapter} 
             nextChapter={this.props.nextChapter} 
             current={this.props.step.rank}
             steps={this.props.chapter.steps} 
             chapter={this.props.chapter.rank} 
-            onStepChangeCallBack={this.onStepChange} />}
+            onStepChangeCallBack={this.onStepChange} />
           
 
           <Scene step={this.props.step} isReady={this.state.isChapterIntroReady} showElements={this.state.isWebglReady} />

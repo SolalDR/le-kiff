@@ -111,14 +111,14 @@ class Scene extends React.Component {
     return infos;
   }
 
-  render(){
+  render() {
     return (
       <div ref={(this.sceneElement)} className="scene">
           <ScaleMenu scale={this.props.currentScale} onSelectCallback={this.selectScale} showTutorial={!this.props.isTutorialDone}  show={this.props.showElements} />
           <InfoList infos={this.webgl ? this.updateInfos() : []}></InfoList>
-          <div className="scene__bottom-right-nav" >
-            <SoundButton show={this.props.showElements}/>
-            <FullScreenButton show={this.props.showElements} />
+          <div className={`scene__bottom-right-nav ${this.props.showElements ? 'is-shown' : ''}`} >
+            <SoundButton />
+            <FullScreenButton  />
           </div>
       </div>
     );

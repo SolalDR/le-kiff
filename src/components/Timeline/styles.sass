@@ -1,5 +1,5 @@
 @import "./../../styles/core.scss"
-$animation-duration: .2s
+$animation-duration: .3.5s
   
 .timeline
   $self: &
@@ -7,7 +7,7 @@ $animation-duration: .2s
   bottom: 0
   width: 100%
   box-sizing: border-box
-  padding: $space-s*5 160px $pos-s
+  padding: $space-s*5 200px $pos-s
   left: 50%
   transform: translateX(-50%)
   z-index: 7
@@ -85,7 +85,7 @@ $animation-duration: .2s
       position: absolute
       width: 0
       transition:
-        delay: 2s
+        delay: 3.5s
         property: width
         duration: .5s
       border-bottom: 1px dashed $color-secondary
@@ -100,7 +100,7 @@ $animation-duration: .2s
     transition: 
       property: opacity 
       duration: .5s
-      delay: 2s
+      delay: 3.5s
     
     &--prev
       .letter-reveal
@@ -178,7 +178,7 @@ $animation-duration: .2s
     transition: 
       property: opacity 
       duration: .5s
-      delay: 2s
+      delay: 3.5s
 
     &:before,
     &:after
@@ -204,7 +204,7 @@ $animation-duration: .2s
     z-index: 3
     transition: 
       duration: $t-duration
-      delay: 2s
+      delay: 3.5s
       property: transform, opacity
       timing-function: $t-timing-function
     z-index: 1

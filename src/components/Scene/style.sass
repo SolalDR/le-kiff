@@ -1,10 +1,6 @@
 @import "./../../styles/core.scss"
   
 .scene
-  // opacity: 0
-  // transition: 
-  //   duration: $t-duration
-  //   property: opacity
     
   &__bottom-right-nav
     z-index: 7
@@ -13,18 +9,16 @@
     right: $pos-s
     display: flex
     justify-content: flex-end
-    transform: translateY(20px)
+    transform: translateY(40px)
     opacity: 0
     transition: 
       duration: $t-duration
+      delay: 3.5s
       property: transform, opacity
 
-  &.is-shown
-    opacity: 1
-
-    .scene__bottom-right-nav
-    transform: translateY(0)
-    opacity: 1
+    &.is-shown
+      opacity: 1
+      transform: translateY(0)
 
     @include up-desktop()
       bottom: $pos-m 

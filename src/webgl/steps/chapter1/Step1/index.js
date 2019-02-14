@@ -8,7 +8,7 @@ import { c } from "../../../../helpers/Configuration";
 import { InteractivePlane } from "../../../components";
 import AbilitiesManager from "~/services/AbilitiesManager";
 import ModelAnimationManager from "../../../manager/ModelAnimation";
-import Viewport from "../../../../helpers/Viewport";
+import LeafBack from "../components/LeafBack";
 
 /**
  * @constructor
@@ -51,6 +51,23 @@ export default class extends Step {
     this.background.object3D.name = "background";
     this.background.object3D.position.z = -120;
 
+    // Generate background leafs
+    this.leafBacks = [];
+    this.leafBackGroup = new THREE.Group();
+    this.leafBacksConfig = config.leafBacks;
+    this.leafBacksConfig.forEach((config, i) => {
+      var leafBack = new LeafBack({
+        name: 'leaf_back_' + i,
+        texture: ressources.step_1_bg_leaf.result,
+        position: config.position,
+        rotation: config.rotation,
+        scale: config.scale,
+        color: config.color
+      })  
+      this.leafBacks.push(leafBack);
+      this.leafBackGroup.add(leafBack.object3D);
+    });
+
     this.leaf = ressources.step_1_human_leaf.result;
     this.leafScene = this.leaf.scene;
     this.leafSceneMaterial = this.leaf.scene.children[0].children[0].children[0].children[0].material
@@ -58,21 +75,7 @@ export default class extends Step {
     var mainTransformConfig = config.transforms.find(transform => transform.asset === this.leafScene.name);
     this.leafScene.position.copy(mainTransformConfig.position);
     this.leafScene.rotation.copy(mainTransformConfig.rotation);
-    this.scene.humanScale.group.add(this.leafScene);
-    this.background.object3D.position.z = -100;
-    // this.background.object3D.position.y = -10;
-  
-    //Leaf reveal 
-    // AnimationManager.addAnimation(new Animation({
-    //   duration: 3000,
-    //   timingFunction: "easeOutQuad",
-    //   delay: 4000,
-    //   from: mainTransformConfig.position.y,
-    //   to: -1.18
-    // }).on("progress", (event) => {
-      // leafScene.position.y = event.value;
-      // this.background.object3D.position.y = -10 * (1 - event.advancement);
-    // }));
+    
 
     // Idle Animation
     var modelAnimLeaf = ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);
@@ -83,8 +86,11 @@ export default class extends Step {
 
     this.initGUI();
  
-    // Add background
+    // Add Objects to scene
     this.scene.humanScale.group.add(this.background.object3D);
+    this.scene.humanScale.group.add(this.leafScene);
+    this.scene.humanScale.group.add(this.leafBackGroup);
+
     AbilitiesManager.can("all", true);
   }
 
@@ -104,6 +110,14 @@ export default class extends Step {
       this.folder.background.addVector("offset back", this.background.object3D.material.uniforms.u_offset_back.value);
     }
 
+    if(!this.folder.leafBacks ){
+      this.folder.leafBacks = this.gui.addFolder("Leaf Backs");
+      this.leafBacks.forEach(leafBack => {
+        var leafBackFolder = this.folder.leafBacks.addFolder(leafBack.name);  
+        leafBackFolder.addObject3D("Mesh",  leafBack.object3D, false);
+      })
+    }
+
   }
 
   hide( newStep ) {
@@ -115,6 +129,11 @@ export default class extends Step {
 
     if ( toRemove.includes("background") ){
       this.scene.humanScale.group.remove(this.background.object3D);
+    }
+
+
+    if ( toRemove.includes("leafbacks") ){
+      this.scene.humanScale.group.add(this.leafBackGroup);
     }
     
     super.hide(newStep);

@@ -125,7 +125,7 @@ class InfoPoint extends React.Component {
     return (
       <div className={`info__range ${this.state.isAnswered ? 'is-answered' : ''}`}> 
         <div className="info__range__question">
-          <a href="#" className="info__range__wrapper" ref={this.ui.rangeWrapper} > 
+          <div className="info__range__wrapper" ref={this.ui.rangeWrapper} > 
               <div className="info__range__slider">
                 <span className={`info__range__value info__range__value--min ${this.state.isInMinRange ? '' : 'is-visible'}`}>{this.props.rangeInfo.min}</span>
                 <button className="info__range__slide">
@@ -135,7 +135,7 @@ class InfoPoint extends React.Component {
                 <span className={`info__range__value info__range__value--max ${this.state.isInMaxRange ? '' : 'is-visible'}`}>{this.props.rangeInfo.max}</span>
               </div>
             
-          </a>
+          </div>
           <button className="info__range__btn heading-6" onClick={this.onClick}>Crack it</button>
         </div>
         <div className="info__range__answer">

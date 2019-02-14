@@ -47,6 +47,10 @@ class ControllerManager {
     })
   }
 
+  get current() {
+    return this.state.controller;
+  }
+
   /**
    * @param {string} name
    */

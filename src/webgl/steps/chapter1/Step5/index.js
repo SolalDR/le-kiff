@@ -58,7 +58,7 @@ export default class extends Step {
     this.pasta.noiseRocksIntensity = 0;
 
     // Water
-    this.water.mesh.position.y = -10;
+    this.water.mesh.position.y = -12;
     this.water.mesh.material.uniforms.diffuse.value = new THREE.Color("rgb(128, 128, 128)");
     
     // Particle clouds
@@ -93,13 +93,12 @@ export default class extends Step {
 
     // Start diving in water
     AnimationManager.addAnimation(
-      new Animation({ duration: 1000, delay: 2000, timingFunction: "easeOutQuad" })
+      new Animation({ duration: 2000, delay: 2000, timingFunction: "easeOutQuad" })
         .on("progress", (event)=>{
-          this.water.mesh.position.y = -10 + 8*event.advancement;
+          this.water.mesh.position.y = -12 + 8*event.advancement;
           this.particleCloud.object3D.position.y = -20 + 17*event.advancement;
           this.particleCloud.object3D.material.uniforms.u_size.value = 5*event.advancement;
           if( event.advancement > 0.5 ){
-            console.log(config)
             Renderer.setBokehFocus(
               THREE.Math.lerp(
                 config.human.rendering.bokeh.focus, 
@@ -130,6 +129,14 @@ export default class extends Step {
             })
           )
 
+
+          // Translate down pasta
+          AnimationManager.addAnimation(new Animation({duration: 2000,timingFunction: "easeOutQuad" })
+            .on("progress", (event)=>{
+              this.pasta.scene.children[0].position.y = -event.advancement;
+            })
+          )
+
           // Merge pasta to coca
           this.pasta.modelAnimation.play("merge", {
             timeScale: -0.15
@@ -154,6 +161,7 @@ export default class extends Step {
                       this.particleCloud.object3D.position.y = -3 - 17*event.advancement;
                       this.particleCloud.object3D.material.uniforms.u_size.value = 5*(1. - event.advancement);
                       this.pasta.noiseRocksIntensity = THREE.Math.lerp(4, 0, event.advancement);
+                      this.pasta.scene.children[0].position.y = -1 + event.advancement;
 
                       // Bokeh
                       if( event.advancement > 0.5 ){
@@ -174,6 +182,12 @@ export default class extends Step {
                       this.particleCloud.object3D.position.y = -20;
                       this.pasta.noiseRocksIntensity = 0;
                       this.pasta.state.animated = true;
+                      // Translate up pasta
+                      AnimationManager.addAnimation(new Animation({duration: 2000,timingFunction: "easeOutQuad" })
+                        .on("progress", (event)=>{
+                          this.pasta.scene.children[0].position.y = -1 + event.advancement;
+                        })
+                      )                      
                       Renderer.setBokehFocus(config.human.rendering.bokeh.focus);
                       this.pasta.modelAnimation.play("merge", {
                         timeScale: 0.5

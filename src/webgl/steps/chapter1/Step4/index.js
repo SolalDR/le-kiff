@@ -7,6 +7,7 @@ import SimplexNoise from "simplex-noise";
 import configStep3 from "./../Step3/config";
 import ParticleCloud from "~/webgl/components/ParticleCloud"
 import AnimationManager, {Animation} from "~/webgl/manager/Animation";
+import {ControllerManager} from "~/webgl/manager";
 import SoundManager from "../../../../services/soundManager/SoundManager";
 import Pasta from "./../components/Pasta"
 import AbilitiesManager from "../../../../services/AbilitiesManager";
@@ -40,6 +41,8 @@ export default class extends Step {
    * @param {*} event
    */
   displayHumanScale( ressources, previousStep ){
+
+    console.log('ControllerManager', this.scene.controllerManager.current);
 
     // Start sound effect
     if( previousStep.rank !== this.rank - 1){
@@ -90,6 +93,8 @@ export default class extends Step {
       object: ressources.step_4_pasta.result,
       noise: this.simplex
     })
+    //this.pasta.scene.scale.set(1.7, 1.7, 1.7);
+    this.pasta.scene.children[0].position.y = -1;
     this.pasta.noiseRocksIntensity = 3;
     this.scene.humanScale.group.add(this.pasta.scene);
   
@@ -113,7 +118,7 @@ export default class extends Step {
             }).on("progress", (event) => {
               this.pasta.noiseRocksIntensity = 3 - 3*event.advancement
             }).on("end", ()=>{
-              AbilitiesManager.can("all", true);
+              AbilitiesManager.can("all", true);    
               this.pasta.state.animated = true;
               this.pasta.modelAnimation.play("merge", {
                 timeScale: 0.4
@@ -126,8 +131,15 @@ export default class extends Step {
               })
               // play sound pasta merging
               SoundManager.play('chapter_1_trigger', 'step_4_04_merge_pasta', {
-                delay: 0.4
-              });
+                delay: 0.3
+              });    
+              
+              // Reset pasta y
+              // AnimationManager.addAnimation(new Animation({duration: 2000,timingFunction: "easeInOutQuad" })
+              //   .on("progress", (event)=>{
+              //     this.pasta.scene.children[0].position.y = -1 + event.advancement;
+              //   })
+              // )              
 
             }));
           }
@@ -138,7 +150,7 @@ export default class extends Step {
 
     setTimeout(()=>{
       this.water.drop(0, -2.49, 0.15);
-    }, 6500)
+    }, 12500)
 
     var fromParticleSpeed = this.particleCloud.config.speed;
     var fromParticlePosition = this.particleCloud.object3D.position.y
@@ -146,17 +158,14 @@ export default class extends Step {
 
     // Water disapear
     var waterSoundEffectRemoved = false;
-    AnimationManager.addAnimation(new Animation({ duration: 8000, delay: 5000 })
+    AnimationManager.addAnimation(new Animation({ duration: 6000, delay: 6000 })
       .on("progress", (event) => {
-        // TODO: !!! re-add
         this.water.mesh.position.y =  -2 -9*event.advancement;
         this.particleCloud.config.speed = fromParticleSpeed + 0.0001*event.advancement;
         this.particleCloud.object3D.position.y = fromParticlePosition - 10*event.advancement;
         this.particleCloud.material.uniforms.u_size.value = fromParticleSize - fromParticleSize*event.advancement;
-        // <-- re-add
-        
         Renderer.setBokehFocus(THREE.Math.lerp(config.human.rendering.bokeh.focus, config.human.rendering.air.bokeh.focus, event.advancement));
-        // remove underwater effect when
+        // remove underwater effect when out of water
         if(event.advancement > 0.35 && !waterSoundEffectRemoved) {
           waterSoundEffectRemoved = true;
           SoundManager.removeAllEffects();
@@ -164,11 +173,10 @@ export default class extends Step {
         }
       })
       .on("end", () => {
-        // TODO: !!! re-add
         config.human.rendering.bokeh.focus = Renderer.getBokehFocus()
         this.scene.humanScale.group.remove(this.water.mesh);
         this.scene.humanScale.group.remove(this.particleCloud.object3D);
-        // <-- re-add
+     
       })
     )
     

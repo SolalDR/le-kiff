@@ -133,7 +133,7 @@ export default class extends Step {
 
 
     if ( toRemove.includes("leafbacks") ){
-      this.scene.humanScale.group.remove(this.leafBackGroup);
+        this.scene.humanScale.group.remove(this.leafBackGroup);
     }
     
     super.hide(newStep);

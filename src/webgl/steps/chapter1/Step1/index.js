@@ -6,6 +6,7 @@ import { c } from "../../../../helpers/Configuration";
 import { InteractivePlane } from "../../../components";
 import AbilitiesManager from "~/services/AbilitiesManager";
 import ModelAnimationManager from "../../../manager/ModelAnimation";
+import Viewport from "../../../../helpers/Viewport";
 
 /**
  * @constructor
@@ -46,7 +47,7 @@ export default class extends Step {
       gui: this.gui
     });
     this.background.object3D.name = "background";
-    this.background.object3D.position.z = -100;
+    this.background.object3D.position.z = -120;
 
 
     this.leaf = ressources.step_1_human_leaf.result;

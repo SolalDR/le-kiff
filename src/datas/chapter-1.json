@@ -20,11 +20,11 @@
     },
     {
       "name": "background1",
-      "path": "/ui/images/intro_background.png"
+      "path": "/ui/images/intro_background.jpg"
     },
     {
       "name": "background2",
-      "path": "/chapter-1/chapitre_01_etape_02_background.png"
+      "path": "/chapter-1/chapitre_01_etape_02_background.jpg"
     },
     {
       "name": "background3",
@@ -32,11 +32,11 @@
     },
     {
       "name": "background4",
-      "path": "/chapter-1/chapitre_01_etape_04_background.png"
+      "path": "/chapter-1/chapitre_01_etape_04_background.jpg"
     },
     {
       "name": "background6",
-      "path": "/chapter-1/chapitre_01_etape_06_background.png"
+      "path": "/chapter-1/chapitre_01_etape_06_background.jpg"
     }
   ],
   "groups": [

@@ -114,7 +114,7 @@ export default baseConfig.extends({
 
       },
       bokeh: {
-        aperture: 0.15
+        aperture: 0.19
       }
     }
   }

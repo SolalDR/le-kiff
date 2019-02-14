@@ -77,7 +77,6 @@ export default class extends Step {
       // water drop sound
       SoundManager.play('chapter_1_trigger', 'step_3_03_entree_eau').then(() => {
         SoundManager.addEffect('moogfilter');
-        console.log(SoundManager.soundEffectManager);
         SoundManager.play('chapter_1_trigger', 'step_5_03_reaction_chimique', {
           delay: 1
         }).then(() => {
@@ -99,7 +98,6 @@ export default class extends Step {
           this.particleCloud.object3D.position.y = -20 + 17*event.advancement;
           this.particleCloud.object3D.material.uniforms.u_size.value = 5*event.advancement;
           if( event.advancement > 0.5 ){
-            console.log(config)
             Renderer.setBokehFocus(
               THREE.Math.lerp(
                 config.human.rendering.bokeh.focus, 
@@ -205,6 +203,10 @@ export default class extends Step {
 
   hide(newStep) {
     var toRemove = this.getRemovableObject(newStep);
+    
+    if ( toRemove.includes("background") ){
+      this.scene.humanScale.group.remove(this.background.object3D);
+    }
 
     super.hide(newStep);
   }

@@ -148,12 +148,10 @@ export default class extends Step {
     var waterSoundEffectRemoved = false;
     AnimationManager.addAnimation(new Animation({ duration: 8000, delay: 5000 })
       .on("progress", (event) => {
-        // TODO: !!! re-add
         this.water.mesh.position.y =  -2 -9*event.advancement;
         this.particleCloud.config.speed = fromParticleSpeed + 0.0001*event.advancement;
         this.particleCloud.object3D.position.y = fromParticlePosition - 10*event.advancement;
         this.particleCloud.material.uniforms.u_size.value = fromParticleSize - fromParticleSize*event.advancement;
-        // <-- re-add
         
         Renderer.setBokehFocus(THREE.Math.lerp(config.human.rendering.bokeh.focus, config.human.rendering.air.bokeh.focus, event.advancement));
         // remove underwater effect when
@@ -164,11 +162,9 @@ export default class extends Step {
         }
       })
       .on("end", () => {
-        // TODO: !!! re-add
         config.human.rendering.bokeh.focus = Renderer.getBokehFocus()
         this.scene.humanScale.group.remove(this.water.mesh);
         this.scene.humanScale.group.remove(this.particleCloud.object3D);
-        // <-- re-add
       })
     )
     

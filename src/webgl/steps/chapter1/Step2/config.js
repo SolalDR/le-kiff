@@ -111,7 +111,7 @@ export default baseConfig.extends({
         }
       },
       bokeh: {
-        aperture: 0.15 // Animate to 0 in js
+        aperture: 0.19 // Animate to 0 in js
       }
     },
     air: {

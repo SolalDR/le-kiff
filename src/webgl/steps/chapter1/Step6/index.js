@@ -82,9 +82,12 @@ export default class extends Step {
   setupSceneObjects(ressources, previousStep) {
 
     // Background
+    console.log('previousStep.background', previousStep.background);
     if( previousStep.background ){
       this.background = previousStep.background;
-      this.background.changeBackground(ressources.background6.result)
+      console.log(this.background);
+      console.log(ressources.background6.result);
+      this.background.changeBackground(ressources.background6.result);
     }
 
     // Morph group pasta/brick
@@ -268,6 +271,11 @@ export default class extends Step {
 
   hide(newStep) {
     var toRemove = this.getRemovableObject(newStep);
+
+
+    if ( toRemove.includes("background") ){
+      this.scene.humanScale.group.remove(this.background.objec3D);
+    }
 
     super.hide(newStep);
   }

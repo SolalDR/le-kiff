@@ -54,7 +54,6 @@ class Cursor extends React.Component {
   }
 
   componentWillUnmount() {
-
     clearTimeout(this.cursorNotMovingTimeout);
     window.cancelAnimationFrame(this.update);
     window.cancelAnimationFrame(this.timerRAF);
@@ -65,10 +64,6 @@ class Cursor extends React.Component {
     if (this.bullet) {
       this.bullet.removeEventListener('animationend', this.onCursorTransitionEnd);
     }
-  }
-
-  componentDidUpdate() {
-    this.props.onUpdate(this.state);
   }
 
   componentWillReceiveProps(nextProps) {

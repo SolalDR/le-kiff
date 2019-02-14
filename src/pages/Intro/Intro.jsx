@@ -60,7 +60,8 @@ class Intro extends React.Component {
       this.props.onLoad(false);
       this.props.onHoldAllowed();
       // TODO: To Remove - Temporary auto load chapter-1 
-      if(this.state.autoLoadChapter) this.onHoldComplete();
+      if(this.state.autoLoadChapter) 
+        this.onHoldComplete();
     }
   }
 

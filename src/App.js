@@ -54,6 +54,7 @@ class App extends Component {
 
   componentDidMount() {
   }
+
   onEntering = (location) => {
     const intro = document.querySelector('.intro');
     const chapter = document.querySelector('.chapter');
@@ -63,9 +64,6 @@ class App extends Component {
       exitIntro(intro);
     }
 
-    // if (chapter && location.pathname.indexOf('chapter') > 0) {
-    //   enterChapter(chapter);
-    // }
 
     if (chapter && !(location.pathname.indexOf('chapter') > 0)) {
       exitChapter(chapter);
@@ -84,16 +82,18 @@ class App extends Component {
   }
 
   onExit = (location) => {
-    this.handleEnter(location.pathname);
   }
 
   handleEnter(path) {
-    const intro = document.querySelector('.intro');
-    const staticPage = document.querySelectorAll('.static-page');
+    // const intros = document.querySelectorAll('.intro');
+    // const staticPage = document.querySelectorAll('.static-page');
+    // const cursors = document.querySelectorAll('.cursor');
 
-    if (intro && path == '/') {
-      intro.classList.remove('is-hidden');
-    }
+    // if (cursors.length > 1) {
+    //   for (let i = 1; i < cursors.length; i++) {
+    //     cursors[i].style.display = 'none';
+    //   }
+    // }
   }
 
   handleRouteChange = (path, nbChangeRoute) => {
@@ -124,7 +124,7 @@ class App extends Component {
               <Header />
               <div className="app__content">
                 <TransitionGroup >
-                  <Transition key={location.key} classNames="fade" timeout={3000} onEntering={() => this.onEntering(location)} onExit={() => this.onExit(location)} exitDone={() => console.log('exxit done')} enterDone={() => console.log('enter done')}>
+                  <Transition key={location.key} classNames="fade" timeout={3000} appear={true} onEntering={() => this.onEntering(location)} onExit={() => this.onExit(location)} exitDone={() => console.log('exxit done')} enterDone={() => console.log('enter done')}>
                     <Switch location={location}>
                       <Route exact path="/" component={ Intro } />
                       <Route exact path="/chapter-1" component={ Chapter1 } />

@@ -253,7 +253,7 @@ export default class extends Step {
       // Micro Wave sounds
       SoundManager.play('chapter_1_trigger', 'step_6_04_h1_mets_la_une_minute', {volume: 0.6});
       SoundManager.play('chapter_1_trigger', 'step_6_05_micro_onde', {
-        volume: 0.6,
+        volume: 0.75,
         delay: 2
       });
 

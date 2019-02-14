@@ -120,6 +120,9 @@ export default class extends Step {
               }).then(() => {
                 // play sound main voice
                 SoundManager.play('chapter_1_main_voice', 'step_4');
+                // Update lights at animation end            
+                this.config.human.rendering.light = this.config.human.rendering.air.light;
+                this.scene.humanScale.updateRendering({animate: true});              
               })
               // play sound pasta merging
               SoundManager.play('chapter_1_trigger', 'step_4_04_merge_pasta', {
@@ -145,11 +148,14 @@ export default class extends Step {
     var waterSoundEffectRemoved = false;
     AnimationManager.addAnimation(new Animation({ duration: 8000, delay: 5000 })
       .on("progress", (event) => {
+        // TODO: !!! re-add
         this.water.mesh.position.y =  -2 -9*event.advancement;
         this.particleCloud.config.speed = fromParticleSpeed + 0.0001*event.advancement;
         this.particleCloud.object3D.position.y = fromParticlePosition - 10*event.advancement;
         this.particleCloud.material.uniforms.u_size.value = fromParticleSize - fromParticleSize*event.advancement;
-        Renderer.setBokehFocus(THREE.Math.lerp(config.human.rendering.bokeh.focus, config.human.air.bokeh.focus, event.advancement));
+        // <-- re-add
+        
+        Renderer.setBokehFocus(THREE.Math.lerp(config.human.rendering.bokeh.focus, config.human.rendering.air.bokeh.focus, event.advancement));
         // remove underwater effect when
         if(event.advancement > 0.35 && !waterSoundEffectRemoved) {
           waterSoundEffectRemoved = true;
@@ -158,9 +164,11 @@ export default class extends Step {
         }
       })
       .on("end", () => {
+        // TODO: !!! re-add
         config.human.rendering.bokeh.focus = Renderer.getBokehFocus()
         this.scene.humanScale.group.remove(this.water.mesh);
         this.scene.humanScale.group.remove(this.particleCloud.object3D);
+        // <-- re-add
       })
     )
     

@@ -67,7 +67,7 @@ class InfoPoint extends React.Component {
         <div className="info-point__pointer" onClick={this.handleClick}/>
         <div className="info-point__content">
           <h3 className="info-point__title heading-4">
-            <span class="info-point__title__wrapper">
+            <span className="info-point__title__wrapper">
             {this.props.info.title}
             </span>
           </h3>

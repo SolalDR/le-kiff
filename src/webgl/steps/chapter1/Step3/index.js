@@ -135,7 +135,7 @@ export default class extends Step {
             );
             this.particleCloud.material.uniforms.u_size.value = event.advancement * 7;
           })
-          .on("end", (event)=>{
+          .on("end", (event) => {
             AbilitiesManager.can("all", true);
             this.water.material.uniforms.diffuse.value = toColor;
             this.scene.humanScale.group.remove(this.leafClouds.object3D);

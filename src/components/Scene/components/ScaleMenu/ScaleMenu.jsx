@@ -29,9 +29,9 @@ class ScaleMenu extends React.Component {
     };
 
     this.infos = [
-      {scale: 'micro', title: 'Molécule'},
-      {scale: 'human', title: 'Humain'},
-      {scale: 'macro', title: 'Planète'}
+      {scale: 'micro', title: 'Micro'},
+      {scale: 'human', title: 'Human'},
+      {scale: 'macro', title: 'Macro'}
     ];
 
     this.timeline =  new TimelineLite();

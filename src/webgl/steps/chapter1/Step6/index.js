@@ -87,15 +87,30 @@ export default class extends Step {
     }
 
     // Morph group pasta/brick
-    this.morphGroupRotation = new THREE.Euler(-2.78, 2.10, 0)
+    this.morphGroupRotation = new THREE.Euler(0.40, 0.64, 0)
     this.morphGroup = new THREE.Group();
     this.morphGroup.name = 'morph_group';
+    // Rotation animation
+    AnimationManager.addAnimation(
+      new Animation({ 
+        duration: 2000, 
+        timingFunction: "easeInOutQuad" 
+      }).on("progress", (event)=>{ 
+        var a = event.advancement;
+        this.morphGroup.rotation.x = this.morphGroupRotation.x * a;
+        this.morphGroup.rotation.y = this.morphGroupRotation.y * a;
+      })
+    )  
+
 
     // Brick transforms
     this.brickStartScale = new THREE.Vector3(0.0005, 0.0005, 0.0005);
-    this.brickStartPosition = new THREE.Vector3(0, 0.04, -0.06);
+    this.brickStartPosition = new THREE.Vector3(0, -0.18, -0.06);
+    this.brickStartRotation = new THREE.Euler(Math.PI, 0, 0);
     this.brick.scene.scale.copy(this.brickStartScale);
     this.brick.scene.position.copy(this.brickStartPosition);
+    this.brick.scene.rotation.copy(this.brickStartRotation);
+    
 
     // Hide brick
     this.brickMaterial.transparent = true;
@@ -175,6 +190,8 @@ export default class extends Step {
               .on("progress", (event)=>{ 
                 this.brick.scene.scale.lerpVectors(this.brickStartScale, brickTargetScale, event.advancement);
                 this.brickMaterial.opacity = event.advancement*2 < 1 ? event.advancement*2 : 1;
+              }).on("end", () => {
+                this.morphGroup.remove(this.pasta.scene);
               })
           )   
         }, 400)            
@@ -183,20 +200,20 @@ export default class extends Step {
     );
   }
 
+  /**
+   * Reveal mark on brick
+   * @param {*} timecode 
+   */
   markRevealAnimation(timecode) {
-    var morpphGroupTargetRotation = new THREE.Euler(-5.90, 0.8, 0);
+    //var morpphGroupTargetRotation = new THREE.Euler(0.1, 0.8, 0);
     setTimeout(() => {
-      // Rotation animation
       AnimationManager.addAnimation(
         new Animation({ 
           duration: 2000, 
           timingFunction: "easeInOutQuad" 
         }).on("progress", (event)=>{ 
           var a = event.advancement;
-          this.morphGroup.rotation.x = THREE.Math.lerp(this.morphGroupRotation.x, morpphGroupTargetRotation.x, a);
-          this.morphGroup.rotation.y = THREE.Math.lerp(this.morphGroupRotation.y, morpphGroupTargetRotation.y, a);
-        }).on("end", () => {
-          this.morphGroupRotation.copy(this.morphGroup.rotation)
+          this.brick.scene.rotation.x = this.brickStartRotation.x * (1 - a);
         })
       )   
     }, timecode);

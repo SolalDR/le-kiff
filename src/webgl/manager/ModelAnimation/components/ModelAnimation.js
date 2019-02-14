@@ -36,10 +36,11 @@ class ModelAnimEntity {
     if(chain) {
       // if chain with loop fade from last animation
       if(lastAnimation && lastAnimation.loop === THREE.LoopRepeat) {
-        lastAnimation.crossFadeTo(animation, 1, true).play();   
+        lastAnimation.crossFadeTo(animation, 2, true);   
         setTimeout(() => {
           lastAnimation.stop();
-        }, 1000)   
+        }, 2000)   
+        console.log('cross fade animations');
       // play and stop previous    
       } else {
         animation.play();

@@ -45,10 +45,6 @@ class ControllerManager {
       
       AnimationManager.addAnimation(new Animation({ duration: 500, delay: 1000 }).on("progress", (e)=>{
         this.controls.radial.config.factor = config.radial.factor * e.advancement;
-        console.log(this.controls.radial.config.factor)
-        setTimeout(()=>{
-          console.log(this.controls.radial.config.factor)
-        }, 2000)
       }))
     })
   }

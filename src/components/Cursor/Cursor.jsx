@@ -42,7 +42,7 @@ class Cursor extends React.Component {
       isIndicating: true,
       isCursorStill: false,
       isLoading: false,
-      canChangeStep: false
+      canChangeStep: true
     }
 
   }

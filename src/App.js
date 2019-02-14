@@ -8,7 +8,8 @@ import AppManagerHydrator from './components/AppManagerHydrator/AppManagerHydrat
 
 //Transitions
 import { exitIntro } from './pages/Intro/transitions';
-import { exitChapter } from './pages/Chapter1/transitions';
+import { exitChapter1 } from './pages/Chapter1/transitions';
+import { exitChapter2, enterChapter2 } from './pages/Chapter2/transitions';
 import { enterStatic, exitStatic } from './pages/transitions';
 
 //Components
@@ -57,15 +58,24 @@ class App extends Component {
 
   onEntering = (location) => {
     const intro = document.querySelector('.intro');
-    const chapter = document.querySelector('.chapter');
+    const chapter1 = document.querySelector('.chapter-1');
+    const chapter2 = document.querySelector('.chapter-2');
     const staticPage = document.querySelectorAll('.static-page');
 
     if (intro && location.pathname != '/') {
       exitIntro(intro);
     }
 
-    if (chapter && !(location.pathname.indexOf('chapter') > 0)) {
-      exitChapter(chapter);
+    if (chapter1 && !(location.pathname.indexOf('chapter-1') > 0)) {
+      exitChapter1(chapter1);
+    }
+
+    if (chapter1 && location.pathname.indexOf('chapter-2') > 0) {
+      exitChapter1(chapter1);
+    }
+
+    if (chapter2 && location.pathname.indexOf('chapter-2') > 0) {
+      enterChapter2(chapter2);
     }
 
     if (staticPage.length) {
@@ -81,6 +91,10 @@ class App extends Component {
   }
 
   onExit = (location) => {
+    const intro = document.querySelector('.intro');
+    const chapter1 = document.querySelector('.chapter-1');
+
+    
   }
 
   handleEnter(path) {

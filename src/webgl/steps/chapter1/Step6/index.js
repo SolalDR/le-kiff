@@ -82,7 +82,6 @@ export default class extends Step {
   setupSceneObjects(ressources, previousStep) {
 
     // Background
-    console.log('previousStep.background', previousStep.background);
     if( previousStep.background ){
       this.background = previousStep.background;
       console.log(this.background);

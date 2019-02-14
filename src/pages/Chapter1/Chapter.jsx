@@ -188,7 +188,7 @@ class Chapter extends React.Component {
               weekday: "long", year: "numeric", month: "long", day: "numeric"
             })}
           </h1>
-          <h2 className="chapter__step__text teasing-1">{item.content}</h2>
+          <p className="chapter__step__text teasing-1" dangerouslySetInnerHTML={{__html: item.content}}></p>
         </div>
       )
     })

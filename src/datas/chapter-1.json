@@ -41,6 +41,10 @@
     {
       "name": "background6",
       "path": "/chapter-1/chapitre_01_etape_06_background.jpg"
+    },
+    {
+      "name": "step_1_bg_leaf",
+      "path": "/chapter-1/chapitre_01_etape_01_bg_leaf.png"
     }
   ],
   "groups": [

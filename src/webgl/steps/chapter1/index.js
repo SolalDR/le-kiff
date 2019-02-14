@@ -54,6 +54,8 @@ export const init = (ressources, main) => {
   main.renderer.renderer.setTexture2D(ressources.normalLeaf.result);
   main.renderer.renderer.setTexture2D(ressources.roughnessLeaf.result);
 
+  main.renderer.renderer.setTexture2D(ressources.step_1_bg_leaf.result);
+
   main.renderer.renderer.render(main.threeScene, main.camera);
 
   main.threeScene.remove(ressources.step_4_pasta.result.scene);

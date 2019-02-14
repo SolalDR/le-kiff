@@ -39,6 +39,26 @@ export default baseConfig.extends({
       spriteName: 'step_1'
     }
   ],
+  leafBacks: [
+    {
+      position: new THREE.Vector3(-26, 0, -18),
+      rotation: new THREE.Euler(-0.12, 0.12, -1),
+      scale: new THREE.Vector3(26, 26, 26),
+      color: new THREE.Color("rgb(187, 187, 187)")
+    },
+    {
+      position: new THREE.Vector3(-39, -11.5, -27),
+      rotation: new THREE.Euler(3, -1.2, -1.74),
+      scale: new THREE.Vector3(30, 30, 30),
+      color: new THREE.Color("rgb(170, 170, 170)")
+    },
+    {
+      position: new THREE.Vector3(7.16, 1.66, 4),
+      rotation: new THREE.Euler(0, -0.18, 2),
+      scale: new THREE.Vector3(13, 13, 13),
+      color: new THREE.Color("rgb(220, 220, 220)")
+    }
+  ],
 
   micro: {
     colorPlane: colorPlane.extends({

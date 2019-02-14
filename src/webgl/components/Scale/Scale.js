@@ -156,6 +156,7 @@ class Scale extends Event {
         animates.forEach(item => {
           (Mixer[item.type])(item.from, item.to, 1, item.object)
         })
+        console.log(c);
       })
     )
   }

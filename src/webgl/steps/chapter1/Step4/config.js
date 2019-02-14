@@ -16,16 +16,12 @@ export default baseConfig.extends({
         },
         ambient: {
           intensity: 1
-        }
+        },
+      },
+      bokeh: {
+        focus: -0.2
       },
       air: {
-        bokeh: {
-          focus: 0
-        }
-      },
-    },
-    endState: {
-      rendering: {
         light: {
           primary: {
             position: new THREE.Vector3(10, 23, 19),
@@ -43,8 +39,11 @@ export default baseConfig.extends({
             color: new THREE.Color("rgb(255, 224, 180)"),
             intensity: 1,
           },
+        },
+        bokeh: {
+          focus: 0
         }
-      }
+      },
     }
   },
   micro: {
@@ -68,25 +67,24 @@ export default baseConfig.extends({
     particleConfig: particleConfig.extends({
       color: new THREE.Color("rgb(244, 198, 80)")
     }),
-  },
-
-  rendering: {
-    toneMappingExposure: 0.7,
-    toneMappingWhitePoint: 1,
-    light: {
-      primary: {
-        intensity: 0.5,
-        decay: 1,
-        power: 25,
-        color: new THREE.Color("rgb(56, 56, 70)")
-      },
-      secondary: {
-        intensity: 1,
-        decay: 1,
-        power: 13,
-        color: new THREE.Color("rgb(151,171,220)")
+    rendering: {
+      toneMappingExposure: 0.7,
+      toneMappingWhitePoint: 1,
+      light: {
+        primary: {
+          intensity: 0.5,
+          decay: 1,
+          power: 25,
+          color: new THREE.Color("rgb(56, 56, 70)")
+        },
+        secondary: {
+          intensity: 1,
+          decay: 1,
+          power: 13,
+          color: new THREE.Color("rgb(151,171,220)")
+        }
       }
-    }
+    },
   },
 
   sounds: [

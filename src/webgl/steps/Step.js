@@ -200,13 +200,11 @@ class Step extends Event {
 
       Object.entries(config[light.name]).forEach(([key, value]) => {
         if(value instanceof THREE.Vector3 || value instanceof THREE.Color) {
-          console.log('key', value);
         } else if (value instanceof THREE.Euler) {
           var targetVec3 = value.toVector3();
           var sourceVec3 = lightStartParams.rotation.toVector3();
           targetRotation.lerpVectors(targetVec3, sourceVec3, alpha);
           light.object[key].fromVector3(targetRotation);
-          console.log('key', value);
         } else {
           light.object[key] = lightStartParams[key] * (1 - alpha) + value * alpha;
         }

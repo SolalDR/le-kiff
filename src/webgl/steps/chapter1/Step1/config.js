@@ -91,6 +91,23 @@ export default baseConfig.extends({
   },
 
   human: {
+    transitions: {
+      micro: {
+        postprocess: {
+          bloom: {
+            strength: {
+              from: 6
+            }
+          }
+        },
+        position: {
+          from: new THREE.Vector3(1, 0, -1)
+        },
+        target: {
+          from: new THREE.Vector3(1, 0, -2)
+        }
+      }
+    },
     rendering: {
       light: {
         primary: {

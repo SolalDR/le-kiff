@@ -31,6 +31,13 @@ export default baseConfig.extends({
 
     water: {
       focus: -0.2,
+    },
+    transitions: {
+      macro: {
+        position: {
+          from: new THREE.Vector3(0, 5, 15)
+        }
+      }
     }
   },
   modelAnimation: {
@@ -66,11 +73,11 @@ export default baseConfig.extends({
   },
   micro: {
     bondMaterial: {
-      color: new THREE.Color("rgb(0, 0, 0)"),
-      emissive: new THREE.Color("rgb(196, 245, 36)"),
+      color: new THREE.Color("rgb(88, 62, 0)"),
+      emissive: new THREE.Color("rgb(80, 80, 80)"),
     },
     colorPlane: colorPlane.extends({
-      color: new THREE.Color("rgb(81, 111, 23)")
+      color: new THREE.Color("rgb(103,83,40)")
     }),
     molecules: {
       cocaine: {

@@ -12,7 +12,6 @@ export default baseConfig.extends({
 
   transitions: {
     all: {
-      duration: 500,
       position: {
         from: new THREE.Vector3(0, 0, 3.1)
       },
@@ -21,7 +20,7 @@ export default baseConfig.extends({
         duration: 400,
         bloom: {
           strength: {
-            from: 6,
+            from: 2,
             to: 0.1
           }
         }

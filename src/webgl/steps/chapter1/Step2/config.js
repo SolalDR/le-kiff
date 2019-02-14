@@ -106,7 +106,11 @@ export default baseConfig.extends({
     transitions: {
       micro: {
         position: {
-          to: new THREE.Vector3(0, 0, 4)
+          to: new THREE.Vector3(0, 0, 4),
+          from: new THREE.Vector3(0, 0, -3.5)
+        },
+        target: {
+          from: new THREE.Vector3(0, 0, -4)
         }
       },
       macro: {

@@ -9,7 +9,7 @@ export default baseConfig.extends({
       emissive: new THREE.Color("rgb(79, 100, 115)")
     },
     colorPlane: colorPlane.extends({
-      color: new THREE.Color("rgb(44, 48, 55)")
+      color: new THREE.Color("rgb(132, 132, 132)")
     }),
     molecules: {
       cocaine: {
@@ -98,12 +98,18 @@ export default baseConfig.extends({
     transitions: {
       micro: {
         position: {
-          to: new THREE.Vector3(0, 0, 3)
+          to: new THREE.Vector3(0, 0, 3),
+          from: new THREE.Vector3(0, 0, 1),
         }
       },
       macro: {
         position: {
-          to: new THREE.Vector3(0, 0, 3)
+          to: new THREE.Vector3(0, 0, 3),
+          from: new THREE.Vector3(0, 2, 12)
+        },
+  
+        target: {
+          from: new THREE.Vector3(0, 2, 0)
         }
       }
     }

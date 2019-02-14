@@ -5,15 +5,22 @@ import particleConfig from "~/webgl/components/ParticleCloud/config";
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
   human: {
-    transition: {
+    transitions : {
       micro: {
         position: {
-          to: new THREE.Vector3(0, 0, 3)
+          to: new THREE.Vector3(0, 0, 3),
+          from: new THREE.Vector3(0, 0, 1)
         }
       },
+      
       macro: {
         position: {
-          to: new THREE.Vector3(0, 0, 3)
+          to: new THREE.Vector3(0, 0, 3),
+          from: new THREE.Vector3(0, 2, 12)
+        },
+  
+        target: {
+          from: new THREE.Vector3(0, 2, 0)
         }
       }
     },

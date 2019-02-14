@@ -66,17 +66,21 @@ class Scale extends Event {
     this.scene.camera.lookAt(config.target.from);
     
     var cameraAnim = this.scene.controllerManager.controls.rails.moveTo(config.position.to, {
-      duration: config.duration
+      duration: config.duration,
+      timingFunction: "easeOutCubic"
     });
 
     this.scene.controllerManager.controls.rails.lookTo(config.target.to, {
-      duration: config.duration
+      duration: config.duration,
+      timingFunction: "easeOutCubic"
     });
 
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
-      duration: config.postprocess.duration 
+      duration: config.postprocess.duration,
+      timingFunction: "easeOutCubic"
     }).on("progress", ( event ) => {
-      renderer.setBloomIntensity(config.postprocess.bloom.strength.from - event.advancement * diff);      
+      renderer.setBloomIntensity(config.postprocess.bloom.strength.from - event.advancement * diff);     
+      this.scene.renderer.setBloomRadius( THREE.Math.lerp(config.postprocess.bloom.radius.from, config.postprocess.bloom.radius.to, event.advancement )); 
     }).on("end", () => {
       this.dispatch("display", { transition: config });
       Bus.dispatch("scale:display", this, 1)
@@ -163,20 +167,24 @@ class Scale extends Event {
     var diff = config.postprocess.bloom.strength.from - config.postprocess.bloom.strength.to;
     
     var cameraAnim = this.scene.controllerManager.controls.rails.moveTo(config.position.from, {
-      duration: config.duration
+      duration: config.duration,
+      timingFunction: "easeInCubic"
     })
 
     this.scene.controllerManager.controls.rails.lookTo(config.target.from, {
-      duration: config.duration
+      duration: config.duration,
+      timingFunction: "easeInCubic"
     });
 
     this.scene.renderer.setBloomThreshold(0);
     this.scene.renderer.setBloomIntensity(config.postprocess.bloom.strength.to);
     var postprocessAnimData = AnimationManager.addAnimation(new Animation({
         duration: config.postprocess.duration, 
-        delay: config.duration - config.postprocess.duration
+        delay: config.duration - config.postprocess.duration,
+        timingFunction: "easeInCubic"
       }).on("progress", ( event ) => {
-        this.scene.renderer.setBloomIntensity( config.postprocess.bloom.strength.to + event.advancement*diff );
+        this.scene.renderer.setBloomIntensity( THREE.Math.lerp(config.postprocess.bloom.strength.to, config.postprocess.bloom.strength.from, event.advancement )); 
+        this.scene.renderer.setBloomRadius( THREE.Math.lerp(config.postprocess.bloom.radius.to, config.postprocess.bloom.radius.from, event.advancement ));
       })
     );
 

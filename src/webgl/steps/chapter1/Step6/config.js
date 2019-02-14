@@ -9,7 +9,7 @@ export default baseConfig.extends({
       emissive: new THREE.Color("rgb(79, 100, 115)")
     },
     colorPlane: colorPlane.extends({
-      color: new THREE.Color("rgb(44, 48, 55)")
+      color: new THREE.Color("rgb(132, 132, 132)")
     }),
     molecules: {
       cocaine: {

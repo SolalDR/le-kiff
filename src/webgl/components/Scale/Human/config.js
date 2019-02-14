@@ -12,10 +12,17 @@ export default baseConfig.extends({
       position: {
         from: new THREE.Vector3(0, 0, 0)
       },
+      target: {
+        from: new THREE.Vector3(0, 0, 0)
+      },
       postprocess: {
+        duration: 700,  
         bloom: {
           strength: {
-            from: 2.5
+            from: 4,
+          },
+          radius: {
+            from: 2,
           }
         }
       }

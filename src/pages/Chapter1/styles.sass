@@ -46,11 +46,10 @@
     transform: translateY(-50%) translateX(-50%)
     z-index: 7
     pointer-events: none
-    transition:
+    transition: 
+      delay: $t-duration, 0
+      duration: 2s
       property: opacity, transform
-      duration: 1s
-      timing-function: $t-timing-function
-      delay: .5s
 
     .letter-reveal__item
       filter: blur(2px)

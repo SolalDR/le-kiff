@@ -8,7 +8,7 @@ import AppManagerHydrator from './components/AppManagerHydrator/AppManagerHydrat
 
 //Transitions
 import { exitIntro } from './pages/Intro/transitions';
-import { enterChapter, exitChapter } from './pages/Chapter1/transitions';
+import { exitChapter } from './pages/Chapter1/transitions';
 import { enterStatic, exitStatic } from './pages/transitions';
 
 //Components
@@ -63,9 +63,9 @@ class App extends Component {
       exitIntro(intro);
     }
 
-    if (chapter && location.pathname.indexOf('chapter') > 0) {
-      enterChapter(chapter);
-    }
+    // if (chapter && location.pathname.indexOf('chapter') > 0) {
+    //   enterChapter(chapter);
+    // }
 
     if (chapter && !(location.pathname.indexOf('chapter') > 0)) {
       exitChapter(chapter);

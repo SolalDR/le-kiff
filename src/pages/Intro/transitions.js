@@ -15,9 +15,9 @@ export const exitIntro = (introEl) => {
       scale: 4,
     },
     output: {
-      baseFrequency: 0.05,
-      numOctaves: 3,
-      scale: 70,
+      baseFrequency: 0.03,
+      numOctaves: 2,
+      scale: 30,
     }
   }
   introEl.classList.add('is-hidden');

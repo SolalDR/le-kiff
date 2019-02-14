@@ -103,6 +103,7 @@ class Intro extends React.Component {
                     to={{ opacity: 1 }}
                     positionSvg={{textX: 20, spanY: 50}}
                     reveal={this.state.reveal}
+                    reverseEasingUnreveal={true}
                   />
                 </g>
               </svg>

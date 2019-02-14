@@ -159,13 +159,13 @@ class Chapter extends React.Component {
         scale: 4,
       },
       output: {
-        baseFrequency: 0.05,
-        numOctaves: 3,
-        scale: 70,
+        baseFrequency: 0.03,
+        numOctaves: 2,
+        scale: 30,
       }
     }
 
-    timeline.to(filters.entry, 3, { baseFrequency: filters.output.baseFrequency, numOctaves: filters.output.numOctaves, scale: filters.output.scale, roundProps:"numOctaves", onUpdate: () => {
+    timeline.to(filters.entry, 2.5, { baseFrequency: filters.output.baseFrequency, numOctaves: filters.output.numOctaves, scale: filters.output.scale, roundProps:"numOctaves", onUpdate: () => {
       ui.svgFilterTurbulence.setAttribute('numOctaves', filters.entry.numOctaves);
       ui.svgFilterTurbulence.setAttribute('baseFrequency', filters.entry.baseFrequency);
       ui.svgFilterDisplacement.setAttribute('scale', filters.entry.scale);

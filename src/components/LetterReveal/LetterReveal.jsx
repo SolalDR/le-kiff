@@ -16,7 +16,8 @@ class LetterReveal extends React.Component {
     to: PropTypes.object,
     svg: PropTypes.bool,
     positionSvg: PropTypes.object,
-    onCompleteReveal: PropTypes.func
+    onCompleteReveal: PropTypes.func,
+    reverseEasingUnreveal: PropTypes.bool
   };
 
   static defaultProps = {
@@ -28,6 +29,7 @@ class LetterReveal extends React.Component {
     class: '',
     from: {},
     to: {},
+    reverseEasingUnreveal: false,
     onCompleteReveal: () => {}
   }
 
@@ -87,7 +89,7 @@ class LetterReveal extends React.Component {
   unReveal() {
     this.isAnimating = true;
     this.timeline.play();
-    this.timeline.staggerTo(this.letterEls, this.props.duration, { ease: Expo.easeOut, ...this.props.from }, -(this.props.delay));
+    this.timeline.staggerTo(this.letterEls, this.props.duration, { ease: this.props.reverseEasingUnreveal ? Expo.easeIn : Expo.easeOut, ...this.props.from }, -(this.props.delay));
     this.isRevealed = false;
   }
 

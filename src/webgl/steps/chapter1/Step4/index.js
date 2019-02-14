@@ -122,16 +122,7 @@ export default class extends Step {
                 SoundManager.play('chapter_1_main_voice', 'step_4');
                 // Update lights at animation end            
                 this.config.human.rendering.light = this.config.human.rendering.air.light;
-                console.log('light before', this.config.human.rendering.light);
-                this.scene.humanScale.updateRendering({animate: true});
-                console.log('light after', this.config.human.rendering.light);
-                // AnimationManager.addAnimation(new Animation({ duration: 4000 })
-                //   .on("progress", (event) => {
-                //     this.updateLights(this.config.human.rendering.air.light, event.advancement);
-                //   }).on("end", () => {
-                //     this.config.human.rendering.light = this.config.human.rendering.air.light;
-                //   })
-                // )                
+                this.scene.humanScale.updateRendering({animate: true});              
               })
               // play sound pasta merging
               SoundManager.play('chapter_1_trigger', 'step_4_04_merge_pasta', {

@@ -91,11 +91,10 @@ class Scale extends Event {
   }
 
   updateRendering({
-    config = this.config.rendering,
     animate = false,
     duration = 3000
   } = {}){
-    var c = config;
+    var c = this.config.rendering;
 
     this.scene.renderer.setToneMappingExposure(c.toneMappingExposure);
     this.scene.renderer.setBloomRadius(c.bloom.radius);
@@ -156,7 +155,6 @@ class Scale extends Event {
         animates.forEach(item => {
           (Mixer[item.type])(item.from, item.to, 1, item.object)
         })
-        console.log(c);
       })
     )
   }

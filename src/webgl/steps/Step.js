@@ -166,62 +166,6 @@ class Step extends Event {
   }
 
   /**
-   * Update light in step with alpha parameter to interpolate values
-   * @param {Object} config config object for lights
-   * @param {Number} alpha alpha number 0 to 1
-   */
-  updateLights(config, alpha = 1) {
-    // Lights List
-    var lights = [
-      {
-        name: 'primary',
-        object: this.scene.lightPrimary
-      },
-      {
-        name: 'secondary',
-        object: this.scene.lightSecondary
-      },
-      {
-        name: 'ambient',
-        object: this.scene.lightAmbient
-      }
-    ]
-
-    // Init new config
-    var newConfigFilled = false
-    var newConfig = {};
-
-    // Assign params from config for each lights
-    lights.forEach(light => {
-
-      newConfig[light.name] = {};
-      var targetRotation = new THREE.Vector3();
-      var lightStartParams = Object.assign({},light.object);
-
-      Object.entries(config[light.name]).forEach(([key, value]) => {
-        if(value instanceof THREE.Vector3 || value instanceof THREE.Color) {
-        } else if (value instanceof THREE.Euler) {
-          var targetVec3 = value.toVector3();
-          var sourceVec3 = lightStartParams.rotation.toVector3();
-          targetRotation.lerpVectors(targetVec3, sourceVec3, alpha);
-          light.object[key].fromVector3(targetRotation);
-        } else {
-          light.object[key] = lightStartParams[key] * (1 - alpha) + value * alpha;
-        }
-        if(alpha > 0.99 && !newConfigFilled) {
-          newConfig[light.name][key] = light.object[key];
-        }
-      });
-      
-    })
-
-    if(alpha > 0.99 && !newConfigFilled) {
-      newConfigFilled = true;
-      return newConfig;
-    }
-  }
-
-  /**
    * Raf method
    * @abstract
    */

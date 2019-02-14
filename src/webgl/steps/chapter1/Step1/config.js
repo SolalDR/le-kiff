@@ -12,7 +12,7 @@ export default baseConfig.extends({
   transforms: [
     {
       asset: 'step_1_human_leaf_scene',
-      position: new THREE.Vector3(-0.98, -12, -1.12),
+      position: new THREE.Vector3(-0.98, -1.18, -1.12),
       rotation: new THREE.Euler(-0.16, 0.1, -0.38)
     }
   ],

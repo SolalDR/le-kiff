@@ -35,14 +35,20 @@ class ControllerManager {
   initEvents(){
     Bus.on("scale:coming", ()=>{
       this.stop("radial");
+      this.controls.radial.config.factor = 0;
     })
 
     Bus.on("scale:display", ()=>{
       this.controls.radial.state.coords.phi = 0;
       this.controls.radial.state.coords.theta = Math.PI/2;
       this.start("radial");
-      AnimationManager.addAnimation(new Animation({ duration: 500 }).on("progress", (e)=>{
+      
+      AnimationManager.addAnimation(new Animation({ duration: 500, delay: 1000 }).on("progress", (e)=>{
         this.controls.radial.config.factor = config.radial.factor * e.advancement;
+        console.log(this.controls.radial.config.factor)
+        setTimeout(()=>{
+          console.log(this.controls.radial.config.factor)
+        }, 2000)
       }))
     })
   }

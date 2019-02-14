@@ -1,6 +1,6 @@
 import SphericalCoord from "~/webgl/helpers/geo/SphericalCoord";
 import config from "./../config";
-
+import Bus from "~/helpers/Bus"
 /**
  * @class
  * Radial control can rotate arround a point based on radial coord. 

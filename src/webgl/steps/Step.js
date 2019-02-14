@@ -98,8 +98,29 @@ class Step extends Event {
     }
   }
 
-  beforeDisplay(){
+  beforeDisplay(ressources, previousStep){
     AbilitiesManager.can("all", false);
+    if(!previousStep) return;
+    if( this.scene.controllerManager.controls.radial.radius !== this.config.human.transitions.all.position.to.distanceTo(new THREE.Vector3()) ){
+      console.warn("Distance in transitions don't match with radial radius", this.scene.controllerManager.controls.radial.radius, this.config.human.transitions.all.position.to.distanceTo(new THREE.Vector3()))
+    }
+
+    AnimationManager.addAnimation(new Animation({
+      duration: this.config.human.camera.duration,
+      delay: this.config.human.camera.delay,
+      timingFunction: "easeInOutQuad"
+    })
+      .on("progress", (event)=>{
+        this.scene.controllerManager.controls.radial.radius = THREE.Math.lerp(
+          previousStep.config.human.camera.radius,
+          this.config.human.camera.radius,
+          event.advancement
+        );
+      })
+      .on("end", ()=>{
+        this.scene.controllerManager.controls.radial.radius = this.config.human.camera.radius;
+      })
+    )
   }
 
   display(event) {

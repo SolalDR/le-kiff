@@ -5,6 +5,18 @@ import particleConfig from "~/webgl/components/ParticleCloud/config";
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
   human: {
+    transition: {
+      micro: {
+        position: {
+          to: new THREE.Vector3(0, 0, 3)
+        }
+      },
+      macro: {
+        position: {
+          to: new THREE.Vector3(0, 0, 3)
+        }
+      }
+    },
     rendering: {
       light: {
         primary: {
@@ -43,6 +55,11 @@ export default baseConfig.extends({
         bokeh: {
           focus: 0
         }
+      },
+    },
+    air: {
+      camera: {
+        radius: 3
       },
     }
   },

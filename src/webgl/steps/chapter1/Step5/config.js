@@ -86,6 +86,25 @@ export default baseConfig.extends({
     water: {
       bokeh: {
         focus: -0.2
+      },
+      camera: {
+        radius: 8
+      }
+    },
+    camera: {
+      radius: 3
+    },
+
+    transitions: {
+      micro: {
+        position: {
+          to: new THREE.Vector3(0, 0, 3)
+        }
+      },
+      macro: {
+        position: {
+          to: new THREE.Vector3(0, 0, 3)
+        }
       }
     }
   },

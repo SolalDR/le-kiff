@@ -22,10 +22,12 @@ var transitionConfig = c({
         from: 10,
         to: 0
       },
+
       radius: {
         from: 0,
         to: 0
       },
+
       threshold: {
         from: 0,
         to: 0
@@ -37,6 +39,9 @@ var transitionConfig = c({
 export default c({
   camera: {
     position: new THREE.Vector3(0, 0, 8),
+    radius: 8,
+    duration: 2000,
+    delay: 0
   },
 
   rendering: renderingConfig,
@@ -45,6 +50,6 @@ export default c({
     micro: transitionConfig.clone(),
     macro: transitionConfig.clone(),
     human: transitionConfig.clone(),
-    all: transitionConfig.clone()
+    all: transitionConfig.clone(),
   }
 });

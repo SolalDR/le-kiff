@@ -143,6 +143,7 @@ export default class extends Step {
     var fromParticleSpeed = this.particleCloud.config.speed;
     var fromParticlePosition = this.particleCloud.object3D.position.y
     var fromParticleSize = this.particleCloud.material.uniforms.u_size.value;
+    var control = this.scene.controllerManager.controls.radial;
 
     // Water disapear
     var waterSoundEffectRemoved = false;
@@ -152,6 +153,8 @@ export default class extends Step {
         this.particleCloud.config.speed = fromParticleSpeed + 0.0001*event.advancement;
         this.particleCloud.object3D.position.y = fromParticlePosition - 10*event.advancement;
         this.particleCloud.material.uniforms.u_size.value = fromParticleSize - fromParticleSize*event.advancement;
+
+        control.radius = THREE.Math.lerp(this.config.human.camera.radius, this.config.human.air.camera.radius, event.advancement);
         
         Renderer.setBokehFocus(THREE.Math.lerp(config.human.rendering.bokeh.focus, config.human.rendering.air.bokeh.focus, event.advancement));
         // remove underwater effect when
@@ -163,6 +166,10 @@ export default class extends Step {
       })
       .on("end", () => {
         config.human.rendering.bokeh.focus = Renderer.getBokehFocus()
+        this.config.human.camera.radius = this.config.human.air.camera.radius;
+        this.config.human.transitions.micro.position.to.set(0, 0, this.config.human.air.camera.radius);
+        this.config.human.transitions.macro.position.to.set(0, 0, this.config.human.air.camera.radius);
+
         this.scene.humanScale.group.remove(this.water.mesh);
         this.scene.humanScale.group.remove(this.particleCloud.object3D);
       })

@@ -98,6 +98,23 @@ export default baseConfig.extends({
   },
   
   human: {
+    camera: {
+      radius: 4,
+      duration: 5000,
+      delay: 3000
+    },
+    transitions: {
+      micro: {
+        position: {
+          to: new THREE.Vector3(0, 0, 4)
+        }
+      },
+      macro: {
+        position: {
+          to: new THREE.Vector3(0, 0, 4)
+        }
+      }
+    },
     rendering: {
       light: {
         primary: {

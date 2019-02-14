@@ -23,6 +23,7 @@ class WebGL {
   constructor({
     element = null
   } = {}){
+    window.webgl = this;
     Bus.verbose("webgl:init");
 
     this.resolution =  new THREE.Vector2(Viewport.width, Viewport.height);

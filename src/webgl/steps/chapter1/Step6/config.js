@@ -57,6 +57,22 @@ export default baseConfig.extends({
           position: new THREE.Vector3(-3, 0, 1)
         }
       }
+    },
+    camera: {
+      radius: 5,
+      duration: 8000
+    },
+    transition: {
+      micro: {
+        position: {
+          to: new THREE.Vector3(0, 0, 5)
+        }
+      },
+      macro: {
+        position: {
+          to: new THREE.Vector3(0, 0, 5)
+        }
+      }
     }
   },
   sounds: [

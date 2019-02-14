@@ -64,7 +64,6 @@ class App extends Component {
       exitIntro(intro);
     }
 
-
     if (chapter && !(location.pathname.indexOf('chapter') > 0)) {
       exitChapter(chapter);
     }
@@ -85,15 +84,7 @@ class App extends Component {
   }
 
   handleEnter(path) {
-    // const intros = document.querySelectorAll('.intro');
-    // const staticPage = document.querySelectorAll('.static-page');
-    // const cursors = document.querySelectorAll('.cursor');
 
-    // if (cursors.length > 1) {
-    //   for (let i = 1; i < cursors.length; i++) {
-    //     cursors[i].style.display = 'none';
-    //   }
-    // }
   }
 
   handleRouteChange = (path, nbChangeRoute) => {

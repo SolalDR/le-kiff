@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import LetterReveal from '~/components/LetterReveal/LetterReveal'
+import AbilitiesManager from "~/services/AbilitiesManager";
 import "./styles.sass";
 import throttle from '~/helpers/throttle';
 import Bus from "../../helpers/Bus";
@@ -85,7 +86,7 @@ class Cursor extends React.Component {
   }
 
   onMouseDown = (e) => {
-    if (e.which != 3) {
+    if (e.which != 3 && AbilitiesManager.can("changeStep")) {
       this.setState({ isHolding: true })
       this.cursor.current.classList.add('is-hold');
       e.preventDefault();
@@ -177,7 +178,7 @@ class Cursor extends React.Component {
             </svg>
           </div>
           <LetterReveal text="Loading" class={'cursor__text cursor__loading small'} duration={0.2} delay={0.015} globalDelay={4} reveal={this.props.isLoading} from={{y: 15, opacity: 0}} to ={{y: 0, opacity: 1}} />
-          <LetterReveal text="Hold to continue" class={'cursor__text cursor__hold small'} duration={0.2} delay={0.015} reveal={(!this.props.isLoading && this.state.isCursorStill) || (!this.props.isLoading && this.props.isIntro)} from={{y: 15, opacity: 0}} to ={{y: 0, opacity: 1}} />
+          <LetterReveal text="Hold to continue" class={'cursor__text cursor__hold small'} duration={0.2} delay={0.015} reveal={ (!this.props.isLoading && this.state.isCursorStill) || (!this.props.isLoading && this.props.isIntro) } from={{y: 15, opacity: 0}} to ={{y: 0, opacity: 1}} />
       </div>
     )
   }

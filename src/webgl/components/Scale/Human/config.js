@@ -2,7 +2,6 @@ import baseConfig from "./../config";
 
 export default baseConfig.extends({
   transitions: {
-
     all: {
       sound: {
         volume: 0.1

@@ -5,6 +5,12 @@ import particleConfig from "~/webgl/components/ParticleCloud/config";
 export default baseConfig.extends({
   background: new THREE.Color(0xf2f3ee),
   human: {
+    camera: {
+      radius: 8,
+      duration: 3000,
+      delay: 10000
+    },
+
     rendering: {
       light: {
         primary: {

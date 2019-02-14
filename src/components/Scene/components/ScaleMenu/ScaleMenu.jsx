@@ -98,7 +98,7 @@ class ScaleMenu extends React.Component {
     return (
       <div className={`scale-menu`}>
         {this.renderScaleItem()}
-        <div className={`scale-menu__tutorial ${this.state.showTutorial && this.props.show ? '' : 'is-hidden'}`}>
+        {/* <div className={`scale-menu__tutorial ${this.state.showTutorial && this.props.show ? '' : 'is-hidden'}`}>
           <p className="teasing-3"><span className="scale-menu__tutorial__item">Feel free to switch point of views</span> <span className="scale-menu__tutorial__item">to look beyond or to go deeper,</span><span className="scale-menu__tutorial__item">at any time.</span> </p>
           <svg width="29" height="50" xmlns="http://www.w3.org/2000/svg" className="scale-menu__tutorial__icon">
             <g fill="none" fillRule="evenodd">
@@ -107,8 +107,8 @@ class ScaleMenu extends React.Component {
                 <circle fill="#FFF" cx="15" cy="10" r="3"/>
               </g>
             </g>
-          </svg>
-        </div>
+          </svg> 
+        </div>*/}
       </div>
     )
   }

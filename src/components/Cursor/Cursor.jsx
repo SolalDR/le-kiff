@@ -67,10 +67,6 @@ class Cursor extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    this.props.onUpdate(this.state);
-  }
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       isLoading: nextProps.isLoading

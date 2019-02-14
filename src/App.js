@@ -8,7 +8,8 @@ import AppManagerHydrator from './components/AppManagerHydrator/AppManagerHydrat
 
 //Transitions
 import { exitIntro } from './pages/Intro/transitions';
-import { exitChapter } from './pages/Chapter1/transitions';
+import { exitChapter1 } from './pages/Chapter1/transitions';
+import { exitChapter2, enterChapter2 } from './pages/Chapter2/transitions';
 import { enterStatic, exitStatic } from './pages/transitions';
 
 //Components
@@ -54,21 +55,27 @@ class App extends Component {
 
   componentDidMount() {
   }
+
   onEntering = (location) => {
     const intro = document.querySelector('.intro');
-    const chapter = document.querySelector('.chapter');
+    const chapter1 = document.querySelector('.chapter-1');
+    const chapter2 = document.querySelector('.chapter-2');
     const staticPage = document.querySelectorAll('.static-page');
 
     if (intro && location.pathname != '/') {
       exitIntro(intro);
     }
 
-    // if (chapter && location.pathname.indexOf('chapter') > 0) {
-    //   enterChapter(chapter);
-    // }
+    if (chapter1 && !(location.pathname.indexOf('chapter-1') > 0)) {
+      exitChapter1(chapter1);
+    }
 
-    if (chapter && !(location.pathname.indexOf('chapter') > 0)) {
-      exitChapter(chapter);
+    if (chapter1 && location.pathname.indexOf('chapter-2') > 0) {
+      exitChapter1(chapter1);
+    }
+
+    if (chapter2 && location.pathname.indexOf('chapter-2') > 0) {
+      enterChapter2(chapter2);
     }
 
     if (staticPage.length) {
@@ -84,16 +91,14 @@ class App extends Component {
   }
 
   onExit = (location) => {
-    this.handleEnter(location.pathname);
+    const intro = document.querySelector('.intro');
+    const chapter1 = document.querySelector('.chapter-1');
+
+    
   }
 
   handleEnter(path) {
-    const intro = document.querySelector('.intro');
-    const staticPage = document.querySelectorAll('.static-page');
 
-    if (intro && path == '/') {
-      intro.classList.remove('is-hidden');
-    }
   }
 
   handleRouteChange = (path, nbChangeRoute) => {
@@ -124,7 +129,7 @@ class App extends Component {
               <Header />
               <div className="app__content">
                 <TransitionGroup >
-                  <Transition key={location.key} classNames="fade" timeout={3000} onEntering={() => this.onEntering(location)} onExit={() => this.onExit(location)} exitDone={() => console.log('exxit done')} enterDone={() => console.log('enter done')}>
+                  <Transition key={location.key} classNames="fade" timeout={3000} appear={true} onEntering={() => this.onEntering(location)} onExit={() => this.onExit(location)} exitDone={() => console.log('exxit done')} enterDone={() => console.log('enter done')}>
                     <Switch location={location}>
                       <Route exact path="/" component={ Intro } />
                       <Route exact path="/chapter-1" component={ Chapter1 } />

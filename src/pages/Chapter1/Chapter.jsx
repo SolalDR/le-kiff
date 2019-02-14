@@ -125,7 +125,7 @@ class Chapter extends React.Component {
 
   // TODO Call router to navigate 
   onChapterChange = chapterRank => {
-
+    this.props.history.push("/chapter-2");
   }
 
   onEnded = () => {

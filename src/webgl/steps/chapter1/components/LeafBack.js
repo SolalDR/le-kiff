@@ -19,7 +19,7 @@ class LeafBack {
     this.color = color;
     var aspect = this.texture.image.width/this.texture.image.height;
 
-    var geometry = new THREE.PlaneGeometry(size, size/aspect);
+    var geometry = new THREE.PlaneBufferGeometry(size, size/aspect);
   
     this.object3D = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
       map: this.texture,

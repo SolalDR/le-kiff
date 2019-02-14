@@ -26,7 +26,9 @@ class Scene extends React.Component {
         slug: PropTypes.string,
         title: PropTypes.string,
         type: PropTypes.string
-      })
+      }),
+      isReady: PropTypes.bool,
+      showElements: PropTypes.bool,
     }
 
   constructor(props) {
@@ -52,14 +54,7 @@ class Scene extends React.Component {
   }
 
   
-  animateEnter(){
-    // return new Promise(resolve => {
-    //   resolve('yeay');
-    // })
-  }
-  
   initScene(){
-    // await this.animateEnter();
     this.webgl = new WebGL({
       element: this.sceneElement.current
     });
@@ -70,8 +65,6 @@ class Scene extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
-    console.log('will receive props', nextProps);
     if (this.props.isChapterReady && this.props.isAssetLoaded) {
       if (this.props.isReady != nextProps.isReady && nextProps.isReady) {
         this.initScene();
@@ -112,11 +105,11 @@ class Scene extends React.Component {
   render(){
     return (
       <div ref={(this.sceneElement)} className="scene">
-          <ScaleMenu scale={this.props.currentScale} onSelectCallback={this.selectScale} />
+          <ScaleMenu scale={this.props.currentScale} onSelectCallback={this.selectScale} show={this.props.showElements} />
           <InfoList infos={this.webgl ? this.updateInfos() : []}></InfoList>
-          <div className="scene__bottom-right-nav">
-            <SoundButton />
-            <FullScreenButton />
+          <div className="scene__bottom-right-nav" >
+            <SoundButton show={this.props.showElements}/>
+            <FullScreenButton show={this.props.showElements} />
           </div>
       </div>
     );

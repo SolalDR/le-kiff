@@ -53,14 +53,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('COMPOENNT DID MOUNT', this.props)
   }
   onEntering = (location) => {
     const intro = document.querySelector('.intro');
     const chapter = document.querySelector('.chapter');
     const staticPage = document.querySelectorAll('.static-page');
 
-    console.log(staticPage);
     if (intro && location.pathname != '/') {
       exitIntro(intro);
     }
@@ -74,7 +72,6 @@ class App extends Component {
     }
 
     if (staticPage.length) {
-      console.log(staticPage);
       if (staticPage.length > 1) {
         for (let i = 1; i < staticPage.length; i++) {
           exitStatic(staticPage[i]);
@@ -127,7 +124,7 @@ class App extends Component {
               <Header />
               <div className="app__content">
                 <TransitionGroup >
-                  <Transition key={location.key} classNames="fade" timeout={1500} onEntering={() => this.onEntering(location)} onExit={() => this.onExit(location)} exitDone={() => console.log('exxit done')} enterDone={() => console.log('enter done')}>
+                  <Transition key={location.key} classNames="fade" timeout={3000} onEntering={() => this.onEntering(location)} onExit={() => this.onExit(location)} exitDone={() => console.log('exxit done')} enterDone={() => console.log('enter done')}>
                     <Switch location={location}>
                       <Route exact path="/" component={ Intro } />
                       <Route exact path="/chapter-1" component={ Chapter1 } />

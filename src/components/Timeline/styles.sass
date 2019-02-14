@@ -10,7 +10,6 @@ $animation-duration: .2s
   padding: $space-s*5 160px $pos-s
   left: 50%
   transform: translateX(-50%)
-  
   z-index: 7
 
   &__wrapper
@@ -65,19 +64,24 @@ $animation-duration: .2s
       content: ''
       position: absolute
       width: 0
-      transition: 1s width .5s
+      transition:
+        delay: 2s
+        property: width
+        duration: .5s
       border-bottom: 1px dashed $color-secondary
       opacity: .5
       
-
   &__chapter
     color: $color-secondary
     white-space: nowrap
     display: flex
     align-items: center
     opacity: 0
-    transition: opacity .5s
-
+    transition: 
+      property: opacity 
+      duration: .5s
+      delay: 2s
+    
     &--prev
       .letter-reveal
         left: 100px
@@ -138,7 +142,10 @@ $animation-duration: .2s
     width: 100%
     display: flex
     opacity: 0
-    transition: opacity .5s
+    transition: 
+      property: opacity 
+      duration: .5s
+      delay: 2s
 
     &:before,
     &:after
@@ -160,11 +167,17 @@ $animation-duration: .2s
     height: .5px
     opacity: 0
     transform-origin: left
+    z-index: 3
     transition: 
       duration: $t-duration
+      delay: 2s
       property: transform, opacity
       timing-function: $t-timing-function
     z-index: 1
+
+
+    &.has-progressed
+      transition-delay: 0s
 
   //Responsive
   @include up-desktop()

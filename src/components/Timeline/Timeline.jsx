@@ -5,6 +5,7 @@ import "./styles.sass";
 
 class Timeline extends React.Component {
   static propTypes = {
+    show: PropTypes.bool,
     current: PropTypes.number,
     length: PropTypes.number.isRequired,
     chapter: PropTypes.number.isRequired,
@@ -31,6 +32,7 @@ class Timeline extends React.Component {
 
   componentDidMount() {
     this.updateProgressBar(1);
+    this.firstProgress = (this.itemDemiWidth) / this.width;
   }
 
   progress = el => {
@@ -139,13 +141,12 @@ class Timeline extends React.Component {
 
   render() {
     return (
-    <div className={`timeline`} onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)}>
+    <div className={`timeline ${this.props.show ? 'is-shown' : ''}`} onMouseEnter={this.onMouseEnter.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)}>
       <div className={`timeline__wrapper ${this.state.reveal ? "is-active" : ""}`}>
         {/* Conditional rendering for previous chapter */}
         {this.renderPreviousChapter()}
-
         <div className="timeline__inner">
-        <div className="timeline__progress" ref={this.progress} style={{ transform: `scaleX(${this.progressScale})` }} />
+        <div className={`timeline__progress ${this.progressScale && this.firstProgress && (this.progressScale > this.firstProgress) ? 'has-progressed' : ''}`} ref={this.progress} style={{ transform: `scaleX(${this.progressScale})` }} />
           <div className="timeline__list">
             {this.renderTimelineItems()}
           </div>

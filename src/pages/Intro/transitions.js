@@ -21,7 +21,7 @@ export const exitIntro = (introEl) => {
   }
   introEl.classList.add('is-hidden');
 
-  timeline.to(filters.entry, 3, { baseFrequency: filters.output.baseFrequency, numOctaves: filters.output.numOctaves, scale: filters.output.scale, roundProps:"numOctaves", onUpdate: () => {
+  timeline.to(filters.entry, 2.5, { baseFrequency: filters.output.baseFrequency, numOctaves: filters.output.numOctaves, scale: filters.output.scale, roundProps:"numOctaves", onUpdate: () => {
     ui.svgFilterTurbulence.setAttribute('numOctaves', filters.entry.numOctaves);
     ui.svgFilterTurbulence.setAttribute('baseFrequency', filters.entry.baseFrequency);
     ui.svgFilterDisplacement.setAttribute('scale', filters.entry.scale);

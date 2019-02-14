@@ -10,14 +10,14 @@ export const enterChapter = (chapterEl) => {
     sceneBottom: chapterEl.querySelector('.scene__bottom-right-nav')
   }
 
-  chapterEl.classList.add('is-shown');
-  ui.scene.classList.add('is-shown');
+  // chapterEl.classList.add('is-shown');
+  // ui.scene.classList.add('is-shown');
 
-  const classTimeout = setTimeout(() => {
-    ui.timeline.classList.add('is-shown');
-    ui.scaleMenu.classList.add('is-shown');
-    ui.sceneBottom.classList.add('is-shown');
-  }, 1000);
+  // const classTimeout = setTimeout(() => {
+  //   ui.timeline.classList.add('is-shown');
+  //   ui.scaleMenu.classList.add('is-shown');
+  //   ui.sceneBottom.classList.add('is-shown');
+  // }, 1000);
 }
 
 
@@ -31,9 +31,9 @@ export const exitChapter = (chapterEl) => {
   }
 
   chapterEl.classList.remove('is-shown');
-  ui.scene.classList.remove('is-shown');
+  // ui.scene.classList.remove('is-shown');
 
-  ui.timeline.classList.remove('is-shown');
-  ui.scaleMenu.classList.remove('is-shown');
-  ui.sceneBottom.classList.remove('is-shown');
+  // ui.timeline.classList.remove('is-shown');
+  // ui.scaleMenu.classList.remove('is-shown');
+  // ui.sceneBottom.classList.remove('is-shown');
 }

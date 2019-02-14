@@ -11,8 +11,6 @@ function withCursor(WrappedComponent) {
         isHoldAllowed: false,
         isLoading: false
       }
-
-      console.log(props);
     }
 
     componentWillUnmount() {

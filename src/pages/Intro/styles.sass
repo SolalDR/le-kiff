@@ -2,12 +2,61 @@
   
 .intro
   height: 100vh
-  background-image: url('/images/intro_background.jpg')
-  background-size: cover
-  background-repeat: no-repeat
+  width: 100vw
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
   display: flex
   justify-content: center
   align-items: center
+  z-index: 15
+  pointer-events: all
+
+  &:before
+    content: ""
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    background-image: url('/images/intro_background.jpg')
+    background-size: cover
+    background-repeat: no-repeat
+    opacity: 1
+    transition: opacity .5s
+
+  &.is-hidden
+    pointer-events: none
+    &:before
+      opacity: 0
+    
+    .intro
+      &__inner
+        &__svg
+          opacity: 0
+          transform: translateY(-300px)
+          transition: 
+            delay: $t-duration, 0
+            duration: 3s
+            property: opacity, transform
+            timing-function: $t-timing-function
+
+        &__bottom
+          transform: translateY(-80px)
+          opacity: 0
+
+      &__video
+        opacity: 0
+
+      &__teasing
+        transform: translateY(-180px)
+        opacity: 0
+
+      &__subtitle
+        opacity: 0
+        transform: translateY(-180px) translateX(-50%)
 
   &__inner
     position: absolute
@@ -16,6 +65,8 @@
     width: 650px
     display: flex
     flex-direction: column
+    align-items: center
+    transition: transform 1s, opacity 1s
     color: $color-secondary
     text-align: center
     z-index: 2
@@ -24,9 +75,22 @@
       position: relative
       display: flex
       flex-direction: column
+      align-items: center
     
     &__bottom
       margin-top: auto
+      position: relative
+      transition: 
+        duration: 1s
+        property: opacity, transform
+        timing-function: $t-timing-function
+
+    &__content
+      margin-top: -80px
+
+      .intro__inner__svg
+        position: relative
+        margin-bottom: -80px
 
   &__title
     position: relative
@@ -34,7 +98,8 @@
 
     .letter-reveal__item
       filter: blur(2px)
-      margin-left: -2px
+      margin-left: -3px
+      opacity: 0
 
     .letter-reveal__space
       width: 35px
@@ -45,6 +110,12 @@
     position: relative 
     width: 100%
     margin: 40px 0 $space-m
+    left: 50%
+    transform: translateX(-50%)
+    transition:
+      duration: .3s, .5s
+      property: opacity, transform
+      timing-function: $t-timing-function
 
     .letter-reveal
       &__item
@@ -55,11 +126,16 @@
         width: 12px
 
   &__teasing
+    position: relative
     margin-top: $pos-s
     margin-bottom: $space-m
     padding-left: 90px
     padding-right: 90px
     font-style: italic
+    transition: 
+      duration: .3s, .5s
+      property: opacity, transform
+      timing-function: $t-timing-function
     
     &__item
       display: inline-block
@@ -137,13 +213,32 @@
     &__teasing
       margin-top: $pos-s
 
+    &__inner
+      .intro__inner__svg
+        width: 800px
+
+        text
+          transform: translateX(-5px)
+
     &__inner__bottom
       margin-top: $space-l * 2
+
+    //States
+    &.is-hidden
+      .intro__inner__svg
+        transform: translateY(-300px)
 
   @include up-large-desktop()
 
     &__teasing
       margin-top: 70px
+
+    &__inner
+      .intro__inner__svg
+        width: 800px
+
+        text
+          transform: translateX(-10px)
 
     &__inner__bottom
       margin-top: 100px

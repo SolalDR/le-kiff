@@ -44,7 +44,7 @@ class Header extends React.Component {
   }
   
   render () {
-  let menu = this.state.menuPosY > 0 ? <Menu open={this.state.menuOpen} menuPosY={this.state.menuPosY} closeCallback={this.handleToggleMenu} hover={this.state.menuHovered} /> : null;
+  let menu = this.state.menuPosY > 0 ? <Menu open={this.state.menuOpen} menuPosY={this.state.menuPosY} closeCallback={this.handleToggleMenu} hover={!this.state.menuOpen ? this.state.menuHovered : false} /> : null;
     const headerClass = this.state.menuOpen ? "header is-active" : "header";
     return (
       <div className={headerClass}>
@@ -52,10 +52,10 @@ class Header extends React.Component {
           <div>
             <div className="header__top">
               <div className="header__links">
-                <Link className="header__link" to={'/'}>
+                <Link className="header__link" to={'/credits'}>
                   <span className="heading-8">Credits</span>
                 </Link>
-                <Link className="header__link" to={'/'}>
+                <Link className="header__link" to={'/about'}>
                   <span className="heading-8">About</span>
                 </Link>
               </div>

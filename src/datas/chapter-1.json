@@ -3,6 +3,10 @@
   "base": "",
   "files": [
     {
+      "name": "chapter_title_reveal",
+      "path": "/chapter-1/fumee_naissance.mp4"
+    },
+    {
       "name": "step_1_human_leaf",
       "path": "/chapter-1/step_1_human_leaf.glb"
     },

@@ -9,6 +9,7 @@ $border-width: 2px
   flex-direction: column
   z-index: 1
   transform: translateY(-50%)
+  z-index: 7
 
   &__item
     text-align: left
@@ -29,12 +30,12 @@ $border-width: 2px
       left: 0
       opacity: 0.5
       border: $border-width solid white
-      transform: translateY(-50%)
+      transform: translateY(-50%) scale(0)
       border-radius: 100%
       box-sizing: border-box
       transition:
         property: background, transform
-        duration: .4s
+        duration: .7s
         timing-function: ease-out
 
     &:nth-child(1)
@@ -82,8 +83,9 @@ $border-width: 2px
 
   &__text
     top: 50%
-    transform: translateY(-50%)
+    transform: translateY(-50%) translateX(20px)
     pointer-events: none
+    opacity: 0
     transition:
       property: opacity, transform
       duration: $t-duration

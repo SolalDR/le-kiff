@@ -13,7 +13,10 @@ class LetterReveal extends React.Component {
     reveal: PropTypes.bool.isRequired,
     class: PropTypes.string,
     from: PropTypes.object,
-    to: PropTypes.object
+    to: PropTypes.object,
+    svg: PropTypes.bool,
+    positionSvg: PropTypes.object,
+    onCompleteReveal: PropTypes.func
   };
 
   static defaultProps = {
@@ -24,7 +27,8 @@ class LetterReveal extends React.Component {
     reveal: false,
     class: '',
     from: {},
-    to: {}
+    to: {},
+    onCompleteReveal: () => {}
   }
 
 
@@ -87,24 +91,44 @@ class LetterReveal extends React.Component {
     this.isRevealed = false;
   }
 
-  render() {
-    let results = [];
-    for (let i = 0; i < this.length; i++) {
-      const letter = this.lettersArray[i];
-      (rank =>
-        results.push(
-          <span
-            className={`letter-reveal__item ${letter.indexOf(' ') >= 0 ? 'letter-reveal__space' : ''}`}
+  renderLetters() {
+    if (this.lettersArray.length) {
+      return this.lettersArray.map((item, rank) => {
+        if (this.props.svg) {
+          return (
+            <tspan y={this.props.positionSvg.spanY} className={`letter-reveal__item ${item.indexOf(' ') >= 0 ? 'letter-reveal__space' : ''}`}
             key={rank}
             ref={el => {
-              this.letterEls[i] = el;
-            }}
-          >
-            {letter}
-          </span>
-        ))(i);
+              this.letterEls[rank] = el;
+            }}>{item}</tspan>
+          )
+        } else {
+          return (
+            <span className={`letter-reveal__item ${item.indexOf(' ') >= 0 ? 'letter-reveal__space' : ''}`}
+            key={rank}
+            ref={el => {
+              this.letterEls[rank] = el;
+            }}>{item}</span>
+          )
+        }
+      })
     }
-    return <span className={`letter-reveal ${this.props.class}`}>{results}</span>;
+  }
+
+  render() {
+    return (
+      <>
+        {
+          this.props.svg && 
+            <text x={this.props.positionSvg.textX} className={`letter-reveal ${this.props.class}`} baseFrequency="0.005">{this.renderLetters()}</text>
+        }
+
+        {
+          !this.props.svg && 
+          <span className={`letter-reveal ${this.props.class}`}>{this.renderLetters()}</span>
+        }
+      </>
+    )
   }
 }
 

@@ -6,6 +6,13 @@
     position: relative
     display: flex
     pointer-events: none
+    opacity: 0
+    transform: translateY(20px)
+    transition:
+      property: opacity, transform
+      duration: .5s
+      delay: 2s
+      timing-function: $t-timing-function
 
     &__title
       position: absolute
@@ -17,6 +24,11 @@
       white-space: nowrap
       opacity: 0
       transition: opacity $t-duration, transform $t-duration
+
+      &__svg
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
 
     &__button
       position: absolute
@@ -32,9 +44,9 @@
       opacity: 0.5
       cursor: none
       pointer-events: all
-      transform: translateY(-50%) translateX(-50%) scale(1)
+      transform: translateY(-50%) translateX(-50%) scale(0)
       transition: 
-        duration: $t-duration
+        duration: 3s
         property: transform, background-color
         timing-function: $t-timing-function
 
@@ -67,6 +79,7 @@
           
     //States
     &.is-active 
+      opacity: 0
       .timeline
         &__item__button
           transform: translateY(-50%) translateX(-50%) scale(1.3)

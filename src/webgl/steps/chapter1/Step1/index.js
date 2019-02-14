@@ -1,6 +1,8 @@
 import Step from "./../../Step";
 import AssetsManager from "~/services/assetsManager/AssetsManager"
 import FitPlane from "~/webgl/components/Scale/Human/components/FitPlane"
+
+import AnimationManager, {Animation} from "~/webgl/manager/Animation";
 import config from "./config";
 import { c } from "../../../../helpers/Configuration";
 import { InteractivePlane } from "../../../components";
@@ -49,7 +51,6 @@ export default class extends Step {
     this.background.object3D.name = "background";
     this.background.object3D.position.z = -120;
 
-
     this.leaf = ressources.step_1_human_leaf.result;
     this.leafScene = this.leaf.scene;
     this.leafSceneMaterial = this.leaf.scene.children[0].children[0].children[0].children[0].material
@@ -58,6 +59,20 @@ export default class extends Step {
     this.leafScene.position.copy(mainTransformConfig.position);
     this.leafScene.rotation.copy(mainTransformConfig.rotation);
     this.scene.humanScale.group.add(this.leafScene);
+    this.background.object3D.position.z = -100;
+    // this.background.object3D.position.y = -10;
+  
+    //Leaf reveal 
+    // AnimationManager.addAnimation(new Animation({
+    //   duration: 3000,
+    //   timingFunction: "easeOutQuad",
+    //   delay: 4000,
+    //   from: mainTransformConfig.position.y,
+    //   to: -1.18
+    // }).on("progress", (event) => {
+      // leafScene.position.y = event.value;
+      // this.background.object3D.position.y = -10 * (1 - event.advancement);
+    // }));
 
     // Idle Animation
     var modelAnimLeaf = ModelAnimationManager.generateClips(this.leaf, config.modelAnimation.clips, config.modelAnimation.options);

@@ -10,6 +10,7 @@ class AppManagerHydrator extends React.Component {
   constructor (props) {
     super(props);
     this.state = {};
+    this.nb = 0;
   }
 
   static propTypes = {
@@ -18,8 +19,10 @@ class AppManagerHydrator extends React.Component {
 
   componentWillMount() {
     this.handleRouteChange(this.props.history.location);
+    
 
     this.unlisten = this.props.history.listen((location, action) => {
+      this.nb++;
       this.handleRouteChange(location);
     });
   }
@@ -29,7 +32,7 @@ class AppManagerHydrator extends React.Component {
   }
 
   handleRouteChange(location) {
-    this.props.onRouteChange(location.pathname);
+    this.props.onRouteChange(location.pathname, this.nb);
   }
 
   render() {

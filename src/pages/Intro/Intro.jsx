@@ -18,7 +18,8 @@ class Intro extends React.Component {
     this.state = {
       autoLoadChapter: false,
       introDone: false,
-      reveal: false
+      reveal: false,
+      videoEnded: false
     };
   }
 
@@ -63,44 +64,48 @@ class Intro extends React.Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.introDone !== nextState.introDone && nextState.introDone) {
-      this.props.onLoad(true);
-      this.props.onHoldNotAllowed();
-    }
-  }
-
-  onCursorUpdate(cursorState) {
-    if (this.state.introDone && cursorState.isLoading) {
-      this.props.history.push("/chapter-1");
-    }
-  }
-
   onHoldComplete() {
     //Do smth
+    this.props.history.push("/chapter-1");
+  }
+
+  onVideoEnded = () => {
     this.setState({
-      introDone: true
-    });
+      videoEnded: true
+    })
   }
 
   render() {
     const videoSrc = this.video ? this.video.getAttribute("src") : '';
 
     return (
-      <div className="intro">
-        <video muted autoPlay className="intro__video" src={videoSrc} />
+      <div className="intro" >
+        { !this.state.videoEnded && 
+          <video muted autoPlay className="intro__video" src={videoSrc} onEnded={this.onVideoEnded}/>
+        }
         <div className="intro__inner">
+          <div className="intro__inner__layer"></div>
           <div className="intro__inner__content">
-            <LetterReveal
-              text="Le Kiff"
-              class={"intro__title heading-1"}
-              duration={0.09}
-              delay={0.07}
-              globalDelay={1}
-              reveal={this.state.reveal}
-              from={{ opacity: 0, filter: "blur(3)" }}
-              to={{ opacity: 1, filter: "blur(0)" }}
-            />
+            <svg viewBox={'0 0 150 80'} className="intro__inner__svg">
+              <filter id="displaceIntro">
+                <feTurbulence type="fractalNoise" baseFrequency="0" numOctaves="1" result="turbulence" />
+                <feDisplacementMap scale="4" xChannelSelector="R" yChannelSelector="G" in="SourceGraphic" in2="turbulence" />
+              </filter>
+              <g id="target" filter="url(#displaceIntro)" fill="#fff">
+                <LetterReveal
+                    text="Le Kiff"
+                    class={"intro__title heading-1 heading-1--svg "}
+                    duration={0.09}
+                    delay={0.07}
+                    globalDelay={1}
+                    svg={true}
+                    from={{ opacity: 0}}
+                    to={{ opacity: 1 }}
+                    positionSvg={{textX: 20, spanY: 50}}
+                    reveal={this.state.reveal}
+                  />
+                </g>
+              </svg>
             <LetterReveal
               text="Story of disappearances"
               class={"intro__subtitle heading-2"}
@@ -116,6 +121,7 @@ class Intro extends React.Component {
               <span className="intro__teasing__item">from its birth in Colombia to its consumption in Paris.</span>
             </p>
           </div>
+
           <div className="intro__inner__bottom">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" className={`intro__sound ${this.state.reveal ? 'is-revealed' : ''}`}>
               <g

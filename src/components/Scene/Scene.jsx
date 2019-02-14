@@ -30,10 +30,12 @@ class Scene extends React.Component {
         slug: PropTypes.string,
         title: PropTypes.string,
         type: PropTypes.string
-      })
+      }),
+      isReady: PropTypes.bool,
+      showElements: PropTypes.bool,
     }
 
-  constructor(props){
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -45,14 +47,14 @@ class Scene extends React.Component {
   }
 
   componentDidMount(){
-    if (this.props.isChapterReady && this.props.isAssetLoaded) {
-      this.initScene();
-      Bus.on("scale:display", (scale)=>{
-        if( this.props.currentScale !== scale.name ){
-          this.props._setCurrentScale(scale.name);
-        }
-      })
-    }
+    // if (this.props.isChapterReady && this.props.isAssetLoaded) {
+    //   this.initScene();
+    //   Bus.on("scale:display", (scale) => {
+    //     if( this.props.currentScale !== scale.name ){
+    //       this.props._setCurrentScale(scale.name);
+    //     }
+    //   })
+    // }
   }
 
   componentWillMount() {
@@ -60,7 +62,6 @@ class Scene extends React.Component {
       this.props._setTutorialDone();
     }
   }
-
 
   initScene(){
     this.webgl = new WebGL({
@@ -73,7 +74,17 @@ class Scene extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.step.rank !== nextProps.step.rank) {
+    if (this.props.isChapterReady && this.props.isAssetLoaded) {
+      if (this.props.isReady != nextProps.isReady && nextProps.isReady) {
+        this.initScene();
+        Bus.on("scale:display", (scale) => {
+          if( this.props.currentScale !== scale.name ){
+            this.props._setCurrentScale(scale.name);
+          }
+        })
+      }
+    }
+    if (this.props.step.rank !== nextProps.step.rank) { 
       /**
        * Before scene component is rendered, update current step in the webgl scene
        * new Step is created and is ready to receive infos
@@ -103,11 +114,11 @@ class Scene extends React.Component {
   render(){
     return (
       <div ref={(this.sceneElement)} className="scene">
-          <ScaleMenu scale={this.props.currentScale} onSelectCallback={this.selectScale} showTutorial={!this.props.isTutorialDone} />
+          <ScaleMenu scale={this.props.currentScale} onSelectCallback={this.selectScale} showTutorial={!this.props.isTutorialDone}  show={this.props.showElements} />
           <InfoList infos={this.webgl ? this.updateInfos() : []}></InfoList>
-          <div className="scene__bottom-right-nav">
-            <SoundButton />
-            <FullScreenButton />
+          <div className="scene__bottom-right-nav" >
+            <SoundButton show={this.props.showElements}/>
+            <FullScreenButton show={this.props.showElements} />
           </div>
       </div>
     );

@@ -17,7 +17,7 @@ import LeafBack from "../components/LeafBack";
 export default class extends Step {
 
   constructor(params){
-    super(params, [ "leaf", "background" ]);
+    super(params, [ "leaf", "background", "leafbacks" ]);
   }
 
   /**
@@ -133,7 +133,7 @@ export default class extends Step {
 
 
     if ( toRemove.includes("leafbacks") ){
-      this.scene.humanScale.group.add(this.leafBackGroup);
+      this.scene.humanScale.group.remove(this.leafBackGroup);
     }
     
     super.hide(newStep);

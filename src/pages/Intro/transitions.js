@@ -34,3 +34,8 @@ export const exitIntro = (introEl) => {
   });
 
 }
+
+export const enterIntro = (introEl) => {
+  const zIndex = introEl.style.zIndex;
+  introEl.style.zIndex = zIndex++;
+}

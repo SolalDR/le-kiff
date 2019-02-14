@@ -1,6 +1,6 @@
 @import "./../../styles/core.scss"
 
-.chapter
+.chapter-1
   height: 100vh
   width: 100vw
 
@@ -21,6 +21,9 @@
   &.is-shown
     &:after
       opacity: 0
+
+  &.is-hidden
+    opacity: 0
   
   .chapter__text
     &.is-visible
@@ -37,81 +40,82 @@
           transition:
             delay: $t-duration * 1.5
 
-  &__title
-    position: fixed
-    top: 50%
-    left: 50%
-    width: 800px
-    height: 40px
-    transform: translateY(-50%) translateX(-50%)
-    z-index: 7
-    pointer-events: none
-    transition: 
-      delay: $t-duration, 0
-      duration: 2s
-      property: opacity, transform
+  .chapter
+    &__title
+      position: fixed
+      top: 50%
+      left: 50%
+      width: 800px
+      height: 40px
+      transform: translateY(-50%) translateX(-50%)
+      z-index: 7
+      pointer-events: none
+      transition: 
+        delay: $t-duration, 0
+        duration: 2s
+        property: opacity, transform
 
-    .letter-reveal__item
-      filter: blur(2px)
+      .letter-reveal__item
+        filter: blur(2px)
 
-    &.is-hidden
-      transform: translateY(-300px) translateX(-50%)
-      opacity: 0
+      &.is-hidden
+        transform: translateY(-300px) translateX(-50%)
+        opacity: 0
 
-  &__text
-    position: absolute
-    left: $pos-s 
-    top: $pos-s 
-    color: $color-secondary
-    z-index: 7
-    
-  &__step__text
-    margin-top: 10px
-    width: 550px
-    opacity: 0
-    transform: translateY($space-l)
-    transition:
-      property: opacity, transform
-      duration: $t-duration * 1.5
-      timing-function: $t-timing-function
-      delay: 0
-
-  &__video
-    position: fixed
-    top: 0
-    right: 0
-    left: 0
-    bottom: 0
-    width: 100vw
-    height: 100vh
-    object-fit: cover
-    mix-blend-mode: screen
-    z-index: 99999999999
-    pointer-events: none
-
-  .chapter__step__title
-    transform: translateY($space-m) translateX(30px)
-    opacity: 0
-    transition:
-      property: transform, opacity
-      duration: $t-duration * 1.5
-      timing-function: $t-timing-function
-      delay: 0
-
-  .chapter__title__svg
-    position: absolute
-    top: -50%
-    transform: translateY(-50%)
-
-    
-
-  //Responsive
-  @include up-desktop()
     &__text
-      left: $pos-m
-      top: $pos-m
-
-
-  @include up-large-desktop()
+      position: absolute
+      left: $pos-s 
+      top: $pos-s 
+      color: $color-secondary
+      z-index: 7
+      
     &__step__text
-      width: 690px
+      margin-top: 10px
+      width: 570px
+      opacity: 0
+      transform: translateY($space-l)
+      transition:
+        property: opacity, transform
+        duration: $t-duration * 1.5
+        timing-function: $t-timing-function
+        delay: 0
+
+    &__video
+      position: fixed
+      top: 0
+      right: 0
+      left: 0
+      bottom: 0
+      width: 100vw
+      height: 100vh
+      object-fit: cover
+      mix-blend-mode: screen
+      z-index: 99999999999
+      pointer-events: none
+
+    &__step__title
+      transform: translateY($space-m) translateX(30px)
+      opacity: 0
+      transition:
+        property: transform, opacity
+        duration: $t-duration * 1.5
+        timing-function: $t-timing-function
+        delay: 0
+
+    &__title__svg
+      position: absolute
+      top: -50%
+      transform: translateY(-50%)
+
+      
+
+    //Responsive
+    @include up-desktop()
+      &__text
+        left: $pos-m
+        top: $pos-m
+
+
+    @include up-large-desktop()
+      &__step__text
+        width: 690px

@@ -47,37 +47,37 @@
       property: opacity
       duration: $t-duration
 
-.chapter__title
-  opacity: 0
-  transform: scale(1.2)
-  transition: 
+  .chapter__title
+    opacity: 0
+    transform: scale(1.2)
+    transition: 
       property: opacity, transform
       duration: $t-duration
       delay: $t-duration
 
-.chapter__date
-  margin-top: 100px
-  margin-bottom: $space-m
-  opacity: 0
-  transition: 
-    property: opacity
-    duration: $t-duration
-    delay: $t-duration * 2
+  .chapter__date
+    margin-top: 100px
+    margin-bottom: $space-m
+    opacity: 0
+    transition: 
+      property: opacity
+      duration: $t-duration
+      delay: $t-duration * 2
 
-.chapter__share
-  margin-top: 100px
-  display: flex
-  flex-direction: column
-  opacity: 0
-  transition: 
-    property: opacity
-    duration: $t-duration
-    delay: $t-duration * 3
-
-  &__list
+  .chapter__share
+    margin-top: 100px
     display: flex
-    margin-top: 30px
+    flex-direction: column
+    opacity: 0
+    transition: 
+      property: opacity
+      duration: $t-duration
+      delay: $t-duration * 3
 
-  &__item
-    &:first-of-type
-      margin-right: 30px
+    &__list
+      display: flex
+      margin-top: 30px
+
+    &__item
+      &:first-of-type
+        margin-right: 30px

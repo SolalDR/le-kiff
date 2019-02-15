@@ -46,10 +46,16 @@
       top: 50%
       left: 50%
       width: 800px
-      height: 40px
       transform: translateY(-50%) translateX(-50%)
       z-index: 7
       pointer-events: none
+      opacity: 1
+      color: $color-secondary
+      text-align: center
+      display: flex
+      justify-content: center
+      flex-direction: column
+      align-items: center
       transition: 
         delay: $t-duration, 0
         duration: 2s
@@ -62,13 +68,42 @@
         transform: translateY(-300px) translateX(-50%)
         opacity: 0
 
+        .chapter__loading,
+        .chapter__content
+          opacity: 0
+
+      &.is-reveal
+        .chapter__loading,
+        .chapter__content
+          opacity: 1
+
+    &__loading
+      position: relative
+      top: 190px
+      opacity: 0
+      transition: 
+        delay: $t-duration
+        duration: 1s
+        property: opacity
+
+    &__content
+      position: relative
+      top: 110px
+      width: 530px
+      opacity: 0
+      transition: 
+        delay: $t-duration
+        duration: 1s
+        property: opacity
+
+
     &__text
       position: absolute
       left: $pos-s 
       top: $pos-s 
       color: $color-secondary
       z-index: 7
-      
+        
     &__step__text
       margin-top: 10px
       width: 570px
@@ -107,8 +142,7 @@
       top: -50%
       transform: translateY(-50%)
 
-      
-
+        
     //Responsive
     @include up-desktop()
       &__text

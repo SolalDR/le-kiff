@@ -204,7 +204,7 @@ class Chapter extends React.Component {
           {this.renderSteps()}
 
           <video muted className="chapter__video" src={videoSrc} ref={this.videoRef} onEnded={this.onEnded} />
-          <div className={`chapter__title ${this.state.hideTitle ? 'is-hidden' : ''}`}>
+          <div className={`chapter__title ${this.state.hideTitle ? 'is-hidden' : ''} ${this.state.reveal ? 'is-reveal' : ''}`}>
             <svg viewBox={'0 0 150 80'} className="chapter__title__svg">
               <filter id="displaceChapter1">
                 <feTurbulence type="fractalNoise" baseFrequency="0" numOctaves="1" result="turbulence" />
@@ -225,6 +225,8 @@ class Chapter extends React.Component {
                   />
                 </g>
               </svg>
+              <p className="heading-2 chapter__loading">Loading</p>
+              <p className="teasing-3 chapter__content">{this.props.chapter.content}</p>
           </div>
           <Timeline 
             show={this.state.isWebglReady}

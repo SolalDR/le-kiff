@@ -125,7 +125,7 @@ export default class extends Step {
       }).then(() => {
           AbilitiesManager.can("all", true);
           modelAnimLeaf.play('idle', {
-            timeScale: 0.2, 
+            timeScale: 0.01, 
             loop: THREE.LoopRepeat,
             chain: true
           })

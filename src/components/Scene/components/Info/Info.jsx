@@ -52,7 +52,7 @@ class InfoPoint extends React.Component {
   renderContent() {
     switch (this.props.info.type) {
       case 'question':
-        return <InfoRange rangeInfo={this.props.info.popin.range} answer={this.props.info.content} />
+        return <InfoRange visible={this.props.visible} rangeInfo={this.props.info.popin.range} answer={this.props.info.content} />
         break;
       default:
         return  <div className="info-point__text teasing-3" dangerouslySetInnerHTML={{__html: this.props.info.content}}/>
@@ -65,7 +65,7 @@ class InfoPoint extends React.Component {
       <div className={`info-point ${this.props.visible ? 'info-point--visible' : 'info-point--hidden'} ${this.props.opened ? 'info-point--opened' : ''}`}
             ref={(ref) => this.myRef = ref}> 
         <div className="info-point__pointer" onClick={this.handleClick}/>
-        <div className="info-point__content">
+        <div className={"info-point__content"}>
           <h3 className="info-point__title heading-4">
             <span className="info-point__title__wrapper">
             {this.props.info.title}

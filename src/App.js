@@ -46,8 +46,8 @@ class App extends Component {
   constructor(props){
     super(props);
     this.manager = AppManager;
-    Bus.verboseLevel = 1;
-
+    Bus.verboseLevel = 0;
+ 
     this.state = {
       chapterLoaded: false
     } 

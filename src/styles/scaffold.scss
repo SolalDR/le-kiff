@@ -344,3 +344,7 @@ body {
   opacity: 1;
   transition: opacity $t-duration ease-in;
 }
+
+.hidden {
+  display: none;
+} 

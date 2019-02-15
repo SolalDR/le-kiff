@@ -172,9 +172,8 @@ class Cursor extends React.Component {
     this.position.y += (this.target.y - this.position.y - this.width) * 0.7;
 
     if (this.cursor.current) {
-      this.cursor.current.style.transform = `translate3d(${
-        this.position.x
-      }px, ${this.position.y}px,0)`;
+      this.cursor.current.style.setProperty('--x', this.position.x + "px");
+      this.cursor.current.style.setProperty('--y', this.position.y + "px");
     }
   }
 

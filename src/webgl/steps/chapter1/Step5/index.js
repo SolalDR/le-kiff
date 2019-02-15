@@ -90,6 +90,8 @@ export default class extends Step {
       })
     }, 1600);
 
+    var control = this.scene.controllerManager.controls.radial;
+
     // Start diving in water
     AnimationManager.addAnimation(
       new Animation({ duration: 1000, delay: 2000, timingFunction: "easeOutQuad" })
@@ -97,6 +99,7 @@ export default class extends Step {
           this.water.mesh.position.y = -10 + 8*event.advancement;
           this.particleCloud.object3D.position.y = -20 + 17*event.advancement;
           this.particleCloud.object3D.material.uniforms.u_size.value = 5*event.advancement;
+
           if( event.advancement > 0.5 ){
             Renderer.setBokehFocus(
               THREE.Math.lerp(
@@ -122,6 +125,10 @@ export default class extends Step {
             .on("progress", (event)=>{
               var a = event.advancement > 0.5 ? 1 - (event.advancement - 0.5)*2 : event.advancement*2
               this.particleCloud.config.speed = fromSpeed + ((20*0.00001) - 50*0.00001)*a
+              control.radius = THREE.Math.lerp(
+                this.config.human.camera.radius, 
+                this.config.human.water.camera.radius, 
+                event.advancement);
             })  
             .on("end", ()=>{
               this.particleCloud.config.speed = 20*0.00001;
@@ -152,6 +159,11 @@ export default class extends Step {
                       this.particleCloud.object3D.position.y = -3 - 17*event.advancement;
                       this.particleCloud.object3D.material.uniforms.u_size.value = 5*(1. - event.advancement);
                       this.pasta.noiseRocksIntensity = THREE.Math.lerp(4, 0, event.advancement);
+
+                      control.radius = THREE.Math.lerp(
+                        this.config.human.water.camera.radius,
+                        this.config.human.camera.radius,
+                        event.advancement);
 
                       // Bokeh
                       if( event.advancement > 0.5 ){

@@ -40,15 +40,22 @@ class LetterReveal extends React.Component {
     this.lettersArray = props.text.split("");
     this.elements = React.createRef();
     this.letterEls = [];
-
     this.isRevealed = false;
     this.isAnimating = false;
+    this.state = {
+      visible: true
+    }
 
     this.timeline = null;
   }
 
   componentDidMount() {
     this.initReveal();
+    this._mounted = true;
+  }
+
+  componentWillUnmount(){
+    this._mounted = false;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,7 +68,12 @@ class LetterReveal extends React.Component {
 
   initReveal() {
     if (!this.timeline) {
-      this.timeline = new TimelineLite({paused: true, delay: this.props.globalDelay, onReverseComplete: this.offAnimation.bind(this), onComplete: this.offAnimation.bind(this) });
+      this.timeline = new TimelineLite({
+        paused: true, 
+        delay: this.props.globalDelay, 
+        onReverseComplete: this.offAnimation.bind(this), 
+        onComplete: this.offAnimation.bind(this) 
+      });
       this.timeline.set(this.letterEls, this.props.from);
     }
     if (this.props.reveal) {
@@ -71,13 +83,16 @@ class LetterReveal extends React.Component {
 
   offAnimation() {
     this.isAnimating = false;
+    if( this._mounted && this.props.onComplete) {
+      this.props.onComplete(this.isRevealed)
+    }
     this.timeline.pause();
   }
 
   reveal() {
     if (!this.isAnimating) {
       this.isAnimating = true;
-    
+
       this.timeline.staggerTo(this.letterEls, this.props.duration, { ease: Expo.easeIn, ...this.props.to }, this.props.delay);
       this.timeline.play();
 
@@ -118,16 +133,26 @@ class LetterReveal extends React.Component {
   }
 
   render() {
+    if(!this.state.visible) return null;
+
     return (
       <>
         {
           this.props.svg && 
-            <text x={this.props.positionSvg.textX} className={`letter-reveal ${this.props.class}`} baseFrequency="0.005">{this.renderLetters()}</text>
+            <text 
+              x={this.props.positionSvg.textX} 
+              className={`letter-reveal ${this.props.class}`} 
+              baseFrequency="0.005">
+              {this.renderLetters()}
+            </text>
         }
 
         {
           !this.props.svg && 
-          <span className={`letter-reveal ${this.props.class}`}>{this.renderLetters()}</span>
+          <span 
+          className={`letter-reveal ${this.props.class}`}>
+            {this.renderLetters()}
+          </span>
         }
       </>
     )

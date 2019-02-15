@@ -4,6 +4,6 @@ export default c({
   radial: {
     amplitude: [0.2, 0.1],
     origin: new THREE.Vector3(),
-    factor: 0.05
+    factor: 0.1
   }
 })

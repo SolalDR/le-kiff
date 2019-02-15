@@ -32,12 +32,20 @@ class InfoPoint extends React.Component {
 
   }
 
+  componentWillReceiveProps(nextProps){
+    if( this.props.visible !== nextProps.visible ) {
+      if(nextProps.visible){
+        this.ui.rangeWrapper.current.addEventListener('mousemove', this.onMouseMove);
+      } else {
+        this.ui.rangeWrapper.current.removeEventListener('mousemove', this.onMouseMove);
+      }
+    }
+  }
+
   componentDidMount () {
     if (this.ui.rangeWrapper.current) {
       this.ui.rangeText = this.ui.rangeWrapper.current.querySelector('.info__range__slide__text');
       this.ui.rangeSlide = this.ui.rangeWrapper.current.querySelector('.info__range__slide');
-
-      this.ui.rangeWrapper.current.addEventListener('mousemove', this.onMouseMove);
 
       //TODO : Implement RAF ??
       this.initRange();
@@ -130,7 +138,7 @@ class InfoPoint extends React.Component {
                 <span className={`info__range__value info__range__value--min ${this.state.isInMinRange ? '' : 'is-visible'}`}>{this.props.rangeInfo.min}</span>
                 <button className="info__range__slide">
                   <span className="info__range__slide__button"></span>
-                  <span className="info__range__slide__text">{this.state.answer}</span>
+                  <span className="info__range__slide__text">{isNaN(this.state.answer) ? 0 : this.state.answer}</span>
                 </button>
                 <span className={`info__range__value info__range__value--max ${this.state.isInMaxRange ? '' : 'is-visible'}`}>{this.props.rangeInfo.max}</span>
               </div>
